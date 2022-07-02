@@ -1,1 +1,108 @@
-<p>customer-edit works!</p>
+<h1 class="h1" style="text-align: center">Chỉnh sửa khách hàng</h1> <br>
+<div class="container shadow-lg">
+
+  <form [formGroup]="updateForm" (ngSubmit)="update(customerId)" ]>
+    <br>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Mã khách hàng <span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="text" value="KHS0006" width="50%"
+                 disabled>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Tên khách hàng<span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="text" value="Nguyễn Văn A"
+                 placeholder="Nhập tên khách hàng">
+
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Nhóm khách hàng <span
+            style="color: red"> (*) </span></b>
+          <select class="custom-select">
+            <option selected>Vui lòng chọn</option>
+            <option value="1">Khách sỉ</option>
+            <option value="2">Khách lẻ</option>
+          </select>
+          <span class="select-arrow"></span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Địa chỉ</b>
+          <input class="form-control" type="text" value="193 Nguyễn Lương Bằng" placeholder="Nhập địa chỉ">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Điện thoại <span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="number" value="0905123456"
+                 placeholder="Nhập số điện thoại">
+        </div>
+
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Gmail</b>
+          <input class="form-control" type="email" value="nva@gmail.com" placeholder="Nhập gmail">
+        </div>
+      </div>
+
+    </div>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Giới tính <span
+            style="color: red"> (*) </span></b>
+          <select class="custom-select">
+            <option selected>Vui lòng chọn</option>
+            <option value="1">Nam</option>
+            <option value="2">Nữ</option>
+          </select>
+          <span class="select-arrow"></span>
+
+
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Năm sinh</b>
+          <input class="form-control" type="date"
+                 placeholder="Nhập tuổi">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <b class="title" class="form-label">Ghi chú</b>
+        <textarea class="form-control" id="message-text"></textarea>
+      </div>
+    </div>
+    <br>
+    <div><p class="title" style="color: red"> (*) Thông tin bắt buộc nhập.</p></div>
+
+    <div class="row">
+      <div class="col-lg-10"></div>
+      <div>
+        <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+      </div>
+      <div>
+        <button class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true">&nbsp</i> Sửa</button>
+      </div>
+    </div>
+    <br>
+  </form>
+</div>
