@@ -1,1 +1,92 @@
-<p>employee-ceate works!</p>
+
+<div style="font-size:16px">
+
+  <h1 style="text-align: center;font-size: 32px"> Thêm mới nhân viên</h1>
+  <br>
+  <div class="container shadow-lg">
+    <form [formGroup]="employeeFormCreate" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="id-employee" class="col-form-label"><b>Mã nhân viên </b></label>
+          <input type="text" class="form-control" id="id-employee" readonly formControlName="employeeId">
+
+        </div>
+        <div class="col-lg-6">
+          <label for="name-employee" class="col-form-label"><b>Tên nhân viên </b><span
+            style="color:red">(*)</span></label>
+          <input type="text" class="form-control" formControlName="employeeName" id="name-employee">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="address" class="col-form-label"><b>Địa
+            chỉ </b><span
+            style="color:red">(*)</span></label>
+          <input type="text" class="form-control" formControlName="employeeAddress" id="address">
+
+        </div>
+        <div class="col-lg-6">
+          <label for="phone" class="col-form-label"><b>Điện thoại </b><span
+            style="color:red">(*)</span></label>
+          <input type="text" class="form-control" formControlName="employeePhone" id="phone">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="avatar" class="col-form-label"><b>Ảnh
+            nhân viên </b><span
+            style="color:red">(*)</span></label>
+          <br>
+
+          <input type="file" class="form-control-file" formControlName="employeeImage" id="avatar">
+
+        </div>
+        <div class="col-lg-6" formGroupName="employeeUsername">
+          <label for="name-acc" class="col-form-label"><b>Tên tài khoản </b><span
+            style="color:red">(*)</span></label>
+          <input type="text" class="form-control" formControlName="username" id="name-acc">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <label class="col-form-label"> <b>Chức vụ </b><span
+            style="color:red">(*)</span></label>
+          <select class="custom-select col-12" formControlName="position">
+            <option value="">Position</option>
+            <option *ngFor="let position of position"
+                    [ngValue]="position">{{position.positionName}}</option>
+          </select>
+
+
+        </div>
+        <div class="col-lg-6">
+          <label for="day-work" class="col-form-label"> <b>Ngày vào làm </b><span
+            style="color:red">(*)</span></label>
+          <input type="date" class="form-control" formControlName="employeeDateStart" id="day-work">
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="message-text" class="col-form-label"><b>Ghi chú </b><span
+          style="color:red">(*)</span></label>
+        <textarea class="form-control" id="message-text" formControlName="employeeNote"></textarea>
+      </div>
+      <b style="color: red;font-size: 12px    ">(*) : Thông tin bắt buộc.</b>
+      <div class="row">
+        <div class="col-lg-10"></div>
+        <div>
+          <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+        </div>
+        <span> </span>
+        <div>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+        </div>
+      </div>
+    </form>
+    <br>
+
+  </div>
+
+</div>
