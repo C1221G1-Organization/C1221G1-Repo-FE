@@ -71,10 +71,10 @@ const routes: Routes = [
     path        : 'import-invoice',
     loadChildren: () => import('./import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
-  {
-    path     : '**',
-    component: NotFoundComponent
-  }
+  // {
+  //   path     : '**',
+  //   component: NotFoundComponent
+  // }
 ];
 
 @NgModule({

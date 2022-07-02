@@ -1,0 +1,63 @@
+<div class="container mg mx-auto">
+  <h3 style="text-align: center"> Danh Sách Nhà Cung Cấp</h3>
+
+  <div class="col-9  mx-auto  ">
+
+    <form [formGroup]="carForm"
+          (ngSubmit)="updateSupplier()" novalidate>
+
+      <div class="form-group">
+        <b class="form-label">Tên Nhà Cung Cấp<span
+          style="color: red"> (*) </span></b>
+        <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"
+               type="text">
+      </div>
+
+      <div class="form-group">
+        <b class="form-label">Địa Chỉ Nhà Cung Cấp</b>
+        <input class="form-control" formControlName="supplierAddress" placeholder="Địa Chỉ : "
+               type="text">
+      </div>
+
+      <div class="row no-margin">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <b class="form-label">Số Điện Thoại Nhà Cung Cấp <span
+              style="color: red"> (*) </span></b>
+            <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"
+                   type="text">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <b class="form-label">Email Nhà Cung Cấp</b>
+            <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "
+                   type="email">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <b class="form-label">Ghi chú</b>
+          <textarea class="form-control" formControlName="note" id="message-text"></textarea>
+        </div>
+      </div>
+      <br>
+
+      <div class=" d-flex justify-content-right " style="float: right">
+        <div class="row">
+          <div class="m-2">
+            <button class="btn btn-secondary mgl">
+              <i aria-hidden="true" class="fa fa-undo"></i> Trở về
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-success" type="submit">
+              <i class="fa-solid fa-circle-plus"></i> Hoàn thành
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
