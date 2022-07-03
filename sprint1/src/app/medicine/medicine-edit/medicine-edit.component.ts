@@ -114,18 +114,25 @@ export class MedicineEditComponent implements OnInit {
    */
   updateMedicine() {
     if (this.medicineEditForm.valid) {
-      this.nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-      this.fileRef = this.storage.ref(this.nameImg);
-      this.storage.upload(this.nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
-        this.fileRef.getDownloadURL().subscribe(url => {
-          this.fireBaseURL = url;
-          this.medicineEditForm.patchValue({medicineImage: this.fireBaseURL});
-          this.medicineService.createMedicine(this.medicineEditForm.value).subscribe(() => {
-            alert('Updated was successful !');
-            // this.route.navigateByUrl('/');
-          });
+      if (this.selectedImage == null) {
+        this.medicineService.createMedicine(this.medicineEditForm.value).subscribe(() => {
+          alert('Updated was successful !');
+          // this.route.navigateByUrl('/');
         });
-      })).subscribe();
+      } else {
+        this.nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+        this.fileRef = this.storage.ref(this.nameImg);
+        this.storage.upload(this.nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
+          this.fileRef.getDownloadURL().subscribe(url => {
+            this.fireBaseURL = url;
+            this.medicineEditForm.patchValue({medicineImage: this.fireBaseURL});
+            this.medicineService.createMedicine(this.medicineEditForm.value).subscribe(() => {
+              alert('Updated was successful !');
+              // this.route.navigateByUrl('/');
+            });
+          });
+        })).subscribe();
+      }
     }
   }
 
@@ -168,6 +175,7 @@ export class MedicineEditComponent implements OnInit {
       this.syncMedicine();
     });
   }
+
   /**
    * this function use to sync medicine for display view
    *
@@ -197,13 +205,46 @@ export class MedicineEditComponent implements OnInit {
       medicineConversionUnit: new FormControl(this.confirmMedicine.medicineConversionUnit)
     });
   }
+
   /**
-   * this function use to sync medicine for display view
+   * this function use to compare Type medicine for display view
    *
    * @Author LongNH
    * @Time 19:00 03/07/2022
    */
-  compareFn(t1, t2): boolean {
-    return t1 && t2 ? t1.vehicleType === t2.vehicleType : t1 === t2;
+  compareType(type1: MedicineType, type2: MedicineType): boolean {
+    return type1 && type2 ? type1.medicineTypeId === type2.medicineTypeId : type1 === type2;
+  }
+
+  /**
+   * this function use to compare Unit medicine for display view
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  compareUnit(unit1: MedicineUnit, unit2: MedicineUnit): boolean {
+    return unit1 && unit2 ? unit1.medicineUnitId === unit2.medicineUnitId : unit1 === unit2;
+  }
+
+  /**
+   * this function use to compare Origin medicine for display view
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  compareOrigin(origin1: MedicineOrigin, origin2: MedicineOrigin): boolean {
+    return origin1 && origin2 ? origin1.medicineOriginId === origin2.medicineOriginId : origin1 === origin2;
+  }
+
+  /**
+   * this function use to compare Conversion Unit medicine for display view
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  compareConversionUnit(conversionUnit1: MedicineConversionUnit, conversionUnit2: MedicineConversionUnit): boolean {
+    return conversionUnit1 && conversionUnit2 ?
+      conversionUnit1.medicineConversionUnitId === conversionUnit2.medicineConversionUnitId :
+      conversionUnit1 === conversionUnit2;
   }
 }
