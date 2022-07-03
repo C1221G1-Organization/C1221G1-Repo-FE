@@ -20,12 +20,13 @@ export const snapshotToArray = (snapshot: any) => {
 })
 export class AdminChatComponent implements OnInit {
 
-  users: any[];
+  rooms: any[];
 
   constructor() {
-    firebase.database().ref('users/' ).on('value', resp => {
-      this.users = [];
-      this.users = snapshotToArray(resp);
+    firebase.database().ref('rooms/' ).on('value', resp => {
+      this.rooms = [];
+      this.rooms = snapshotToArray(resp);
+      this.rooms.sort((a,b) => b.lastMessagePost - a.lastMessagePost)
     });
   }
 

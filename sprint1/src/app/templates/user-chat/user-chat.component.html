@@ -69,7 +69,7 @@
 
           <ng-template #clientChat>
             <div class="message-sender">
-              <strong>{{chat.name}}</strong> - <small>{{chat.createdAt | date: 'short'}}</small>
+              <small><strong>{{chat.name}}</strong> - {{chat.createdAt | date: 'short'}}</small>
             </div>
             <div class="message-box message-partner">
               {{chat.message}}
@@ -80,7 +80,7 @@
 
       <div class="chat-input-holder">
         <form *ngIf="chatForm" [formGroup]="chatForm" (ngSubmit)="onChatSubmit()" class="w-100 row mx-0">
-          <textarea formControlName="message" class="chat-input" placeholder="Chat with supporter"></textarea>
+          <textarea formControlName="message" class="chat-input" placeholder="Nhập tin nhắn..."></textarea>
           <button type="submit" value="Send" class="message-send">
             <i role="button" class="fa-solid fa-paper-plane" style="font-size: 1.5rem"></i>
           </button>

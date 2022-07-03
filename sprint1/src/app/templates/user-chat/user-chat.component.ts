@@ -83,8 +83,11 @@ export class UserChatComponent implements OnInit {
     chat.name = this.userChat.name;
     chat.uuid = this.uuid;
     chat.createdAt = getTimeStamp();
-    const newMessage = firebase.database().ref('chats/' + this.uuid).push();
-    newMessage.set(chat);
+    firebase.database().ref('chats/' + this.uuid).push().set(chat);
+    firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
+      const room = res.val();
+      firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
+    });
     this.chatForm.reset();
   }
 
@@ -96,12 +99,17 @@ export class UserChatComponent implements OnInit {
       this.userChat.phone = form.phone;
       this.userChat.uuid = this.uuid;
       firebase.database().ref('users/').push().set(this.userChat);
-      firebase.database().ref('rooms/' + this.uuid).set({...this.userChat, isSeen: false, uuid: null});
+      firebase.database().ref('rooms/' + this.uuid).set({
+        ...this.userChat,
+        isSeen         : false,
+        lastMessagePost: getTimeStamp()
+      });
       this.chat = {};
       this.chat = {...this.userChat, message: form.message, createdAt: getTimeStamp()};
       firebase.database().ref('chats/' + this.uuid).push().set(this.chat);
       localStorage.setItem('user-chat-info', JSON.stringify(this.userChat));
       this.isLogin = true;
+      this.loginToChatRoom();
     } else {
       this.toastr.info('Vui lòng nhập chính xác thông tin', '', {
         timeOut    : 3000,
