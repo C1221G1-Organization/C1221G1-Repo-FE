@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase';
+
+
+export const snapshotToArray = (snapshot: any) => {
+  const returnArr = [];
+  snapshot.forEach((childSnapshot: any) => {
+    const item = childSnapshot.val();
+    item.key = childSnapshot.key;
+    returnArr.push(item);
+  });
+
+  return returnArr;
+};
 
 @Component({
   selector: 'app-admin-chat',
@@ -7,7 +20,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminChatComponent implements OnInit {
 
-  constructor() { }
+  users: any[];
+
+  constructor() {
+    firebase.database().ref('users/' ).on('value', resp => {
+      this.users = [];
+      this.users = snapshotToArray(resp);
+    });
+  }
 
   ngOnInit(): void {
   }

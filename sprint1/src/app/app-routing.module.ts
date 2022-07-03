@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {HomePageComponent} from './templates/home-page/home-page.component';
 
 
 const routes: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'templates'
+    path: '', pathMatch: 'full', redirectTo: 'home-page'
   },
   {
     path        : 'customer',
@@ -56,8 +57,8 @@ const routes: Routes = [
     loadChildren: () => import('./supplier/supplier.module').then(module => module.SupplierModule)
   },
   {
-    path        : 'templates',
-    loadChildren: () => import('./templates/templates.module').then(module => module.TemplatesModule)
+    path        : 'home-page',
+    component: HomePageComponent
   },
   {
     path        : 'payment',
