@@ -69,7 +69,7 @@
           <div class="row" *ngIf="downloadURL?!selectedFile:selectedFile">
             <div class="column" *ngFor="let song of listIMG; let a = index">
               <div class="card" style="float: right">
-                <img class="img" [src]="myMap.get(a)" alt="123456" width="100px" height="100px">
+                <img class="img" [src]="myMap.get(a)" alt="123456" width="120px" height="120px">
               </div>
             </div>
           </div>
@@ -77,8 +77,6 @@
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeImage.hasError('required')  && employeeFormCreate.controls.employeeImage.touched">
             Ảnh không được để trống</p>
-
-
         </div>
         <div class="col-lg-6" formGroupName="employeeUsername">
           <label for="name-acc" class="col-form-label"><b>Tên tài khoản </b><span
@@ -133,8 +131,7 @@
 
 
       <div class="form-group">
-        <label for="message-text" class="col-form-label"><b>Ghi chú </b><span
-          style="color:red">(*)</span></label>
+        <label for="message-text" class="col-form-label"><b>Ghi chú </b></label>
         <textarea class="form-control" id="message-text" formControlName="employeeNote"></textarea>
       </div>
       <b style="color: red;font-size: 12px    ">(*) : Thông tin bắt buộc.</b>
@@ -143,7 +140,7 @@
         <div>
           <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
         </div>
-        <span> </span>
+        <span>&nbsp; </span>
         <div>
           <button type="submit" class="btn btn-success" [disabled]="!employeeFormCreate.valid"><i
             class="fa-solid fa-circle-plus"></i> Thêm

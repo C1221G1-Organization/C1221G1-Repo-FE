@@ -56,39 +56,40 @@ export class EmployeeCeateComponent implements OnInit {
     });
   }
 
+  /*
+    Created by TamNA
+    Time: 12:50:00 03/07/2022
+    Function:  Show image
+*/
   showPreview(event: any) {
     this.selectedImage = event.target.files[0];
   }
 
-
+  /*
+    Created by TamNA
+    Time: 12:50:00 03/07/2022
+    Function:  Show position
+*/
   ngOnInit(): void {
     this.positionService.getAllPosition().subscribe(position => {
       this.position = position;
     });
   }
 
+  /*
+  Created by TamNA
+  Time: 12:50:00 03/07/2022
+  Function:  Save Employee
+*/
   onSubmit() {
-
     const employee = this.employeeFormCreate.value;
-    // this.checkUploadAvatar = true;
     console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
       fileRef.getDownloadURL().subscribe(url => {
-        // this.downloadURL = url;
-        // this.giveURLtoCreate.emit(this.downloadURL);
-        // this.checkUploadAvatar = false;
-        // this.listIMG.push(url);
-        // console.log('LIST ==> ', this.listIMG);
-        // for (let i = 0; i < this.listIMG.length; i++) {
-        //   this.myMap.set(i, this.listIMG[i]);
-        // }
-        // console.log('map ---> ', this.myMap);
-
-        this.employeeFormCreate.patchValue(employee.avatar = url);
-
-
+        this.employeeFormCreate.patchValue(employee.employeeImage = url);
+        console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
           alert('thành công');
@@ -102,6 +103,12 @@ export class EmployeeCeateComponent implements OnInit {
     })).subscribe();
   }
 
+
+  /*
+  Created by TamNA
+  Time: 12:50:00 03/07/2022
+  Function:  check Date start of employee
+*/
   checkDay() {
     const dayWork = new Date(this.employeeFormCreate.get('employeeDateStart').value);
     const today = Date.now();
@@ -112,10 +119,20 @@ export class EmployeeCeateComponent implements OnInit {
     }
   }
 
+  /*
+Created by TamNA
+Time: 12:50:00 03/07/2022
+Function:  show Time Now
+*/
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
   }
 
+  /*
+Created by TamNA
+Time: 12:50:00 03/07/2022
+Function:  Show image on firebase
+*/
   displayEmployeeImage() {
     this.checkUploadAvatar = true;
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;

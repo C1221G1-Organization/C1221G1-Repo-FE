@@ -1,10 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {Position} from '../../model/employee/position';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Employee} from '../../model/employee/employee';
 import {EmployeeService} from '../../service/employee/employee.service';
 import {PositionService} from '../../service/employee/position.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+import {formatDate} from '@angular/common';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-employee-edit',
@@ -18,6 +21,15 @@ export class EmployeeEditComponent implements OnInit {
   position: Position[] = [];
   errorUser: string;
   errorImage: string;
+  employeeImage: string;
+  selectedImage: any = null;
+
+  downloadURL: string;
+  listIMG: Array<string> = [];
+  myMap = new Map();
+  checkUploadAvatar = false;
+  giveURLtoCreate = new EventEmitter<string>();
+  selectedFile: File;
 
   compareWithId(item1, item2) {
     return item1 && item2 && item1.id === item2.id;
@@ -26,7 +38,8 @@ export class EmployeeEditComponent implements OnInit {
   constructor(private  employeeService: EmployeeService,
               private positionService: PositionService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.employeeFormEdit = new FormGroup({
       employeeId: new FormControl('Auto save'),
@@ -50,33 +63,72 @@ export class EmployeeEditComponent implements OnInit {
     });
   }
 
-
+  /*
+    Created by TamNA
+    Time: 11:50:00 03/07/2022
+    Function:  Show position
+*/
   ngOnInit(): void {
     this.positionService.getAllPosition().subscribe(position => {
       this.position = position;
     });
     this.getEmployeeById(this.id);
   }
-
+  /*
+    Created by TamNA
+    Time: 13:50:00 03/07/2022
+    Function:  Get employee by id
+*/
   getEmployeeById(id: string) {
     return this.employeeService.findEmployeeById(id).subscribe(employee => {
+      // lấy hình ảnh và gắn lên cho employeeImage
+      this.employeeImage = employee.employeeImage;
+      console.log(this.employeeImage);
       this.employeeFormEdit.patchValue(employee);
     });
   }
+  /*
+    Created by TamNA
+    Time: 12:50:00 03/07/2022
+    Function:  Show image
+*/
+  showPreview(event: any) {
+    this.selectedImage = event.target.files[0];
+    this.employeeImage = '';
+  }
 
+  /*
+  Created by TamNA
+  Time: 12:50:00 03/07/2022
+  Function:  Edit Employee
+*/
   onSubmit(id: string) {
     const employee = this.employeeFormEdit.value;
     console.log(employee);
-    this.employeeService.updateEmployee(id, employee).subscribe(() => {
-      alert('thành công');
-    }, error => {
-      this.errorUser = error.error.errorMap.usersName;
-      console.log(this.errorUser);
-      this.errorImage = error.error.errorMap.employeeImage;
-      console.log(this.errorImage);
-    });
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+        this.employeeFormEdit.patchValue(employee.employeeImage = url);
+        console.log(url);
+// Call API to update
+        this.employeeService.updateEmployee(id, employee).subscribe(() => {
+          alert('thành công');
+        }, error => {
+          this.errorUser = error.error.errorMap.usersName;
+          console.log(this.errorUser);
+          this.errorImage = error.error.errorMap.employeeImage;
+          console.log(this.errorImage);
+        });
+      });
+    })).subscribe();
   }
 
+  /*
+  Created by TamNA
+  Time: 18:50:00 03/07/2022
+  Function:  check Date start of employee
+*/
   checkDay() {
     const dayWork = new Date(this.employeeFormEdit.get('employeeDateStart').value);
     const today = Date.now();
@@ -85,5 +137,37 @@ export class EmployeeEditComponent implements OnInit {
       console.log('1');
       this.employeeFormEdit.get('employeeDateStart').setErrors({check: true});
     }
+  }
+  /*
+Created by TamNA
+Time: 12:50:00 03/07/2022
+Function:  show Time Now
+*/
+  getCurrentDateTime(): string {
+    return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
+  }
+
+  /*
+Created by TamNA
+Time: 12:50:00 03/07/2022
+Function:  Show image on firebase
+*/
+  displayEmployeeImage() {
+    this.checkUploadAvatar = true;
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          this.downloadURL = url;
+          this.checkUploadAvatar = false;
+          this.listIMG.push(url);
+          console.log('LIST ==> ', this.listIMG);
+          for (let i = 0; i < this.listIMG.length; i++) {
+            this.myMap.set(i, this.listIMG[i]);
+          }
+          console.log('map ---> ', this.myMap);
+        });
+      })).subscribe();
   }
 }
