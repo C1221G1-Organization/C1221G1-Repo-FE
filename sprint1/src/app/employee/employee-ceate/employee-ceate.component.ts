@@ -1,11 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {EmployeeService} from '../../service/employee/employee.service';
 import {PositionService} from '../../service/employee/position.service';
 import {Router} from '@angular/router';
 import {Employee} from '../../model/employee/employee';
 import {Position} from '../../model/employee/position';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-
+import {formatDate} from '@angular/common';
+import {finalize} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 
 @Component({
@@ -21,9 +23,17 @@ export class EmployeeCeateComponent implements OnInit {
   errorImage: string;
   selectedImage: any = null;
 
+  downloadURL: string;
+  listIMG: Array<string> = [];
+  myMap = new Map();
+  checkUploadAvatar = false;
+  giveURLtoCreate = new EventEmitter<string>();
+  selectedFile: File;
+
   constructor(private  employeeService: EmployeeService,
               private positionService: PositionService,
-              private router: Router) {
+              private router: Router,
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
@@ -51,7 +61,6 @@ export class EmployeeCeateComponent implements OnInit {
   }
 
 
-
   ngOnInit(): void {
     this.positionService.getAllPosition().subscribe(position => {
       this.position = position;
@@ -59,16 +68,38 @@ export class EmployeeCeateComponent implements OnInit {
   }
 
   onSubmit() {
+
     const employee = this.employeeFormCreate.value;
+    // this.checkUploadAvatar = true;
     console.log(employee);
-    this.employeeService.saveEmployee(employee).subscribe(() => {
-      alert('thành công');
-    }, error => {
-      this.errorUser = error.error.errorMap.usersName;
-      console.log(this.errorUser);
-      this.errorImage = error.error.errorMap.employeeImage;
-      console.log(this.errorImage);
-    });
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+        // this.downloadURL = url;
+        // this.giveURLtoCreate.emit(this.downloadURL);
+        // this.checkUploadAvatar = false;
+        // this.listIMG.push(url);
+        // console.log('LIST ==> ', this.listIMG);
+        // for (let i = 0; i < this.listIMG.length; i++) {
+        //   this.myMap.set(i, this.listIMG[i]);
+        // }
+        // console.log('map ---> ', this.myMap);
+
+        this.employeeFormCreate.patchValue(employee.avatar = url);
+
+
+// Call API to create
+        this.employeeService.saveEmployee(employee).subscribe(() => {
+          alert('thành công');
+        }, error => {
+          this.errorUser = error.error.errorMap.usersName;
+          console.log(this.errorUser);
+          this.errorImage = error.error.errorMap.employeeImage;
+          console.log(this.errorImage);
+        });
+      });
+    })).subscribe();
   }
 
   checkDay() {
@@ -79,5 +110,29 @@ export class EmployeeCeateComponent implements OnInit {
       console.log('11');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
+  }
+
+  getCurrentDateTime(): string {
+    return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
+  }
+
+  displayEmployeeImage() {
+    this.checkUploadAvatar = true;
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+
+        this.downloadURL = url;
+        this.giveURLtoCreate.emit(this.downloadURL);
+        this.checkUploadAvatar = false;
+        this.listIMG.push(url);
+        console.log('LIST ==> ', this.listIMG);
+        for (let i = 0; i < this.listIMG.length; i++) {
+          this.myMap.set(i, this.listIMG[i]);
+        }
+        console.log('map ---> ', this.myMap);
+      });
+    })).subscribe();
   }
 }
