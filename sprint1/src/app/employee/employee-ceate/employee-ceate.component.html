@@ -1,4 +1,3 @@
-
 <div style="font-size:16px">
 
   <h1 style="text-align: center;font-size: 32px"> Thêm mới nhân viên</h1>
@@ -15,6 +14,12 @@
           <label for="name-employee" class="col-form-label"><b>Tên nhân viên </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" formControlName="employeeName" id="name-employee">
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeName.hasError('required')  && employeeFormCreate.controls.employeeName.touched">
+            Tên không được để trống</p>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeName.hasError('pattern')  && employeeFormCreate.controls.employeeName.touched">
+            Tên không được chứa các kí tự đặt biệt</p>
         </div>
       </div>
       <div class="row">
@@ -23,12 +28,24 @@
             chỉ </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" formControlName="employeeAddress" id="address">
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeAddress.hasError('required')  && employeeFormCreate.controls.employeeAddress.touched">
+            Địa chỉ không được để trống</p>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeAddress.hasError('pattern')  && employeeFormCreate.controls.employeeAddress.touched">
+            Đại chỉ không được chứa các kí tự đặt biệt</p>
 
         </div>
         <div class="col-lg-6">
           <label for="phone" class="col-form-label"><b>Điện thoại </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" formControlName="employeePhone" id="phone">
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeePhone.hasError('required')  && employeeFormCreate.controls.employeePhone.touched">
+            Số điện thoại không được để trống</p>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeePhone.hasError('pattern')  && employeeFormCreate.controls.employeePhone.touched">
+            Số điện thoại phải đúng định dạng gồm 10 số</p>
         </div>
       </div>
       <div class="row">
@@ -38,13 +55,30 @@
             style="color:red">(*)</span></label>
           <br>
 
-          <input type="file" class="form-control-file" formControlName="employeeImage" id="avatar">
+          <input type="file" class="form-control-file" formControlName="employeeImage" (change)="showPreview($event)" id="avatar">
+          <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeImage.hasError('required')  && employeeFormCreate.controls.employeeImage.touched">
+            Ảnh không được để trống</p>
+
+
 
         </div>
         <div class="col-lg-6" formGroupName="employeeUsername">
           <label for="name-acc" class="col-form-label"><b>Tên tài khoản </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" formControlName="username" id="name-acc">
+          <div>
+            <p style="color: red"
+               *ngIf="employeeFormCreate.get('employeeUsername.username').hasError('required')  && employeeFormCreate.get('employeeUsername.username').touched">
+              Tên tài khoản không được để trống</p>
+
+            <p style="color: red"
+               *ngIf="employeeFormCreate.get('employeeUsername.username').hasError('pattern')  && employeeFormCreate.get('employeeUsername.username').touched">
+              Tên tài khoản phải đúng định dạng. Vd <b> abcd1234@gmail.com</b></p>
+
+            <p style="color: red" *ngIf=" errorUser!= ''">{{errorUser}}</p>
+          </div>
         </div>
       </div>
 
@@ -53,17 +87,30 @@
           <label class="col-form-label"> <b>Chức vụ </b><span
             style="color:red">(*)</span></label>
           <select class="custom-select col-12" formControlName="position">
-            <option value="">Position</option>
+            <option value="">Chức vụ</option>
             <option *ngFor="let position of position"
                     [ngValue]="position">{{position.positionName}}</option>
           </select>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.position.hasError('required')  && employeeFormCreate.controls.position.touched">
+            Chức vụ không được để trống</p>
 
 
         </div>
         <div class="col-lg-6">
           <label for="day-work" class="col-form-label"> <b>Ngày vào làm </b><span
             style="color:red">(*)</span></label>
-          <input type="date" class="form-control" formControlName="employeeDateStart" id="day-work">
+          <input type="date" class="form-control" (input)="checkDay()" formControlName="employeeDateStart"
+                 id="day-work">
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeDateStart.hasError('required')  && employeeFormCreate.controls.employeeDateStart.touched">
+            Ngày vào làm không được để trống</p>
+          <div
+            *ngIf="employeeFormCreate.get('employeeDateStart').errors?.check  && employeeFormCreate.controls.employeeDateStart.touched"
+            style="color: red">
+            Ngày vào làm không nhỏ hơn ngày hiện tại.
+          </div>
+
         </div>
       </div>
 
@@ -81,7 +128,9 @@
         </div>
         <span> </span>
         <div>
-          <button type="submit" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+          <button type="submit" class="btn btn-success" [disabled]="!employeeFormCreate.valid"><i
+            class="fa-solid fa-circle-plus"></i> Thêm
+          </button>
         </div>
       </div>
     </form>
