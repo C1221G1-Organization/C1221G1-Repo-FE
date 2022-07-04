@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {SupplierService} from "../../../service/supplier.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -95,5 +97,45 @@ export class SupplierEditComponent implements OnInit {
     return this.supplierForm.get("supplierEmail")
   }
 
+  /**
+   * check phone exists
+   *  @23h 01/06/2022 LuatTN
+   * @param value
+   * @finished!!
+   */
+  checkDuplicateEmail(supplierService: SupplierService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return supplierService
+        .checkMailNotTaken(control.value)
+        .pipe(
+          map((result) => {
+              return result ? null : {
+                emailAlreadyExists: true
+              };
+            }
+          )
+        );
+    };
+  };
 
+  /**
+   * check phone exists
+   *  @23h 01/06/2022 LuatTN
+   * @param value
+   * @finished!!
+   */
+  private checkDuplicatePhone(supplierService: SupplierService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return supplierService
+        .checkPhoneNotTaken(control.value)
+        .pipe(
+          map((result) => {
+              return result ? null : {
+                phoneAlreadyExists: true
+              };
+            }
+          )
+        );
+    };
+  }
 }

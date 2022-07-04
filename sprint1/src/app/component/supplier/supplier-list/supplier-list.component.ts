@@ -17,6 +17,7 @@ export class SupplierListComponent implements OnInit {
   public listSupplier: Supplier[];
   totalPages: number;
   currentPage: number = 0;
+  ownerSearch = '';
 
   valueSupplier: Supplier = new Supplier();
 
@@ -32,6 +33,7 @@ export class SupplierListComponent implements OnInit {
       searchAddress: '',
       searchPhone: '',
       sort: '',
+      owner: this.ownerSearch
     });
 
   }
@@ -71,6 +73,7 @@ export class SupplierListComponent implements OnInit {
       request.owner = this.ownerSearch;
       // @ts-ignore
       request.sort = this.sort.nativeElement.value;
+      request['owner'] = this.ownerSearch;
       this.getListSupplier(request);
     }
   }
@@ -91,6 +94,7 @@ export class SupplierListComponent implements OnInit {
       request.owner = this.ownerSearch;
       // @ts-ignore
       request.sort = this.sort.nativeElement.value;
+      request['owner'] = this.ownerSearch;
       this.getListSupplier(request);
     }
 
@@ -102,8 +106,8 @@ export class SupplierListComponent implements OnInit {
    *  @23h 01/06/2022 LuatTN
    *   @this  get all Supplier
    */
-  getValueSupplier(item: Supplier) {
-    this.valueSupplier = item
+  getValueTest(item: Supplier) {
+
   }
 
   /**
@@ -111,15 +115,17 @@ export class SupplierListComponent implements OnInit {
    * @23h 01/06/2022 LuatTN
    *
    */
-  search() {
+  search(ownerSearch: HTMLInputElement) {
     //   get value when searching
+    this.ownerSearch = ownerSearch.value;
     switch (this.nameSearch.nativeElement.value) {
       case 'supplierId': {
         this.getListSupplier({
           page: 0,
           size: 10000,
           searchId: this.valueSearch.nativeElement.value,
-          sort: this.sort.nativeElement.value
+          sort: this.sort.nativeElement.value,
+          owner: this.ownerSearch
         })
         break;
       }
@@ -128,7 +134,8 @@ export class SupplierListComponent implements OnInit {
           page: 0,
           size: 10000,
           searchName: this.valueSearch.nativeElement.value,
-          sort: this.sort.nativeElement.value
+          sort: this.sort.nativeElement.value,
+          owner: this.ownerSearch
         })
         break;
       }
@@ -137,7 +144,8 @@ export class SupplierListComponent implements OnInit {
           page: 0,
           size: 10000,
           searchAddress: this.valueSearch.nativeElement.value,
-          sort: this.sort.nativeElement.value
+          sort: this.sort.nativeElement.value,
+          owner: this.ownerSearch
         })
         break;
       }
@@ -146,7 +154,8 @@ export class SupplierListComponent implements OnInit {
           page: 0,
           size: 10000,
           searchPhone: this.valueSearch.nativeElement.value,
-          sort: this.sort.nativeElement.value
+          sort: this.sort.nativeElement.value,
+          owner: this.ownerSearch
         })
       }
     }
@@ -155,8 +164,12 @@ export class SupplierListComponent implements OnInit {
   /**
    * method test db click
    */
-  nameMethod() {
-    alert(this.valueSupplier)
+  getValueSupplier(item: Supplier) {
+    this.valueSupplier = item
+    this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp", "Thông Báo Xác Nhận", {
+      timeOut: 3000,
+      progressBar: true
+    });
   }
 
   /**
@@ -170,14 +183,20 @@ export class SupplierListComponent implements OnInit {
     console.log(request)
     console.log("request")
     this.supplierService.getAll(request).subscribe(data => {
+        if (data !== null) {
+          this.listSupplier = data.content;
+          this.currentPage = data.number;
+          this.totalPages = data.totalPages;
+        } else {
+          this.listSupplier = []
+          this.currentPage = data.number;
+          this.totalPages = data.totalPages;
+        }
 
-        this.listSupplier = data['content'];
-        this.currentPage = data.number;
-        this.totalPages = data.totalPages;
+
       }, error => {
-        alert("eeeeee")
+        this.listSupplier.length = 0
       }, () => {
-        alert("complie ")
       }
     );
   }

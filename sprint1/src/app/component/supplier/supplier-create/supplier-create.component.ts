@@ -18,6 +18,7 @@ export class SupplierCreateComponent implements OnInit {
               private router : Router) {
   }
 
+
   submitted = false;
 
   ngOnInit(): void {
@@ -105,7 +106,7 @@ export class SupplierCreateComponent implements OnInit {
    * check phone exists
    *  @23h 01/06/2022 LuatTN
    * @param value
-   * @unfinished!!
+   * @finished!!
    */
   private checkDuplicatePhone(supplierService: SupplierService): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {

@@ -7,7 +7,7 @@
           <option value="supplierId"> Chưa Có Lựa Chọn</option>
           <option value="supplierId"> Mã Nhà Cung Cấp :</option>
           <option value="supplierName"> Tên Nhà Cung Cấp</option>
-          <option name="supplierAddress">Địa Chỉ Nhà Cung Cấp</option>
+          <option value="supplierAddress">Địa Chỉ Nhà Cung Cấp</option>
           <option value="supplierPhone">Số Điện Thoại</option>
         </select>
         <input aria-describedby="basic-addon2" class="form-control"
@@ -26,7 +26,7 @@
           <option value="supplier_address"> Địa Chỉ Nhà Cung Cấp</option>
           <option value="supplier_phone"> Số Điện Thoại</option>
         </select>
-        <button class="btn btn-primary pd-l" (click)="search()"><i aria-hidden="true" class="fa fa-search"></i> Lọc kết
+        <button class="btn btn-primary pd-l" (click)="search(valueSearch)"><i aria-hidden="true" class="fa fa-search"></i> Lọc kết
           quả
         </button>
       </div>
@@ -36,17 +36,18 @@
 
 <div class="col-lg-12 pd-t">
   <div class="col-lg-11 mx-auto" style="clear: both">
-    <div *ngIf="listSupplier == null || listSupplier == undefined">
+    <div *ngIf="listSupplier == null || listSupplier == undefined || listSupplier.length == 0 ">
       <fieldset style="border: 1px groove black">
         <legend class="w-auto">Hệ thống báo cáo</legend>
 
         <div class="d-flex justify-content-center my-5">
-          <h4 style="font-weight: bold"> CHƯA CÓ NHÀ CUNG CẤP NÀO CẢ </h4>
+          <h4 style="font-weight: bold"> KHÔNG CÓ NHÀ CUNG CẤP NÀO CẢ </h4>
         </div>
       </fieldset>
     </div>
 
-    <fieldset style="border: 1px groove black" *ngIf="listSupplier != null || listSupplier != undefined">
+    <fieldset style="border: 1px groove black"
+              *ngIf="listSupplier != null && listSupplier != undefined && listSupplier.length != 0 ">
       <legend class="w-auto">ㅤHệ thống ㅤ</legend>
 
       <div class="d-flex justify-content-center my-3">
@@ -61,8 +62,8 @@
           <th> Số Điện Thoại</th>
           <th>Email</th>
         </tr>
-        <tr class="bgr" *ngFor="let item  of listSupplier ; index as i" (click)="getValueSupplier(item)"
-            (dblclick)="nameMethod()">
+        <tr class="bgr" *ngFor="let item  of listSupplier ; index as i" (click)="getValueTest(item)"
+            (dblclick)="getValueSupplier(item)">
           <td>{{i + 1}}</td>
           <td>{{item.supplierName}}</td>
           <td style="text-align: left">{{item.supplierAddress}}</td>
@@ -72,26 +73,26 @@
       </table>
     </fieldset>
     <div>
-      <div style="float: left">
+      <div style="float: left ">
         <button class="btn btn-info" type="button">
-          <a [routerLink]="['/supplier/detail',valueSupplier.supplierId]">
+          <a [routerLink]="['/supplier/detail',valueSupplier.supplierId]" style="color: white">
             <i aria-hidden="true" class="fa fa-address-card"></i>Thông Tin Chi Tiết</a>
         </button>
       </div>
       <div id="btn" style="float: right">
         <button class="btn btn-warning">
-          <a [routerLink]="['/supplier/edit/',valueSupplier.supplierId]">
+          <a [routerLink]="['/supplier/edit/',valueSupplier.supplierId]"  style="color: white">
             <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
         </button>
-        <button class="btn btn-danger mgl" data-target="#staticBackdrop" data-toggle="modal">
+        <button class="btn btn-danger mgl" data-target="#staticBackdrop" data-toggle="modal"  style="color: white">
           <i class="fa-solid fa-circle-xmark"></i> Xoá
         </button>
         <button class="btn btn-success mgl">
-          <a [routerLink]="['/supplier/create']">
+          <a [routerLink]="['/supplier/create']"  style="color: white">
             <i class="fa-solid fa-circle-plus"></i> Thêm
           </a>
         </button>
-        <button class="btn btn-secondary mgl">
+        <button class="btn btn-secondary mgl"  style="color: white">
           <i aria-hidden="true" class="fa fa-undo"></i> Trở về
         </button>
       </div>
@@ -140,7 +141,6 @@
                   <span style="color: red ">{{valueSupplier.supplierId}}</span>  </p>
                 <p>Số Điện Thoại
                 <span>{{valueSupplier.supplierPhone}}</span></p>
-
             </div>
           </div>
           <div class="modal-footer">
@@ -153,3 +153,4 @@
     </div>
   </div>
 </div>
+
