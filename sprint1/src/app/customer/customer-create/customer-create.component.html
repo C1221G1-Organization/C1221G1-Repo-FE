@@ -19,13 +19,16 @@
                  placeholder="Nhập tên khách hàng">
           <p style="color: red"
              *ngIf="createForm.controls.customerName.hasError('required') && createForm.controls.customerName.touched">
-            Không được bỏ trống</p>
+            Không được bỏ trống.</p>
           <p style="color: red"
-             *ngIf="createForm.controls.customerName.hasError('min') && createForm.controls.customerName.touched">
-            Nhập phải nhiều hơn 2 kí tự</p>
+             *ngIf="createForm.controls.customerName.hasError('minlength') && createForm.controls.customerName.touched">
+            Nhập phải nhiều hơn 2 kí tự.</p>
           <p style="color: red"
-             *ngIf="createForm.controls.customerName.hasError('max') && createForm.controls.customerName.touched">
-            Không được quá 20 kí tự</p>
+             *ngIf="createForm.controls.customerName.hasError('maxlength') && createForm.controls.customerName.touched">
+            Không được quá 20 kí tự.</p>
+          <p style="color: red"
+             *ngIf="createForm.controls.customerName.hasError('pattern') && createForm.controls.customerName.touched">
+            Nhập đúng định dạng.</p>
         </div>
       </div>
     </div>
@@ -41,12 +44,13 @@
           <!--            <option value="2">Khách lẻ</option>-->
           <!--          </select>-->
           <select class="form-control" formControlName="customerType">
+            <option value="">Vui lòng chọn</option>-->
             <option *ngFor="let type of customerTypeList" [ngValue]="type"
                     [selected]="type.customerTypeName == createForm.controls.customerType.value.customerTypeName">{{type.customerTypeName}}</option>
           </select>
           <p style="color: red"
              *ngIf="createForm.controls.customerType.hasError('required') && createForm.controls.customerType.touched">
-            Không được bỏ trống</p>
+            Không được bỏ trống.</p>
           <span class="select-arrow"></span>
         </div>
       </div>
@@ -68,18 +72,22 @@
                  placeholder="Nhập số điện thoại">
           <p style="color: red"
              *ngIf="createForm.controls.customerPhone.hasError('required') && createForm.controls.customerPhone.touched">
-            Không được bỏ trống</p>
+            Không được bỏ trống.</p>
           <p style="color: red"
              *ngIf="createForm.controls.customerPhone.hasError('pattern') && createForm.controls.customerPhone.touched">
-            Nhập đúng định dạng</p>
+            Nhập đúng định dạng.</p>
+<!--          <p style="color: red"-->
+<!--             *ngIf="createForm.controls.customerPhone.hasError('phoneAlreadyExists') && createForm.controls.customerPhone.touched">-->
+<!--            số điện thoại trùng lặp</p>-->
+          <p style="color: red" *ngIf=" createForm.get('customerPhone').hasError('phoneAlreadyExists')">
+            Số Điện Thoại Này Đã Tồn Tại.
+          </p>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <b class="title" class="form-label">Gmail</b>
-          <input class="form-control" type="email"   placeholder="Nhập gmail">
-
-
+          <b class="title" class="form-label">Email</b>
+          <input class="form-control" type="email"   placeholder="Nhập Email">
         </div>
       </div>
     </div>
@@ -91,13 +99,13 @@
           <b class="title" class="form-label">Giới tính <span
             style="color: red"> (*) </span></b>
           <select class="form-control" formControlName="customerGender">
-<!--            <option value="">Vui lòng chọn</option>-->
+            <option value="">Vui lòng chọn</option>
             <option value="0">Nam</option>
             <option value="1">Nữ</option>
           </select>
           <p style="color: red"
              *ngIf="createForm.controls.customerGender.hasError('required') && createForm.controls.customerGender.touched">
-            Không được bỏ trống</p>
+            Không được bỏ trống.</p>
           <span class="select-arrow"></span>
 
 
@@ -108,9 +116,6 @@
           <b class="title" class="form-label" >Năm sinh</b>
           <input class="form-control" type="date" formControlName="customerBirthday"
                  placeholder="Nhập tuổi">
-          <p style="color: red"
-             *ngIf="createForm.controls.customerBirthday.hasError('required') && createForm.controls.customerBirthday.touched">
-            Không được bỏ trống</p>
         </div>
       </div>
     </div>
@@ -120,6 +125,12 @@
       <div class="col-12">
         <b class="title" class="form-label" >Ghi chú</b>
         <textarea formControlName="customerNote" class="form-control" id="message-text"></textarea>
+        <p style="color: red"
+           *ngIf="createForm.controls.customerNote.hasError('minlength') && createForm.controls.customerNote.touched">
+          Nhập phải nhiều hơn 2 kí tự.</p>
+        <p style="color: red"
+           *ngIf="createForm.controls.customerNote.hasError('maxlength') && createForm.controls.customerNote.touched">
+          Không được quá 20 kí tự.</p>
       </div>
     </div>
     <br>

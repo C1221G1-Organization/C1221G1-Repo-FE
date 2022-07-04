@@ -8,6 +8,7 @@ import {CustomerListComponent} from "./customer-list/customer-list.component";
 import {CustomerEditComponent} from "./customer-edit/customer-edit.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {ToastrModule} from "ngx-toastr";
 
 
 
@@ -22,7 +23,8 @@ import {HttpClientModule} from "@angular/common/http";
     CustomerRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+
   ]
 })
 export class CustomerModule { }
