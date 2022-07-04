@@ -11,6 +11,12 @@ export class PositionService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * this function use to get all page Employee
+   *
+   * @author GiangTB
+   * @Time 21:00 02/07/2022
+   */
   public getAllPosition(): Observable<Position[]> {
     return this.http.get<Position[]>(API_URL + `/api/manager-position/positions` );
   }

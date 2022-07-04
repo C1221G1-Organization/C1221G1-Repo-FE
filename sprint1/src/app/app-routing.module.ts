@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {NotFoundComponent} from './not-found/not-found.component';
+import {NotFoundComponent} from './component/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -9,67 +9,67 @@ const routes: Routes = [
   },
   {
     path        : 'customer',
-    loadChildren: () => import('./customer/customer.module').then(module => module.CustomerModule)
+    loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
     path        : 'employee',
-    loadChildren: () => import('./employee/employee.module').then(module => module.EmployeeModule)
+    loadChildren: () => import('./component/employee/employee.module').then(module => module.EmployeeModule)
   },
   {
     path        : 'account',
-    loadChildren: () => import('./account/account.module').then(module => module.AccountModule)
+    loadChildren: () => import('./component/account/account.module').then(module => module.AccountModule)
   },
   {
     path        : 'admin-chat',
-    loadChildren: () => import('./admin-chat/admin-chat.module').then(module => module.AdminChatModule)
+    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule)
   },
   {
     path        : 'log',
-    loadChildren: () => import('./log/log.module').then(module => module.LogModule)
+    loadChildren: () => import('./component/log/log.module').then(module => module.LogModule)
   },
   {
     path        : 'medicine',
-    loadChildren: () => import('./medicine/medicine.module').then(module => module.MedicineModule)
+    loadChildren: () => import('./component/medicine/medicine.module').then(module => module.MedicineModule)
   },
   {
     path        : 'look-up',
-    loadChildren: () => import('./look-up/look-up.module').then(module => module.LookUpModule)
+    loadChildren: () => import('./component/look-up/look-up.module').then(module => module.LookUpModule)
   },
   {
     path        : 'cart',
-    loadChildren: () => import('./cart/cart.module').then(module => module.CartModule)
+    loadChildren: () => import('./component/cart/cart.module').then(module => module.CartModule)
   },
   {
     path        : 'prescription',
-    loadChildren: () => import('./prescription/prescription.module').then(module => module.PrescriptionModule)
+    loadChildren: () => import('./component/prescription/prescription.module').then(module => module.PrescriptionModule)
   },
   {
     path        : 'reports',
-    loadChildren: () => import('./reports/report.module').then(module => module.ReportModule)
+    loadChildren: () => import('./component/reports/report.module').then(module => module.ReportModule)
   },
   {
     path        : 'sales-management',
-    loadChildren: () => import('./sales-management/sales-management.module').then(module => module.SalesManagementModule)
+    loadChildren: () => import('./component/sales-management/sales-management.module').then(module => module.SalesManagementModule)
   },
   {
     path        : 'supplier',
-    loadChildren: () => import('./supplier/supplier.module').then(module => module.SupplierModule)
+    loadChildren: () => import('./component/supplier/supplier.module').then(module => module.SupplierModule)
   },
   {
     path        : 'templates',
-    loadChildren: () => import('./templates/templates.module').then(module => module.TemplatesModule)
+    loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
     path        : 'payment',
-    loadChildren: () => import('./payment/payment.module').then(module => module.PaymentModule)
+    loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
   {
     path        : 'import-invoice-medicine',
-    loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
+    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {
     path        : 'import-invoice',
-    loadChildren: () => import('./import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
+    loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
   {
     path     : '**',
