@@ -6,6 +6,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TemplatesModule} from "./component/templates/templates.module";
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
@@ -13,14 +14,18 @@ import {TemplatesModule} from "./component/templates/templates.module";
     AppComponent,
     NotFoundComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        TemplatesModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    TemplatesModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right'
+    })
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

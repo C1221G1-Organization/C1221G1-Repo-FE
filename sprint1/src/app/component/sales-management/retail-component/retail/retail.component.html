@@ -3,29 +3,29 @@
     <div class="mx-auto shadow-lg p-3 mb-1 bg-white rounded-lg row d-flex justify-content-center">
       <div class="col-4 px-0">
         <div class="form-group row">
-          <label for="abc" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Số phiếu</label>
+          <label for="abc" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Số phiếu<span class="text-danger">(*)</span>:</label>
           <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="abc" placeholder="HDL0001" readonly>
+            <input type="text" class="form-control form-control-sm" id="abc" placeholder="HDL0001" [readOnly]="disableFlag">
           </div>
         </div>
         <div class="form-group row">
-          <label for="c" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Nhân viên</label>
+          <label for="c" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Nhân viên<span class="text-danger">(*)</span>:</label>
           <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm " id="c" placeholder="Nguyễn Văn A" readonly>
+            <input type="text" class="form-control form-control-sm " id="c" placeholder="Nguyễn Văn A"  [readOnly]="disableFlag">
           </div>
         </div>
         <div class="form-group row">
-          <label for="e" class="col-5 col-form-label w-50 px-0 ml-2" style="max-width: 25%">Ngày tạo</label>
+          <label for="e" class="col-5 col-form-label w-50 px-0 ml-2" style="max-width: 25%">Ngày tạo<span class="text-danger">(*)</span>:</label>
           <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="e" step="any" [value]="localDateTime" readonly>
+            <input type="text" class="form-control form-control-sm" id="e" step="any" value="{{localDateTime | date : 'dd/MM/yyyy'}}" [readOnly]="disableFlag">
           </div>
         </div>
       </div>
       <div class="col-4 px-0 ">
         <div class="form-group row">
-          <label for="kh" class="col-5 col-form-label w-50 px-0" style="max-width: 25%">Khách hàng</label>
+          <label for="kh" class="col-5 col-form-label w-50 px-0" style="max-width: 25%">Khách hàng<span class="text-danger">(*)</span>:</label>
           <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="kh" placeholder="Khách lẻ" readonly>
+            <input type="text" class="form-control form-control-sm" id="kh" placeholder="Khách lẻ" [readOnly]="disableFlag">
           </div>
         </div>
         <div class="form-group row">
@@ -65,7 +65,7 @@
   <div class="container mx-auto">
     <div class="mx-auto shadow-lg p-3 mb-5 bg-white rounded-lg">
       <div>
-        <h5>Danh sách thuốc </h5>
+        <h5>Danh sách thuốc<span class="text-danger">(*)</span>:</h5>
       </div>
 
       <table class="table table-hover">
@@ -79,7 +79,7 @@
                 <select id="medicineSales"
                         class="form-control text-center"
                         name="medicineSales"
-                        formControlName="medicineSale">
+                        formControlName="medicineSale" (click)="changeIsDisabled()">
                   <option [ngValue]="item" *ngFor="let item of medicineSales;">
                     {{item.medicineName}}
                   </option>
@@ -87,18 +87,18 @@
               </td>
               <td class="col-2 text-center">
                 <input type="number" class="form-control text-center"
-                       formControlName="quantity">
+                       formControlName="quantity" (click)="changeIsDisabled()">
               </td>
               <td class="col-2 text-center">
                 <select class="form-control mx-auto text-center "
-                        formControlName="unit">
+                        formControlName="unit" (click)="changeIsDisabled()">
                   <option [value]="'vien'"> Viên</option>
                   <option [value]="'vi'"> Vỉ</option>
                   <option [value]="'hop'"> Hộp</option>
                 </select>
               </td>
               <td class="col-2 text-right" colspan="3">
-                <button class="btn btn-success" (click)="addListMedicine()">
+                <button class="btn btn-success" (click)="addListMedicine()" [disabled]="isDisabled" >
                   <i class="fa-solid fa-circle-plus"></i>
                   Thêm thuốc
                 </button>
@@ -114,16 +114,16 @@
         </tr>
         <tr *ngFor="let item of listMedicineChoice; index as i;  let k = index"
             (click)="activeProject(k,item)"
-            [ngStyle]="{'background-color': activeProjectIndex === k && flagHover ? '#9deba7' : 'white' }">
+            [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
           <td class="col-1 text-center">{{i+1}}</td>
           <td class="col-2 text-center">{{item.medicineName}}</td>
           <td class="col-2 text-center">{{item.quantity}}</td>
           <td class="col-2 text-center">{{item.unit}}</td>
           <td class="col-2 text-center">
-            {{item.retailPrice | currency :'VND': 'symbol':'3.2-2'}}
+            {{item.retailPrice | currency :'VND': 'symbol'}}
           </td>
           <td class="col-3 text-center">
-            {{item.money | currency :'VND':'symbol':'3.2-2'}}
+            {{item.money | currency :'VND':'symbol'}}
           </td>
         </tr>
         </tbody>
@@ -132,7 +132,7 @@
       <div class="d-flex justify-content-end">
         <label for="tongtien" class="p-2 col-form-label"><strong>TỔNG TIỀN:</strong></label>
         <input id="tongtien" class="p-2 text-center form-control-sm" type="text"
-               value="{{totalMoney|currency :'VND' :'symbol':'3.2-2'}}"
+               value="{{totalMoney|currency :'VND' :'symbol'}}"
                readonly>
       </div>
       <div class="d-flex justify-content-end">

@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
+import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {RetailService} from "../../../../service/retail.service";
 import {MedicineSale} from "../../../../dto/invoice/medicineSale";
 import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
 import {ListMedicineChoice} from "../../../../dto/invoice/ListMedicineChoice";
 import {Router} from "@angular/router";
-
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-retail',
@@ -25,21 +25,23 @@ export class RetailComponent implements OnInit {
   index: number;
   flagHover = false
   deleteMedicineChoiceArr: any = [];
-  public selectRow;
+  // dùng cho thêm thuốc
+  isDisabled = false;
+  // disable tất cả các trường ko cho đụng vào
+  disableFlag = true;
 
-  constructor(private fb: FormBuilder,
-              private retailService: RetailService,
-              private router: Router) {
+  constructor(private retailService: RetailService,
+              private router: Router,
+              private toastr : ToastrService) {
   }
 
   ngOnInit(): void {
     this.invoiceForm = new FormGroup({
-      medicineSale: new FormControl(''),
-      quantity: new FormControl(''),
-      unit: new FormControl('')
+      medicineSale: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.required]),
+      unit: new FormControl('', [Validators.required])
     })
     this.getMedicineDto();
-    this.listMedicineChoice;
     this.localDateTime = new Date().toLocaleDateString();
   }
 
@@ -50,7 +52,7 @@ export class RetailComponent implements OnInit {
 * */
   getMedicineDto() {
     this.retailService.getMedicineDto().subscribe(medicineSales => {
-      console.log("list thuốc bán: " + medicineSales)
+      console.log(medicineSales)
       this.medicineSales = medicineSales;
     }, error => {
       console.log(error)
@@ -63,10 +65,13 @@ export class RetailComponent implements OnInit {
 * Function: function addListMedicine
 * */
   addListMedicine() {
-    console.log(this.invoiceForm.value);
+    let idChoice = this.invoiceForm.value.medicineSale.medicineId;
+    let nameChoice = this.invoiceForm.value.medicineSale.medicineName;
     let quantityChoice = this.invoiceForm.value.quantity;
+    console.log(quantityChoice);
     let unitChoice = this.invoiceForm.value.unit;
-    let priceChoice = 1;
+    console.log(unitChoice);
+    let priceChoice: number;
     if (unitChoice == 'vien') {
       priceChoice = Math.floor(1 * this.invoiceForm.value.medicineSale.retailPrice);
     } else if (unitChoice == 'vi') {
@@ -75,17 +80,32 @@ export class RetailComponent implements OnInit {
       priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
     }
     let moneyChoice = quantityChoice * priceChoice
+    let flag = false;
     let medicine: any = {
-      medicineId: this.invoiceForm.value.medicineSale.medicineId,
-      medicineName: this.invoiceForm.value.medicineSale.medicineName,
+      medicineId: idChoice,
+      medicineName: nameChoice,
       retailPrice: priceChoice,
       quantity: quantityChoice,
       unit: unitChoice,
       money: moneyChoice,
-      checkFlag: false,
     };
-    this.listMedicineChoice.push(medicine);
-    console.log("List thuốc thêm: " + this.listMedicineChoice);
+    const myArray = this.listMedicineChoice;
+    const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
+    if (idChoice == '' || nameChoice == '' || quantityChoice == ''
+      || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+    if (!flag) {
+      this.isDisabled = false;
+      this.listMedicineChoice.push(medicine);
+      console.log(this.isDisabled);
+    } else {
+      this.isDisabled = true;
+      console.log(this.isDisabled);
+    }
+    console.log(this.listMedicineChoice);
     this.getTotalMoney();
     this.resetForm();
   }
@@ -125,48 +145,16 @@ export class RetailComponent implements OnInit {
     console.log(invoiceDto);
     this.retailService.createRetailInvoice(invoiceDto).subscribe(
       () => {
-        console.log("success");
+        this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
+          timeOut:3000,
+          progressBar: true
+        });
         this.listMedicineChoice = [];
       }, error => {
         console.log(error)
       }
     )
   }
-
-
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function selectMedicine
-* */
-  selectMedicine($event: any, item: any, i: any) {
-    this.selectRow = i;
-    this.index = i;
-    this.deleteMedicineChoiceArr = this.deleteMedicineChoiceArr.push(item.medicineId);
-    console.log(this.deleteMedicineChoiceArr);
-    this.idDelete = item.medicineId;
-    this.nameDelete = item.medicineName;
-    console.log(this.deleteMedicineChoiceArr[i].checkFlag);
-  }
-
-
-  /*
- * Created by DaLQA
- * Time: 10:30 AM 3/07/2022
- * Function: function deleteMedicine
- * */
-  deleteMedicine(closeModal: HTMLButtonElement) {
-    for (let idDelete of this.deleteMedicineChoiceArr) {
-      this.listMedicineChoice = this.listMedicineChoice.filter((item) => {
-        return item.medicineId != idDelete;
-      })
-    }
-    this.deleteMedicineChoiceArr = [];
-    console.log(this.listMedicineChoice);
-    this.getTotalMoney();
-    closeModal.click();
-  }
-
 
   /*
  * Created by DaLQA
@@ -181,30 +169,55 @@ export class RetailComponent implements OnInit {
   }
 
 
-
   /*
  * Created by DaLQA
  * Time: 10:30 AM 3/07/2022
  * Function: function multipleExist
  * */
-
   activeProjectIndex: number;
 
-
   activeProject(k: number, item: any) {
-    if (this.activeProjectIndex != k){
+    if (this.activeProjectIndex != k) {
       this.flagHover = true;
-    }else{
+    } else {
       this.flagHover = !this.flagHover;
     }
     this.activeProjectIndex = k;
-    if (this.flagHover == true){
+    if (this.flagHover == true) {
       this.idDelete = item.medicineId;
-      this.deleteMedicineChoiceArr = this.deleteMedicineChoiceArr.push(item.medicineId);
-      console.log(this.deleteMedicineChoiceArr);
-    }else{
+      this.nameDelete = item.medicineName;
+      console.log(this.idDelete);
+    } else {
       this.idDelete = '';
+      console.log(this.idDelete);
     }
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function deleteMedicine
+* */
+  deleteMedicine(closeModal: HTMLButtonElement) {
+    this.listMedicineChoice = this.listMedicineChoice.filter(
+      (item) => {
+        return item.medicineId != this.idDelete;
+        this.resetIdAndName();
+      })
+    this.deleteMedicineChoiceArr = [];
+    console.log(this.listMedicineChoice);
+    this.getTotalMoney();
+    closeModal.click();
+  }
+
+  resetIdAndName() {
+    this.idDelete = '';
+    this.nameDelete = '';
+  }
+
+  changeIsDisabled() {
+    this.isDisabled = false;
+    console.log(this.isDisabled);
   }
 }
 
