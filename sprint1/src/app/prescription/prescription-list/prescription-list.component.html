@@ -1,1 +1,124 @@
-<p>prescription-list works!</p>
+<div id="field" class="container-fluid">
+  <fieldset class="border p-2  shadow">
+    <legend class="w-auto">Bộ lọc</legend>
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="row">
+        <div class="col-lg-1 col-md-2"><p>Lọc theo</p></div>
+        <div class="col-lg-2 col-md-2">
+          <select name="" id="" class="form-control" formControlName="typeSearch">
+            <option value="id">Mã đơn thuốc</option>
+            <option value="names">Tên đơn</option>
+            <option value="target">Đối tượng</option>
+            <option value="symptom">Triệu chứng</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <input class="form-control"
+                 placeholder="Nhập từ khoá cần tìm kiếm"
+                 type="text" formControlName="inputSearch">
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <button class="btn btn-primary" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Lọc kết quả
+          </button>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <p class="float-right">Sắp xếp</p>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <select class="form-control">
+            <option value="Mã toa thuốc">Mã đơn thuốc</option>
+            <option value="Tên toa">Tên đơn</option>
+            <option value="Đối tượng">Đối tượng</option>
+            <option value="Triệu chứng">Triệu chứng</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+  </fieldset>
+</div>
+
+<div class="container-fluid">
+  <fieldset class="border p-2 shadow">
+    <table class="table table-striped">
+      <thead class="table-success">
+      <tr>
+        <th>#</th>
+        <th>Mã đơn thuốc</th>
+        <th>Tên đơn thuốc</th>
+        <th>Đối tượng</th>
+        <th>Triệu chứng</th>
+        <th>Ghi chú</th>
+        <th>Sửa</th>
+        <th>Xoá</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let prescription of prescriptions; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{prescription.prescriptionId}}</td>
+        <td>{{prescription.prescriptionName}}</td>
+        <td>{{prescription.prescriptionTargetUser}}</td>
+        <td>{{prescription.prescriptionSymptom}}</td>
+        <td>{{prescription.prescriptionNote}}</td>
+        <td>
+          <button class="btn btn-warning shadow"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+        </td>
+        <td>
+          <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="row">
+      <!--      <div class="9"> <p></p></div>-->
+      <div class="col-1 d-flex justify-content-center">
+        <p class="page-link">{{(page + 1) + '/' + totalPages}}</p>
+      </div>
+
+      <!--        Pagination-->
+      <div class="col-1">
+        <nav class="d-flex justify-content-end wow fadeIn">
+          <ul class="pagination">
+            <li *ngIf="!firsts" class="page-item">
+              <button class="page-link" (click)="previous()">Trước</button>
+            </li>
+            <li class="page-item active" aria-current="page">
+              <button class="page-link">{{page + 1}}</button>
+            </li>
+            <li *ngIf="!last" class="page-item">
+              <button class="page-link" (click)="next()">Sau</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </fieldset>
+  <!--  <div aria-label="Page navigation example">-->
+  <!--    <ul class="pagination justify-content-end">-->
+  <!--      <li class="page-item disabled">-->
+  <!--        <a class="page-link" href="#" tabindex="-1">Previous</a>-->
+  <!--      </li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+  <!--      <li class="page-item">-->
+  <!--        <a class="page-link" href="#">Next</a>-->
+  <!--      </li>-->
+  <!--    </ul>-->
+  <!--  </div>-->
+  <div>
+    <div id="bt" class="row">
+      <div class="col-lg-8 col-md-8"></div>
+      <div class="col-lg-2 col-md-2">
+        <a [routerLink]="['/prescription/create']" class="btn btn-success shadow"><i class="fa-solid fa-circle-plus"></i> Thêm</a>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <button class="btn btn-secondary shadow"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+      </div>
+    </div>
+  </div>
+</div>

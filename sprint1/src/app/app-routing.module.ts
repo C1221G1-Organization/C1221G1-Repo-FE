@@ -65,7 +65,8 @@ const routes: Routes = [
   },
   {
     path        : 'import-invoice-medicine',
-    loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
+    loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').
+    then(module => module.ImportInvoiceMedicineModule)
   },
   {
     path        : 'import-invoice',
