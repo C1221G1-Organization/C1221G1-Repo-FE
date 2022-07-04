@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path        : 'log',
-    loadChildren: () => import('./log/log.module').then(module => module.LogModule)
+    loadChildren: () => import('./component/security/log.module').then(module => module.LogModule)
   },
   {
     path        : 'medicine',
