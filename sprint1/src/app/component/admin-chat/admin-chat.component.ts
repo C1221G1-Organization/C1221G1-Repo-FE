@@ -21,7 +21,12 @@ export const snapshotToArray = (snapshot: any) => {
 export class AdminChatComponent implements OnInit {
 
   rooms: any[];
-
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return retrieve rooms from Rooms FRD and sort by lastMessagePost time
+   */
   constructor() {
     firebase.database().ref('rooms/' ).on('value', resp => {
       this.rooms = [];

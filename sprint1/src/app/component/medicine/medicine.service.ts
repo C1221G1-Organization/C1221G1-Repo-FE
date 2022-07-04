@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {MedicineDetailDto} from '../dto/medicine-detail.model';
+import {MedicineDetailDto} from '../../dto/medicine-detail.model';
 const API_URL_MEDICINE = "http://localhost:8080/api/manager-medicine/medicines";
 
 @Injectable({

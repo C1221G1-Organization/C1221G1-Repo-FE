@@ -10,4 +10,6 @@ export interface MedicineDetailDto {
   medicineImage? : string;
   medicineDescription? : string;
   medicineOrigin? : string;
+  medicineConversionUnit? : string;
+  medicineQuantity? : number;
 }

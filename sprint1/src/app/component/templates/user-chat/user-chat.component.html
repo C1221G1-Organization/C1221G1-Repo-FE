@@ -80,7 +80,7 @@
 
       <div class="chat-input-holder">
         <form *ngIf="chatForm" [formGroup]="chatForm" (ngSubmit)="onChatSubmit()" class="w-100 row mx-0">
-          <textarea formControlName="message" class="chat-input" placeholder="Nhập tin nhắn..."></textarea>
+          <textarea (keyup.enter)="onChatSubmit()" formControlName="message" class="chat-input" placeholder="Nhập tin nhắn..."></textarea>
           <button type="submit" value="Send" class="message-send">
             <i role="button" class="fa-solid fa-paper-plane" style="font-size: 1.5rem"></i>
           </button>

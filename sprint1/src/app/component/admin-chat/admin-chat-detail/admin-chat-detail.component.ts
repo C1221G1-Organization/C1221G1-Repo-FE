@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {snapshotToArray} from '../admin-chat.component';
-import {environment} from '../../../environments/environment';
-import {getTimeStamp} from '../../utils/time-stamp.utils';
+import {environment} from '../../../../environments/environment';
+import {getTimeStamp} from '../../../utils/time-stamp.utils';
 
 @Component({
   selector   : 'app-admin-chat-detail',
@@ -12,8 +12,8 @@ import {getTimeStamp} from '../../utils/time-stamp.utils';
   styleUrls  : ['./admin-chat-detail.component.css']
 })
 export class AdminChatDetailComponent implements OnInit {
-  @ViewChild('chatcontent') chatcontent: ElementRef;
-  scrolltop: number = null;
+  @ViewChild('chatContent') chatContent: ElementRef;
+  scrollTop: number = null;
   adminChat = environment.adminChat;
   chatForm: FormGroup;
   uuid = '';
@@ -28,26 +28,12 @@ export class AdminChatDetailComponent implements OnInit {
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 200);
+      setTimeout(() => this.scrollTop = this.chatContent.nativeElement.scrollHeight, 200);
     });
     firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value').then((resp2: any) => {
         this.user = snapshotToArray(resp2)[0];
       }
     );
-    // route.url.subscribe((s: UrlSegment[]) => {
-    //   this.uuid = s[s.length - 1].path;
-    //   console.log(this.uuid);
-    //   firebase.database().ref('chats/' + this.uuid).on('value', resp => {
-    //     this.chats = [];
-    //     this.chats = snapshotToArray(resp);
-    //     setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 200);
-    //   });
-    //   firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value').then((resp2: any) => {
-    //       this.user = snapshotToArray(resp2)[0];
-    //     }
-    //   );
-    // });
-
   }
 
   ngOnInit(): void {
@@ -59,8 +45,13 @@ export class AdminChatDetailComponent implements OnInit {
       firebase.database().ref('rooms/' + this.uuid).update({...room, isSeen: true});
     });
   }
-
-  onFormSubmit() {
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return handle chat message submit to Chats in FRD
+   */
+  onChatSubmit() {
     const chat = this.chatForm.value;
     chat.uuid = this.uuid;
     chat.name = this.adminChat.name;

@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, UrlSegment} from '@angular/router';
-import {MedicineDetailDto} from '../../dto/medicine-detail.model';
+import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
+import {MedicineDetailDto} from '../../../dto/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 
@@ -17,14 +17,14 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
   quantity = 1;
 
   constructor(private toastr: ToastrService,
+              private router: Router,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
 
   }
-
   /**
-   * Creator: NghiaNTT Time: 02/07/2022
-   *
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
    * @param
    * @return get medicine and its relatives.
    */
@@ -35,7 +35,9 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
-        }, err => console.log(err)
+        }, err => {
+          this.router.navigateByUrl("not-found")
+        }
       );
       this.medicineService.get5RelativeMedicinesOf(this.medicineId).subscribe(
         data => {
@@ -46,18 +48,18 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
   }
 
   /**
-   * Creator: NghiaNTT Time: 02/07/2022
-   *
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
    * @param
-   * @return increase quantity when user click [+] button
+   * @return increase quantity when user click [-] button
    */
   increaseQuantity() {
     this.quantity++;
+    this.quantity = this.quantity > this.medicine.medicineQuantity ? this.medicine.medicineQuantity : this.quantity;
   }
-
   /**
-   * Creator: NghiaNTT Time: 02/07/2022
-   *
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
    * @param
    * @return decrease quantity when user click [+] button
    */
@@ -67,7 +69,12 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
       this.quantity = 1;
     }
   }
-
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return add item and quantity to localstorage
+   */
   addItemToCart() {
     const cart = JSON.parse(localStorage.getItem('cart'));
     if (cart == null) {
@@ -85,10 +92,9 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
       progressBar: false
     });
   }
-
   /**
-   * Creator: NghiaNTT Time: 02/07/2022
-   *
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
    * @param
    * @return scroll to top when view is checked
    */

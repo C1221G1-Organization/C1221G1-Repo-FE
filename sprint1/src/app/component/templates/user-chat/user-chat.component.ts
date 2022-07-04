@@ -3,10 +3,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
-import {UserChat} from '../../dto/user-chat.model';
+import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';
-import {Chat} from '../../dto/chat.model';
-import {getTimeStamp} from '../../utils/time-stamp.utils';
+import {Chat} from '../../../dto/chat.model';
+import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
 @Component({
@@ -36,7 +36,16 @@ export class UserChatComponent implements OnInit {
 
   }
 
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return load messages for chat room
+   */
   loginToChatRoom() {
+    this.chatForm = this.formBuilder.group({
+      'message': [null, Validators.required]
+    });
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
@@ -44,11 +53,27 @@ export class UserChatComponent implements OnInit {
     });
   }
 
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return check localStorage exists. if yes -> login
+   */
   ngOnInit(): void {
+    this.customerForm = this.formBuilder.group({
+      'name'   : [null, [Validators.required, Validators.pattern(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)]],
+      'phone'  : [null, [Validators.required, Validators.pattern('^0\\d{9}$')]],
+      'message': [null, Validators.required]
+    });
+    this.chatForm = this.formBuilder.group({
+      'message': [null, Validators.required]
+    });
     this.userChat = JSON.parse(localStorage.getItem('user-chat-info'));
     if (this.userChat && this.userChat.name && this.userChat.phone && this.userChat.uuid) {
       this.uuid = this.userChat.uuid;
+      console.log(this.uuid)
       firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value', snapshot => {
+        console.log(snapshot.val())
         if (snapshot.exists()) {
           this.isLogin = true;
           this.loginToChatRoom();
@@ -56,28 +81,38 @@ export class UserChatComponent implements OnInit {
           localStorage.removeItem('user-chat-info');
         }
       });
-    } else {
-      this.uuid = uuidv4();
-      this.customerForm = this.formBuilder.group({
-        'name'   : [null, [Validators.required, Validators.pattern(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)]],
-        'phone'  : [null, [Validators.required, Validators.pattern('^0\\d{9}$')]],
-        'message': [null, Validators.required]
-      });
     }
-    this.chatForm = this.formBuilder.group({
-      'message': [null, Validators.required]
-    });
+
+
+
   }
 
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return toggle expand function
+   */
   toggleExpanded() {
     this.isExpanded = !this.isExpanded;
   }
 
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return close chat box
+   */
   closePanel() {
     this.isClosed = true;
   }
 
-
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return add Chat in Chats FRD, Update lastMessagePost time in Rooms FRD
+   */
   onChatSubmit() {
     const chat = this.chatForm.value;
     chat.name = this.userChat.name;
@@ -91,7 +126,18 @@ export class UserChatComponent implements OnInit {
     this.chatForm.reset();
   }
 
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return handle user login.
+   * 1. add new user to Users FRD
+   * 2. add new room to Rooms FRD
+   * 3. add new chat to Chats FRD
+   * 4. save item in localStorage
+   */
   onCustomerFormSubmit() {
+    this.uuid = uuidv4();
     if (this.customerForm.valid) {
       const form = this.customerForm.value;
       this.userChat = {};
@@ -118,11 +164,4 @@ export class UserChatComponent implements OnInit {
     }
   }
 
-  handleFirstMessageChat(formValue) {
-
-  }
-
-  handleAddNewCustomer(formValue) {
-
-  }
 }
