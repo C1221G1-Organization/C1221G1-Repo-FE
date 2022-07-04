@@ -63,7 +63,7 @@
               alt=""
             />
             <div class="col-12 p-0">
-            <h5 class="mb-0 mt-5">{{item.employeeName}}</h5>
+            <h6 class="mb-0 mt-5 row d-flex justify-content-center">{{item.employeeName}}</h6>
             </div>
             <hr>
             <table>
@@ -108,15 +108,13 @@
       </div>
     </div>
 </div>
-  <h1 *ngIf="isHasContent">Không có dữ liệu phù hợp</h1>
+  <h1 *ngIf="isHasContent" class="text-center">Không có dữ liệu phù hợp</h1>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">{{currentPage+1}}/{{totalPages}}</a></li>
       <li class="page-item">
         <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp theo</a>
       </li>

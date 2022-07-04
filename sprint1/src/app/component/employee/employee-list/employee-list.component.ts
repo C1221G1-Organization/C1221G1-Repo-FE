@@ -3,6 +3,7 @@ import {Position} from '../../model/position';
 import {PositionService} from '../../service/employee/position.service';
 import {Employee} from '../../model/employee';
 import {EmployeeService} from '../../service/employee/employee.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-employee-list',
@@ -25,7 +26,8 @@ export class EmployeeListComponent implements OnInit {
   public employeeNameValue: string;
 
   constructor(private positionService: PositionService,
-              private employeeService: EmployeeService) {
+              private employeeService: EmployeeService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -47,7 +49,12 @@ export class EmployeeListComponent implements OnInit {
       this.totalPages = employees['totalPages'];
       console.log(employees['content']);
     }, () => {
-      alert('Không tìm thấy dữ liệu được đề xuất');
+      this.employees = null;
+      this.isHasContent = true;
+      this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+        timeOut:3000,
+        progressBar: true
+      })
     });
   }
 
@@ -94,6 +101,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
+          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+            timeOut:3000,
+            progressBar: true
+          })
         });
         break;
       case 'name':
@@ -108,6 +119,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
+          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+            timeOut:3000,
+            progressBar: true
+          })
         });
         break;
       case 'position':
@@ -122,6 +137,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
+          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+            timeOut:3000,
+            progressBar: true
+          })
         });
         break;
       case 'address':
@@ -136,6 +155,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
+          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+            timeOut:3000,
+            progressBar: true
+          })
         });
         break;
       case 'phone':
@@ -150,6 +173,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
+          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
+            timeOut:3000,
+            progressBar: true
+          })
         });
         break;
     }
@@ -356,4 +383,5 @@ export class EmployeeListComponent implements OnInit {
     alert('Thành công rồi đại vương')},() =>
       alert('Không thể tìm thấy nhân viên cần xoá hoặc nhân viên này đã đước xoá trước đó'))
   }
+
 }
