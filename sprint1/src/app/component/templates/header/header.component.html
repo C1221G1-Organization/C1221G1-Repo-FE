@@ -15,14 +15,14 @@
           <i aria-hidden="true" class="header__navbar-icon far fa-question-circle"></i>
           <a class="header__navbar-item-link" href="">Trợ giúp</a>
         </li>
-        <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate" [hidden]="isLogIn" routerLink="/sign-up">
+        <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate" [hidden]="isLogIn" routerLink="/log/sign-up">
           Đăng ký
         </li>
-        <li class="header__navbar-item header__navbar-item--strong" [hidden]="isLogIn" routerLink="/sign-in">Đăng nhập</li>
+        <li class="header__navbar-item header__navbar-item--strong" [hidden]="isLogIn" routerLink="/log/sign-in">Đăng nhập</li>
         <li class="header__navbar-item header__navbar-user" [hidden]="!isLogIn">
           <img alt=""
                class="header__navbar-user-img" src="https://mdbootstrap.com/img/new/avatars/3.jpg">
-          <span class="header__navbar-user-name">Phan An</span>
+          <span class="header__navbar-user-name">{{username}}</span>
           <ul class="header__navbar-user-menu">
             <li class="header__navbar-user-item">
               <a href="">Tài khoản của tôi</a>
@@ -34,7 +34,7 @@
               <a href="">Quản lý cửa hàng</a>
             </li>
             <li class="header__navbar-user-item header__navbar-user-item--separate">
-              <a routerLink="/log-out">Đăng xuất</a>
+              <a routerLink="/log/log-out">Đăng xuất</a>
             </li>
           </ul>
         </li>

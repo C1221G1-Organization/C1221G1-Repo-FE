@@ -2,6 +2,7 @@ import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angula
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShareService} from "../../../share/ShareService";
 import {MedicineHomePage} from "../../../dto/medicine-home-page";
+import {TokenStorageService} from "../../../service/security/token-storage.service";
 
 @Component({
   selector: 'app-header',
@@ -9,32 +10,29 @@ import {MedicineHomePage} from "../../../dto/medicine-home-page";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, AfterContentChecked {
-  isLogIn = true;
+  isLogIn = false;
   username: string;
-  productQuantityInCart: number = 0;
+  productQuantityInCart :number = 0;
   roles: string[];
-  cartList: any[] = []
+  cartList: any[] = [];
   medicine = {} as MedicineHomePage;
-  cartDetailDtos: any =[];
+  cartDetailDtos: any = [];
 
-
-  ngOnInit(): void {
-  }
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              // private tokenStorageService: TokenStorageService,
+              private tokenStorageService: TokenStorageService,
               private changeDetectorRef: ChangeDetectorRef,
               private shareService: ShareService) {
   }
 
-  // ngOnInit(): void {
-  //   if (this.tokenStorageService.getToken()){
-  //     this.isLoggedIn = true;
-  //     this.username = this.tokenStorageService.getUser().accountName;
-  //     this.roles = this.tokenStorageService.getUser().roles;
-  //   }
-  // }
+  ngOnInit(): void {
+    if (this.tokenStorageService.getToken()){
+      this.isLogIn = true;
+      this.username = this.tokenStorageService.getUser().username;
+      this.roles = this.tokenStorageService.getUser().roles;
+    }
+  }
 
   ngAfterContentChecked(): void {
     if (this.productQuantityInCart!=0){

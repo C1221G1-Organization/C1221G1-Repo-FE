@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {TokenStorageService} from "./service/security/token-storage.service";
 
 @Component({
   selector: 'app-root',
@@ -8,22 +9,22 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'pharmacy-manager';
 
-  isGuest = false;
+  isGuest = true;
   user;
 
-  // constructor(private tokenStorageService: TokenStorageService) {
-  //   this.user = this.tokenStorageService.getUser();
-  //   if (this.user == null) {
-  //     this.isGuest = true;
-  //   }
-  //   if (this.user !=null){
-  //     if (this.user.roles == "ROLE_USER") {
-  //       this.isGuest = true;
-  //     } else {
-  //       this.isGuest = false;
-  //     }
-  //   }
-  //   console.log(this.user)
-  // }
+  constructor(private tokenStorageService: TokenStorageService) {
+    this.user = this.tokenStorageService.getUser();
+    if (this.user == null) {
+      this.isGuest = true;
+    }
+    if (this.user != null){
+      if (this.user.roles[0] == "ROLE_USER") {
+        this.isGuest = true;
+      } else {
+        this.isGuest = false;
+      }
+    }
+    console.log(this.user)
+  }
 
 }
