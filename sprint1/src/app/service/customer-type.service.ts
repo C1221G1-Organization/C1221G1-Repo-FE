@@ -10,13 +10,10 @@ const API_URL = `${environment.apiUrl}`;
   providedIn: 'root'
 })
 export class CustomerTypeService {
-
   constructor(private http: HttpClient) {
   }
 
-  // @ts-ignore
   getAllCustomerType(): Observable<CustomerType[] | any> {
     return this.http.get(API_URL + `/api/manager-customer/customerTypes`);
   }
-
 }
