@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Position} from '../../../model/position';
 import {PositionService} from '../../../service/employee/position.service';
-import {Employee} from '../../../model/employee';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {ToastrService} from 'ngx-toastr';
+import {Employee} from '../../../model/employee/employee';
+import {Position} from '../../../model/employee/position';
 
 @Component({
   selector: 'app-employee-list',

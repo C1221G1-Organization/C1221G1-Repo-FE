@@ -72,7 +72,7 @@ const routes: Routes = [
     loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
   {
-    path     : '**',
+    path: '**',
     component: NotFoundComponent
   }
 ];

@@ -7,7 +7,6 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule} from 'ngx-toastr';
 
-
 @NgModule({
   declarations: [
     AppComponent,
