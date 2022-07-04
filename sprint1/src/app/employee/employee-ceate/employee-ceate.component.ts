@@ -22,7 +22,6 @@ export class EmployeeCeateComponent implements OnInit {
   errorUser: string;
   errorImage: string;
   selectedImage: any = null;
-
   downloadURL: string;
   listIMG: Array<string> = [];
   myMap = new Map();
@@ -38,7 +37,7 @@ export class EmployeeCeateComponent implements OnInit {
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
       employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
-      employeeImage: new FormControl('', [Validators.required]),
+      employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
       employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       // tslint:disable-next-line:max-line-length
@@ -62,7 +61,17 @@ export class EmployeeCeateComponent implements OnInit {
     Function:  Show image
 */
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      // tslint:disable-next-line:prefer-const
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      this.selectedImage = event.target.files[0];
+      // tslint:disable-next-line:no-shadowed-variable
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        // @ts-ignore
+        this.downloadURL = this.displayEmployeeImage();
+      };
+    }
   }
 
   /*
@@ -139,7 +148,6 @@ Function:  Show image on firebase
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
       fileRef.getDownloadURL().subscribe(url => {
-
         this.downloadURL = url;
         this.giveURLtoCreate.emit(this.downloadURL);
         this.checkUploadAvatar = false;

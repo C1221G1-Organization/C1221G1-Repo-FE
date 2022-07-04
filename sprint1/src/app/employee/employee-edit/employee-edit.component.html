@@ -5,13 +5,8 @@
   <div class="container shadow-lg">
     <form [formGroup]="employeeFormEdit" (ngSubmit)="onSubmit(id)">
       <div class="row">
-        <div class="col-lg-6">
-          <label for="id-employee" class="col-form-label"><b>Mã nhân viên </b></label>
-          <input type="text" class="form-control" id="id-employee" readonly formControlName="employeeId">
 
-        </div>
-
-        <div class="col-lg-6" formGroupName="employeeUsername">
+        <div class="col-lg-12" formGroupName="employeeUsername">
           <label for="name-acc" class="col-form-label"><b>Tên tài khoản </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" readonly formControlName="username" id="name-acc">
@@ -66,39 +61,39 @@
           <input type="file" class="form-control-file" (change)="showPreview($event)"
                  id="avatar" accept="image/*">
 
-          <button class="btn" (click)="displayEmployeeImage()" style="border: white" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image"
-                 viewBox="0 0 16 16">
-              <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-              <path
-                d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-            </svg>
-            Xem
-          </button>
+
         </div>
         <div class="col-lg-3">
           <br>
           <div *ngIf="employeeImage==''">
           </div>
+          <div class="spinner-border" role="status" *ngIf=" checkUploadAvatar">
+            <span class="sr-only">Loading...</span>
+          </div>
           <div *ngIf="employeeImage!=''"><img [src]="employeeImage" alt="Ảnh mặc định" width="120px" height="120px">
           </div>
           <br>
           <div class="row" *ngIf="downloadURL?!selectedFile:selectedFile">
-            <div class="column" *ngFor="let song of listIMG; let a = index">
+            <div class="column" *ngFor="let song of listIMG.slice(listIMG.length-1, listIMG.length); let a = index">
               <div class="card" style="float: right">
 
-                <img class="img" [src]="myMap.get(a)" alt="123456" width="120px" height="120px">
+                <p style="color: red"
+                   *ngIf="employeeFormEdit.controls.employeeImage.hasError('required')  && employeeFormEdit.controls.employeeImage.touched">
+                  Ảnh không được để trống</p>
+
+                <div *ngIf="!employeeFormEdit.controls.employeeImage.hasError('pattern')">
+                  <img class="img" [src]="myMap.get(listIMG.length-1)" alt="" width="120px" height="120px">
+                </div>
 
               </div>
             </div>
           </div>
-          <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>
-          <p style="color: red"
-             *ngIf="employeeFormEdit.controls.employeeImage.hasError('required')  && employeeFormEdit.controls.employeeImage.touched">
-            Ảnh không được để trống</p>
+          <!--          <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>-->
+
         </div>
 
-        <div class="col-lg-6">
+        <div class=" col-lg-6
+          ">
           <label for="name-employee" class="col-form-label"><b>Tên nhân viên </b><span
             style="color:red">(*)</span></label>
           <input type="text" class="form-control" formControlName="employeeName" id="name-employee">
@@ -157,8 +152,8 @@
         </div>
         <span> &nbsp;</span>
         <div>
-          <button class="btn btn-warning" [disabled]="!employeeFormEdit.valid"><i class="fa fa-pencil"
-                                                                                  aria-hidden="true"></i> Sửa
+          <button class="btn btn-warning"><i class="fa fa-pencil"
+                                             aria-hidden="true"></i> Sửa
           </button>
         </div>
       </div>

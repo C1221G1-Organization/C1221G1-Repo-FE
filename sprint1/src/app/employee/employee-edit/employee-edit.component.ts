@@ -45,7 +45,7 @@ export class EmployeeEditComponent implements OnInit {
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
       employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
-      employeeImage: new FormControl('', [Validators.required]),
+      employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
       employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       // tslint:disable-next-line:max-line-length
@@ -74,6 +74,7 @@ export class EmployeeEditComponent implements OnInit {
     });
     this.getEmployeeById(this.id);
   }
+
   /*
     Created by TamNA
     Time: 13:50:00 03/07/2022
@@ -87,13 +88,26 @@ export class EmployeeEditComponent implements OnInit {
       this.employeeFormEdit.patchValue(employee);
     });
   }
+
   /*
     Created by TamNA
     Time: 12:50:00 03/07/2022
     Function:  Show image
 */
+
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
+
+    if (event.target.files && event.target.files[0]) {
+      // tslint:disable-next-line:prefer-const
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      this.selectedImage = event.target.files[0];
+      // tslint:disable-next-line:no-shadowed-variable
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        // @ts-ignore
+        this.downloadURL = this.displayEmployeeImage();
+      };
+    }
     this.employeeImage = '';
   }
 
@@ -138,6 +152,7 @@ export class EmployeeEditComponent implements OnInit {
       this.employeeFormEdit.get('employeeDateStart').setErrors({check: true});
     }
   }
+
   /*
 Created by TamNA
 Time: 12:50:00 03/07/2022
