@@ -131,22 +131,25 @@
           <button aria-label="Close" class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <p>Bạn Chắc Chắn Muốn Xóa
-              <span style="color: red ">{{valueSupplier.supplierName}}</span>
-            </p>
-          </div>
+          <div class="modal-body">
+            <div style="text-align: center">
+              <p>Bạn Chắc Chắn Muốn Xóa
+                <span style="color: red ">{{valueSupplier.supplierName}}</span>
+              </p>
+              <p>Có Mã Là
+                  <span style="color: red ">{{valueSupplier.supplierId}}</span>  </p>
+                <p>Số Điện Thoại
+                <span>{{valueSupplier.supplierPhone}}</span></p>
 
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" type="button">Hoàn Tác</button>
+            <button (click)="confirmDelete()" class="btn btn-danger" data-dismiss="modal" type="button">
+              Xác Nhận
+            </button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-dismiss="modal" type="button">Hoàn Tác</button>
-          <button (click)="confirmDelete()" class="btn btn-danger" data-dismiss="modal" type="button">
-            Xác Nhận
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </div>

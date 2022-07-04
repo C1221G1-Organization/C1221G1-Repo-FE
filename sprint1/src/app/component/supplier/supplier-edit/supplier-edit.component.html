@@ -3,7 +3,7 @@
 
   <div class="col-9  mx-auto  ">
 
-    <form [formGroup]="supplierForm" (ngSubmit)="updateSupplier()" novalidate>
+    <form *ngIf="supplierForm" [formGroup]="supplierForm" (ngSubmit)="updateSupplier()" novalidate>
 
       <div class="form-group">
         <b class="form-label">Tên Nhà Cung Cấp<span

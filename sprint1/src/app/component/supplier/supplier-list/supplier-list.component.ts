@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {SupplierService} from "../../service/supplier.service";
-import {Supplier} from "../../model/Supplier";
+import {SupplierService} from "../../../service/supplier.service";
+import {Supplier} from "../../../model/Supplier";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -27,7 +27,7 @@ export class SupplierListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListSupplier({
-      page: this.currentPage, size: 5, searchId: '',
+      page: this.currentPage, size: 10000, searchId: '',
       searchName: '',
       searchAddress: '',
       searchPhone: '',
@@ -66,7 +66,7 @@ export class SupplierListComponent implements OnInit {
       // @ts-ignore
       request.page = this.currentPage - 1;
       // @ts-ignore
-      request.size = 5;
+      request.size = 10000;
       // @ts-ignore
       request.owner = this.ownerSearch;
       // @ts-ignore
@@ -86,7 +86,7 @@ export class SupplierListComponent implements OnInit {
       // @ts-ignore
       request.page = this.currentPage + 1;
       // @ts-ignore
-      request.size = 5;
+      request.size = 10000;
       // @ts-ignore
       request.owner = this.ownerSearch;
       // @ts-ignore
@@ -117,7 +117,7 @@ export class SupplierListComponent implements OnInit {
       case 'supplierId': {
         this.getListSupplier({
           page: 0,
-          size: 10,
+          size: 10000,
           searchId: this.valueSearch.nativeElement.value,
           sort: this.sort.nativeElement.value
         })
@@ -126,7 +126,7 @@ export class SupplierListComponent implements OnInit {
       case 'supplierName': {
         this.getListSupplier({
           page: 0,
-          size: 10,
+          size: 10000,
           searchName: this.valueSearch.nativeElement.value,
           sort: this.sort.nativeElement.value
         })
@@ -135,7 +135,7 @@ export class SupplierListComponent implements OnInit {
       case 'supplierAddress': {
         this.getListSupplier({
           page: 0,
-          size: 10,
+          size: 10000,
           searchAddress: this.valueSearch.nativeElement.value,
           sort: this.sort.nativeElement.value
         })
@@ -144,7 +144,7 @@ export class SupplierListComponent implements OnInit {
       case 'supplierPhone': {
         this.getListSupplier({
           page: 0,
-          size: 10,
+          size: 10000,
           searchPhone: this.valueSearch.nativeElement.value,
           sort: this.sort.nativeElement.value
         })
@@ -170,13 +170,14 @@ export class SupplierListComponent implements OnInit {
     console.log(request)
     console.log("request")
     this.supplierService.getAll(request).subscribe(data => {
+
         this.listSupplier = data['content'];
         this.currentPage = data.number;
         this.totalPages = data.totalPages;
-      }
-      , error => {
-        console.log(error.error.message);
-        alert(error.error.message)
+      }, error => {
+        alert("eeeeee")
+      }, () => {
+        alert("complie ")
       }
     );
   }

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../service/supplier.service";
+import {SupplierService} from "../../../service/supplier.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -13,6 +14,7 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(private supplierService: SupplierService,
               private activatedRoute: ActivatedRoute,
+              private toastr: ToastrService,
               private router: Router) {
   }
 
@@ -65,6 +67,11 @@ export class SupplierEditComponent implements OnInit {
     }, e => {
       console.log(e);
     }, () => {
+      this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp ", "Thông Báo Hệ Thống ", {
+        timeOut: 3000,
+        progressBar: true
+
+      })
       this.router.navigate(['supplier/']);
 
     });

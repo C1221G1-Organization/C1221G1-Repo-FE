@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../service/supplier.service";
+import {SupplierService} from "../../../service/supplier.service";
 import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-supplier-create',
@@ -13,7 +14,8 @@ import {ToastrService} from "ngx-toastr";
 export class SupplierCreateComponent implements OnInit {
 
   constructor(private supplierService: SupplierService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private router : Router) {
   }
 
   submitted = false;
@@ -73,7 +75,7 @@ export class SupplierCreateComponent implements OnInit {
         this.toastr.success("Thêm Mới Thành Công !", "Thông Báo Chúc Mừng", {
           timeOut: 3000,
           progressBar: true
-        })
+        } )
       });
     }
   }

@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Page} from "ngx-pagination/dist/pagination-controls.directive";
 import {HttpClient} from "@angular/common/http";
 import {Supplier} from "../model/Supplier";
-import {SupplierDto} from "../model/SupplierDto";
+import {SupplierDto} from "../dto/SupplierDto";
 import {map} from "rxjs/operators";
 import {environment} from "../../environments/environment";
 
@@ -86,7 +86,7 @@ export class SupplierService {
    * @unfinished!!
    */
   checkMailNotTaken(supplierMail: string): Observable<boolean> {
-    return this.http.get('http://localhost:8080/api/manager-medicine/medicines/supplier?size=10000').pipe(
+    return this.http.get('http://localhost:8080/api/manager-medicine/medicines/supplier?pageSize=10000').pipe(
       map((res => {
             const productList = res['content']
             return productList.filter(prd =>
