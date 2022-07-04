@@ -1,0 +1,151 @@
+<body>
+<!--    Searh form start-->
+<div class="container">
+  <div class="col-12 mx-auto">
+    <div class="mx-auto shadow-lg p-3 mb-2 bg-white rounded-lg">
+      <div>
+        <div class="row">
+          <div class="col-10 d-flex justify-content-around">
+            <div class="col-3">
+              <div style="margin-bottom: 20px">
+                <label for="startDate">Từ ngày</label>
+                <input class="form-control form-control-sm" id="startDate" type="date" [(ngModel)]="startDate">
+              </div>
+              <div>
+                <label for="endDate">Đến ngày</label>
+                <input class="form-control form-control-sm" id="endDate" type="date" [(ngModel)]="endDate">
+              </div>
+            </div>
+            <div class="col-3">
+              <div style="margin-bottom: 20px">
+                <label for="startTime">Từ giờ</label>
+                <input class="form-control form-control-sm" id="startTime" type="time" [(ngModel)]="startTime">
+              </div>
+              <div>
+                <label for="endTime">Đến giờ</label>
+                <input class="form-control form-control-sm" id="endTime" type="time" [(ngModel)]="endTime">
+              </div>
+            </div>
+            <div class="col-3">
+              <div style="margin-bottom: 20px">
+                <label for="typeOfInvoiceId">Khách hàng</label>
+                <select class="form-control form-control-sm" id="typeOfInvoiceId" [(ngModel)]="typeOfInvoiceId">
+                  <option value="1">Bán lẻ</option>
+                  <option value="2">Bán sỉ</option>
+                  <option value="3">Hoàn trả</option>
+                </select>
+              </div>
+              <div>
+                <label for="fieldSort">Sắp xếp theo</label>
+                <select class="form-control form-control-sm" id="fieldSort" [(ngModel)]="fieldSort">
+                  <option value="invoiceId">Mã hóa đơn</option>
+                  <option value="customerName">Tên khách hàng</option>
+                  <option value="time">Ngày giờ lập</option>
+                  <option value="employeeName">Người lập</option>
+                  <option value="sum((medicine.medicine_retail_sale_profit + 1)
+                  * medicine.medicine_import_price * invoice_medicine.invoice_medicine_quantity)">Tổng tiền</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 d-flex align-content-around flex-wrap">
+            <div>
+              <button  (click)="search()" class="btn btn-primary"><i class="fa-solid fa-filter"></i> Lọc hóa đơn</button>
+            </div>
+            <div>
+              <button type="reset" class="btn btn-secondary"><i class="fa fa-undo"></i>
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Search form end-->
+<!--List start-->
+<div class="container">
+  <div class="col-12 mx-auto">
+    <div class="mx-auto shadow-lg p-3 mb-1 bg-white rounded-lg">
+      <div>
+        <h4>DANH SÁCH HÓA ĐƠN</h4>
+      </div>
+      <div>
+        <table class="table table-hover">
+          <thead class="table-success">
+          <tr>
+            <th class="col-1">Mã HĐ</th>
+            <th class="col-2">Tên khách hàng</th>
+            <th class="col-1">Ngày lập</th>
+            <th class="col-1">Giờ lập</th>
+            <th class="col-2">Người lập</th>
+            <th class="col-1">Tổng tiền</th>
+            <th class="col-1">Ghi chú</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr (click)="getInfo(invoice.invoiceId)" *ngFor="let invoice of invoiceList">
+            <td>{{invoice.invoiceId}}</td>
+            <td>{{invoice.customerName}}</td>
+            <td>{{invoice.invoiceCreatedDate}}</td>
+            <td>{{invoice.invoiceCreateTime}}</td>
+            <td>{{invoice.employeeName}}</td>
+            <td>{{invoice.invoiceTotalMoney}}</td>
+            <td>{{invoice.invoiceNote}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" >
+            <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link">
+              <span>{{currentPage + 1}}</span>
+              <span>/</span>
+              <span>{{totalPages}}</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp theo</a>
+          </li>
+        </ul>
+      </nav>
+      <!--Button start-->
+      <div id="bottom-btn" class="d-flex justify-content-end">
+        <button class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm hóa đơn</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+          <i class="fa-solid fa-circle-xmark" ></i> Xoá hóa đơn</button>
+        <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+      </div>
+      <!--Button end-->
+    </div>
+  </div>
+</div>
+<!--List end-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc muốn xóa hóa đơn này không?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Mã hóa đơn: <b>{{idDel}}</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button (click)="deleteInvoice(idDel)" type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
