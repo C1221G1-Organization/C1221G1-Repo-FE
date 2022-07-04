@@ -14,7 +14,7 @@ import {PositionService} from "../../service/employee/position.service";
 export class AccountEditComponent implements OnInit {
   updateForm: FormGroup;
   id: string;
-  positions: Position [] = [];
+  positions: Position [];
 
 
   constructor(private accountEmployeeService: AccountEmployeeService,
@@ -29,19 +29,32 @@ export class AccountEditComponent implements OnInit {
           employeeName: new FormControl(account.employeeName),
           position: new FormControl(account.position),
           username: new FormControl(account.username),
-          password: new FormControl(account.password),
+          password: new FormControl(''),
         })
       });
     })
 
   }
 
+
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * get list position
+  //  *
   ngOnInit(): void {
     this.positionService.getAllPosition().subscribe(position => {
       this.positions = position;
     })
   }
 
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * update account
+  //  *
   update(id: string) {
     const account = this.updateForm.value;
     this.accountEmployeeService.update(id,account).subscribe(()=> {

@@ -23,9 +23,7 @@ export class AccountListComponent implements OnInit {
   firsts = false;
   last = false;
   flag = false;
-  message: boolean;
   searchForm: FormGroup;
-  collection: any[] = this.accountEmployeeList;
 
 
   constructor(private accountEmployeeService: AccountEmployeeService,
@@ -40,6 +38,12 @@ export class AccountListComponent implements OnInit {
     this.getAll()
   }
 
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * list account
+  //  *
   getAll() {
     this.accountEmployeeService.getAllAccountEmployee(
       this.id = '', this.name = '', this.position = '', this.username = '', this.page).subscribe
@@ -51,8 +55,15 @@ export class AccountListComponent implements OnInit {
       this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElemnts;
     }, error => {
     });
-    this.message = false;
   }
+
+
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * pagination
+  //  *
 
   previous() {
     if (this.page > 0) {
@@ -69,6 +80,12 @@ export class AccountListComponent implements OnInit {
     }
   }
 
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * pagination
+  //  *
   next() {
     if (this.page < this.totalPages - 1) {
       this.accountEmployeeService.getAllAccountEmployee(this.id, this.name , this.position,this.username, this.page + 1).subscribe(
@@ -86,6 +103,12 @@ export class AccountListComponent implements OnInit {
 
 
 
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * search account
+  //  *
   search() {
     const input = this.searchForm.get('inputSearch').value;
     const type = this.searchForm.get('typeSearch').value;
@@ -94,14 +117,12 @@ export class AccountListComponent implements OnInit {
       this.accountEmployeeService.getAllAccountEmployee(this.id = input.trim(), this.name = '', this.position = '', this.username = '', this.page ).subscribe
       ((data: any) => {
         console.log(data.content);
-        this.message = false;
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-        this.message = true;
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
@@ -110,14 +131,12 @@ export class AccountListComponent implements OnInit {
     } else if (type === 'username' && input.trim() !== '') {
       this.accountEmployeeService.getAllAccountEmployee(this.id = '' , this.name =  '', this.position = '', this.username = input.trim(), this.page ).subscribe
       ((data: any) => {
-        this.message = false;
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-        this.message = true;
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
@@ -125,14 +144,12 @@ export class AccountListComponent implements OnInit {
     } else if (type === 'name' && input.trim() !== '') {
       this.accountEmployeeService.getAllAccountEmployee(this.id = '' , this.name = input.trim(), this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
-        this.message = false;
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-        this.message = true;
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
@@ -140,14 +157,13 @@ export class AccountListComponent implements OnInit {
     }else if (type === 'position' && input.trim() !== '') {
       this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = input.trim(), this.username = '' , this.page).subscribe
       ((data: any) => {
-        this.message = false;
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-        this.message = true;
+
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
@@ -156,17 +172,23 @@ export class AccountListComponent implements OnInit {
       this.accountEmployeeService.getAllAccountEmployee(
         this.id = '', this.name = '', this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
-        this.message = false;
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-        this.message = true;
+
       });
     }
   }
+
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * choose index html, id employee
+  //  *
 
   public activeProject(index: number, account: AccountEmployee): void {
     if (this.activeProjectIndex != index){
@@ -182,6 +204,13 @@ export class AccountListComponent implements OnInit {
     }
   }
 
+
+
+  // **
+  //  * create by HaiNX
+  //  * time: 03/06/2022
+  //  * check click edit
+  //  *
   clickEdit(sucessButton: HTMLButtonElement) {
     if (this.idClick) {
       this.router.navigate(['/account/update/', this.idClick]);
