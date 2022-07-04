@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ReportService} from "../../service/report.service";
-import {Revenue} from "../../model/revenue";
+import {ReportService} from "../../../services/report.service";
+import {Revenue} from "../../../models/revenue";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -23,16 +23,19 @@ export class ReportListComponent implements OnInit {
 
   onSubmit() {
     console.log(this.reportForm.value.type);
+    console.log(this.reportForm.value.startTime);
+    console.log(this.reportForm.value.endTime);
+    console.log(this.reportForm.valid);
     if (this.reportForm.value.type === '1' || this.reportForm.value.type === '2') {
-      if (this.reportForm.value.valid) {
+      if (this.reportForm.valid) {
         this.reportService.getRevenue(this.reportForm.value.startTime, this.reportForm.value.endTime)
           .subscribe( revenues => {
-            // console.log(revenues);
+            console.log(revenues);
             this.reportService.exportExcel(revenues, 'Doanh thu, lợi nhuận từ ' + this.reportForm.value.startTime +
               ' đến ' + this.reportForm.value.endTime);
           });
       } else {
-        alert('Dữ liệu ngày tháng xuất báo cáo ko hợp lệ');
+        alert('Dữ liệu ngày tháng xuất báo cáo không hợp lệ');
       }
     } else if (this.reportForm.value.type === '3') {
       this.reportService.getSupplierHaveReceivable()
@@ -41,7 +44,7 @@ export class ReportListComponent implements OnInit {
           this.reportService.exportExcel(supplierHaveReceivable, 'Công nợ nhà cung cấp');
         });
     } else if (this.reportForm.value.type === '4') {
-      if (this.reportForm.value.valid) {
+      if (this.reportForm.valid) {
         this.reportService.getRevenueByEmployee(this.reportForm.value.startTime, this.reportForm.value.endTime)
           .subscribe( revenueByEmployee => {
             this.reportService.exportExcel(revenueByEmployee, 'Doanh thu theo nhân viên từ ' + this.reportForm.value.startTime +
@@ -49,7 +52,7 @@ export class ReportListComponent implements OnInit {
             // console.log(revenueByEmployee);
           });
       } else {
-        alert('Dữ liệu ngày tháng xuất báo cáo ko hợp lệ');
+        alert('Dữ liệu ngày tháng xuất báo cáo không hợp lệ');
       }
     } else if (this.reportForm.value.type === '5') {
       this.reportService.getMedicineNeedToImport()
@@ -63,10 +66,16 @@ export class ReportListComponent implements OnInit {
           // console.log(medicineBeAboutExpired);
           this.reportService.exportExcel(medicineBeAboutExpired, 'Danh sách thuốc sắp hết hạn');
         });
+    } else if (this.reportForm.value.type === '7') {
+      this.reportService.getTopMedicine()
+        .subscribe( topMedicine => {
+          // console.log(medicineBeAboutExpired);
+          this.reportService.exportExcel(topMedicine, 'Top 100 thuốc bán chạy');
+        });
     } else if (this.reportForm.value.type == '') {
       alert('Vui lòng chọn mẫu báo cáo');
     } else if (this.reportForm.value.type != null) {
-      alert('Hệ thống đang được nâng cấp');
+      alert('Tính năng đang trong quá trình cập nhật');
     }
   }
 }
