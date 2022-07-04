@@ -8,6 +8,7 @@ import { UserChatComponent } from './user-chat/user-chat.component';
 import {HeaderComponent} from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
 import {ModalComponent} from "./modal/modal.component";
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {ModalComponent} from "./modal/modal.component";
   ],
   imports: [
     CommonModule,
-    TemplatesRoutingModule
+    TemplatesRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class TemplatesModule { }
