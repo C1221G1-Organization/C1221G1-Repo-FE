@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {Revenue} from "../model/revenue";
-import {SupplierHaveReceivable} from "../model/supplier-have-receivable";
-import {MedicineNeedToImport} from "../model/medicine-need-to-import";
-import {Static} from "../model/static";
+import {Revenue} from "../models/revenue";
+import {SupplierHaveReceivable} from "../models/supplier-have-receivable";
+import {MedicineNeedToImport} from "../models/medicine-need-to-import";
+import {Static} from "../models/static";
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import {TopMedicine} from "../models/top-medicine";
 
 const API_URL = `${environment.apiUrl}`;
 @Injectable({
@@ -36,6 +37,10 @@ export class ReportService {
 
   getMedicineBeAboutExpired(): Observable<MedicineNeedToImport[]> {
     return this.http.get<MedicineNeedToImport[]>(API_URL + `/api/manager_report/report/medicineBeAboutExpired`);
+  }
+
+  getTopMedicine(): Observable<TopMedicine[]> {
+    return this.http.get<TopMedicine[]>(API_URL + `/api/manager_report/report/topMedicine`);
   }
 
   getStatic(): Observable<Static[]> {

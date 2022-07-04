@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ReportService} from "../../service/report.service";
-import {Static} from "../../model/static";
+import {ReportService} from "../../../services/report.service";
+import {Static} from "../../../models/static";
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -13,7 +13,6 @@ export class StatistitalChartComponent implements OnInit {
   statics: Static[] = [];
   public year = true;
   public month = true;
-
   canvas: any;
   ctx: any;
   constructor(private reportService: ReportService) { }
@@ -23,10 +22,6 @@ export class StatistitalChartComponent implements OnInit {
 
   change(value: any) {
     switch (value) {
-      case '0':
-        this.year = false;
-        this.month = false;
-        break;
       case '1':
         this.year = false;
         this.month = true;
@@ -42,11 +37,10 @@ export class StatistitalChartComponent implements OnInit {
     this.reportService.getStatic().subscribe(statics => {
       console.log(statics);
       this.statics = statics;
-
       this.canvas = document.getElementById('myChart');
       this.ctx = this.canvas.getContext('2d');
       const myChart = new Chart(this.ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10'
             , 'Tháng 11', 'Tháng 12'],
