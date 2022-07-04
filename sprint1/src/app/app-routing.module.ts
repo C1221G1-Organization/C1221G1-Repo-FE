@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 
 const routes: Routes = [
   {
-    path: '',pathMatch: 'full', redirectTo: 'templates'
+    path: '', pathMatch: 'full', redirectTo: 'templates'
   },
   {
     path: 'customer',
@@ -64,6 +65,7 @@ const routes: Routes = [
   },
   {
     path: 'import-invoice-medicine',
+    // tslint:disable-next-line:max-line-length
     loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {
@@ -76,4 +78,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
