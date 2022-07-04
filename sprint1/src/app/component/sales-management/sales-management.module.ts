@@ -7,6 +7,7 @@ import {AvailablePrescriptionListComponent} from "./retail-component/available-p
 import {PrescriptionDetailComponent} from "./retail-component/prescription-detail/prescription-detail.component";
 import {WholesaleComponent} from "./wholesale-component/wholesale/wholesale.component";
 import { RefundCustomerComponent } from './refund-customer/refund-customer.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { RefundCustomerComponent } from './refund-customer/refund-customer.compo
   ],
   imports: [
     CommonModule,
-    SalesManagementRoutingModule
+    SalesManagementRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SalesManagementModule { }
