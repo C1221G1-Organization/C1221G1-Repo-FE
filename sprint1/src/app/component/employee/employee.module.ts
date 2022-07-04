@@ -6,9 +6,9 @@ import {EmployeeListComponent} from './employee-list/employee-list.component';
 import {EmployeeCeateComponent} from './employee-ceate/employee-ceate.component';
 import {EmployeeEditComponent} from './employee-edit/employee-edit.component';
 import {EmployeeModalComponent} from './employee-modal/employee-modal.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
-import {environment} from '../../environments/environment.prod';
+import {environment} from '../../../environments/environment.prod';
 
 
 @NgModule({
@@ -20,10 +20,10 @@ import {environment} from '../../environments/environment.prod';
   imports: [
     CommonModule,
     EmployeeRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
-]
+  ]
 })
-
 export class EmployeeModule {
 }

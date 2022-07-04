@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Position} from '../../model/employee/position';
+const API_URL = `${environment.apiUrl}`;
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -9,16 +11,15 @@ import {map} from 'rxjs/operators';
 })
 export class PositionService {
 
-  constructor(private  http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
-  /*
-     Created by TamNA
-     Time: 09:05:00 03/07/2022
-     Function:  Get employee
+  /**
+   * this function use to get all page Employee
+   *
+   * @author GiangTB
+   * @Time 21:00 02/07/2022
    */
   public getAllPosition(): Observable<Position[]> {
-    return this.http.get<Position[]>('http://localhost:8080/api/manager-position/positions').pipe(
-      map((response: any) => response));
+    return this.http.get<Position[]>(API_URL + `/api/manager-position/positions` );
   }
 }
