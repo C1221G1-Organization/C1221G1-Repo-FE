@@ -9,6 +9,9 @@ import {AdminChatComponent} from "./admin-chat.component";
   declarations: [
     AdminChatComponent
   ],
+  exports: [
+    AdminChatComponent
+  ],
   imports: [
     CommonModule,
     AdminChatRoutingModule
