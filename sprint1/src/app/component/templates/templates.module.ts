@@ -10,16 +10,20 @@ import {FooterComponent} from "./footer/footer.component";
 import {ModalComponent} from "./modal/modal.component";
 
 @NgModule({
-  declarations: [
-    HomePageComponent,
-    SidebarComponent,
-    UserChatComponent,
+    declarations: [
+        HomePageComponent,
+        SidebarComponent,
+        UserChatComponent,
+        HeaderComponent,
+        FooterComponent,
+        ModalComponent],
+  exports: [
     HeaderComponent,
-    FooterComponent,
-    ModalComponent],
-  imports: [
-    CommonModule,
-    TemplatesRoutingModule
-  ]
+    FooterComponent
+  ],
+    imports: [
+        CommonModule,
+        TemplatesRoutingModule
+    ]
 })
 export class TemplatesModule { }
