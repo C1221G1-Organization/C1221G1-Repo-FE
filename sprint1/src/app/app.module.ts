@@ -16,7 +16,9 @@ import {Toast, ToastrModule} from 'ngx-toastr';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      positionClass : 'toast-top-right'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
