@@ -4,7 +4,7 @@
     <div class="col-lg-5 col-sm-12">
       <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
         <legend class="w-auto" style="font-weight: bold;">Chọn thời gian thống kê</legend>
-<!--        <form action="">-->
+        <form [formGroup]="staticForm" (ngSubmit)="submit()">
           <div class="row" style="margin-bottom: 32px; padding-left: 15px; padding-right: 15px">
             <div class="control-group col-7">
               <label class="control-label input-label" style="font-weight: bold">Loại báo cáo : </label>
@@ -17,7 +17,8 @@
             <div class="control-group col-5">
               <div [hidden]="year">
                 <label class="control-label input-label" style="font-weight: bold">Chọn năm : </label>
-                <select class="form-control">
+                <select class="form-control" formControlName="year">
+                  <option value="">---Chọn năm---</option>
                   <option value="2018">2018</option>
                   <option value="2019">2019</option>
                   <option value="2020">2020</option>
@@ -45,11 +46,12 @@
               </div>
             </div>
           </div>
-<!--          <p style="color: red;padding-left: 15px;">Ngày báo cáo cần lớn hơn ngày bắt đầu</p>-->
           <div class="text-right" >
-            <button (click)="submit()" class="btn btn-success"><i class="fa fa-eye" aria-hidden="true"></i> Xem</button>
+            <a routerLink="/reports/static">
+            <button (click)="submit()" type="submit" class="btn btn-success">
+              <i class="fa fa-eye" aria-hidden="true"></i> Xem</button></a>
           </div>
-<!--        </form>-->
+        </form>
       </fieldset>
       <div style="height: 15px"></div>
       <fieldset class="border p-2 shadow-lg bg-white rounded-lg">
@@ -83,14 +85,15 @@
       </fieldset>
     </div>
     <div class="col-lg-7 col-sm-12">
-      <fieldset class="border p-2 shadow-lg  bg-white rounded-lg "  style=" height: 100%; margin-bottom: 0px">
+      <fieldset id="containChart" class="border p-2 shadow-lg  bg-white rounded-lg "  style=" height: 100%; margin-bottom: 0px">
         <legend class="w-auto" style="font-weight: bold">Biểu  đồ</legend>
+        <h5 class="text-center" style="color: burlywood" *ngIf="show">Năm {{showYear}}</h5>
         <canvas style="width: 100%" id="myChart"></canvas>
+        <h5 class="text-center" style="color: red" *ngIf="!show">Cần chọn thời gian thống kê</h5>
       </fieldset>
     </div>
   </div>
   <div style="height: 15px"></div>
-  <!--    <div class="container col-11">-->
   <div class="container col-12 text-right" id="btn">
     <a routerLink="/reports/report">
       <button class="btn btn-secondary">
@@ -98,5 +101,4 @@
       </button>
     </a>
   </div>
-  <!--    </div>-->
 </div>

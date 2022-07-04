@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ReportService} from "../../../services/report.service";
-import {Static} from "../../../models/static";
+import {ReportService} from "../../../service/report.service";
+import {Static} from "../../../model/static";
 import { Chart, registerables } from 'chart.js';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import * as $ from "jquery";
+
 
 Chart.register(...registerables);
 @Component({
@@ -15,9 +18,15 @@ export class StatistitalChartComponent implements OnInit {
   public month = true;
   canvas: any;
   ctx: any;
+  show = false;
+  showYear: string;
+  staticForm: FormGroup;
   constructor(private reportService: ReportService) { }
 
   ngOnInit(): void {
+    this.staticForm = new FormGroup({
+      year: new FormControl('', [Validators.required]),
+    });
   }
 
   change(value: any) {
@@ -30,13 +39,24 @@ export class StatistitalChartComponent implements OnInit {
         this.year = true;
         this.month = false;
         break;
+      default:
+        this.year = true;
+        this.month = true;
     }
   }
 
   submit() {
-    this.reportService.getStatic().subscribe(statics => {
+    this.reportService.getStatic(this.staticForm.value.year).subscribe(statics => {
+      this.showYear = this.staticForm.value.year;
+      if (this.showYear !== '' && this.showYear !== null) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
       console.log(statics);
       this.statics = statics;
+      $('#myChart').remove(); // this is my <canvas> element
+      $('#containChart').append('<canvas style="width: 100%" id="myChart"><canvas>');
       this.canvas = document.getElementById('myChart');
       this.ctx = this.canvas.getContext('2d');
       const myChart = new Chart(this.ctx, {
@@ -50,9 +70,9 @@ export class StatistitalChartComponent implements OnInit {
               data: [statics[0].revenue, statics[1].revenue, statics[2].revenue, statics[3].revenue
               , statics[4].revenue, statics[5].revenue, statics[6].revenue, statics[7].revenue
               , statics[8].revenue, statics[9].revenue, statics[10].revenue, statics[11].revenue],
-              borderColor: 'green',
+              borderColor: 'limegreen',
               backgroundColor: [
-                'green'
+                'limegreen'
               ],
               borderWidth: 1
             },
@@ -61,9 +81,9 @@ export class StatistitalChartComponent implements OnInit {
               data: [statics[0].profit, statics[1].profit, statics[2].profit, statics[3].profit
                 , statics[4].profit, statics[5].profit, statics[6].profit, statics[7].profit
                 , statics[8].profit, statics[9].profit, statics[10].profit, statics[11].profit],
-              borderColor: 'blue',
+              borderColor: 'violet',
               backgroundColor: [
-                'blue'
+                'violet'
               ],
               borderWidth: 2
             },
@@ -79,6 +99,7 @@ export class StatistitalChartComponent implements OnInit {
         },
 
       });
+
     });
   }
 }
