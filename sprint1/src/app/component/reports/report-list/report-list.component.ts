@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ReportService} from "../../../services/report.service";
-import {Revenue} from "../../../models/revenue";
+import {ReportService} from "../../../service/report.service";
+import {Revenue} from "../../../model/revenue";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-report-list',
@@ -9,9 +10,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./report-list.component.css']
 })
 export class ReportListComponent implements OnInit {
-  // revenues: Revenue [] = [];
   reportForm: FormGroup;
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reportForm = new FormGroup({
@@ -27,55 +28,123 @@ export class ReportListComponent implements OnInit {
     console.log(this.reportForm.value.endTime);
     console.log(this.reportForm.valid);
     if (this.reportForm.value.type === '1' || this.reportForm.value.type === '2') {
-      if (this.reportForm.valid) {
+      // **
+      // * this method to export excel file for revenue and profit
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
+      if (this.reportForm.valid && this.reportForm.value.startTime <= this.reportForm.value.endTime) {
         this.reportService.getRevenue(this.reportForm.value.startTime, this.reportForm.value.endTime)
           .subscribe( revenues => {
             console.log(revenues);
+            if (revenues == null) {
+              revenues = [];
+            }
             this.reportService.exportExcel(revenues, 'Doanh thu, lợi nhuận từ ' + this.reportForm.value.startTime +
               ' đến ' + this.reportForm.value.endTime);
+            this.toastr.success('Tải thành công!', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
           });
       } else {
-        alert('Dữ liệu ngày tháng xuất báo cáo không hợp lệ');
+        this.toastr.warning('Ngày tháng không hợp lệ!', 'Thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
       }
     } else if (this.reportForm.value.type === '3') {
+      // **
+      // * this method to export excel file for receivable from supplier
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
       this.reportService.getSupplierHaveReceivable()
         .subscribe( supplierHaveReceivable => {
-          // console.log(supplierHaveReceivable);
           this.reportService.exportExcel(supplierHaveReceivable, 'Công nợ nhà cung cấp');
+          this.toastr.success('Tải thành công!', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
     } else if (this.reportForm.value.type === '4') {
-      if (this.reportForm.valid) {
+      // **
+      // * this method to export excel file for revenue by employee
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
+      if (this.reportForm.valid && this.reportForm.value.startTime <= this.reportForm.value.endTime) {
         this.reportService.getRevenueByEmployee(this.reportForm.value.startTime, this.reportForm.value.endTime)
           .subscribe( revenueByEmployee => {
+            if (revenueByEmployee == null) {
+              revenueByEmployee = [];
+            }
             this.reportService.exportExcel(revenueByEmployee, 'Doanh thu theo nhân viên từ ' + this.reportForm.value.startTime +
               ' đến ' + this.reportForm.value.endTime);
-            // console.log(revenueByEmployee);
+            this.toastr.success('Tải thành công!', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
           });
       } else {
-        alert('Dữ liệu ngày tháng xuất báo cáo không hợp lệ');
+        this.toastr.warning('Ngày tháng không hợp lệ!', 'Thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
       }
     } else if (this.reportForm.value.type === '5') {
+      // **
+      // * this method to export excel file for medicine list need to import
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
       this.reportService.getMedicineNeedToImport()
         .subscribe( medicineNeedToImport => {
-          // console.log(medicineNeedToImport);
           this.reportService.exportExcel(medicineNeedToImport, 'Danh sách thuốc cần nhập thêm');
+          this.toastr.success('Tải thành công!', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
     } else if (this.reportForm.value.type === '6') {
+      // **
+      // * this method to export excel file for medicine list that to be about expired
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
       this.reportService.getMedicineBeAboutExpired()
         .subscribe( medicineBeAboutExpired => {
           // console.log(medicineBeAboutExpired);
           this.reportService.exportExcel(medicineBeAboutExpired, 'Danh sách thuốc sắp hết hạn');
+          this.toastr.success('Tải thành công!', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
     } else if (this.reportForm.value.type === '7') {
+      // **
+      // * this method to export excel file for medicine list that have top seller
+      // * @author DinhH
+      // * @Time 15:30 04/07/2022
+      // */
       this.reportService.getTopMedicine()
         .subscribe( topMedicine => {
-          // console.log(medicineBeAboutExpired);
           this.reportService.exportExcel(topMedicine, 'Top 100 thuốc bán chạy');
+          this.toastr.success('Tải thành công!', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
     } else if (this.reportForm.value.type == '') {
-      alert('Vui lòng chọn mẫu báo cáo');
+      this.toastr.warning('Vui lòng chọn mẫu báo cáo', 'Thông báo', {
+        timeOut: 5000,
+        progressBar: true
+      });
     } else if (this.reportForm.value.type != null) {
-      alert('Tính năng đang trong quá trình cập nhật');
+      this.toastr.warning('Tính năng đang được cập nhật!', 'Thông báo', {
+        timeOut: 5000,
+        progressBar: true
+      });
     }
   }
 }
