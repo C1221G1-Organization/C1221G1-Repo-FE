@@ -3,28 +3,31 @@
     <legend class="w-auto"> Bộ Lọc</legend>
     <div class="col-lg-6" style="float: left">
       <div class="input-group mb-3">
-        <select class="form-control">
-          <option> Mã Nhà Cung Cấp :</option>
-          <option> Tên Nhà Cung Cấp</option>
-          <option>Địa Chỉ Nhà Cung Cấp</option>
-          <option>Số Điện Thoại</option>
+        <select class="form-control" #nameSearchingSelect>
+          <option value="supplierId"> Chưa Có Lựa Chọn</option>
+          <option value="supplierId"> Mã Nhà Cung Cấp :</option>
+          <option value="supplierName"> Tên Nhà Cung Cấp</option>
+          <option name="supplierAddress">Địa Chỉ Nhà Cung Cấp</option>
+          <option value="supplierPhone">Số Điện Thoại</option>
         </select>
         <input aria-describedby="basic-addon2" class="form-control"
                placeholder=" Bạn Muốn Tìm Kiếm "
-               type="text">
+               type="text" #valueSearch>
 
       </div>
     </div>
     <div class="col-lg-4" style="float: right">
       <div class="input-group mb-3">
         <span class="center-s"> Sắp Xếp :</span>
-        <select class="form-control">
-          <option> Mã Nhà Cung Cấp</option>
-          <option> Tên Nhà Cung Cấp</option>
-          <option> Địa Chỉ Nhà Cung Cấp</option>
-          <option> Số Điện Thoại</option>
+        <select class="form-control" #sort>
+          <option value=""> Chưa Có Lựa Chọn</option>
+          <option value="supplier_id"> Mã Nhà Cung Cấp</option>
+          <option value="supplier_name"> Tên Nhà Cung Cấp</option>
+          <option value="supplier_address"> Địa Chỉ Nhà Cung Cấp</option>
+          <option value="supplier_phone"> Số Điện Thoại</option>
         </select>
-        <button class="btn btn-primary pd-l"><i aria-hidden="true" class="fa fa-search"></i> Lọc kết quả
+        <button class="btn btn-primary pd-l" (click)="search()"><i aria-hidden="true" class="fa fa-search"></i> Lọc kết
+          quả
         </button>
       </div>
     </div>
@@ -33,7 +36,7 @@
 
 <div class="col-lg-12 pd-t">
   <div class="col-lg-11 mx-auto" style="clear: both">
-    <div *ngIf="listSupplier.length == 0 ">
+    <div *ngIf="listSupplier == null || listSupplier == undefined">
       <fieldset style="border: 1px groove black">
         <legend class="w-auto">Hệ thống báo cáo</legend>
 
@@ -43,7 +46,7 @@
       </fieldset>
     </div>
 
-    <fieldset style="border: 1px groove black">
+    <fieldset style="border: 1px groove black" *ngIf="listSupplier != null || listSupplier != undefined">
       <legend class="w-auto">ㅤHệ thống ㅤ</legend>
 
       <div class="d-flex justify-content-center my-3">
@@ -51,19 +54,18 @@
       </div>
 
       <table class="table table-hover table-triped " style="clear: both">
-        <tr class="table-success">
+        <tr class="table-success bgr">
           <th>STT</th>
-          <th>Mã Nhà Cung Cấp</th>
           <th>Tên Nhà Cung Cấp</th>
           <th> Địa Chỉ</th>
           <th> Số Điện Thoại</th>
           <th>Email</th>
         </tr>
-        <tr (click)="getValueSupplier(item)" *ngFor="let item  of listSupplier ; index as i ">
+        <tr class="bgr" *ngFor="let item  of listSupplier ; index as i" (click)="getValueSupplier(item)"
+            (dblclick)="nameMethod()">
           <td>{{i + 1}}</td>
-          <td>{{item.supplierId}}</td>
           <td>{{item.supplierName}}</td>
-          <td>{{item.supplierAddress}}</td>
+          <td style="text-align: left">{{item.supplierAddress}}</td>
           <td>{{item.supplierPhone}}</td>
           <td>{{item.supplierEmail}}</td>
         </tr>
@@ -71,26 +73,23 @@
     </fieldset>
     <div>
       <div style="float: left">
-
         <button class="btn btn-info" type="button">
-          <a [routerLink]="['supplier/detail',valueSupplier.supplierId]">Thông Tin Chi Tiết</a>
-<!--          <i aria-hidden="true" class="fa fa-address-card"></i>-->
-
+          <a [routerLink]="['/supplier/detail',valueSupplier.supplierId]">
+            <i aria-hidden="true" class="fa fa-address-card"></i>Thông Tin Chi Tiết</a>
         </button>
       </div>
-      <div id="btn" style="float: right ">
+      <div id="btn" style="float: right">
         <button class="btn btn-warning">
-          <!--          <i aria-hidden="true" class="fa fa-pencil"></i>-->
-          <a [routerLink]="['edit/',valueSupplier.supplierId]">Sửa</a>
+          <a [routerLink]="['/supplier/edit/',valueSupplier.supplierId]">
+            <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
         </button>
         <button class="btn btn-danger mgl" data-target="#staticBackdrop" data-toggle="modal">
           <i class="fa-solid fa-circle-xmark"></i> Xoá
         </button>
         <button class="btn btn-success mgl">
-          <a [routerLink]="['supplier/create']">
+          <a [routerLink]="['/supplier/create']">
             <i class="fa-solid fa-circle-plus"></i> Thêm
           </a>
-
         </button>
         <button class="btn btn-secondary mgl">
           <i aria-hidden="true" class="fa fa-undo"></i> Trở về
@@ -121,30 +120,32 @@
 
 
 <!--modal delete -->
-<div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
-     data-keyboard="false"
-     id="staticBackdrop" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Xác Nhận Xóa Nhà Cung Cấp </h5>
-        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>
-          <p>Bạn Chắc Chắn Muốn Xóa
-            <span style="color: red ">{{valueSupplier.supplierName}}</span>
-          </p>
+<div *ngIf="valueSupplier.supplierId != undefined">
+  <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
+       data-keyboard="false"
+       id="staticBackdrop" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Xác Nhận Xóa Nhà Cung Cấp </h5>
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <div>
+            <p>Bạn Chắc Chắn Muốn Xóa
+              <span style="color: red ">{{valueSupplier.supplierName}}</span>
+            </p>
+          </div>
 
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal" type="button">Hoàn Tác</button>
-        <button (click)="confirmDelete()" class="btn btn-danger" data-dismiss="modal" type="button">
-          Xác Nhận
-        </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">Hoàn Tác</button>
+          <button (click)="confirmDelete()" class="btn btn-danger" data-dismiss="modal" type="button">
+            Xác Nhận
+          </button>
+        </div>
       </div>
     </div>
   </div>

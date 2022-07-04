@@ -54,7 +54,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text w-all mgl "> Ghi Chú  </span>
               </div>
-              <textarea aria-label="Last name"  class="form-control" disabled value="{{supplierValue.note}}" ></textarea>
+              <textarea aria-label="Last name" rows="6" cols="70" class="form-control" disabled
+                        *ngIf="supplierValue.note.length != 0 "
+                        value="{{supplierValue.note}}"></textarea>
+
+              <textarea aria-label="Last name" class="form-control" disabled
+                        value="" *ngIf="supplierValue.note.length == 0 ">Không Có Ghi Chú gì Cho Nhà Cung Cấp Này  </textarea>
+
+
             </div>
           </div>
         </fieldset>
@@ -67,7 +74,8 @@
         </div>
         <div style="float: right">
           <button class="btn btn-secondary mg-r">
-            <i aria-hidden="true" class="fa fa-undo"></i> Trở về
+            <a [routerLink]="['/supplier/']">
+              <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
           </button>
         </div>
       </div>

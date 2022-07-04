@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../service/supplier.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {SupplierService} from "../../service/supplier.service";
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-supplier-create',
@@ -9,32 +12,113 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class SupplierCreateComponent implements OnInit {
 
-  constructor(private supplierService: SupplierService) {
+  constructor(private supplierService: SupplierService,
+              private toastr: ToastrService) {
   }
+
+  submitted = false;
 
   ngOnInit(): void {
   }
 
+  /**
+   * from bingding
+   * @LuatTN 365
+   */
   supplierForm: FormGroup = new FormGroup({
     supplierId: new FormControl(""),
-    supplierName: new FormControl(""),
+    supplierName: new FormControl("", [Validators.required, Validators.minLength(4)]),
     supplierAddress: new FormControl(""),
-    supplierPhone: new FormControl(""),
-    supplierEmail: new FormControl(""),
+    supplierPhone: new FormControl("",
+      [Validators.required,
+        Validators.pattern("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$")],
+      [this.checkDuplicatePhone(this.supplierService)]
+    ),
+    supplierEmail: new FormControl("", [Validators.required,
+      Validators.pattern("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")], [this.checkDuplicateEmail(this.supplierService)]),
     note: new FormControl(""),
     flag: new FormControl(true)
   })
 
+  get supplierName() {
+    return this.supplierForm.get("supplierName")
+  }
 
+  get supplierAddress() {
+    return this.supplierForm.get("supplierAddress")
+  }
+
+  get supplierPhone() {
+    return this.supplierForm.get("supplierPhone")
+  }
+
+  get supplierEmail() {
+    return this.supplierForm.get("supplierEmail")
+  }
+
+  /**
+   * save the value
+   * method: ngsubmit call saveSupplier() in service
+   *  @23h 01/06/2022 LuatTN
+   *  @this  save Supplier
+   */
   createSupplier() {
+    this.submitted = true;
     const supplierValue = this.supplierForm.value;
     console.log(supplierValue)
     if (this.supplierForm.valid) {
       console.log(supplierValue)
       this.supplierService.saveSupplier(supplierValue).subscribe(() => {
         this.supplierForm.reset();
-        alert('OK!!! ');
+        this.toastr.success("Thêm Mới Thành Công !", "Thông Báo Chúc Mừng", {
+          timeOut: 3000,
+          progressBar: true
+        })
       });
     }
   }
+
+  /**
+   * check phone exists
+   *  @23h 01/06/2022 LuatTN
+   * @param value
+   * @finished!!
+   */
+  checkDuplicateEmail(supplierService: SupplierService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return supplierService
+        .checkMailNotTaken(control.value)
+        .pipe(
+          map((result) => {
+              return result ? null : {
+                emailAlreadyExists: true
+              };
+            }
+          )
+        );
+    };
+  };
+
+  /**
+   * check phone exists
+   *  @23h 01/06/2022 LuatTN
+   * @param value
+   * @unfinished!!
+   */
+  private checkDuplicatePhone(supplierService: SupplierService): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return supplierService
+        .checkPhoneNotTaken(control.value)
+        .pipe(
+          map((result) => {
+              return result ? null : {
+                phoneAlreadyExists: true
+              };
+            }
+          )
+        );
+    };
+  }
+
+
 }
