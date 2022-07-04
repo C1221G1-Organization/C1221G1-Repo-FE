@@ -59,6 +59,7 @@ const routes: Routes = [
     loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
+
     path: 'payment',
     loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
@@ -70,7 +71,6 @@ const routes: Routes = [
     path: 'import-invoice',
     loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   }
-
 ];
 
 @NgModule({
