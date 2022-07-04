@@ -1,1 +1,81 @@
-<p>account-edit works!</p>
+<div class="container bootstrap snippets bootdey">
+  <h1 class="text-success">Thay đổi thông tin tài khoản</h1>
+  <hr>
+  <form [formGroup]="updateForm" (ngSubmit)="update(id)">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body  ">
+            <div class="row ">
+              <div class="col-sm-3">
+                <p class="mb-0">Mã nhân viên</p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="employeeId">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên nhân viên</p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="employeeName">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên tài khoản <span style="color: red">(*)</span></p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="username">
+<!--                <small style="color: red">Không được để trống</small>-->
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Chức vụ <span style="color: red">(*)</span></p>
+              </div>
+              <div class="col-sm-9">
+                <select formControlName="position" class="form-control">
+                  <option *ngFor="let p of positions" [ngValue]="p" >{{p.positionName}}</option>
+<!--                  <option *ngFor="let type of positions" [ngValue]="type"-->
+<!--                          [selected]="type.positionName == updateForm.controls.position.value.positionName">{{type.positionName}}</option>-->
+                </select>
+                <!--                <small style="color: red">Không được để trống</small>-->
+              </div>
+            </div>
+            <hr>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mật khẩu <span style="color: red">(*)</span></p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" type="text" formControlName="password">
+<!--                <small style="color: red">Không được để trống</small>-->
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-9">
+                <button style="width: 90px; margin-right: 40px" class="btn-sm  btn-warning" type="submit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
+                </button>
+
+                <button [routerLink]="['/account/list']" style="width: 90px" class="btn-sm btn-secondary" >
+                  <i class="fa fa-undo" aria-hidden="true"></i> Trở về
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
