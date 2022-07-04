@@ -1,14 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HttpClientModule} from "@angular/common/http";
-import { NotFoundComponent } from './component/not-found/not-found.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HttpClientModule} from "@angular/common/http";
+import {NotFoundComponent} from './component/not-found/not-found.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
+import {TemplatesModule} from './component/templates/templates.module';
 
 
 @NgModule({
@@ -16,9 +17,8 @@ import {UserChatComponent} from './component/templates/user-chat/user-chat.compo
     AppComponent,
     NotFoundComponent,
     HomePageComponent,
-    UserChatComponent
   ],
-  imports: [
+  imports     : [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -26,9 +26,11 @@ import {UserChatComponent} from './component/templates/user-chat/user-chat.compo
     ToastrModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
+    TemplatesModule,
 
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers   : [],
+  bootstrap   : [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

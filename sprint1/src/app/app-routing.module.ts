@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundComponent} from './component/not-found/not-found.component';
-import {HomePageComponent} from './component/templates/home-page/home-page.component';
+
+import {HomePageComponent} from "./component/home-page/home-page.component";
 
 
 const routes: Routes = [
@@ -27,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'log',
-    loadChildren: () => import('./component/log/log.module').then(module => module.LogModule)
+    loadChildren: () => import('./component/security/log.module').then(module => module.LogModule)
   },
   {
     path: 'medicine',
