@@ -9,7 +9,7 @@ import {MedicineHomePage} from "../../../dto/medicine-home-page";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, AfterContentChecked {
-  isLogIn = false;
+  isLogIn = true;
   username: string;
   productQuantityInCart: number = 0;
   roles: string[];

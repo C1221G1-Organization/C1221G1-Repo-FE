@@ -116,6 +116,7 @@ export class HomePageComponent implements OnInit {
   Function: Add medicine to Cart by LocalStorage
   */
   addItemToCart(medicine: MedicineBestSeller) {
+
     // this.cartList = JSON.parse(localStorage.getItem('cart'));
     // if (this.cartList == null) {
     //   const newCart = {};
