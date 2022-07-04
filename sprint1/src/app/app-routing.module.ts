@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {NotFoundComponent} from './component/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -60,20 +59,17 @@ const routes: Routes = [
     loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
-    path        : 'payment',
+
+    path: 'payment',
     loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
   {
-    path        : 'import-invoice-medicine',
+    path: 'import-invoice-medicine',
     loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {
-    path        : 'import-invoice',
-    loadChildren: () => import('./component/import_invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
-  },
-  {
-    path     : '**',
-    component: NotFoundComponent
+    path: 'import-invoice',
+    loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   }
 ];
 
