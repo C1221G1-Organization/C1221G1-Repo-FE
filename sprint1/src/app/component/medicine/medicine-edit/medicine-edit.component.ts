@@ -33,51 +33,51 @@ export class MedicineEditComponent implements OnInit {
   validationMessages = {
     medicineName: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineActiveIngredients: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineImportPrice: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
     ],
     medicineDiscount: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
     ],
     medicineWholesaleProfit: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
     ],
     medicineRetailSaleProfit: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
     ],
     medicineTax: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
     ],
     medicineConversionRate: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Phải là số lớn hơn 0.'},
+      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số nguyên.'},
     ],
     medicineManufacture: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineUsage: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineInstruction: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineAgeApproved: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Không có kí tự đặt biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặt biệt.'},
     ],
     medicineOrigin: [
       {type: 'required', message: 'Không được để trống.'},
@@ -203,6 +203,9 @@ export class MedicineEditComponent implements OnInit {
           });
         })).subscribe();
       }
+    } else {
+      this.isLoading = false;
+      this.toastrService.error('Bạn đã chỉnh sửa thất bại !', 'Chỉnh sửa');
     }
   }
 
@@ -258,54 +261,54 @@ export class MedicineEditComponent implements OnInit {
         [Validators.compose([
           Validators.required,
           Validators.pattern
-          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineActiveIngredients: new FormControl(this.confirmMedicine.medicineActiveIngredients,
         [Validators.compose([
           Validators.required,
           Validators.pattern
-          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineImportPrice: new FormControl(this.confirmMedicine.medicineImportPrice,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
+          Validators.pattern(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)
         ])]),
       medicineDiscount: new FormControl(this.confirmMedicine.medicineDiscount,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)])]),
+          Validators.pattern(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)])]),
       medicineWholesaleProfit: new FormControl(this.confirmMedicine.medicineWholesaleProfit,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
+          Validators.pattern(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)
         ])]),
       medicineRetailSaleProfit: new FormControl(this.confirmMedicine.medicineRetailSaleProfit,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)])]),
+          Validators.pattern(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)])]),
       medicineTax: new FormControl(this.confirmMedicine.medicineTax,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)])]),
+          Validators.pattern(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)])]),
       medicineConversionRate: new FormControl(this.confirmMedicine.medicineConversionRate,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)])]),
+          Validators.pattern(/^[1-9][0-9]?$|^99$/)])]),
       medicineManufacture: new FormControl(this.confirmMedicine.medicineManufacture,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineUsage: new FormControl(this.confirmMedicine.medicineUsage,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineInstruction: new FormControl(this.confirmMedicine.medicineInstruction,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineAgeApproved: new FormControl(this.confirmMedicine.medicineAgeApproved,
         [Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]+$/)])]),
+          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineImage: new FormControl(this.confirmMedicine.medicineImage),
       medicineDescription: new FormControl(this.confirmMedicine.medicineDescription),
       flag: new FormControl(this.confirmMedicine.flag),
