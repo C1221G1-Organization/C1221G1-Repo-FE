@@ -8,7 +8,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
-import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
 import {TemplatesModule} from './component/templates/templates.module';
 
 

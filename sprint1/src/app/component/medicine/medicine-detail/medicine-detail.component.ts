@@ -99,7 +99,7 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
    * @return scroll to top when view is checked
    */
   ngAfterViewChecked() {
-    console.log("view checkeđ");
+    // console.log("view checkeđ");
     // Hack: Scrolls to top of Page after page view initialized
     // let top = document.getElementById('product-detail-view');
     // if (top !== null) {

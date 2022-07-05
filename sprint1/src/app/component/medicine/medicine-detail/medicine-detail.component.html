@@ -47,7 +47,7 @@
                 <p class="product-sku-info" *ngIf="medicine">Mã sku: {{medicineId}}</p>
               </div>
             </div>
-            <div class="product-price-group">
+            <div class="product-price-group py-3">
               <div class="d-flex align-items-center">
                 <p class="product-price" *ngIf="medicine">
                   {{medicine.medicinePrice * quantity | currency: 'VND' : '' }}
