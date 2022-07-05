@@ -20,6 +20,9 @@ export class SupplierListComponent implements OnInit {
   ownerSearch = '';
 
   valueSupplier: Supplier = new Supplier();
+  chosenIndex: number;
+  isChosen: Boolean;
+  chooseId: string;
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService) {
@@ -27,8 +30,11 @@ export class SupplierListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getListSupplier({
-      page: this.currentPage, size: 10000, searchId: '',
+      page: this.currentPage,
+      size: 10000,
+      searchId: '',
       searchName: '',
       searchAddress: '',
       searchPhone: '',
@@ -47,7 +53,7 @@ export class SupplierListComponent implements OnInit {
   confirmDelete() {
     this.supplierService.deleteSupplier(this.valueSupplier.supplierId).subscribe(() => {
       this.ngOnInit();
-      this.toastr.warning("Xóa  Thành Công !", "Thông Báo Xác Nhận", {
+      this.toastr.warning("Xóa  Thành Công ! " + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
         timeOut: 3000,
         progressBar: true
       });
@@ -70,10 +76,25 @@ export class SupplierListComponent implements OnInit {
       // @ts-ignore
       request.size = 10000;
       // @ts-ignore
-      request.owner = this.ownerSearch;
-      // @ts-ignore
       request.sort = this.sort.nativeElement.value;
-      request['owner'] = this.ownerSearch;
+
+      switch (this.nameSearch.nativeElement.value) {
+        case 'supplierId': {
+          request['searchId'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierName': {
+          request['searchName'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierAddress': {
+          request['searchAddress'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierPhone': {
+          request['searchPhone'] = this.ownerSearch;
+        }
+      }
       this.getListSupplier(request);
     }
   }
@@ -94,7 +115,24 @@ export class SupplierListComponent implements OnInit {
       request.owner = this.ownerSearch;
       // @ts-ignore
       request.sort = this.sort.nativeElement.value;
-      request['owner'] = this.ownerSearch;
+      switch (this.nameSearch.nativeElement.value) {
+        case 'supplierId': {
+          request['searchId'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierName': {
+          request['searchName'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierAddress': {
+          request['searchAddress'] = this.ownerSearch;
+          break;
+        }
+        case 'supplierPhone': {
+          request['searchPhone'] = this.ownerSearch;
+        }
+      }
+
       this.getListSupplier(request);
     }
 
@@ -118,6 +156,8 @@ export class SupplierListComponent implements OnInit {
   search(ownerSearch: HTMLInputElement) {
     //   get value when searching
     this.ownerSearch = ownerSearch.value;
+    console.log("searching")
+    console.log(this.ownerSearch)
     switch (this.nameSearch.nativeElement.value) {
       case 'supplierId': {
         this.getListSupplier({
@@ -135,7 +175,6 @@ export class SupplierListComponent implements OnInit {
           size: 10000,
           searchName: this.valueSearch.nativeElement.value,
           sort: this.sort.nativeElement.value,
-          owner: this.ownerSearch
         })
         break;
       }
@@ -166,9 +205,11 @@ export class SupplierListComponent implements OnInit {
    */
   getValueSupplier(item: Supplier) {
     this.valueSupplier = item
-    this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp", "Thông Báo Xác Nhận", {
+    this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp  "
+      + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
       timeOut: 3000,
-      progressBar: true
+      progressBar: true,
+      positionClass: 'toast-top-center',
     });
   }
 
@@ -192,12 +233,35 @@ export class SupplierListComponent implements OnInit {
           this.currentPage = data.number;
           this.totalPages = data.totalPages;
         }
-
-
       }, error => {
         this.listSupplier.length = 0
       }, () => {
       }
     );
+  }
+
+  /**
+   * click choose supplier
+   * @LuatTN 10h 05/07/2022
+   * @param supplier
+   */
+  chooseSupplier(index: number, supplierId: string, supplier: Supplier): void {
+    if (this.chosenIndex != index) {
+      this.isChosen = true;
+      this.chosenIndex = index;
+      this.chooseId = supplierId;
+    } else {
+      this.isChosen = !this.isChosen;
+      this.chooseId = null;
+    }
+    if (this.isChosen) {
+      this.valueSupplier = supplier;
+
+      this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp " + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
+        timeOut: 3000,
+        progressBar: true,
+        positionClass: 'toast-top-center',
+      });
+    }
   }
 }

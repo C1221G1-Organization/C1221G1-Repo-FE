@@ -39,7 +39,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text w-all  ">  Công Nợ </span>
               </div>
-              <input aria-label="First name" class="form-control" value="{{supplierValue.supplierEmail}}" disabled
+              <input aria-label="First name" class="form-control" value="{{supplierValue.debt}}" disabled
                      type="text">
             </div>
             <br>
@@ -59,7 +59,8 @@
                         value="{{supplierValue.note}}"></textarea>
 
               <textarea aria-label="Last name" class="form-control" disabled
-                        value="" *ngIf="supplierValue.note.length == 0 ">Không Có Ghi Chú gì Cho Nhà Cung Cấp Này  </textarea>
+                        value=""
+                        *ngIf="supplierValue.note.length == 0 ">Không Có Ghi Chú gì Cho Nhà Cung Cấp Này  </textarea>
 
 
             </div>

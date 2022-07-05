@@ -46,7 +46,7 @@
       </fieldset>
     </div>
 
-    <fieldset style="border: 1px groove black"
+    <fieldset style="border: 1px groove black; margin-bottom: 10px"
               *ngIf="listSupplier != null && listSupplier != undefined && listSupplier.length != 0 ">
       <legend class="w-auto">ㅤHệ thống ㅤ</legend>
 
@@ -62,8 +62,9 @@
           <th> Số Điện Thoại</th>
           <th>Email</th>
         </tr>
-        <tr class="bgr" *ngFor="let item  of listSupplier ; index as i" (click)="getValueTest(item)"
-            (dblclick)="getValueSupplier(item)">
+        <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i" (click)="getValueTest(item)"
+            (dblclick)="chooseSupplier(i, item.supplierId, item)"
+            [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
           <td>{{i + 1}}</td>
           <td>{{item.supplierName}}</td>
           <td style="text-align: left">{{item.supplierAddress}}</td>
@@ -81,18 +82,19 @@
       </div>
       <div id="btn" style="float: right">
         <button class="btn btn-warning">
-          <a [routerLink]="['/supplier/edit/',valueSupplier.supplierId]"  style="color: white">
+          <a [routerLink]="['/supplier/edit/',valueSupplier.supplierId]" style="color: white">
             <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
         </button>
-        <button class="btn btn-danger mgl" data-target="#staticBackdrop" data-toggle="modal"  style="color: white">
+        <button class="btn btn-danger mgl" data-target="#staticBackdrop" data-toggle="modal"
+                style="color: white">
           <i class="fa-solid fa-circle-xmark"></i> Xoá
         </button>
         <button class="btn btn-success mgl">
-          <a [routerLink]="['/supplier/create']"  style="color: white">
+          <a [routerLink]="['/supplier/create']" style="color: white">
             <i class="fa-solid fa-circle-plus"></i> Thêm
           </a>
         </button>
-        <button class="btn btn-secondary mgl"  style="color: white">
+        <button class="btn btn-secondary mgl" style="color: white">
           <i aria-hidden="true" class="fa fa-undo"></i> Trở về
         </button>
       </div>
@@ -102,7 +104,7 @@
     <nav class="blog-pagination d-flex justify-content-center py-3">
       <ul class="pagination">
         <li class="page-item px-1">
-          <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Previous</a>
+          <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trước</a>
         </li>
         <li class="page-item">
           <a class="page-link">
@@ -112,7 +114,7 @@
           </a>
         </li>
         <li class="page-item px-1">
-          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Next</a>
+          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp </a>
         </li>
       </ul>
     </nav>
@@ -135,12 +137,12 @@
           <div class="modal-body">
             <div style="text-align: center">
               <p>Bạn Chắc Chắn Muốn Xóa
-                <span style="color: red ">{{valueSupplier.supplierName}}</span>
+                <b style="color: red ">{{valueSupplier.supplierName}}</b>
               </p>
               <p>Có Mã Là
-                  <span style="color: red ">{{valueSupplier.supplierId}}</span>  </p>
-                <p>Số Điện Thoại
-                <span>{{valueSupplier.supplierPhone}}</span></p>
+                <b style="color: red ">{{valueSupplier.supplierId}}</b></p>
+              <p>Số Điện Thoại
+                <b>{{valueSupplier.supplierPhone}}</b></p>
             </div>
           </div>
           <div class="modal-footer">

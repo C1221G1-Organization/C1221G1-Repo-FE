@@ -5,13 +5,12 @@ import {HttpClient} from "@angular/common/http";
 import {Supplier} from "../model/Supplier";
 import {SupplierDto} from "../dto/SupplierDto";
 import {map} from "rxjs/operators";
-import {environment} from "../../environments/environment";
+import {ISupplierDto} from "../dto/ISupplierDto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupplierService {
-  private apiBaseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {
   }
@@ -53,8 +52,8 @@ export class SupplierService {
    *  @23h 01/06/2022 LuatTN
    *  @this  get Supplier
    */
-  public findById(id: string): Observable<Supplier> {
-    return this.http.get<Supplier>(`http://localhost:8080/api/manager-medicine/medicines/supplier/${id}`);
+  public findById(id: string): Observable<ISupplierDto> {
+    return this.http.get<ISupplierDto>(`http://localhost:8080/api/manager-medicine/medicines/supplier/${id}`);
   }
 
   /**
@@ -63,8 +62,8 @@ export class SupplierService {
    *  @23h 01/06/2022 LuatTN
    *  @this  get Supplier Detail
    */
-  public findByDetailId(id: string): Observable<Supplier> {
-    return this.http.get<Supplier>(`http://localhost:8080/api/manager-medicine/medicines/supplier/detail/${id}`);
+  public findByDetailId(id: string): Observable<ISupplierDto> {
+    return this.http.get<ISupplierDto>(`http://localhost:8080/api/manager-medicine/medicines/supplier/detail/${id}`);
   }
 
   /**
@@ -74,8 +73,8 @@ export class SupplierService {
    *  @this update Supplier
    *
    */
-  public updateSupplier(idSupplier: string, supplierValue: Supplier) {
-    return this.http.patch<Supplier>(`http://localhost:8080/api/manager-medicine/medicines/supplier/${idSupplier}`, supplierValue);
+  public updateSupplier(idSupplier: string, supplierDto: SupplierDto) {
+    return this.http.patch<SupplierDto>(`http://localhost:8080/api/manager-medicine/medicines/supplier/${idSupplier}`, supplierDto);
   }
 
   /**
@@ -90,7 +89,6 @@ export class SupplierService {
       map((res => {
             const productList = res['content']
             return productList.filter(prd =>
-
               prd.supplierEmail == supplierMail)
           }
         )
@@ -113,14 +111,11 @@ export class SupplierService {
       map((res => {
             const productList = res['content']
             return productList.filter(prd =>
-
               prd.supplierPhone == supplierPhone)
           }
         )
       ), map(productList =>
         !productList.length  // length = 1 => false, length = 0 => true;
-      ))
-
-      ;
+      ));
   }
 }
