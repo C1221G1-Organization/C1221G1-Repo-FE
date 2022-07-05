@@ -13,7 +13,7 @@ import {TokenStorageService} from "../../../service/security/token-storage.servi
 export class HeaderComponent implements OnInit, AfterContentChecked {
   isLogIn = false;
   username: string;
-  productQuantityInCart :number = 0;
+  productQuantityInCart: number = 0;
   roles: string[];
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
@@ -25,14 +25,14 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
               private shareService: ShareService) {
   }
   ngOnInit(): void {
-    if (this.tokenStorageService.getToken()){
+    if (this.tokenStorageService.getToken()) {
       this.isLogIn = true;
       this.username = this.tokenStorageService.getUser().username;
       this.roles = this.tokenStorageService.getUser().roles;
     }
   }
   ngAfterContentChecked(): void {
-    if (this.productQuantityInCart!=0){
+    if (this.productQuantityInCart != 0) {
       this.productQuantityInCart = 0;
     }
     if (localStorage.getItem('cart')) {
