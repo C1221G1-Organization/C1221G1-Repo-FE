@@ -6,6 +6,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -17,7 +19,11 @@ import {environment} from '../environments/environment';
     AppRoutingModule,
     HttpClientModule,
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right'
+    }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

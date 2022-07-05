@@ -69,6 +69,16 @@ export class MedicineService {
   }
 
   /**
+   * this function use to update exist medicine throw api url
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  updateMedicine(id: string, medicine: Medicine): Observable<Medicine> {
+    return this.http.patch<Medicine>(`${API_URL}/api/manager-medicine/medicines/${id}`, medicine);
+  }
+
+  /**
    * this function use to find exist medicine in BE throw api url
    *
    * @Author LongNH
