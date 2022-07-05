@@ -2,29 +2,35 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
-import {NotFoundComponent} from './not-found/not-found.component';
-import {LogModule} from "./component/security/log.module";
-import * as firebase from "firebase";
-import {authInterceptorProviders} from "./service/security/auth.interceptor";
-import {ToastrModule} from "ngx-toastr";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule} from '@angular/common/http';
+import {NotFoundComponent} from './component/not-found/not-found.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HomePageComponent} from './component/templates/home-page/home-page.component';
+import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
+import {TemplatesModule} from './component/templates/templates.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
+    HomePageComponent,
   ],
-  imports: [
+  imports     : [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    LogModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    FormsModule,
+    ReactiveFormsModule,
+    TemplatesModule,
+
   ],
-  providers: [authInterceptorProviders],
-  bootstrap: [AppComponent]
+  providers   : [],
+  bootstrap   : [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

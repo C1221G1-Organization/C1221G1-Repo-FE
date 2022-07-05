@@ -1,0 +1,270 @@
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+
+.content{
+  position: relative;
+  top: 10%;
+}
+
+#sidebar{
+  top:10.5%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+
+}
+
+
+.right-content{
+  margin-left: 20%;
+}
+
+
+
+@media (max-width: 768px) {
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+  #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+}
+
+.nav-item{
+  line-height: 2rem;
+}
+
+.seperate{
+  border-top: 1px solid white;
+}
+
+
+.text-uppercase {
+  letter-spacing: 0.1em;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.bg-pharmacode{
+  background-color: #00bfa5 !important;
+}
+
+
+/*
+*
+* ==========================================
+* HEADER
+* ==========================================
+*
+*/
+
+li.nav-item{
+}
+
+.nav-link{
+  color: white!important;
+  font-weight: bolder;
+}
+
+
+.navbar {
+  margin-bottom:2rem;
+  height: 10%;
+  position: fixed;
+  top: 0;
+  padding-left: 8%;
+  width: 100%;
+  z-index: 2;
+}
+
+.dropdown .dropdown-menu {
+  border-radius:0;
+}
+
+
+/* Medium devices (tablets, 768px and up)
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius:0;
+    background-color: white;
+  }
+  .dropdown-item:hover{
+    background-color: #34e3c9;
+  }
+}
+
+
+@media (max-width: 992px) {
+  #sidebar{
+    display: none;
+  }
+  .nav-link{
+    color: gray!important;
+  }
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius:0;
+    background-color: white;
+  }
+  .right-content{
+    margin-left: 12.5%;
+  }
+}
+
+
+
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+
+.content{
+  position: relative;
+  top: 10%;
+}
+
+#sidebar{
+  top:10.5%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+
+}
+
+
+.right-content{
+  margin-left: 20%;
+}
+
+
+
+@media (max-width: 768px) {
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+  #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+}
+
+.nav-item{
+  line-height: 2rem;
+}
+
+.seperate{
+  border-top: 1px solid white;
+}
+
+
+.text-uppercase {
+  letter-spacing: 0.1em;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.bg-pharmacode{
+  background-color: #00bfa5 !important;
+}
+
+
+/*
+*
+* ==========================================
+* HEADER
+* ==========================================
+*
+*/
+
+li.nav-item{
+}
+
+.nav-link{
+  color: white!important;
+  font-weight: bolder;
+}
+
+
+.navbar {
+  margin-bottom:2rem;
+  height: 10%;
+  position: fixed;
+  top: 0;
+  padding-left: 8%;
+  width: 100%;
+  z-index: 2;
+}
+
+.dropdown .dropdown-menu {
+  border-radius:0;
+}
+
+
+/* Medium devices (tablets, 768px and up)
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius:0;
+    background-color: white;
+  }
+  .dropdown-item:hover{
+    background-color: #34e3c9;
+  }
+}
+
+
+@media (max-width: 992px) {
+  #sidebar{
+    display: none;
+  }
+  .nav-link{
+    color: gray!important;
+  }
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius:0;
+    background-color: white;
+  }
+  .right-content{
+    margin-left: 12.5%;
+  }
+}
+
+
+
+
