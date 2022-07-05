@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import * as firebase from 'firebase';
 import {environment} from '../environments/environment';
-
+import firebase from "firebase/app";
+import "firebase/database";
 import {TokenStorageService} from "./service/security/token-storage.service";
 
 @Component({
