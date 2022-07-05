@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ImportInvoiceMedicineComponent} from "./import-invoice-medicine.component";
+import {ImportInvoiceMedicineComponent} from './import-invoice-medicine.component';
 
 
 

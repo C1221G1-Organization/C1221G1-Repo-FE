@@ -12,6 +12,4 @@ export interface Employee {
   flag: boolean;
   position: Position;
   employeeUsername: Users;
-
-
 }
