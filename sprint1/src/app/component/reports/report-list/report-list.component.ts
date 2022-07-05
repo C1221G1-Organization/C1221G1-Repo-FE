@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ReportService} from "../../../service/report.service";
-import {Revenue} from "../../../model/revenue";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-report-list',

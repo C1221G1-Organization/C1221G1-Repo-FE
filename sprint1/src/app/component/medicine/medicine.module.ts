@@ -7,6 +7,7 @@ import {MedicineCreateComponent} from "./medicine-create/medicine-create.compone
 import {MedicineListComponent} from "./medicine-list/medicine-list.component";
 import {MedicineEditComponent} from "./medicine-edit/medicine-edit.component";
 import {MedicineModalComponent} from "./medicine-modal/medicine-modal.component";
+import {MedicineDetailComponent} from './medicine-detail/medicine-detail.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MedicineModalComponent} from "./medicine-modal/medicine-modal.component"
     MedicineCreateComponent,
     MedicineListComponent,
     MedicineEditComponent,
-    MedicineModalComponent
+    MedicineModalComponent,
+    MedicineDetailComponent
   ],
   imports: [
     CommonModule,
