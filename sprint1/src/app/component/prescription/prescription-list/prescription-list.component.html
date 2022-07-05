@@ -1,3 +1,6 @@
+<div class="container-fluid" style="margin: 15px">
+  <h3 style="text-align: center">Danh sách đơn thuốc</h3>
+</div>
 <div id="field" class="container-fluid">
   <fieldset class="border p-2  shadow">
     <legend class="w-auto">Bộ lọc</legend>
@@ -6,6 +9,7 @@
         <div class="col-lg-1 col-md-2"><p>Lọc theo</p></div>
         <div class="col-lg-2 col-md-2">
           <select name="" id="" class="form-control" formControlName="typeSearch">
+            <option value="">---- Chọn bộ lọc ----</option>
             <option value="id">Mã đơn thuốc</option>
             <option value="names">Tên đơn</option>
             <option value="target">Đối tượng</option>
@@ -62,10 +66,12 @@
         <td>{{prescription.prescriptionSymptom}}</td>
         <td>{{prescription.prescriptionNote}}</td>
         <td>
-          <button class="btn btn-warning shadow"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+          <button class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>
         </td>
         <td>
-          <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"
+                  (click)="getPrescription(prescription.prescriptionId, prescription.prescriptionName)">
+            <i class="fa fa-trash" aria-hidden="true"></i></button>
         </td>
       </tr>
 
@@ -114,11 +120,39 @@
     <div id="bt" class="row">
       <div class="col-lg-8 col-md-8"></div>
       <div class="col-lg-2 col-md-2">
-        <a [routerLink]="['/prescription/create']" class="btn btn-success shadow"><i class="fa-solid fa-circle-plus"></i> Thêm</a>
+        <a [routerLink]="['/prescription/create']" style="margin: 5px" class="btn btn-success shadow"><i class="fa-solid fa-circle-plus"></i> Thêm</a>
       </div>
       <div class="col-lg-2 col-md-2">
-        <button class="btn btn-secondary shadow"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+        <button style="margin: 5px" class="btn btn-secondary shadow"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
       </div>
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xoá đơn thuốc</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Chắc chắn xoá đơn thuốc {{name}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        <button ype="button" class="btn btn-primary" (click)="delete(ids)">Xoá</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  })
+</script>

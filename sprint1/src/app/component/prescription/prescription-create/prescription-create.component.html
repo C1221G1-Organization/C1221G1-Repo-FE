@@ -4,7 +4,7 @@
 
   <div class="container shadow">
     <form [formGroup]="prescriptionForm" (ngSubmit)="submit()">
-      <div><h3>ĐƠN THUỐC</h3></div>
+      <div><h3 style="text-align: center">ĐƠN THUỐC</h3></div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Tên đơn thuốc<span> (*)</span></p></label></div>
         <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionName" name="prescriptionName">
@@ -173,7 +173,7 @@
               </button>
             </div>
             <div class="col-lg-2 col-md-2">
-              <button class="btn btn-danger" style="width: 110px; margin: 5px"><i class="fa-solid fa-circle-xmark"></i> Huỷ</button>
+              <button [routerLink]="['/prescription/list']" class="btn btn-danger" style="width: 110px; margin: 5px"><i class="fa-solid fa-circle-xmark"></i> Huỷ</button>
             </div>
           </div>
         </div>

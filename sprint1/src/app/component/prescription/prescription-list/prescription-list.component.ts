@@ -1,8 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Prescription} from '../../models/prescription/prescription';
-import {PrescriptionService} from '../../services/prescriptions/prescription.service';
+import {Prescription} from '../../../models/prescription/prescription';
+import {PrescriptionService} from '../../../services/prescription/prescription.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-prescription-list',
@@ -12,7 +13,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class PrescriptionListComponent implements OnInit {
   // @ViewChild('ids') ids: ElementRef;
   prescriptions: Prescription[] = [];
-  // id: number;
+  ids: string;
+  name: string;
   id = '';
   names = '';
   target = '';
@@ -31,7 +33,8 @@ export class PrescriptionListComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(private prescriptionService: PrescriptionService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
     this.searchForm = new FormGroup({
       typeSearch: new FormControl(''),
       inputSearch: new FormControl(''),
@@ -40,8 +43,8 @@ export class PrescriptionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPrescription();
-    // this.prescriptionService.searchPrescriptionId('').subscribe(prescriptions => {
-    //   this.prescriptions = prescriptions;
+    // this.prescriptionService.searchPrescriptionId('').subscribe(prescription => {
+    //   this.prescription = prescription;
     // });
   }
 
@@ -183,32 +186,44 @@ export class PrescriptionListComponent implements OnInit {
     }
   }
 
-  public activeProject(index: number, id: string, namePrescription: string): void {
-    if (this.activeProjectIndex !== index) {
-      this.flag = true;
-    } else {
-      this.flag = !this.flag;
-    }
-    this.activeProjectIndex = index;
-    if (this.flag === true) {
-      this.nameDelete = namePrescription;
-      this.idClick = id;
-    } else {
-      this.idClick = null;
-    }
+  // public activeProject(index: number, id: string, namePrescription: string): void {
+  //   if (this.activeProjectIndex !== index) {
+  //     this.flag = true;
+  //   } else {
+  //     this.flag = !this.flag;
+  //   }
+  //   this.activeProjectIndex = index;
+  //   if (this.flag === true) {
+  //     this.nameDelete = namePrescription;
+  //     this.idClick = id;
+  //   } else {
+  //     this.idClick = null;
+  //   }
+  //
+  // }
 
+  getPrescription(ids: string, name: string) {
+    this.ids = ids;
+    this.name = name;
+  }
+
+  delete(ids: string) {
+    this.prescriptionService.deletePrescription(ids).subscribe(() => {
+      this.toastr.success('Đã Xoá Thành Công !', 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.ngOnInit();
+    }, e => {
+      console.log(e);
+    }, () => {
+      this.router.navigate(['/prescription/list']);
+    });
   }
 
 
-  // delete(closeModal: HTMLButtonElement) {
-  //   this.prescriptionService.deleteEmployee(this.idClick).subscribe(() => {
-  //     closeModal.click();
-  //     this.ngOnInit();
-  //   }, e => {
-  //     console.log(e);
-  //   });
-  //
-  // }
+
+
   // clickEdit(errorButton: HTMLButtonElement) {
   //   if (this.idClick) {
   //     this.router.navigate(['/employee/edit/', this.idClick]);
