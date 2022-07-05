@@ -1,9 +1,9 @@
-<div class="wrapper">
-  <div class="container-fluid mx-auto my-2 mt-10">
-    <div class="flex shadow-md my-10">
+<div class="wrapper mb-2">
+  <div class="container-fluid mx-auto">
+    <div class="flex">
       <div *ngIf="(cartAndDetailDto | json) == '{}'" class="row">
         <div class="col-8 mx-auto mt-2">
-          <div class="bg-white p-3 rounded-lg">
+          <div class="bg-white p-3 shadow-lg rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
               <h3>Thanh toán giỏ hàng</h3>
             </div>
@@ -30,7 +30,7 @@
       <div *ngIf="(cartAndDetailDto | json) != '{}'" class="row">
         <div class="col-xl-8 col-lg-12 mt-2">
           <div class="mb-2">
-            <div class="bg-white p-3 rounded-lg">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
               <div class="d-flex justify-content-between border-bottom pb-8">
                 <h5 class="pb-2 font-weight-bold"><span class="badge badge-pill badge-success">1</span> &ensp; Giỏ hàng
                 </h5>
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="mb-2">
-            <div class="bg-white p-3 rounded-lg">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
               <div class="d-flex pb-8">
                 <h5 class="pb-2 font-weight-bold">
                   <span class="badge badge-pill badge-success"> 2 </span>
@@ -145,7 +145,7 @@
         </div>
         <div class="col-xl-4 col-lg-12 mt-2">
           <div class="mb-2">
-            <div class="bg-white p-3 rounded-lg">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
               <div class="d-flex justify-content-between pb-8">
                 <h5 class="font-weight-bold"><i class="fa-solid fa-tag"></i> Mã ưu đãi</h5>
               </div>
@@ -174,7 +174,7 @@
             </div>
           </div>
           <div class="mb-2">
-            <div class="bg-white p-3 rounded-lg">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
               <div class="d-flex justify-content-between border-bottom pb-8">
                 <h5 class="font-weight-bold">Tổng tiền</h5>
               </div>
@@ -232,4 +232,3 @@
     </div>
   </div>
 </div>
-
