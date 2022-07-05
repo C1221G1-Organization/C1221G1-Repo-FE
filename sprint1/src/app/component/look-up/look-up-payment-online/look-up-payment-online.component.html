@@ -11,31 +11,36 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 my-1">
                 <input type="text" class="form-control" id="mahoadown"
-                       placeholder="Mã hóa đơn">
+                       placeholder="Mã hóa đơn" #paymentIdSearch>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 my-1">
                 <input type="text" class="form-control " id="tenkhachhang"
-                       placeholder="Tên khách hàng">
+                       placeholder="Tên khách hàng" #customerNamSearch>
               </div>
             </div>
           </div>
           <div class="col-md-5 col-sm-12">
             <div class="float-md-right float-sm-left">
-              <button type="submit" class="btn btn-success mb-2 mr-2 my-1">
+              <button type="submit" class="btn btn-success mb-2 mr-2 my-1"
+                      (click)="searchPaymentOnline(paymentIdSearch,customerNamSearch)">
                 <i class="fa-solid fa-magnifying-glass mr-2"></i>
                 Tra cứu
               </button>
-              <button type="submit" class="btn btn-secondary mb-2 mr-2 my-1">
+              <button type="submit" class="btn btn-secondary mb-2 mr-2 my-1" [routerLink]="['/templates']">
                 <i class="fa-solid fa-rotate-left mr-2"></i>
                 Trở về
               </button>
             </div>
-
           </div>
         </div>
       </form>
     </div>
-    <div class="bg-white mt-3 rounded-lg">
+    <div *ngIf="paymentOnlines.length <1" class="bg-white mt-3 rounded-lg">
+      <div class="p-2 text-center">
+        <h5>Không tìm thấy kết quả!</h5>
+      </div>
+    </div>
+    <div *ngIf="paymentOnlines.length > 0" class="bg-white mt-3 rounded-lg">
       <div class="p-2">
         <h5 class="p-2">Kết quả tra cứu</h5>
         <div class="table-responsive">
@@ -51,13 +56,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>HD0001</td>
-              <td>Phạm Việt Khoa</td>
-              <td>22/06/2022</td>
-              <td>08:00:00</td>
-              <td>1.000.000</td>
-              <td>ghi chú</td>
+            <tr *ngFor="let paymentOnline of paymentOnlines">
+              <td>{{paymentOnline.paymentId}}</td>
+              <td>{{paymentOnline.customerName}}</td>
+              <td>{{paymentOnline.dateCreate|date:'dd/MM/yyyy'}}</td>
+              <td>{{paymentOnline.timeCreate|date:"HH:mm"}}</td>
+              <td>{{paymentOnline.totalPrice|number}}</td>
+              <td>{{paymentOnline.note}}</td>
             </tr>
             <tr>
               <td>HD0002</td>
@@ -108,17 +113,17 @@
       <nav class="d-flex justify-content-center py-3">
         <ul class="pagination">
           <li class="page-item px-1 disabled">
-            <a href="#" class="page-link">Trang trước</a>
+            <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trang trước</a>
           </li>
           <li class="page-item disabled">
             <a class="page-link">
-              <span>1</span>
+              <span>{{currentPage + 1}}</span>
               <span>/</span>
-              <span>1</span>
+              <span>{{totalPages}}</span>
             </a>
           </li>
           <li class="page-item px-1">
-            <a href="#" class="page-link">Trang sau</a>
+            <a (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages" class="page-link">Trang sau</a>
           </li>
         </ul>
       </nav>
