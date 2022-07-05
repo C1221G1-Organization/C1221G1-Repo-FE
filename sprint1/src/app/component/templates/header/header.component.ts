@@ -18,15 +18,12 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
-
-
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private tokenStorageService: TokenStorageService,
               private changeDetectorRef: ChangeDetectorRef,
               private shareService: ShareService) {
   }
-
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.isLogIn = true;
@@ -34,7 +31,6 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
       this.roles = this.tokenStorageService.getUser().roles;
     }
   }
-
   ngAfterContentChecked(): void {
     if (this.productQuantityInCart != 0) {
       this.productQuantityInCart = 0;
@@ -45,12 +41,10 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
   }
-
   // logout() {
   //   this.tokenStorageService.signOut();
   //   window.location.reload();
   // }
-
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;
     this.medicine.medicineTypeId = typeId.value;
