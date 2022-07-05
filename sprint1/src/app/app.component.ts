@@ -28,7 +28,7 @@ export class AppComponent {
         this.isGuest = false;
       }
     }
-    this.isGuest = false;
+    this.isGuest = true;
     console.log(this.user);
   }
 

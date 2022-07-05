@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
-import {Component, OnInit} from "@angular/core";
 
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
@@ -37,4 +37,10 @@ export class AdminChatComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isSeenToggle(uuid: any) {
+    firebase.database().ref('rooms/' + uuid).once('value').then(res => {
+      const room = res.val();
+      firebase.database().ref('rooms/' + uuid).update({...room, isSeen: true});
+    });
+  }
 }
