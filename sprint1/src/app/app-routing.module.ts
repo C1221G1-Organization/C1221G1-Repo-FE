@@ -69,7 +69,7 @@ const routes: Routes = [
   },
   {
     path        : 'import-invoice',
-    loadChildren: () => import('./component/import_invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
+    loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
   {
     path     : '**',
