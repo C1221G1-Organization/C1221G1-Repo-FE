@@ -1,5 +1,5 @@
 import {CustomerType} from "./customer-type";
-import {Users} from "./users";
+import {Users} from "../users/users";
 
 export interface Customer {
   customerId: string;

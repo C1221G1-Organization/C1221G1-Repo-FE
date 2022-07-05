@@ -1,18 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ValidationErrors,
-  Validators
-} from "@angular/forms";
-import {CustomerType} from "../../model/customer-type";
-import {CustomerService} from "../../service/customer.service";
-import {CustomerTypeService} from "../../service/customer-type.service";
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {CustomerType} from "../../../model/customer/customer-type";
+import {CustomerService} from "../../../service/customer/customer.service";
+import {CustomerTypeService} from "../../../service/customer/customer-type.service";
 import {Router} from "@angular/router";
-import {Customer} from "../../model/customer";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
@@ -26,32 +17,35 @@ import {ToastrService} from "ngx-toastr";
 export class CustomerCreateComponent implements OnInit {
   createForm: FormGroup;
   customerTypeList: CustomerType[];
+  age: number;
 
 
   constructor(private customerService: CustomerService,
               private customerTypeService: CustomerTypeService,
-              private toastr : ToastrService,
+              private toastr: ToastrService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-      this.getCustomerType();
+    this.getCustomerType();
+    // @ts-ignore
     this.createForm = new FormGroup({
       customerId: new FormControl("KH"),
       customerName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
-      customerBirthday: new FormControl(""),
+      customerBirthday: new FormControl("", [Validators.required]),
       customerGender: new FormControl("", [Validators.required]),
       customerAddress: new FormControl(""),
       customerPhone: new FormControl("", [Validators.required,
-        Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]
-      ,this.checkDuplicatePhone(this.customerService)
+          Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]
+        , this.checkDuplicatePhone(this.customerService)
       ),
-      customerNote: new FormControl("", [Validators.minLength(2), Validators.maxLength(20)]),
+      customerNote: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       // customerUsername: new FormControl(),
       customerType: new FormControl("", [Validators.required])
 
     });
   }
+
   getCustomerType() {
     return this.customerTypeService.getAllCustomerType().subscribe(list => {
       this.customerTypeList = list;
@@ -66,12 +60,16 @@ export class CustomerCreateComponent implements OnInit {
       }, error => {
         // alert("Bắt buộc phải nhập đúng thông tin")
         this.toastr.warning("Bắt buộc phải nhập đúng thông tin !", "", {
-          timeOut:3000,
+          timeOut: 3000,
           progressBar: true
         })
 
       },
       () => {
+        this.toastr.success("Thêm mới thành công !", "", {
+          timeOut: 3000,
+          progressBar: true
+        })
         this.router.navigateByUrl('customer');
       });
   }
@@ -89,6 +87,18 @@ export class CustomerCreateComponent implements OnInit {
           )
         );
     };
+  }
+
+  check() {
+    const birthDay = new Date(this.createForm.get('customerBirthday').value);
+    // @ts-ignore
+    const checkDay = Math.abs(Date.now() - birthDay);
+    this.age = Math.floor((checkDay / (1000 * 3600 * 24)) / 365);
+    if (this.age < 18) {
+      this.createForm.get('customerBirthday').setErrors({check: true});
+    } else if (this.age >= 100) {
+      this.createForm.get('customerBirthday').setErrors({checkAge: true});
+    }
   }
 
 }
