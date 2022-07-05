@@ -1,54 +1,54 @@
-<div class="wrapper">
+<div class="wrapper mb-2">
   <div class="container-fluid my-2 mt-10">
-    <div class="bg-white py-2 rounded-lg">
+    <div class="bg-white py-2 shadow-lg rounded-lg">
       <h5 class="p-2">Thông tin tra cứu hóa đơn</h5>
-      <form>
+      <div>
         <div class="row px-3">
-          <div class="col-md-7 col-sm-12">
+          <div class="col-xl-8 col-lg-12">
             <div class="row px-3">
-              <div class="col-lg-2 col-md-4 col-sm-12 my-1 py-1">
+              <div class="col-xl-3 col-lg-4 col-md-12 my-1 py-1">
                 <label>Tra cứu theo</label>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-12 my-1">
+              <div class="col-xl-4 col-lg-4 col-md-12 my-1">
                 <input type="text" class="form-control" id="mahoadown"
                        placeholder="Mã hóa đơn" #paymentIdSearch>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-12 my-1">
+              <div class="col-xl-4 col-lg-4 col-md-12 my-1">
                 <input type="text" class="form-control " id="tenkhachhang"
-                       placeholder="Tên khách hàng" #customerNamSearch>
+                       placeholder="Tên khách hàng" #customerNameSearch>
               </div>
             </div>
           </div>
-          <div class="col-md-5 col-sm-12">
+          <div class="col-xl-4 col-lg-12">
             <div class="float-md-right float-sm-left">
-              <button type="submit" class="btn btn-success mb-2 mr-2 my-1"
-                      (click)="searchPaymentOnline(paymentIdSearch,customerNamSearch)">
+              <button type="button" class="btn btn-success mb-2 mr-2 my-1"
+                      (click)="searchPaymentOnline()">
                 <i class="fa-solid fa-magnifying-glass mr-2"></i>
                 Tra cứu
               </button>
-              <button type="submit" class="btn btn-secondary mb-2 mr-2 my-1" [routerLink]="['/templates']">
+              <button type="submit" class="btn btn-secondary mb-2 mr-2 my-1" [routerLink]="['/home-page']">
                 <i class="fa-solid fa-rotate-left mr-2"></i>
                 Trở về
               </button>
             </div>
           </div>
         </div>
-      </form>
-    </div>
-    <div *ngIf="paymentOnlines.length <1" class="bg-white mt-3 rounded-lg">
-      <div class="p-2 text-center">
-        <h5>Không tìm thấy kết quả!</h5>
       </div>
     </div>
-    <div *ngIf="paymentOnlines.length > 0" class="bg-white mt-3 rounded-lg">
+    <div *ngIf="paymentOnlines.length <1" style="min-height: 250px" class="shadow-lg bg-white mt-3 rounded-lg">
+      <div class="p-2 text-center">
+        <h5 class="py-5">Không tìm thấy kết quả!</h5>
+      </div>
+    </div>
+    <div *ngIf="paymentOnlines.length > 0" class="shadow-lg bg-white mt-3 rounded-lg">
       <div class="p-2">
         <h5 class="p-2">Kết quả tra cứu</h5>
         <div class="table-responsive">
           <table class="table table-hover">
             <thead class="table-success">
             <tr>
-              <th scope="col" class="col-1">Mã hóa đơn</th>
-              <th scope="col" class="col-3">Khách hàng</th>
+              <th scope="col" class="col-2">Mã hóa đơn</th>
+              <th scope="col" class="col-2">Khách hàng</th>
               <th scope="col" class="col-2">Ngày lập</th>
               <th scope="col" class="col-2">Giờ lập</th>
               <th scope="col" class="col-2">Tổng tiền (VNĐ)</th>
@@ -60,51 +60,10 @@
               <td>{{paymentOnline.paymentId}}</td>
               <td>{{paymentOnline.customerName}}</td>
               <td>{{paymentOnline.dateCreate|date:'dd/MM/yyyy'}}</td>
-              <td>{{paymentOnline.timeCreate|date:"HH:mm"}}</td>
+              <td>{{paymentOnline.timeCreate}}</td>
               <td>{{paymentOnline.totalPrice|number}}</td>
               <td>{{paymentOnline.note}}</td>
             </tr>
-            <tr>
-              <td>HD0002</td>
-              <td>Phan An</td>
-              <td>20/06/2022</td>
-              <td>12:00:00</td>
-              <td>1.500.000</td>
-              <td>Một vài ghi chú</td>
-            </tr>
-            <tr>
-              <td>HD0003</td>
-              <td>Nguyễn Trần Thanh Nghĩa</td>
-              <td>15/05/2022</td>
-              <td>13:00:00</td>
-              <td>500.000</td>
-              <td>Đây ghi chú</td>
-            </tr>
-            <tr>
-              <td>HD0004</td>
-              <td>Khách lẻ</td>
-              <td>20/05/2022</td>
-              <td>11:00:00</td>
-              <td>800.000</td>
-              <td>Đây ghi chú</td>
-            </tr>
-            <tr>
-              <td>HD0005</td>
-              <td>Khách lẻ</td>
-              <td>14/05/2022</td>
-              <td>08:00:00</td>
-              <td>100.000</td>
-              <td>Đây ghi chú</td>
-            </tr>
-            <tr>
-              <td>HD0006</td>
-              <td>Lê Quang Anh Đà</td>
-              <td>13/05/2022</td>
-              <td>16:00:00</td>
-              <td>600.000</td>
-              <td>Đây ghi chú</td>
-            </tr>
-
             </tbody>
           </table>
         </div>
@@ -131,3 +90,4 @@
     </div>
   </div>
 </div>
+

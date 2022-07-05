@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PaymentOnlineDto} from "../../../dto/cart/PaymentOnlineDto";
-import {PaymentOnlineService} from "../../../service/cart/payment-online.service";
 import {LookupPaymentOnlineService} from "../lookup-payment-online.service";
 
 @Component({
@@ -10,15 +9,16 @@ import {LookupPaymentOnlineService} from "../lookup-payment-online.service";
 })
 export class LookUpPaymentOnlineComponent implements OnInit {
   paymentOnlines: PaymentOnlineDto[] = []
+  @ViewChild('paymentIdSearch') paymentIdSearch: ElementRef;
+  @ViewChild('customerNameSearch') customerNameSearch: ElementRef;
   totalPages: number;
   currentPage: number;
-  paymentIdSearch = '';
-  customerNameSearch = '';
 
   constructor(private lookupPaymentOnlineService: LookupPaymentOnlineService) {
   }
 
   ngOnInit(): void {
+    console.log(0);
     this.getPaymentOnlines({page: 0, size: 5});
   }
 
@@ -32,7 +32,8 @@ export class LookUpPaymentOnlineComponent implements OnInit {
           this.totalPages = data['totalPages'];
         }
         , error => {
-          console.log(error.error.message);
+          console.log(error);
+          this.paymentOnlines = [];
         }
       );
   }
@@ -59,14 +60,13 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     }
   }
 
-  searchPaymentOnline(paymentIdSearch: HTMLInputElement, customerNamSearch: HTMLInputElement) {
+  searchPaymentOnline() {
     const request = {};
-    this.paymentIdSearch = paymentIdSearch.value;
-    this.customerNameSearch = customerNamSearch.value;
     request['page'] = 0;
     request['size'] = 5;
-    request['paymentOnlineId'] = this.paymentIdSearch;
-    request['customerName'] = this.customerNameSearch;
+    request['paymentOnlineId'] = this.paymentIdSearch.nativeElement.value;
+    request['customerName'] = this.customerNameSearch.nativeElement.value;
     this.getPaymentOnlines(request);
   }
+
 }

@@ -1,9 +1,9 @@
-<div class="wrapper">
-  <div class="container-fluid mx-auto my-5">
-    <div class="flex shadow-md my-10">
+<div class="wrapper mb-2">
+  <div class="container-fluid mx-auto">
+    <div class="flex">
       <div *ngIf="cartDetails.length<1" class="row">
         <div class="col-8 mx-auto mt-2">
-          <div class="bg-white p-3 rounded-lg">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
               <h3>Giỏ hàng</h3>
             </div>
@@ -29,7 +29,7 @@
       </div>
       <div *ngIf="cartDetails.length >= 1" class="row">
         <div class="col-xl-8 col-lg-12 my-2">
-          <div class="bg-white p-3 rounded-lg">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
               <h3>Giỏ hàng</h3>
               <h4>{{cartDetails.length}} Sản phẩm</h4>
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="col-xl-4 col-lg-12 my-2">
-          <div class="bg-white p-3 rounded-lg">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
               <h3>Tổng tiền</h3>
             </div>
