@@ -42,6 +42,7 @@ export class MedicineService {
    * @Time 19:00 03/07/2022
    */
   public searchListMedicine(value1: any, value2: any, value3: any): Observable<MedicineDto[]> {
+    console.log(`${API_URL}/api/manager-medicine/medicines/search?columName=${value1}&condition=${value2}&keyWord=${value3}`);
     // tslint:disable-next-line:max-line-length
     return this.http.get<MedicineDto[]>
     (`${API_URL}/api/manager-medicine/medicines/search?columName=${value1}&condition=${value2}&keyWord=${value3}`);

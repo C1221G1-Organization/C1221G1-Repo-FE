@@ -64,14 +64,18 @@ const routes: Routes = [
     loadChildren: () => import('./payment/payment.module').then(module => module.PaymentModule)
   },
   {
+
     path: 'import-invoice-medicine',
-    // tslint:disable-next-line:max-line-length
     loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {
     path: 'import-invoice',
     loadChildren: () => import('./import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({

@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
   <div class="search">
     <fieldset class="border p-2">
@@ -9,7 +8,7 @@
           <div style="margin-top: 7px">Lọc theo</div>
           <div style="width: 20%">
             <select class="custom-select" #columName>
-              <option value="">-- Chọn lựa --</option>
+              <option value="medicineId">-- Chọn lựa --</option>
               <option value="medicineId">Mã thuốc</option>
               <option value="medicineTypeName">Nhóm thuốc</option>
               <option value="medicineName">Tên thuốc</option>
@@ -29,7 +28,6 @@
               <option value=">=">Lớn hơn bằng</option>
               <option value="<=">Nhỏ hơn bằng</option>
               <option value="!=">Khác</option>
-              <option value="like">Tất cả</option>
             </select>
           </div>
 
@@ -38,7 +36,8 @@
                    aria-label="Search">
           </div>
           <div>
-            <button class="btn btn-primary" (click)="searchMedicine()" ><i class="fa fa-search" aria-hidden="true"></i> Lọc kết quả
+            <button class="btn btn-primary" (click)="searchMedicine()"><i class="fa fa-search" aria-hidden="true"></i>
+              Lọc kết quả
             </button>
           </div>
         </div>
@@ -67,7 +66,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let medicine of medicines,  index as index" (click)="getValueMedicine(medicine)">
+            <tr *ngFor="let medicine of medicines|paginate : { itemsPerPage: 3, currentPage: p },  index as index"
+                (click)="getValueMedicine( index, medicine.medicineId, medicine)"
+                [ngStyle]="{'background-color': chosenIndex === index && isChosen && medicine.medicineId==chooseId ? 'darkgrey' : ''}">
               <td>{{index + 1}}</td>
               <td>{{medicine.medicineId}}</td>
               <td>{{medicine.medicineTypeName}}</td>
@@ -75,45 +76,44 @@
               <td>{{medicine.medicineActiveIngredients}}</td>
               <td>{{medicine.medicineUnitName}}</td>
               <td>{{medicine.medicineConversionUnitName}}</td>
-              <td>{{medicine.medicineImportPrice}}</td>
-              <td>{{medicine.wholesalePrice}}</td>
-              <td>{{medicine.retailPrice}}</td>
+              <td>{{medicine.medicineImportPrice | currency : 'VND'}}</td>
+              <td>{{medicine.wholesalePrice | currency : 'VND'}}</td>
+              <td>{{medicine.retailPrice | currency : 'VND'}}</td>
               <td>
-                <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)" data-toggle="modal" data-target="#infoModal">
+                <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)"
+                        data-toggle="modal" data-target="#infoModal">
                   <i aria-hidden="true" class="fa fa-address-card"></i> Thông tin chi tiết
                 </button>
               </td>
             </tr>
             </tbody>
           </table>
+          <div *ngIf="medicines.length === 0">
+            <h3 class="text-center my-5">Không tìm thấy bất kỳ thông tin nào !</h3>
+          </div>
         </div>
       </fieldset>
     </div>
   </div>
-  <div class="paging my-3">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link">Trước</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Sau</a>
-        </li>
-      </ul>
-    </nav>
+  <!--function paging-->
+  <div style="justify-content: space-around;display: flex;">
+    <pagination-controls (pageChange)="p = $event" class=" page-item"
+                         previousLabel="Sau"
+                         nextLabel="Trước">
+    </pagination-controls>
   </div>
 
-
   <div class="d-flex justify-content-end my-3">
-    <button class="btn btn-success mx-2" [routerLink]="['/medicine/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
-    <button class="btn btn-warning mx-2" [routerLink]="['/medicine/edit']"><i class="fa-solid fa-pen-fancy"></i> Sửa</button>
-    <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)" class="btn btn-danger mx-2" data-toggle="modal" data-target="#deleteModal">
+    <button class="btn btn-success mx-2" [routerLink]="['/medicine/create']"><i class="fa-solid fa-circle-plus"></i>
+      Thêm
+    </button>
+    <button class="btn btn-warning mx-2" [routerLink]="['/medicine/edit']"><i class="fa-solid fa-pen-fancy"></i> Sửa
+    </button>
+    <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)"
+            class="btn btn-danger mx-2" data-toggle="modal" data-target="#deleteModal">
       <i class="fa-solid fa-trash-can"></i> Xoá
     </button>
-    <button class="btn btn-secondary mx-2"><i class="fa-solid fa-reply"></i> Trở về</button>
+    <a class="btn btn-secondary mx-2"><i class="fa-solid fa-reply"></i> Trở về</a>
   </div>
 </div>
 
@@ -134,7 +134,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button type="button" (click)="deleteMedicineById()" class="btn btn-primary" data-dismiss="modal">Xác nhận</button>
+        <button type="button" (click)="deleteMedicineById()" class="btn btn-primary" data-dismiss="modal">Xác nhận
+        </button>
       </div>
     </div>
   </div>
@@ -149,7 +150,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body"  *ngIf="infoMedicine">
+      <div class="modal-body" *ngIf="infoMedicine">
         <p>Mã thuốc : {{infoMedicine.medicineId}}</p>
         <p>Nhóm thuốc : {{infoMedicine.medicineTypeName}}</p>
         <p>Tên thuốc : {{infoMedicine.medicineName}}</p>
@@ -170,4 +171,5 @@
     </div>
   </div>
 </div>
+
 

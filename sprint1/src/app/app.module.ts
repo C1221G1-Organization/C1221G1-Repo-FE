@@ -5,6 +5,8 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastrModule} from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

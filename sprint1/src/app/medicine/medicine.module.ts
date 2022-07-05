@@ -8,6 +8,7 @@ import {MedicineListComponent} from './medicine-list/medicine-list.component';
 import {MedicineEditComponent} from './medicine-edit/medicine-edit.component';
 import {MedicineModalComponent} from './medicine-modal/medicine-modal.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -18,10 +19,11 @@ import {ReactiveFormsModule} from '@angular/forms';
     MedicineEditComponent,
     MedicineModalComponent
   ],
-  imports: [
-    CommonModule,
-    MedicineRoutingModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        MedicineRoutingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule
+    ]
 })
 export class MedicineModule { }
