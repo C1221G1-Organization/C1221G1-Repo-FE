@@ -1,1 +1,26 @@
-<p>admin-chat works!</p>
+<div class="wrapper">
+  <div class="chat-app">
+    <div class="container bg-white" style="max-width: 1140px; min-height: 100vh">
+      <div class="row chat-app-title-container">
+        <div class="col-md-12 my-3 py-3">
+          <p class="chat-app-title text-center">Chăm sóc khách hàng</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chat-app-left-side" style="padding-left: 24px;">
+          <ul>
+            <li [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
+              <a>
+                {{room.name}} <span *ngIf="!room.isSeen" class="badge badge-danger">!</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="chat-app-right-side">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -378,10 +378,10 @@ export class EmployeeListComponent implements OnInit {
   }
 
   deleteEmployeeByid(employeeIdValue: string) {
-    this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() =>{
+    this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() => {
       this.ngOnInit(),
-    alert('Thành công rồi đại vương')},() =>
+        alert('Thành công rồi đại vương')
+    }, () =>
       alert('Không thể tìm thấy nhân viên cần xoá hoặc nhân viên này đã đước xoá trước đó'))
   }
-
 }
