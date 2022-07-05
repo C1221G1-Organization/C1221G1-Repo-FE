@@ -19,7 +19,6 @@ export const snapshotToArray = (snapshot: any) => {
   styleUrls: ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
-
   rooms: any[];
   /**
    * @Author NghiaNTT
