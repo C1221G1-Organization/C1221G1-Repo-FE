@@ -79,7 +79,6 @@ export class UserChatComponent implements OnInit {
     });
     this.chatForm.reset();
   }
-
   /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return handle user login.   * 1. add new user to Users FRD   * 2. add new room to Rooms FRD   * 3. add new chat to Chats FRD   * 4. save item in localStorage   */  onCustomerFormSubmit() {
     this.uuid = uuidv4();
     if (this.customerForm.valid) {

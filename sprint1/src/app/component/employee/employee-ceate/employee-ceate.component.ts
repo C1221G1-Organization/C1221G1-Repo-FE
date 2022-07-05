@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
@@ -9,13 +9,13 @@ import {Employee} from '../../../model/employee/employee';
 import {PositionService} from '../../../service/employee/position.service';
 import {Position} from '../../../model/employee/position';
 
+
 @Component({
   selector: 'app-employee-ceate',
   templateUrl: './employee-ceate.component.html',
   styleUrls: ['./employee-ceate.component.css']
 })
 export class EmployeeCeateComponent implements OnInit {
-
   employeeFormCreate: FormGroup;
   employee: Employee[] = [];
   position: Position[] = [];

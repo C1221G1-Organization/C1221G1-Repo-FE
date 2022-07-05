@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as firebase from 'firebase';
-
-
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
   snapshot.forEach((childSnapshot: any) => {
@@ -19,6 +17,7 @@ export const snapshotToArray = (snapshot: any) => {
   styleUrls: ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
+
   rooms: any[];
   /**
    * @Author NghiaNTT
@@ -33,7 +32,6 @@ export class AdminChatComponent implements OnInit {
       this.rooms.sort((a,b) => b.lastMessagePost - a.lastMessagePost)
     });
   }
-
   ngOnInit(): void {
   }
 

@@ -11,6 +11,7 @@ import {Position} from '../../../model/employee/position';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
+
   @ViewChild('criteria') criteria: ElementRef;
   @ViewChild('valueSearchInput') valueSearchInput: ElementRef;
   @ViewChild('valueSearchDropDown') valueSearchDropDown: ElementRef;
