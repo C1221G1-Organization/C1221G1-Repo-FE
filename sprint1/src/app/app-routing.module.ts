@@ -7,55 +7,57 @@ const routes: Routes = [
     path: '', pathMatch: 'full', redirectTo: 'templates'
   },
   {
-    path        : 'customer',
+
+    path: 'customer',
     loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
-    path        : 'employee',
+    path: 'employee',
     loadChildren: () => import('./component/employee/employee.module').then(module => module.EmployeeModule)
   },
   {
-    path        : 'account',
+    path: 'account',
     loadChildren: () => import('./component/account/account.module').then(module => module.AccountModule)
   },
   {
-    path        : 'admin-chat',
+    path: 'admin-chat',
     loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule)
   },
   {
-    path        : 'log',
+    path: 'log',
     loadChildren: () => import('./component/log/log.module').then(module => module.LogModule)
   },
   {
-    path        : 'medicine',
+    path: 'medicine',
     loadChildren: () => import('./component/medicine/medicine.module').then(module => module.MedicineModule)
   },
   {
-    path        : 'look-up',
+    path: 'look-up',
     loadChildren: () => import('./component/look-up/look-up.module').then(module => module.LookUpModule)
   },
   {
-    path        : 'cart',
+    path: 'cart',
     loadChildren: () => import('./component/cart/cart.module').then(module => module.CartModule)
   },
   {
-    path        : 'prescription',
+    path: 'prescription',
     loadChildren: () => import('./component/prescription/prescription.module').then(module => module.PrescriptionModule)
   },
   {
-    path        : 'reports',
+    path: 'reports',
     loadChildren: () => import('./component/reports/report.module').then(module => module.ReportModule)
   },
   {
-    path        : 'sales-management',
+    path: 'sales-management',
     loadChildren: () => import('./component/sales-management/sales-management.module').then(module => module.SalesManagementModule)
   },
   {
-    path        : 'supplier',
+    path: 'supplier',
     loadChildren: () => import('./component/supplier/supplier.module').then(module => module.SupplierModule)
   },
   {
-    path        : 'templates',
+    path: 'templates',
+
     loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {

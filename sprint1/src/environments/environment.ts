@@ -4,6 +4,17 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:8080',
+  firebaseConfig: {
+    apiKey: 'AIzaSyAFIkb0qmJY43dAKphbQSZ778WT_aLNfuo',
+    authDomain: 'c1221g1-firebase.firebaseapp.com',
+    databaseURL: 'https://c1221g1-firebase-default-rtdb.firebaseio.com',
+    projectId: 'c1221g1-firebase',
+    storageBucket: 'c1221g1-firebase.appspot.com',
+    messagingSenderId: '535591875350',
+    appId: '1:535591875350:web:7c310ddb990697c0bbd637',
+    measurementId: 'G-CVJD51BD70'
+  },
   apiBaseUrl: 'http://localhost:3000'
 };
 
