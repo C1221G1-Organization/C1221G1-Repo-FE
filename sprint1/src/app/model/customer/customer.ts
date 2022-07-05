@@ -1,8 +1,8 @@
+
 import {CustomerType} from './customer-type';
-import {Users} from './users';
+import {Users} from '../users/users';
 
-export class Customer {
-
+export interface Customer {
   customerId: string;
   customerName: string;
   customerBirthday: string;
@@ -13,7 +13,4 @@ export class Customer {
   flag: boolean;
   customerUsername: Users;
   customerType: CustomerType;
-
-
-
 }
