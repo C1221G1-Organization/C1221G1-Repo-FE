@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
 
-
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
   snapshot.forEach((childSnapshot: any) => {
@@ -35,7 +34,6 @@ export class AdminChatComponent implements OnInit {
       this.rooms.sort((a,b) => b.lastMessagePost - a.lastMessagePost)
     });
   }
-
   ngOnInit(): void {
   }
 
