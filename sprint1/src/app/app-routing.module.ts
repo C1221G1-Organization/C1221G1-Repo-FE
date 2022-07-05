@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 
 const routes: Routes = [
@@ -7,6 +7,7 @@ const routes: Routes = [
     path: '', pathMatch: 'full', redirectTo: 'templates'
   },
   {
+
     path: 'customer',
     loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
@@ -56,9 +57,11 @@ const routes: Routes = [
   },
   {
     path: 'templates',
+
     loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
+
     path: 'payment',
     loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
@@ -69,7 +72,7 @@ const routes: Routes = [
   {
     path: 'import-invoice',
     loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
-  },
+  }
 ];
 
 @NgModule({

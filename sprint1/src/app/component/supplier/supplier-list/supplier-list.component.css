@@ -1,0 +1,40 @@
+.mgl {
+  margin-left: 30px;
+}
+
+.center-s {
+  margin-top: 6px;
+}
+
+a {
+  text-decoration: none
+}
+
+#btn button {
+  width: 90px;
+}
+
+.pd-t {
+  padding-left: 0;
+  padding-right: 0;
+}
+.custom-venue tr:hover {
+  cursor: pointer;
+  background: #ffc846;
+  font-weight: bold;
+}
+
+.custom-venue td:focus {
+  outline: none;
+  background: #34ce57;
+  font-weight: bold;
+}
+
+.pd-l{
+  padding-left: 0px;
+}
+tr:hover {background-color: #D6EEEE;}
+
+.bgr{
+text-align: center;
+}

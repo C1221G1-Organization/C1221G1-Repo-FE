@@ -8,11 +8,13 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NotFoundComponent} from './component/not-found/not-found.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
