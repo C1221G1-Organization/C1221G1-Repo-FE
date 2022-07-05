@@ -62,8 +62,8 @@
           <th> Số Điện Thoại</th>
           <th>Email</th>
         </tr>
-        <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i" (click)="getValueTest(item)"
-            (dblclick)="chooseSupplier(i, item.supplierId, item)"
+        <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i"
+            (click)="chooseSupplier(i, item)"
             [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
           <td>{{i + 1}}</td>
           <td>{{item.supplierName}}</td>
@@ -123,7 +123,7 @@
 
 
 <!--modal delete -->
-<div *ngIf="valueSupplier.supplierId != undefined">
+<div *ngIf="idDelete != undefined">
   <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
        data-keyboard="false"
        id="staticBackdrop" tabindex="-1">
@@ -137,12 +137,10 @@
           <div class="modal-body">
             <div style="text-align: center">
               <p>Bạn Chắc Chắn Muốn Xóa
-                <b style="color: red ">{{valueSupplier.supplierName}}</b>
+                <b style="color: red ">{{nameDelete}}</b>
               </p>
               <p>Có Mã Là
-                <b style="color: red ">{{valueSupplier.supplierId}}</b></p>
-              <p>Số Điện Thoại
-                <b>{{valueSupplier.supplierPhone}}</b></p>
+                <b style="color: red ">{{idDelete}}</b></p>
             </div>
           </div>
           <div class="modal-footer">

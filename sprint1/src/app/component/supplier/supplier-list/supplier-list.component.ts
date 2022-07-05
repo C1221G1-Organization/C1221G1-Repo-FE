@@ -23,6 +23,8 @@ export class SupplierListComponent implements OnInit {
   chosenIndex: number;
   isChosen: Boolean;
   chooseId: string;
+  idDelete: string;
+  nameDelete: String;
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService) {
@@ -51,7 +53,7 @@ export class SupplierListComponent implements OnInit {
    *  @this  delete Supplier
    */
   confirmDelete() {
-    this.supplierService.deleteSupplier(this.valueSupplier.supplierId).subscribe(() => {
+    this.supplierService.deleteSupplier(this.idDelete).subscribe(() => {
       this.ngOnInit();
       this.toastr.warning("Xóa  Thành Công ! " + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
         timeOut: 3000,
@@ -245,23 +247,27 @@ export class SupplierListComponent implements OnInit {
    * @LuatTN 10h 05/07/2022
    * @param supplier
    */
-  chooseSupplier(index: number, supplierId: string, supplier: Supplier): void {
+  chooseSupplier(index: number, supplier: Supplier): void {
     if (this.chosenIndex != index) {
       this.isChosen = true;
       this.chosenIndex = index;
-      this.chooseId = supplierId;
+      this.chooseId = supplier.supplierId;
+      this.nameDelete= supplier.supplierName
     } else {
       this.isChosen = !this.isChosen;
       this.chooseId = null;
+      this.chosenIndex = null;
+      this.idDelete= null
+      this.nameDelete= null
     }
     if (this.isChosen) {
-      this.valueSupplier = supplier;
-
-      this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp " + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
-        timeOut: 3000,
+      this.idDelete = supplier.supplierId;
+      this.toastr.success("Xác Nhận Đã Chọn 1 Nhà Cung Cấp " + supplier.supplierName, "Thông Báo Xác Nhận", {
+        timeOut: 1000,
         progressBar: true,
         positionClass: 'toast-top-center',
       });
     }
+
   }
 }
