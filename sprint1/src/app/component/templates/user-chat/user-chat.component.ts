@@ -50,7 +50,11 @@ export class UserChatComponent implements OnInit {
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      setTimeout(() => this.scrollTop = this.chatContent.nativeElement.scrollHeight, 200);
+      setTimeout(() => {
+        if (this.chatContent) {
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight
+        }
+      }, 200);
     });
   }
 
@@ -83,9 +87,6 @@ export class UserChatComponent implements OnInit {
         }
       });
     }
-
-
-
   }
 
   /**
@@ -116,15 +117,18 @@ export class UserChatComponent implements OnInit {
    */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    chat.name = this.userChat.name;
-    chat.uuid = this.uuid;
-    chat.createdAt = getTimeStamp();
-    firebase.database().ref('chats/' + this.uuid).push().set(chat);
-    firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
-      const room = res.val();
-      firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
-    });
-    this.chatForm.reset();
+    if (chat.message.trim().length == 0) {
+      chat.name = this.userChat.name;
+      chat.uuid = this.uuid;
+      chat.message = chat.message.trim();
+      chat.createdAt = getTimeStamp();
+      firebase.database().ref('chats/' + this.uuid).push().set(chat);
+      firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
+        const room = res.val();
+        firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
+      });
+      this.chatForm.reset();
+    }
   }
 
   /**

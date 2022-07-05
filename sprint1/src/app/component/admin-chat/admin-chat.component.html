@@ -9,7 +9,7 @@
       <div class="row">
         <div class="chat-app-left-side" style="padding-left: 24px;">
           <ul>
-            <li [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
+            <li (click)="isSeenToggle(room.uuid)" [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
               <a>
                 {{room.name}} <span *ngIf="!room.isSeen" class="badge badge-danger">!</span>
               </a>
