@@ -95,29 +95,29 @@
 
     <div class="row no-margin">
       <div class="col-sm-6">
-        <div class="form-group">
+        <div class="form-group" >
           <b class="title" class="form-label">Giới tính <span
             style="color: red"> (*) </span></b>
-          <div style="margin-top: 7px">
-            <div class="form-check form-check-inline">
-              <input id="0" formControlName="customerGender" class="form-check-input" type="radio" value="0">
-              <label for="0" class="form-check-label">Nam</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input id="1" formControlName="customerGender" class="form-check-input" type="radio" value="1">
-              <label for="1" class="form-check-label">Nữ</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input id="2" formControlName="customerGender" class="form-check-input" type="radio" value="2">
-              <label for="2" class="form-check-label">Giới tính khác</label>
-            </div>
-          </div>
-          <!--          <select class="form-control" formControlName="customerGender">-->
-          <!--            <option value="">Vui lòng chọn</option>-->
-          <!--            <option value="0">Nam</option>-->
-          <!--            <option value="1">Nữ</option>-->
-          <!--            <option value="2">Giới tính khác</option>-->
-          <!--          </select>-->
+<!--          <div style="margin-top: 7px">-->
+<!--            <div class="form-check form-check-inline">-->
+<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0">-->
+<!--              <label  class="form-check-label" for="inlineRadio1">Nam</label>-->
+<!--            </div>-->
+<!--            <div class="form-check form-check-inline">-->
+<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">-->
+<!--              <label class="form-check-label" for="inlineRadio2">Nữ</label>-->
+<!--            </div>-->
+<!--            <div class="form-check form-check-inline">-->
+<!--              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="2">-->
+<!--              <label class="form-check-label" for="inlineRadio3">Giới tính khác</label>-->
+<!--            </div>-->
+<!--          </div>-->
+                    <select class="form-control" formControlName="customerGender">
+                      <option value="">Vui lòng chọn</option>
+                      <option value="0">Nam</option>
+                      <option value="1">Nữ</option>
+                      <option value="2">Giới tính khác</option>
+                    </select>
           <p style="color: red"
              *ngIf="updateForm.controls.customerGender.hasError('required') && updateForm.controls.customerGender.touched">
             Bắt buộc chọn</p>

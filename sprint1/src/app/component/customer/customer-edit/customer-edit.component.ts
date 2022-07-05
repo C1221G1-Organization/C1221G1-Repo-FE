@@ -65,6 +65,9 @@ export class CustomerEditComponent implements OnInit {
   }
 
   update(index: string) {
+    if (!this.updateForm.valid) {
+      this.updateForm.markAllAsTouched();
+    }
     const value = this.updateForm.value;
     this.customerService.update(index, value).subscribe(() => {
       }, error => {
