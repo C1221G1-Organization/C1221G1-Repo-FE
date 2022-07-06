@@ -17,6 +17,7 @@ import {NgxSpinnerService} from "ngx-spinner";
   styleUrls: ['./payment-online.component.css']
 })
 export class PaymentOnlineComponent implements OnInit {
+
   cartAndDetailDto = {} as CartAndDetailDto;
   rate = 23315;
   public payPalConfig ?: IPayPalConfig;
@@ -39,11 +40,11 @@ export class PaymentOnlineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("paymentonline");
+    console.log('paymentonline');
     this.paymentOnlineService.getCartAndDetail().subscribe(value => {
       this.cartAndDetailDto = value;
       if (this.cartAndDetailDto.discount != null) {
-        console.log("in");
+        console.log('in');
         this.total = this.getTotal();
         this.discount = this.cartAndDetailDto.discount.discountValue;
         this.totalAfterDiscount = this.total * (1 - this.discount);
@@ -56,15 +57,15 @@ export class PaymentOnlineComponent implements OnInit {
       this.customerForm = new FormGroup({
         customerName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
         customerUserName: new FormControl('',
-          [Validators.required, Validators.pattern("^\\w+([\\.-]?\\w+)*@[a-z]+\\.(\\w+)(\\.\\w{2,3})?")]),
+          [Validators.required, Validators.pattern('^\\w+([\\.-]?\\w+)*@[a-z]+\\.(\\w+)(\\.\\w{2,3})?')]),
         customerPhone: new FormControl('',
-          [Validators.required, Validators.pattern("^(09|08|03)\\d{8}$")]),
+          [Validators.required, Validators.pattern('^(09|08|03)\\d{8}$')]),
         customerAddress: new FormControl('',
           [Validators.required, Validators.minLength(10), Validators.maxLength(150)])
       });
       this.changeRate();
       this.initConfig();
-    })
+    });
 
   }
 
@@ -134,14 +135,14 @@ export class PaymentOnlineComponent implements OnInit {
         console.log(this.cartAndDetailDto);
         this.paymentOnlineService.saveCartAndDetailAPI(this.cartAndDetailDto).subscribe(data => {
           // console.log(this.cartAndDetailDto);
-          console.log(data)
+          console.log(data);
           this.cartAndDetailDto = {};
           this.isSuccess = true;
           this.isError = false;
           this.cartService.clearCart();
           this.spinner.hide();
           this.openModal();
-        })
+        });
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
@@ -162,7 +163,7 @@ export class PaymentOnlineComponent implements OnInit {
   }
 
   changeRate() {
-    console.log("change");
+    console.log('change');
     console.log(this.rate);
     console.log(this.totalAfterDiscount);
     this.totalUSD = (this.totalAfterDiscount / this.rate).toFixed(2);
@@ -173,7 +174,7 @@ export class PaymentOnlineComponent implements OnInit {
     let total = 0;
     this.cartAndDetailDto.cartDetail.forEach(item => {
       total += (item.quantity * item.medicine.medicinePrice);
-    })
+    });
     return total;
   }
 

@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {CartDetailDtoForList} from "../../dto/cart/CartDetailDtoForList";
-import {MedicineDtoForCart} from "../../dto/cart/MedicineDtoForCart";
-import {CartDetailDto} from "../../dto/cart/CartDetailDto";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {MedicineDtoForCart} from "../../dto/cart/MedicineDtoForCart";
+import {CartDetailDto} from "../../dto/cart/CartDetailDto";
 import {CartAndDetailDto} from "../../dto/cart/CartAndDetailDto";
 
 const API_URL = 'http://localhost:8080/api/carts';

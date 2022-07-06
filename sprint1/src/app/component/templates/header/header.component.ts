@@ -1,7 +1,7 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShareService} from "../../../share/ShareService";
-import {MedicineHomePage} from "../../../dto/medicine-home-page";
+import {MedicineHomePage} from "../../../dto/medicine/medicine-home-page";
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 
 @Component({
@@ -18,12 +18,15 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
+  medicineTypeList= [{id:1,name:'Bổ'},{id:2,name: "Cảm"}]
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private tokenStorageService: TokenStorageService,
               private changeDetectorRef: ChangeDetectorRef,
               private shareService: ShareService) {
   }
+
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.isLogIn = true;
@@ -31,6 +34,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
       this.roles = this.tokenStorageService.getUser().roles;
     }
   }
+
   ngAfterContentChecked(): void {
     if (this.productQuantityInCart != 0) {
       this.productQuantityInCart = 0;
@@ -40,14 +44,19 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
+    this.ngOnInit()
   }
+
   // logout() {
   //   this.tokenStorageService.signOut();
   //   window.location.reload();
   // }
-  searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
+
+
+  searchMedicine(name: HTMLInputElement, typeId:  HTMLSelectElement) {
     this.medicine.medicineName = name.value;
     this.medicine.medicineTypeId = typeId.value;
     this.shareService.emitChange(this.medicine);
   }
+
 }

@@ -1,21 +1,25 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
-import {MedicineDetailDto} from '../../../dto/medicine-detail.model';
+import {MedicineDetailDto} from '../../../dto/medicine/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 
+const MAXIMUM_QUANTITY_ALLOWED = 10;
 @Component({
   selector   : 'app-medicine-detail',
   templateUrl: './medicine-detail.component.html',
   styleUrls  : ['./medicine-detail.component.css']
 })
-export class MedicineDetailComponent implements OnInit, AfterViewChecked {
+export class MedicineDetailComponent implements OnInit {
 
   medicineId: string;
   medicine: MedicineDetailDto;
   relativeMedicineList: MedicineDetailDto[];
   quantity = 1;
-
+  toastrOptions = {
+    preventOpenDuplicates: true,
+    timeOut: 5000
+  }
   constructor(private toastr: ToastrService,
               private router: Router,
               private medicineService: MedicineService,
@@ -55,7 +59,19 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
    */
   increaseQuantity() {
     this.quantity++;
-    this.quantity = this.quantity > this.medicine.medicineQuantity ? this.medicine.medicineQuantity : this.quantity;
+    if (this.quantity > MAXIMUM_QUANTITY_ALLOWED) {
+      this.quantity = MAXIMUM_QUANTITY_ALLOWED;
+      this.toastr.warning(
+        `Bạn chỉ được mua tối đa ${MAXIMUM_QUANTITY_ALLOWED} sản phảm`,
+        '',
+        {...this.toastrOptions})
+    } else if (this.quantity > this.medicine.medicineQuantity) {
+      this.quantity = this.medicine.medicineQuantity
+      this.toastr.warning(
+        `Số lượng sản phảm còn lại không đủ`,
+        '',
+        {...this.toastrOptions})
+    }
   }
   /**
    * @Author NghiaNTT
@@ -98,12 +114,10 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
    * @param
    * @return scroll to top when view is checked
    */
-  ngAfterViewChecked() {
-    console.log("view checkeđ");
-    // Hack: Scrolls to top of Page after page view initialized
+  scrollToTopOfScrollable() {
     let top = document.getElementById('product-detail-view');
     if (top !== null) {
-      top.scrollIntoView();
+      window.scrollBy(0, -window.innerHeight);
       top = null;
     }
   }

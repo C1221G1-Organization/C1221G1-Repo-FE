@@ -6,8 +6,8 @@ import {EmployeeModalComponent} from './employee-modal/employee-modal.component'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../../../environments/environment.prod';
-import {CommonModule} from "@angular/common";
-import {NgModule} from "@angular/core";
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import {NgModule} from "@angular/core";
     EmployeeModalComponent],
   imports: [
     CommonModule,
-    EmployeeRoutingModule,
+      EmployeeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
