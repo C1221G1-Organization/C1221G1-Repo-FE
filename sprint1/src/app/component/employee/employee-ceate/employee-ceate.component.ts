@@ -4,11 +4,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {ToastrService} from 'ngx-toastr';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {Employee} from '../../../model/employee/employee';
 import {PositionService} from '../../../service/employee/position.service';
 import {Position} from '../../../model/employee/position';
+
 
 @Component({
   selector: 'app-employee-ceate',
@@ -16,7 +16,6 @@ import {Position} from '../../../model/employee/position';
   styleUrls: ['./employee-ceate.component.css']
 })
 export class EmployeeCeateComponent implements OnInit {
-
   employeeFormCreate: FormGroup;
   employee: Employee[] = [];
   position: Position[] = [];
@@ -33,17 +32,16 @@ export class EmployeeCeateComponent implements OnInit {
   constructor(private  employeeService: EmployeeService,
               private positionService: PositionService,
               private router: Router,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage,
-              private toastr: ToastrService) {
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
-      employeeAddress: new FormControl('', [Validators.required]),
+      employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       // tslint:disable-next-line:max-line-length
-      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]),
+      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
       employeeDateStart: new FormControl('', [Validators.required]),
       employeeNote: new FormControl(''),
       flag: new FormControl(''),
@@ -93,9 +91,6 @@ export class EmployeeCeateComponent implements OnInit {
   Function:  Save Employee
 */
   onSubmit() {
-    if (!this.employeeFormCreate.valid) {
-      this.employeeFormCreate.markAllAsTouched();
-    }
     const employee = this.employeeFormCreate.value;
     console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
@@ -106,20 +101,11 @@ export class EmployeeCeateComponent implements OnInit {
         console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
-          this.toastr.success('Thêm Mới Thành Công !', '', {
-            timeOut: 3000,
-            progressBar: true
-          });
-          this.router.navigateByUrl('/employee/list');
+          alert('thành công');
         }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', '', {
-            timeOut: 3000,
-            progressBar: true
-          });
-          console.log(error.error);
-          this.errorUser = error.error?.errorMap?.usersName;
+          this.errorUser = error.error.errorMap.usersName;
           console.log(this.errorUser);
-          this.errorImage = error.error?.errorMap?.employeeImage;
+          this.errorImage = error.error.errorMap.employeeImage;
           console.log(this.errorImage);
         });
       });
@@ -137,7 +123,7 @@ export class EmployeeCeateComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('lớn hơn');
+      console.log('11');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
   }

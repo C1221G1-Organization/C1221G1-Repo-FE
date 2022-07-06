@@ -1,7 +1,7 @@
+import {Component, OnInit} from '@angular/core';
 import {ReportService} from '../../../service/report.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
-import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-report-list',
@@ -9,7 +9,6 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./report-list.component.css']
 })
 export class ReportListComponent implements OnInit {
-
   reportForm: FormGroup;
 
   constructor(private reportService: ReportService,

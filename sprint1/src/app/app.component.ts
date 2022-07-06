@@ -1,11 +1,10 @@
 import 'firebase/database';
 import {TokenStorageService} from './service/security/token-storage.service';
-
-import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {environment} from '../environments/environment';
 import firebase from "firebase/app";
 import "firebase/database";
-import {config, environment} from "../environments/environment";
-
+import {config} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -15,15 +14,14 @@ import {config, environment} from "../environments/environment";
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
 
-  isGuest = true;
+  isGuest: boolean;
   user;
 
-  constructor(private tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService,
+              private cdr: ChangeDetectorRef) {
     firebase.initializeApp(config);
-
     console.log(this.user);
   }
-
 
   ngOnInit(): void {
     this.user = this.tokenStorageService.getUser();
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
       this.isGuest = true;
     }
     if (this.user != null) {
-      if (this.user.roles[0] == "ROLE_USER") {
+      if (this.user.roles[0] == 'ROLE_USER') {
         this.isGuest = true;
       } else {
         this.isGuest = false;
@@ -42,6 +40,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.ngOnInit()
+    this.cdr.detectChanges();
   }
-
 }

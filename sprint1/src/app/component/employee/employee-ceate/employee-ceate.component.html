@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+<p>employee-ceate works!</p>
+=======
 <div style="font-size:16px">
 
   <h1 style="text-align: center;font-size: 32px"> Thêm mới nhân viên</h1>
@@ -11,10 +14,10 @@
           <input type="text" class="form-control" formControlName="employeeName" id="name-employee">
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeName.hasError('required')  && employeeFormCreate.controls.employeeName.touched">
-            Tên không được để trống.</p>
+            Tên không được để trống</p>
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeName.hasError('pattern')  && employeeFormCreate.controls.employeeName.touched">
-            Tên không được chứa các kí tự đặt biệt, Vd: <b>Nguyễn Anh Tâm.</b>.</p>
+            Tên không được chứa các kí tự đặt biệt</p>
         </div>
       </div>
       <div class="row">
@@ -25,7 +28,11 @@
           <input type="text" class="form-control" formControlName="employeeAddress" id="address">
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeAddress.hasError('required')  && employeeFormCreate.controls.employeeAddress.touched">
-            Địa chỉ không được để trống.</p>
+            Địa chỉ không được để trống</p>
+          <p style="color: red"
+             *ngIf="employeeFormCreate.controls.employeeAddress.hasError('pattern')  && employeeFormCreate.controls.employeeAddress.touched">
+            Đại chỉ không được chứa các kí tự đặt biệt</p>
+
         </div>
         <div class="col-lg-6">
           <label for="phone" class="col-form-label"><b>Điện thoại </b><span
@@ -33,10 +40,10 @@
           <input type="text" class="form-control" formControlName="employeePhone" id="phone">
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeePhone.hasError('required')  && employeeFormCreate.controls.employeePhone.touched">
-            Số điện thoại không được để trống.</p>
+            Số điện thoại không được để trống</p>
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeePhone.hasError('pattern')  && employeeFormCreate.controls.employeePhone.touched">
-            Số điện thoại phải đúng định dạng gồm 10 số, bắt đầu phải là số 0.</p>
+            Số điện thoại phải đúng định dạng gồm 10 số</p>
         </div>
       </div>
       <div class="row">
@@ -50,10 +57,10 @@
 
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeImage.hasError('required')  && employeeFormCreate.controls.employeeImage.touched">
-            Ảnh không được để trống.</p>
+            Ảnh không được để trống</p>
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeImage.hasError('pattern')  && employeeFormCreate.controls.employeeImage.touched">
-            Hãy chọn flle ảnh, định dạng : name.*Image.</p>
+            Ảnh không đúng định dạng</p>
 
         </div>
         <div class="col-lg-3">
@@ -71,7 +78,8 @@
               </div>
             </div>
           </div>
-          <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>
+          <!--          <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>-->
+
         </div>
         <div class="col-lg-6" formGroupName="employeeUsername">
           <label for="name-acc" class="col-form-label"><b>Tên tài khoản </b><span
@@ -80,11 +88,11 @@
           <div>
             <p style="color: red"
                *ngIf="employeeFormCreate.get('employeeUsername.username').hasError('required')  && employeeFormCreate.get('employeeUsername.username').touched">
-              Tên tài khoản không được để trống.</p>
+              Tên tài khoản không được để trống</p>
 
             <p style="color: red"
                *ngIf="employeeFormCreate.get('employeeUsername.username').hasError('pattern')  && employeeFormCreate.get('employeeUsername.username').touched">
-              Tên tài khoản phải đúng định dạng. Vd <b> abcd1234@gmail.com .</b></p>
+              Tên tài khoản phải đúng định dạng. Vd <b> abcd1234@gmail.com</b></p>
 
             <p style="color: red"
                *ngIf=" errorUser!= ''  && employeeFormCreate.get('employeeUsername.username').touched">{{errorUser}} </p>
@@ -103,7 +111,7 @@
           </select>
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.position.hasError('required')  && employeeFormCreate.controls.position.touched">
-            Chức vụ không được để trống.</p>
+            Chức vụ không được để trống</p>
 
 
         </div>
@@ -114,7 +122,7 @@
                  id="day-work">
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeDateStart.hasError('required')  && employeeFormCreate.controls.employeeDateStart.touched">
-            Ngày vào làm không được để trống.</p>
+            Ngày vào làm không được để trống</p>
           <div
             *ngIf="employeeFormCreate.get('employeeDateStart').errors?.check  && employeeFormCreate.controls.employeeDateStart.touched"
             style="color: red">
@@ -131,13 +139,13 @@
       </div>
       <b style="color: red;font-size: 12px    ">(*) : Thông tin bắt buộc.</b>
       <div class="row">
-        <div class="col-xl-10"></div>
+        <div class="col-lg-10"></div>
         <div>
-          <button  type="button" class="btn btn-secondary" [routerLink]="['/employee/list']"><i class="fa fa-undo" aria-hidden="true" ></i> Trở về</button>
+          <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
         </div>
-        <span> &nbsp;</span>
+        <span>&nbsp; </span>
         <div>
-          <button type="submit" class="btn btn-success"><i
+          <button type="submit" class="btn btn-success" [disabled]="!employeeFormCreate.valid"><i
             class="fa-solid fa-circle-plus"></i> Thêm
           </button>
         </div>
@@ -146,3 +154,4 @@
     <br>
   </div>
 </div>
+>>>>>>> develop

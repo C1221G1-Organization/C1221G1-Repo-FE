@@ -9,7 +9,6 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./medicine-list.component.css']
 })
 export class MedicineListComponent implements OnInit {
-
   public medicines: MedicineDto[];
   nameToDelete: string;
   idToDelete: string;

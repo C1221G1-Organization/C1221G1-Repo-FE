@@ -19,7 +19,7 @@
                   </select>
                   <div class="col-1  pl-1 pr-0">
                     <button id="abc" style="height: 31px"
-                            type="button" class="btn btn-outline-secondary button"
+                             class="btn btn-outline-secondary" routerLink="['supplier/create']"
                     ><i class="fa fa-plus"></i>
                     </button>
                   </div>
@@ -231,7 +231,7 @@
         <button class="mr-4 btn btn-success button"
                 type="submit" (click)="createNewImportInvoice()"><i class="fa fa-plus" aria-hidden="true"></i> Hoàn tất
         </button>
-        <button class="mr-4 btn btn-secondary button" type="button"><i class="icon-sidebar fa fa-reply"></i>
+        <button class="mr-4 btn btn-secondary button" routerLink="['/import-invoice/']"><i class="icon-sidebar fa fa-reply"></i>
           Trở về
         </button>
       </div>

@@ -8,7 +8,7 @@ import {SupplierDetailComponent} from './supplier-detail/supplier-detail.compone
 /**
  * Routes
  *  @23h 01/06/2022 LuatTN
- *   @this  get value  Supplier
+ *   @ this  get value  Supplier
  */
 const routes: Routes = [
   {path: '', component: SupplierListComponent},
@@ -17,9 +17,13 @@ const routes: Routes = [
   {path: 'detail/:supplierId', component: SupplierDetailComponent}
 ];
 
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
+
 export class SupplierRoutingModule {
 }
+

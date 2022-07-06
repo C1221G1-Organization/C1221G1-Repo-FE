@@ -168,4 +168,3 @@ export class PrescriptionDetailComponent implements OnInit {
     }
   }
 }
-
