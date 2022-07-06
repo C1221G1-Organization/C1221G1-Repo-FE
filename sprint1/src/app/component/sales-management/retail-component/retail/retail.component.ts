@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms'
-import {RetailService} from "../../../../service/retail.service";
-import {MedicineSale} from "../../../../dto/invoice/medicineSale";
-import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
-import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
-import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {RetailService} from '../../../../service/retail.service';
+import {MedicineSale} from '../../../../dto/invoice/medicineSale';
+import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
+import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -30,6 +30,7 @@ export class RetailComponent implements OnInit {
   isDisabled = false;
   // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
+  deleteErr: string;
 
   constructor(private retailService: RetailService,
               private router: Router,
@@ -41,7 +42,7 @@ export class RetailComponent implements OnInit {
       medicineSale: new FormControl('', [Validators.required]),
       quantity: new FormControl('', [Validators.required]),
       unit: new FormControl('', [Validators.required])
-    })
+    });
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
   }
@@ -53,11 +54,11 @@ export class RetailComponent implements OnInit {
 * */
   getMedicineDto() {
     this.retailService.getMedicineDto().subscribe(medicineSales => {
-      console.log(medicineSales)
+      console.log(medicineSales);
       this.medicineSales = medicineSales;
     }, error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
   }
 
   /*
@@ -80,7 +81,7 @@ export class RetailComponent implements OnInit {
     } else if (unitChoice == 'hop') {
       priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
     }
-    let moneyChoice = quantityChoice * priceChoice
+    let moneyChoice = quantityChoice * priceChoice;
     let flag = false;
     let medicine: any = {
       medicineId: idChoice,
@@ -91,6 +92,7 @@ export class RetailComponent implements OnInit {
       money: moneyChoice,
     };
     const myArray = this.listMedicineChoice;
+    console.log('ádsad' + idChoice);
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
     if (idChoice == '' || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
@@ -121,7 +123,7 @@ export class RetailComponent implements OnInit {
       medicineSale: new FormControl(''),
       quantity: new FormControl(''),
       unit: new FormControl('')
-    })
+    });
   }
 
   /*
@@ -135,8 +137,8 @@ export class RetailComponent implements OnInit {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.quantity
-      }
-        this.invoiceMedicineDtos.push(invoiceMedicineDto);
+      };
+      this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
       customerId: 'KH-0001',
@@ -145,6 +147,30 @@ export class RetailComponent implements OnInit {
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
+    if (invoiceDto.invoiceMedicineList.length < 1) {
+      this.toastr.warning('Danh sách thuốc trống !', 'Cảnh báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    } else {
+      this.retailService.createRetailInvoice(invoiceDto).subscribe(
+        () => {
+          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.totalMoney = 0;
+          this.listMedicineChoice = [];
+        }, error => {
+          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.listMedicineChoice = [];
+          console.log(error);
+        }
+      );
+    }
     this.retailService.createRetailInvoice(invoiceDto).subscribe(
       () => {
         this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
@@ -196,6 +222,7 @@ export class RetailComponent implements OnInit {
       console.log(this.idDelete);
     } else {
       this.idDelete = '';
+      this.deleteErr = 'Bạn chưa chọn thuốc để xóa!';
       console.log(this.idDelete);
     }
   }
@@ -206,6 +233,17 @@ export class RetailComponent implements OnInit {
 * Function: function deleteMedicine
 * */
   deleteMedicine(closeModal: HTMLButtonElement) {
+    if (this.idDelete != '') {
+      this.listMedicineChoice = this.listMedicineChoice.filter(
+        (item) => {
+          return item.medicineId != this.idDelete;
+          this.resetIdAndName();
+        });
+      this.deleteMedicineChoiceArr = [];
+      console.log(this.listMedicineChoice);
+      this.getTotalMoney();
+      closeModal.click();
+    }
     this.listMedicineChoice = this.listMedicineChoice.filter(
       (item) => {
         return item.medicineId != this.idDelete;

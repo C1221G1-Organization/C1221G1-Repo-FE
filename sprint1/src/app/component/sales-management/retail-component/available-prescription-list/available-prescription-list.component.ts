@@ -5,13 +5,13 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 
+
 @Component({
   selector: 'app-available-prescription-list',
   templateUrl: './available-prescription-list.component.html',
   styleUrls: ['./available-prescription-list.component.css']
 })
 export class AvailablePrescriptionListComponent implements OnInit {
-
   prescriptions: Prescription[] = [];
   id = '';
   names = '';

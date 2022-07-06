@@ -13,6 +13,7 @@ import {Position} from '../../../model/employee/position';
 })
 export class EmployeeListComponent implements OnInit {
 
+
   @ViewChild('criteria') criteria: ElementRef;
   @ViewChild('valueSearchInput') valueSearchInput: ElementRef;
   @ViewChild('valueSearchDropDown') valueSearchDropDown: ElementRef;
@@ -87,6 +88,19 @@ export class EmployeeListComponent implements OnInit {
   }
 
   search() {
+    let str:string = this.valueSearchInput.nativeElement.value;
+    console.log(str);
+    if(!str.match("^[a-zA-Z0-9 vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ-]+$")){
+      if(str == ""){
+        return this.ngOnInit()
+      }
+      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.isHasContent = true;
+      return this.employees = null;
+    }
     console.log(this.criteria.nativeElement.value);
     console.log(this.valueSearchInput.nativeElement.value);
     console.log(this.valueSearchDropDown.nativeElement.value);
@@ -384,8 +398,14 @@ export class EmployeeListComponent implements OnInit {
   deleteEmployeeByid(employeeIdValue: string) {
     this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() => {
       this.ngOnInit(),
-        alert('Thành công rồi đại vương');
+        this.toastr.success('Xoá thành công!', 'Thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
     }, () =>
-      alert('Không thể tìm thấy nhân viên cần xoá hoặc nhân viên này đã đước xoá trước đó'));
+      this.toastr.warning('Không thể tìm thấy nhân viên cần xoá !', 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      }));
   }
 }

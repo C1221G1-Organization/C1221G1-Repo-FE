@@ -4,10 +4,13 @@ import {Observable} from "rxjs";
 import {SignUpRequest} from "../../dto/request/SignUpRequest";
 import {SignInRequest} from "../../dto/request/SignInRequest";
 import {FacebookRequest} from "../../dto/request/facebook-request";
+import {TokenStorageService} from "./token-storage.service";
 const API : string = 'http://localhost:8080/api';
+const token =  new TokenStorageService;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
+    Authorization: 'Bearer'+token.getToken(),
   })
 };
 @Injectable({
@@ -15,7 +18,7 @@ const httpOptions = {
 })
 export class SecurityService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient,private storeService: TokenStorageService) { }
 
   signUp(obj : SignUpRequest): Observable<any>{
     return this.http.post<any>(`${API}/manager-security/users/sign-up`,obj);

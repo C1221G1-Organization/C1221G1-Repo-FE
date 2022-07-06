@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-xl navbar-dark bg-pharmacode">
   <a class="navbar-brand" href="#">Quản lý bán hàng</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +47,6 @@
       <li class="nav-item mr-3">
         <a class="nav-link" routerLink="/admin-chat/rooms">Chat với khách</a>
       </li>
-
       <li class="nav-item dropdown mr-3 d-flex justify-content-end">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-expanded="false">
           {{username}}
@@ -101,10 +101,9 @@
           </a>
         </li>
         <li class="nav-item seperate">
-          <a class="nav-link text-light font-weight-bold bg-pharmacode" (click)="signOut($event)">
+          <a class="nav-link text-light font-weight-bold bg-pharmacode" routerLink="/log/log-out">
             <i class="fa-solid fa-arrow-right-from-bracket mr-3 text-light fa-fw"></i>
             <!--                <i class="fa fa-line-chart "></i>-->
-
             Đăng xuất
           </a>
         </li>
