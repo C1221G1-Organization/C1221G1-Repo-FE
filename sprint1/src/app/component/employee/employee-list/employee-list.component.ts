@@ -87,6 +87,19 @@ export class EmployeeListComponent implements OnInit {
   }
 
   search() {
+    let str:string = this.valueSearchInput.nativeElement.value;
+    console.log(str);
+    if(!str.match("^[a-zA-Z0-9 vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ-]+$")){
+      if(str == ""){
+        return this.ngOnInit()
+      }
+      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.isHasContent = true;
+      return this.employees = null;
+    }
     console.log(this.criteria.nativeElement.value);
     console.log(this.valueSearchInput.nativeElement.value);
     console.log(this.valueSearchDropDown.nativeElement.value);

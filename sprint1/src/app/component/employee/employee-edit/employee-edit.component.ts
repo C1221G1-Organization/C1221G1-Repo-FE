@@ -125,10 +125,14 @@ export class EmployeeEditComponent implements OnInit {
   Function:  Edit Employee
 */
   onSubmit(id: string) {
+    if (!this.employeeFormEdit.valid) {
+      this.employeeFormEdit.markAllAsTouched();
+    }
     const employee = this.employeeFormEdit.value;
     console.log(this.valueEmployee);
     console.log(employee);
     console.log(Object.is(employee.toString(), this.valueEmployee.toString()));
+
     if (this.employeeFormEdit.valid) {
       if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
         this.employeeService.updateEmployee(id, employee).subscribe(() => {
