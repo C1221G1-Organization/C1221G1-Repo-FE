@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import firebase from 'firebase/app';
-import "firebase/database"
+import 'firebase/database';
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
 import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';
@@ -11,6 +11,7 @@ import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
 @Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
+
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
   scrollTop: number = null;
@@ -28,16 +29,32 @@ export class UserChatComponent implements OnInit {
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return load messages for chat room   */  loginToChatRoom() {
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return load messages for chat room
+   * */
+  loginToChatRoom() {
     this.chatForm = this.formBuilder.group({'message': [null, Validators.required]});
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      setTimeout(() => this.scrollTop = this.chatContent.nativeElement.scrollHeight, 200);
+      setTimeout(() => {
+        if (this.chatContent) {
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight;
+        }
+      }, 200);
     });
   }
 
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return check localStorage exists. if yes -> login   */  ngOnInit(): void {
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return check localStorage exists. if yes -> login
+   * */
+  ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
       'name': [null, [Validators.required, Validators.pattern(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)]],
       'phone': [null, [Validators.required, Validators.pattern('^0\\d{9}$')]],
@@ -60,27 +77,59 @@ export class UserChatComponent implements OnInit {
     }
   }
 
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return toggle expand function   */  toggleExpanded() {
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return toggle expand function
+   * */
+  toggleExpanded() {
     this.isExpanded = !this.isExpanded;
   }
 
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return close chat box   */  closePanel() {
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return close chat box
+   * */
+  closePanel() {
     this.isClosed = true;
   }
 
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return add Chat in Chats FRD, Update lastMessagePost time in Rooms FRD   */  onChatSubmit() {
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return add Chat in Chats FRD, Update lastMessagePost time in Rooms FRD
+   * */
+  onChatSubmit() {
     const chat = this.chatForm.value;
-    chat.name = this.userChat.name;
-    chat.uuid = this.uuid;
-    chat.createdAt = getTimeStamp();
-    firebase.database().ref('chats/' + this.uuid).push().set(chat);
-    firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
-      const room = res.val();
-      firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
-    });
-    this.chatForm.reset();
+    if (chat.message.trim().length == 0) {
+      chat.name = this.userChat.name;
+      chat.uuid = this.uuid;
+      chat.message = chat.message.trim();
+      chat.createdAt = getTimeStamp();
+      firebase.database().ref('chats/' + this.uuid).push().set(chat);
+      firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
+        const room = res.val();
+        firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
+      });
+      this.chatForm.reset();
+    }
   }
-  /**   * @Author NghiaNTT   * @Time: 03/07/2022   * @param   * @return handle user login.   * 1. add new user to Users FRD   * 2. add new room to Rooms FRD   * 3. add new chat to Chats FRD   * 4. save item in localStorage   */  onCustomerFormSubmit() {
+
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return handle user login.
+   * * 1. add new user to Users FRD
+   * * 2. add new room to Rooms FRD
+   * * 3. add new chat to Chats FRD
+   * * 4. save item in localStorage
+   * */
+  onCustomerFormSubmit() {
     this.uuid = uuidv4();
     if (this.customerForm.valid) {
       const form = this.customerForm.value;

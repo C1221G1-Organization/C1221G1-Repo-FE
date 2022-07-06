@@ -1,3 +1,4 @@
+
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -46,7 +47,7 @@
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-between col-2 p-0">
       <button type="button" class="btn btn-secondary "><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
-      <button type="button" class="btn btn-success "><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+      <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
     </div>
   </div>
   <br>
@@ -95,7 +96,7 @@
             </table>
             <hr>
             <div class="d-grid d-flex justify-content-between">
-              <button class="btn btn-warning">
+              <button class="btn btn-warning" [routerLink]="['/employee/edit',item.employeeId]">
                 <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
               </button>
 
@@ -108,8 +109,11 @@
       </div>
     </div>
 </div>
-  <h1 *ngIf="isHasContent" class="text-center">Không có dữ liệu phù hợp</h1>
-  <nav aria-label="Page navigation example">
+  <div class="text-center" *ngIf="isHasContent">
+    <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
+    <h4>Không có dữ liệu phù hợp</h4>
+  </div>
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
     <ul class="pagination justify-content-end">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>

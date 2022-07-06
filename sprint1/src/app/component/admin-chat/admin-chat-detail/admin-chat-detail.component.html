@@ -1,6 +1,5 @@
 <div class="chatbox-top">
   <div class="chat-partner-name d-flex align-items-center">
-    <!--    TODO Find user nickname-->
     <a *ngIf="user">Khách hàng: {{user.name}} | {{user.phone}}</a>
   </div>
 </div>
@@ -9,7 +8,7 @@
   <div class="message-box-holder"
        *ngFor="let chat of chats"
   >
-    <div class="d-flex flex-column align-self-end" *ngIf="chat.name === adminChat.name; else clientChat">
+    <div class="d-flex flex-column align-items-end" *ngIf="chat.name === adminChat.name; else clientChat">
       <div class="message-you">
         <small>{{chat.createdAt | date: 'short'}} - <strong>You</strong></small>
       </div>
