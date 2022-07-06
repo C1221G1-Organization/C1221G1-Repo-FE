@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {InvoiceListComponent} from '../sales-management/invoice-list/invoice-list.component';
 import { ImportInvoiceComponent } from './import-invoice.component';
 
 describe('ImportInvoiceComponent', () => {
@@ -14,6 +14,7 @@ describe('ImportInvoiceComponent', () => {
   }));
 
   beforeEach(() => {
+    fixture = TestBed.createComponent(InvoiceListComponent);
     fixture = TestBed.createComponent(ImportInvoiceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

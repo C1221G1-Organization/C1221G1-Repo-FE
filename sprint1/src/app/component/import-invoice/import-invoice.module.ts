@@ -5,6 +5,7 @@ import {ImportInvoiceListComponent} from './import-invoice-list/import-invoice-l
 import {ReactiveFormsModule} from '@angular/forms';
 import {ImportInvoiceCreateComponent} from './import-invoice-create/import-invoice-create.component';
 
+
 @NgModule({
   declarations: [ImportInvoiceListComponent,
     ImportInvoiceCreateComponent
@@ -20,3 +21,4 @@ import {ImportInvoiceCreateComponent} from './import-invoice-create/import-invoi
 })
 export class ImportInvoiceModule {
 }
+
