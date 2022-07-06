@@ -62,7 +62,7 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="cards-wrapper ">
-            <div class="card col-lg-2 col-md-4 col-sm-4 col-12"  *ngFor="let medicine of medicineBestSellerList1">
+            <div class="card col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12"  *ngFor="let medicine of medicineBestSellerList1">
               <img alt="Card image cap"
                    class="" [routerLink]="['/medicine/detail',medicine.medicineId]"
                    [src]="medicine.medicineImage">
@@ -82,7 +82,7 @@
         </div>
         <div class="carousel-item">
           <div class="cards-wrapper">
-            <div class="card col-lg-2 col-md-4 col-sm-4 col-12" *ngFor="let medicine of medicineBestSellerList2">
+            <div class="card col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12" *ngFor="let medicine of medicineBestSellerList2">
               <img alt="Card image cap"
                    class="" [routerLink]="['/medicine/detail',medicine.medicineId]"
                    [src]="medicine.medicineImage">
@@ -159,7 +159,7 @@
       <div class="carousel-inner" *ngIf="medicineList.length!=0">
         <div class="carousel-item active">
           <div class="cards-wrapper">
-            <div class="card col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12" [routerLink]="['/medicine/detail',medicine.medicineId]" *ngFor="let medicine of medicineList">
+            <div class="card col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12" *ngFor="let medicine of medicineList">
               <img alt="Card image cap"
                    class="" [routerLink]="['/medicine/detail',medicine.medicineId]"
                    [src]="medicine.medicineImage">
@@ -176,7 +176,6 @@
               </div>
             </div>
   </div>
-
 </div>
 
 

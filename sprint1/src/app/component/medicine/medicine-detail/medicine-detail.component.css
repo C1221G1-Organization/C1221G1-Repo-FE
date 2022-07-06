@@ -153,14 +153,14 @@
   padding: 12px;
 }
 .product-detail-left {
-  width: 63%;
+  width: 69%;
   padding-right: 20px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .product-detail-right {
   margin-left: 3%;
-  width: 33%;
+  width: 27%;
   box-sizing: border-box;
 }
 .product-detail-right .product-relative {
@@ -194,5 +194,3 @@
 .card-title {
   font-size: 1rem;
 }
-
-

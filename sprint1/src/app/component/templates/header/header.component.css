@@ -176,9 +176,9 @@ html {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
   width: 100%;
   transform: translateZ(0);
+  z-index: 9999999;
 }
 
 .header__navbar {
