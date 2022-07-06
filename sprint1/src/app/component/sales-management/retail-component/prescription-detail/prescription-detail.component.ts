@@ -75,21 +75,28 @@ export class PrescriptionDetailComponent implements OnInit {
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
-    this.retailService.createRetailInvoice(invoiceDto).subscribe(
-      () => {
-        this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
-          timeOut: 3000,
-          progressBar: true
-        });
-        this.router.navigateByUrl('/sales-management/prescription-detail/' + this.idChoice);
-      }, error => {
-        this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
-          timeOut: 3000,
-          progressBar: true
-        });
-        console.log(error)
-      }
-    )
+    if (invoiceDto.invoiceMedicineList.length < 1){
+      this.toastr.warning("Đơn chưa có thuốc !", "Cảnh báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }else {
+      this.retailService.createRetailInvoice(invoiceDto).subscribe(
+        () => {
+          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.router.navigateByUrl('/sales-management/prescription-detail/' + this.idChoice);
+        }, error => {
+          this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
+            timeOut: 3000,
+            progressBar: true
+          });
+          console.log(error)
+        }
+      )
+    }
   }
 
   activeProject(k: number, item: any) {

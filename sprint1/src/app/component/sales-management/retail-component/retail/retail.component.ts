@@ -91,8 +91,9 @@ export class RetailComponent implements OnInit {
       money: moneyChoice,
     };
     const myArray = this.listMedicineChoice;
+    console.log("ádsad"+idChoice);
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == '' || nameChoice == '' || quantityChoice == ''
+    if ( idChoice == undefined ||idChoice == '' || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
       flag = true;
     } else {
@@ -130,7 +131,7 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
-    this.listMedicineChoice = [];
+    // this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
@@ -145,21 +146,22 @@ export class RetailComponent implements OnInit {
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
-    if (invoiceDto.invoiceMedicineList == []){
-      this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa Đơn Bán Lẻ", {
+    if (invoiceDto.invoiceMedicineList.length < 1){
+      this.toastr.warning("Danh sách thuốc trống !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
+          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
             timeOut: 3000,
             progressBar: true
           });
+          this.totalMoney = 0;
           this.listMedicineChoice = [];
         }, error => {
-          this.toastr.warning("Thêm Mới Thất Bại !", "Hóa Đơn Bán Lẻ", {
+          this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
             timeOut: 3000,
             progressBar: true
           });
