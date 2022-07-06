@@ -1,7 +1,7 @@
 <div class="container bootstrap snippets bootdey">
-  <h1 class="text-success">Thay đổi thông tin tài khoản</h1>
+ <h2 style="text-align: center">Thay đổi thông tin tài khoản</h2>
   <hr>
-  <form [formGroup]="updateForm" (ngSubmit)="update(id)">
+  <form *ngIf="updateForm" [formGroup]="updateForm" (ngSubmit)="update(id)">
     <div class="row justify-content-md-center">
       <div class="col-lg-8">
         <div class="card mb-4">
@@ -26,11 +26,10 @@
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Tên tài khoản <span style="color: red">(*)</span></p>
+                <p class="mb-0">Tên tài khoản </p>
               </div>
               <div class="col-sm-9">
                 <input class="form-control" readonly type="text" formControlName="username">
-<!--                <small style="color: red">Không được để trống</small>-->
               </div>
             </div>
             <hr>
@@ -39,12 +38,11 @@
                 <p class="mb-0">Chức vụ <span style="color: red">(*)</span></p>
               </div>
               <div class="col-sm-9">
-                <select formControlName="position" class="form-control">
-                  <option *ngFor="let p of positions" [ngValue]="p" >{{p.positionName}}</option>
-<!--                  <option *ngFor="let type of positions" [ngValue]="type"-->
-<!--                          [selected]="type.positionName == updateForm.controls.position.value.positionName">{{type.positionName}}</option>-->
+                <select [compareWith]="equals" formControlName="position" class="form-control">
+                  <option *ngFor="let p of positions" [ngValue]="p">{{p.positionName}}</option>
                 </select>
-                <!--                <small style="color: red">Không được để trống</small>-->
+                <small *ngIf="updateForm.controls.position.hasError('required')
+               && updateForm.controls.position.dirty" style="color: red"> Không được để trống</small>
               </div>
             </div>
             <hr>
@@ -55,7 +53,11 @@
               </div>
               <div class="col-sm-9">
                 <input class="form-control" type="text" formControlName="password">
-<!--                <small style="color: red">Không được để trống</small>-->
+                <small *ngIf="updateForm.controls.password.hasError('required')
+               && updateForm.controls.password.dirty" style="color: red"> Không được để trống</small>
+                <small *ngIf="updateForm.controls.password.hasError('pattern')
+               && updateForm.controls.password.touched" style="color: red">
+                  Ít nhất 8 ký tự, ít nhất 1 chữ viết hoa, 1 chữ viết thường và 1 số </small>
               </div>
             </div>
             <hr>
@@ -63,11 +65,11 @@
               <div class="col-sm-3">
               </div>
               <div class="col-sm-9">
-                <button style="width: 90px; margin-right: 40px" class="btn-sm  btn-warning" type="submit">
+                <button style="width: 90px; margin-right: 10px" class="btn-sm  btn-warning" type="submit">
                   <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
                 </button>
 
-                <button [routerLink]="['/account/list']" style="width: 90px" class="btn-sm btn-secondary" >
+                <button [routerLink]="['/account/list']" style="width: 90px" class="btn-sm btn-secondary">
                   <i class="fa fa-undo" aria-hidden="true"></i> Trở về
                 </button>
               </div>
