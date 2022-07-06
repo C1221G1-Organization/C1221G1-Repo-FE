@@ -1,4 +1,6 @@
-import {Supplier} from './supplier';
+import {Supplier} from '../supplier';
+import {Employee} from '../employee/employee';
+import {ImportInvoiceMedicine} from './import-invoice-medicine';
 
 export interface ImportInvoice {
   importInvoiceId: string;
@@ -10,5 +12,5 @@ export interface ImportInvoice {
   flag: boolean;
   supplier: Supplier;
   employee: Employee;
-  complete?: boolean;
+  importInvoiceMedicineList: ImportInvoiceMedicine[];
 }

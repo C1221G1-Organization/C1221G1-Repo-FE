@@ -1,7 +1,7 @@
 <div class="container mg mx-auto">
-  <h3 style="text-align: center"> Thêm Mới Nhà Cung Cấp</h3>
+  <h3 style="text-align: center"> Chỉnh Sửa Nhà Cung Cấp</h3>
 
-  <div class="col-9  mx-auto  ">
+  <div class="col-9 mx-auto">
 
     <form *ngIf="supplierForm" [formGroup]="supplierForm" (ngSubmit)="updateSupplier()" novalidate>
 
@@ -73,12 +73,12 @@
         <div class="row">
           <div class="m-2">
             <button class="btn btn-secondary mgl">
-              <a [routerLink]="['/supplier/']">
+              <a [routerLink]="['/supplier/']"  style="color: white">
                 <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
             </button>
           </div>
           <div class="m-2">
-            <button class="btn btn-success" type="submit">
+            <button class="btn btn-success" type="submit"  style="color: white">
               <i class="fa-solid fa-circle-plus"></i> Hoàn thành
             </button>
           </div>

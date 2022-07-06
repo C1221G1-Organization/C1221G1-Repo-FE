@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ImportInvoice} from '../../../model/import-invoice';
-import {FormControl, FormGroup} from '@angular/forms';
-import {ImportInvoiceService} from '../../../service/import-invoice.service';
+import {FormControl, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {ImportInvoice} from '../../../model/import-invoice/import-invoice';
+import {ImportInvoiceService} from '../../../service/import-invoice/import-invoice.service';
 
 @Component({
   selector: 'app-import-invoice-list',
@@ -20,7 +21,12 @@ export class ImportInvoiceListComponent implements OnInit {
   startTime: string = '';
   endTime: string = '23:59';
   fieldSort: string = 'import_invoice_id';
-  idDelete: string;
+  fieldSortBy: string = 'asc';
+  idDelete: string = null;
+  chosenIndex: number;
+  isChosen: boolean;
+  chosenId: string;
+  n: number;
 
   /**
    * this function use to create form search
@@ -28,15 +34,57 @@ export class ImportInvoiceListComponent implements OnInit {
    * @author HongHTX
    * @Time 09:00 02/07/2022
    */
-  constructor(private importInvoiceService: ImportInvoiceService) {
+  constructor(private importInvoiceService: ImportInvoiceService,
+              private toastr: ToastrService) {
     this.searchForm = new FormGroup({
-      startDate: new FormControl(),
-      endDate: new FormControl(),
-      startTime: new FormControl(),
-      endTime: new FormControl(),
-      fieldSort: new FormControl()
+      dateForm: new FormGroup({
+        startDate: new FormControl(),
+        endDate: new FormControl()
+      }, this.dateErrorValidator),
+      timeForm: new FormGroup({
+        startTime: new FormControl(),
+        endTime: new FormControl()
+      }, this.timeErrorValidator),
+      fieldSort: new FormControl(),
+      fieldSortBy: new FormControl(),
     });
   }
+
+  /**
+   * this function use to validate date
+   *
+   * @author HongHTX
+   * @Time 19:00 05/07/2022
+   */
+  dateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const start = control.get('startDate');
+    if (start.value !== null) {
+      this.startDate = start.value;
+    }
+    const end = control.get('endDate');
+    if (end.value !== null) {
+      this.endDate = end.value;
+    }
+    return start.value > end.value ? {dateError: true} : null;
+  };
+
+  /**
+   * this function use to validate time
+   *
+   * @author HongHTX
+   * @Time 19:30 05/07/2022
+   */
+  timeErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const start = control.get('startTime');
+    if (start.value !== null) {
+      this.startTime = start.value;
+    }
+    const end = control.get('endTime');
+    if (end.value !== null) {
+      this.endTime = end.value;
+    }
+    return start.value > end.value ? {timeError: true} : null;
+  };
 
   /**
    * this function use to get list Import Invoice
@@ -46,8 +94,8 @@ export class ImportInvoiceListComponent implements OnInit {
    */
   ngOnInit(): void {
     this.getImportInvoiceList({
-      page: 0, size: 3, startDate: this.startDate, endDate: this.endDate, startTime: this.startTime,
-      endTime: this.endTime, fieldSort: this.fieldSort
+      page: 0, size: 5, startDate: this.startDate, endDate: this.endDate, startTime: this.startTime,
+      endTime: this.endTime, fieldSort: this.fieldSort, fieldSortBy: this.fieldSortBy
     });
   }
 
@@ -86,12 +134,13 @@ export class ImportInvoiceListComponent implements OnInit {
     const request = {};
     if ((this.currentPage) > 0) {
       request['page'] = this.currentPage - 1;
-      request['size'] = 3;
+      request['size'] = 5;
       request['startDate'] = this.startDate;
       request['endDate'] = this.endDate;
       request['startTime'] = this.startTime;
       request['endTime'] = this.endTime;
       request['fieldSort'] = this.fieldSort;
+      request['fieldSortBy'] = this.fieldSortBy;
       this.getImportInvoiceList(request);
     }
   }
@@ -106,12 +155,13 @@ export class ImportInvoiceListComponent implements OnInit {
     const request = {};
     if ((this.currentPage + 1) < this.totalPages) {
       request['page'] = this.currentPage + 1;
-      request['size'] = 3;
+      request['size'] = 5;
       request['startDate'] = this.startDate;
       request['endDate'] = this.endDate;
       request['startTime'] = this.startTime;
       request['endTime'] = this.endTime;
       request['fieldSort'] = this.fieldSort;
+      request['fieldSortBy'] = this.fieldSortBy;
       this.getImportInvoiceList(request);
     }
   }
@@ -123,6 +173,9 @@ export class ImportInvoiceListComponent implements OnInit {
    * @Time 11:00 02/07/2022
    */
   search() {
+    console.log('toi dau' + this.searchForm.value.startDate);
+    console.log('toi dau' + this.searchForm.value.endDate);
+    console.log('toi dau' + this.searchForm.value.startTime);
     if (this.searchForm.value.startDate == null) {
       this.searchForm.value.startDate = this.startDate;
     } else {
@@ -148,11 +201,21 @@ export class ImportInvoiceListComponent implements OnInit {
     } else {
       this.fieldSort = this.searchForm.value.fieldSort;
     }
+    if (this.searchForm.value.fieldSortBy == null) {
+      this.searchForm.value.fieldSortBy = this.fieldSortBy;
+    } else {
+      this.fieldSortBy = this.searchForm.value.fieldSortBy;
+    }
     this.getImportInvoiceList({
-      page: 0, size: 3, startDate: this.searchForm.value.startDate,
+      page: 0, size: 5, startDate: this.searchForm.value.startDate,
       endDate: this.searchForm.value.endDate, startTime: this.searchForm.value.startTime,
-      endTime: this.searchForm.value.endTime, fieldSort: this.searchForm.value.fieldSort
+      endTime: this.searchForm.value.endTime, fieldSort: this.searchForm.value.fieldSort,
+      fieldSortBy: this.searchForm.value.fieldSortBy
     });
+    console.log('toi dui' + this.searchForm.value.startDate);
+    console.log('toi dui' + this.searchForm.value.endDate);
+    console.log('toi dui' + this.searchForm.value.startTime);
+
   }
 
   /**
@@ -161,9 +224,21 @@ export class ImportInvoiceListComponent implements OnInit {
    * @author HongHTX
    * @Time 08:00 04/07/2022
    */
-  hightlight(importInvoiceId: string, i: number) {
-    this.importInvoiceList[i].complete = !this.importInvoiceList[i].complete;
-    this.idDelete = importInvoiceId;
+  chooseImportInvoice(index: number, importInvoiceId: string, m: number): void {
+    if (this.chosenIndex !== index) {
+      this.isChosen = true;
+      this.chosenIndex = index;
+      this.chosenId = importInvoiceId;
+    } else {
+      this.isChosen = !this.isChosen;
+      this.idDelete = null;
+      this.chosenIndex = null;
+    }
+    if (this.isChosen) {
+      this.idDelete = importInvoiceId;
+    }
+    this.n = m;
+    console.log(this.n);
   }
 
   /**
@@ -175,7 +250,27 @@ export class ImportInvoiceListComponent implements OnInit {
   delete(idDelete: string) {
     this.importInvoiceService.delete(idDelete).subscribe(() => {
       this.ngOnInit();
+      this.toastr.warning('Đã Xóa Thành Công !', 'Hệ thống thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
     }, e => console.log(e));
+    this.idDelete = null;
   }
 
+  /**
+   * this function use to reset list Import Invoice
+   *
+   * @author HongHTX
+   * @Time 19:00 05/07/2022
+   */
+  resetAll() {
+    this.startDate = '';
+    this.endDate = new Date().toLocaleDateString('en-ZA');
+    this.startTime = '';
+    this.endTime = '23:59';
+    this.fieldSort = 'import_invoice_id';
+    this.fieldSortBy = 'asc';
+    this.ngOnInit();
+  }
 }

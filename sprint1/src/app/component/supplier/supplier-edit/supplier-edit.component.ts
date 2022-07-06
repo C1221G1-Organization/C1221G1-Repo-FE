@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../../service/supplier.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {SupplierService} from '../../../service/supplier.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -25,6 +25,12 @@ export class SupplierEditComponent implements OnInit {
   submitted = false;
   currentPage: number = 0;
 
+  /**
+   * read the value of API
+   * method: get
+   *  @23h 01/06/2022 LuatTN
+   *   @this  get value  Supplier
+   */
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.idSupplier = paramMap.get('supplierId');
@@ -66,16 +72,14 @@ export class SupplierEditComponent implements OnInit {
     const supplierValue = this.supplierForm.value;
     console.log(supplierValue);
     this.supplierService.updateSupplier(this.idSupplier, supplierValue).subscribe(next => {
+      this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp " + this.supplierName.value, "Thông Báo Hệ Thống ", {
+        timeOut: 3000,
+        progressBar: true
+      })
+      this.router.navigate(['supplier/']);
     }, e => {
       console.log(e);
     }, () => {
-      this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp ", "Thông Báo Hệ Thống ", {
-        timeOut: 3000,
-        progressBar: true
-
-      })
-      this.router.navigate(['supplier/']);
-
     });
 
   }

@@ -7,6 +7,7 @@ import {MedicineOrigin} from '../../model/medicine/medicine-origin';
 import {MedicineUnit} from '../../model/medicine/medicine-unit';
 import {MedicineConversionUnit} from '../../model/medicine/medicine-conversion-unit';
 import {Medicine} from '../../model/medicine/medicine';
+import {MedicineDto} from '../../model/medicine/medicine-dto';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -86,5 +87,28 @@ export class MedicineService {
    */
   public findMedicineById(id: string): Observable<Medicine> {
     return this.http.get<Medicine>(`${API_URL}/api/manager-medicine/medicines/${id}`);
+  }
+
+  /**
+   * this function use delete medicine in BE throw api url
+   *
+   * @Author MyC
+   * @Time 19:00 03/07/2022
+   */
+  public deleteMedicineById(id: string): Observable<Medicine> {
+    return this.http.delete<Medicine>(`${API_URL}/api/manager-medicine/medicines/${id}`);
+  }
+
+  /**
+   * this function use search and list medicine in BE throw api url
+   *
+   * @Author MyC
+   * @Time 19:00 03/07/2022
+   */
+  public searchListMedicine(value1: any, value2: any, value3: any): Observable<MedicineDto[]> {
+    console.log(`${API_URL}/api/manager-medicine/medicines/search?columName=${value1}&condition=${value2}&keyWord=${value3}`);
+    // tslint:disable-next-line:max-line-length
+    return this.http.get<MedicineDto[]>
+    (`${API_URL}/api/manager-medicine/medicines/search?columName=${value1}&condition=${value2}&keyWord=${value3}`);
   }
 }

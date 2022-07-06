@@ -1,4 +1,4 @@
-export class Supplier {
+export class SupplierDto {
   supplierId: string;
   supplierName: string;
   supplierAddress: string;
@@ -6,5 +6,4 @@ export class Supplier {
   supplierEmail: string;
   note: string;
   flag: boolean;
-  debt?: string;
 }

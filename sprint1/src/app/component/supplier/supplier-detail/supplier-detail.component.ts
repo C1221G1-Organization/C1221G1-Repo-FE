@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SupplierService} from "../../../service/supplier.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
-import {Supplier} from "../../../model/supplier";
+import {ISupplierDto} from "../../../dto/ISupplierDto";
 
 @Component({
   selector: 'app-supplier-detail',
@@ -19,7 +19,7 @@ export class SupplierDetailComponent implements OnInit {
   supplierForm: FormGroup;
   idSupplier: string;
 
-  supplierValue: Supplier = new Supplier()
+  public supplierValue = {} as ISupplierDto;
 
   ngOnInit(): void {
     /**
@@ -41,8 +41,14 @@ export class SupplierDetailComponent implements OnInit {
    *  @this  get Supplier Detail
    */
   getSupplier(supplierId: string) {
-    return this.supplierService.findById(supplierId).subscribe(supplier => {
+    return this.supplierService.findByDetailId(supplierId).subscribe(supplier => {
+      console.log(" detail supplier")
+      console.log(supplier)
       this.supplierValue = supplier
+    }, error => {
+      return this.supplierService.findById(supplierId).subscribe(next => {
+        this.supplierValue = next
+      })
     });
   }
 
