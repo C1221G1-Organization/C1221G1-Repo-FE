@@ -17,6 +17,7 @@ export class TokenStorageService {
     window.sessionStorage.removeItem('c1221g1_champion');
     window.localStorage.clear();
     window.sessionStorage.clear();
+    window.location.reload();
   }
 
   saveTokenLocal(token:string){
