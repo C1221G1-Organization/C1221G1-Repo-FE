@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import {snapshotToArray} from '../admin-chat.component';
 import {environment} from '../../../../environments/environment';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
@@ -38,7 +39,7 @@ export class AdminChatDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatForm = this.formBuilder.group({
-      'message': [null, Validators.required]
+      message: [null, Validators.required]
     });
     firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
       const room = res.val();

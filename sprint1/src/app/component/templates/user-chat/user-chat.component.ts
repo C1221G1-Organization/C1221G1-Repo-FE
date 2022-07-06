@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
 import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';

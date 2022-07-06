@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {ToastrService} from 'ngx-toastr';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {Employee} from '../../../model/employee/employee';
 import {PositionService} from '../../../service/employee/position.service';
@@ -32,16 +33,17 @@ export class EmployeeCeateComponent implements OnInit {
   constructor(private  employeeService: EmployeeService,
               private positionService: PositionService,
               private router: Router,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
+              @Inject(AngularFireStorage) private storage: AngularFireStorage,
+              private toastr: ToastrService) {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
       employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
-      employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeAddress: new FormControl('', [Validators.required]),
       // tslint:disable-next-line:max-line-length
-      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]),
       employeeDateStart: new FormControl('', [Validators.required]),
       employeeNote: new FormControl(''),
       flag: new FormControl(''),
@@ -91,6 +93,9 @@ export class EmployeeCeateComponent implements OnInit {
   Function:  Save Employee
 */
   onSubmit() {
+    if (!this.employeeFormCreate.valid) {
+      this.employeeFormCreate.markAllAsTouched();
+    }
     const employee = this.employeeFormCreate.value;
     console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
@@ -101,11 +106,20 @@ export class EmployeeCeateComponent implements OnInit {
         console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
-          alert('thành công');
+          this.toastr.success('Thêm Mới Thành Công !', '', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.router.navigateByUrl('/employee/list');
         }, error => {
-          this.errorUser = error.error.errorMap.usersName;
+          this.toastr.warning('Thêm Mới Thất Bại !', '', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          console.log(error.error);
+          this.errorUser = error.error?.errorMap?.usersName;
           console.log(this.errorUser);
-          this.errorImage = error.error.errorMap.employeeImage;
+          this.errorImage = error.error?.errorMap?.employeeImage;
           console.log(this.errorImage);
         });
       });
@@ -123,7 +137,7 @@ export class EmployeeCeateComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('11');
+      console.log('lớn hơn');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
   }

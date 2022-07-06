@@ -11,6 +11,7 @@ import {UserChatComponent} from './component/templates/user-chat/user-chat.compo
 import {TemplatesModule} from './component/templates/templates.module';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,6 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
