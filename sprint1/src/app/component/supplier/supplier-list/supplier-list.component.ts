@@ -21,10 +21,11 @@ export class SupplierListComponent implements OnInit {
 
   valueSupplier: Supplier = new Supplier();
   chosenIndex: number;
-  isChosen: Boolean;
+  isChosen: boolean;
   chooseId: string;
+  stt: number = 1;
   idDelete: string;
-  nameDelete: String;
+  nameDelete: string;
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService) {
@@ -32,7 +33,6 @@ export class SupplierListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getListSupplier({
       page: this.currentPage,
       size: 10000,
@@ -59,6 +59,10 @@ export class SupplierListComponent implements OnInit {
         timeOut: 3000,
         progressBar: true
       });
+      this.chooseId = null;
+      this.chosenIndex = null;
+      this.idDelete = null;
+      this.nameDelete = null;
     }, e => {
       console.log(e);
     });
@@ -270,5 +274,14 @@ export class SupplierListComponent implements OnInit {
       });
     }
 
+  }
+
+  getInforE() {
+    if (!this.isChosen) {
+      this.toastr.warning('Vui Lòng Chọn Nhà Cung Cấp  ', 'Thông Báo Hệ Thống', {
+        timeOut: 2000,
+        progressBar: true,
+      });
+    }
   }
 }
