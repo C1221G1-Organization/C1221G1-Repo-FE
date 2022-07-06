@@ -6,12 +6,12 @@ import {ToastrService} from 'ngx-toastr';
 
 const MAXIMUM_QUANTITY_ALLOWED = 10;
 @Component({
-  selector   : 'app-medicine-detail',
+  selector: 'app-medicine-detail',
   templateUrl: './medicine-detail.component.html',
-  styleUrls  : ['./medicine-detail.component.css']
+  styleUrls: ['./medicine-detail.component.css']
 })
-export class MedicineDetailComponent implements OnInit {
 
+export class MedicineDetailComponent implements OnInit {
   medicineId: string;
   medicine: MedicineDetailDto;
   relativeMedicineList: MedicineDetailDto[];
@@ -19,7 +19,7 @@ export class MedicineDetailComponent implements OnInit {
   toastrOptions = {
     preventOpenDuplicates: true,
     timeOut: 5000
-  }
+  };
   constructor(private toastr: ToastrService,
               private router: Router,
               private medicineService: MedicineService,
@@ -39,8 +39,10 @@ export class MedicineDetailComponent implements OnInit {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
+          this.scrollToTopOfScrollable();
         }, err => {
-          this.router.navigateByUrl("not-found")
+          this.router.navigateByUrl('not-found');
+
         }
       );
       this.medicineService.get5RelativeMedicinesOf(this.medicineId).subscribe(
@@ -104,7 +106,7 @@ export class MedicineDetailComponent implements OnInit {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
     this.toastr.success(`Thêm thành công ${this.quantity} sản phẩm vào giỏ hàng`, '', {
-      timeOut    : 3000,
+      timeOut: 3000,
       progressBar: false
     });
   }

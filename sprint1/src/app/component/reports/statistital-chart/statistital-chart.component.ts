@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ReportService} from '../../../service/report.service';
 import {Static} from '../../../model/static';
-import {Chart, registerables} from 'chart.js';
+import {Chart} from 'chart.js';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import * as $ from 'jquery';
 
-Chart.register(...registerables);
 
 @Component({
   selector: 'app-statistital-chart',
@@ -13,7 +12,6 @@ Chart.register(...registerables);
   styleUrls: ['./statistital-chart.component.css']
 })
 export class StatistitalChartComponent implements OnInit {
-
   statics: Static[] = [];
   public year = true;
   public month = true;

@@ -13,6 +13,7 @@ import {Position} from '../../../model/employee/position';
 })
 export class EmployeeListComponent implements OnInit {
 
+
   @ViewChild('criteria') criteria: ElementRef;
   @ViewChild('valueSearchInput') valueSearchInput: ElementRef;
   @ViewChild('valueSearchDropDown') valueSearchDropDown: ElementRef;
