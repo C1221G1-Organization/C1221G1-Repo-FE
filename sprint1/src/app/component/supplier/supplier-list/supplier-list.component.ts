@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SupplierService} from "../../../service/supplier.service";
-import {Supplier} from "../../../model/Supplier";
+import {Supplier} from "../../../model/supplier";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

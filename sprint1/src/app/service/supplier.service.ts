@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Page} from 'ngx-pagination/dist/pagination-controls.directive';
 import {HttpClient} from '@angular/common/http';
-import {Supplier} from '../model/Supplier';
+import {Supplier} from '../model/supplier';
 import {SupplierDto} from '../dto/SupplierDto';
 import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';

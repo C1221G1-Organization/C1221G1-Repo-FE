@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SupplierService} from "../../../service/supplier.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
-import {Supplier} from "../../../model/Supplier";
+import {Supplier} from "../../../model/supplier";
 
 @Component({
   selector: 'app-supplier-detail',
