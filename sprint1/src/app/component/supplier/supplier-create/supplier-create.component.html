@@ -10,12 +10,12 @@
         <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"
                type="text">
         <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
-          <small [hidden]='!supplierName.errors.required' class="text-danger">
+          <p [hidden]='!supplierName.errors.required' class="text-danger">
             Tên Nhà Cung Cấp Bắt Buộc Phải Có !
-          </small>
-          <small [hidden]='!supplierName.errors.minlength' class="text-danger">
+          </p>
+          <p [hidden]='!supplierName.errors.minlength' class="text-danger">
             Tên Nhà Cung Cấp Quá Ngắn
-          </small>
+          </p>
         </div>
       </div>
 
@@ -33,17 +33,17 @@
             <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"
                    type="text">
             <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
-              <small [hidden]='!supplierPhone.errors.required' class="text-danger">
+              <p [hidden]='!supplierPhone.errors.required' class="text-danger">
                 Số Điện Thoại Không Được Để Trống
-              </small>
-              <small [hidden]='!supplierPhone.errors.pattern' class="text-danger">
-                Số Điện Thoại Không Đúng Định Dạng EX : 090(XXXXXXX)!
-              </small>
+              </p>
+              <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
+                Không Đúng Định Dạng Của Số Điện Thoại Ex : 090(*******)
+              </p>
 
             </div>
-            <small class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
+            <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
               Số Điện Thoại Này Đã Tồn Tại
-            </small>
+            </p>
           </div>
         </div>
         <div class="col-sm-6">
@@ -52,17 +52,17 @@
             <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "
                    type="email">
             <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
-              <small [hidden]='!supplierEmail.errors.required' class="text-danger">
-                Email Không Được Để Trống !
-              </small>
-              <small [hidden]='!supplierEmail.errors.pattern' class="text-danger">
-                Email Không Đúng Định Dạng [name]@gmail.com!
-              </small>
+              <p [hidden]='!supplierEmail.errors.required' class="text-danger">
+                Email Không Được Để Trống
+              </p>
+              <p [hidden]='!supplierEmail.errors.pattern' class="text-danger">
+                Không Đúng Định Dạng Của Email
+              </p>
 
             </div>
-            <small class="text-danger" *ngIf="supplierForm.get('supplierEmail').hasError('emailAlreadyExists')">
+            <p class="text-danger" *ngIf="supplierForm.get('supplierEmail').hasError('emailAlreadyExists')">
               Email Này Đã Có Người Sữ Dụng
-            </small>
+            </p>
           </div>
         </div>
       </div>
@@ -78,13 +78,13 @@
         <div class="row">
           <div class="m-2">
             <button class="btn btn-secondary mgl">
-              <a [routerLink]="['/supplier/']">
+              <a [routerLink]="['/supplier/']" style="color: white">
                 <i aria-hidden="true" class="fa fa-undo"></i> Trở về
               </a>
             </button>
           </div>
           <div class="m-2">
-            <button class="btn btn-info" type="reset">
+            <button class="btn btn-dark" type="reset">
               <i class="fa-solid fa-arrow-rotate-left"> </i>Làm Mới
             </button>
           </div>

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="supplierValue.supplierId != undefined">
+<div class="container">
   <div class="row">
     <div class="col-sm-12">
       <div>
@@ -39,8 +39,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text w-all  ">  Công Nợ </span>
               </div>
-              <input aria-label="First name" class="form-control" value="{{supplierValue.debt}}" disabled
-                     type="text">
+              <div *ngIf="supplierValue.debt">
+                <input aria-label="First name" class="form-control" value="{{supplierValue.debt | number }} VND" disabled
+                       type="text">
+              </div>
+              <div *ngIf="supplierValue.debt == null || supplierValue.debt == undefined">
+                <input aria-label="First name" class="form-control" value="Chưa Nhập Thuốc Vào Kho" disabled
+                       type="text">
+              </div>
             </div>
             <br>
             <div class="col-sm-12 col-md-6  input-group mg-b">
@@ -75,7 +81,7 @@
         </div>
         <div style="float: right">
           <button class="btn btn-secondary mg-r">
-            <a [routerLink]="['/supplier/']">
+            <a [routerLink]="['/supplier/']" style="color: white">
               <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
           </button>
         </div>
@@ -83,7 +89,7 @@
 
     </div>
     <div class="mx-auto text-center" style="clear: both">
-      Nội dung Tiếp theo Nếu Có
+
     </div>
 
   </div>

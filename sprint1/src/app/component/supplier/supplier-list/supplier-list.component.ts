@@ -55,7 +55,7 @@ export class SupplierListComponent implements OnInit {
   confirmDelete() {
     this.supplierService.deleteSupplier(this.idDelete).subscribe(() => {
       this.ngOnInit();
-      this.toastr.warning("Xóa  Thành Công ! " + this.valueSupplier.supplierName, "Thông Báo Xác Nhận", {
+      this.toastr.warning("Xóa  Thành Công ! " + this.nameDelete, "Thông Báo Xác Nhận", {
         timeOut: 3000,
         progressBar: true
       });
@@ -259,6 +259,7 @@ export class SupplierListComponent implements OnInit {
       this.chosenIndex = null;
       this.idDelete= null
       this.nameDelete= null
+
     }
     if (this.isChosen) {
       this.idDelete = supplier.supplierId;

@@ -1,4 +1,3 @@
-
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {SupplierListComponent} from "./supplier-list/supplier-list.component";
@@ -17,7 +16,6 @@ const routes: Routes = [
   {path: "edit/:supplierId", component: SupplierEditComponent},
   {path: "detail/:supplierId", component: SupplierDetailComponent}
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

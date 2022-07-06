@@ -45,6 +45,10 @@ export class SupplierDetailComponent implements OnInit {
       console.log(" detail supplier")
       console.log(supplier)
       this.supplierValue = supplier
+    }, error => {
+      return this.supplierService.findById(supplierId).subscribe(next => {
+        this.supplierValue = next
+      })
     });
   }
 

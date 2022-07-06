@@ -1,17 +1,25 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
+import {HomePageComponent} from "./component/home-page/home-page.component";
+import {NotFoundComponent} from "./component/not-found/not-found.component";
 
 const routes: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'templates'
+    path: '', pathMatch: 'full', redirectTo: 'home-page'
   },
+  {path: 'home-page', component: HomePageComponent},
   {
-    path        : 'customer',
+    path: 'customer',
     loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
-    path        : 'employee',
+
+    path: 'customer',
+    loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
+  },
+  {
+    path: 'employee',
     loadChildren: () => import('./component/employee/employee.module').then(module => module.EmployeeModule)
   },
   {
@@ -59,7 +67,6 @@ const routes: Routes = [
     loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
-
     path: 'payment',
     loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
@@ -70,6 +77,10 @@ const routes: Routes = [
   {
     path: 'import-invoice',
     loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 
