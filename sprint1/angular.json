@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -119,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "pharmacy-manager"
+    }
+  },
+  "defaultProject": "pharmacy-manager",
+  "cli": {
+    "analytics": "f6ca10d0-26e0-4978-a9dc-1ca7fa6e0e7c"
+  }
 }
