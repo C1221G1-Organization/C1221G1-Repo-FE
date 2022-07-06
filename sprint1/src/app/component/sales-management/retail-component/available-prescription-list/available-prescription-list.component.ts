@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {RetailService} from "../../../../service/retail.service";
-import {Prescription} from "../../../../model/prescription";
-import {FormControl, FormGroup} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
+import {RetailService} from '../../../../service/retail.service';
+import {Prescription} from '../../../../model/prescription';
+import {FormControl, FormGroup} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(private retailService: RetailService,
-              private toastr : ToastrService,
+              private toastr: ToastrService,
               private router: Router,) {
   }
 
@@ -196,11 +196,12 @@ export class AvailablePrescriptionListComponent implements OnInit {
         });
     }
   }
+
   // [routerLink]="['/sales-management/prescription-detail/', idChoice]"
   getEmitChange() {
-  if (this.idChoice == ''){
-      this.toastr.warning("Vui lòng chọn đơn thuốc !", "Cảnh báo", {
-        timeOut:3000,
+    if (this.idChoice == '') {
+      this.toastr.warning('Vui lòng chọn đơn thuốc !', 'Cảnh báo', {
+        timeOut: 3000,
         progressBar: true
       });
       this.router.navigateByUrl('/sales-management/available-prescription');

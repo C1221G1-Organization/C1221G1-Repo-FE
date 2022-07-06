@@ -10,7 +10,7 @@
   --navbar-height: 34px;
   --header-height: 130px;
   --header-with-search-height: calc(
-    var(--header-height - var(--navbar-height))
+    var(--header-height) - var(--navbar-height)
   );
 }
 
@@ -176,9 +176,9 @@ html {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
   width: 100%;
   transform: translateZ(0);
+  z-index: 100;
 }
 
 .header__navbar {
@@ -220,8 +220,8 @@ html {
 
 .header__navbar-user-name {
   margin-left: 4px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .header__navbar-user-menu {
@@ -699,6 +699,14 @@ html {
   font-size: 1.3rem;
   color: var(--text-color);
 }
+/*SELECT*/
+
+
+
+
+
+
+
 
 .header__search-select-icon {
   font-size: 0.8rem;
@@ -806,5 +814,29 @@ html {
 input:focus ~ div {
   display: block;
 }
+
+
+/*.select-box select{*/
+/*  height: 42px;*/
+/*  padding: 10px 15px;*/
+/*  line-height: 22px;*/
+/*  font-size: 1rem;*/
+/*  width: 100%;*/
+/*  border: 1px solid var(--primary-color);*/
+/*  -webkit-appearance: none;*/
+/*  appearance: none;*/
+/*}*/
+
+/*.select-box:after{*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  right: 8px;*/
+/*  top: 50%;*/
+/*  margin-top:-4px ;*/
+/*  border-top: 8px solid var(--primary-color);*/
+/*  border-left: 6px solid transparent;*/
+/*  border-right: 6px solid transparent;*/
+/*  pointer-events: none;*/
+/*}*/
 
 

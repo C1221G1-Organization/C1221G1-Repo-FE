@@ -16,5 +16,3 @@ const routes: Routes = [
 
 export class EmployeeRoutingModule {
 }
-
-

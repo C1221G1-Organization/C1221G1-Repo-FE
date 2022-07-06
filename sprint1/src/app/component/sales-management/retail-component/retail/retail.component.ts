@@ -7,6 +7,7 @@ import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 
+
 @Component({
   selector: 'app-retail',
   templateUrl: './retail.component.html',
@@ -247,5 +248,3 @@ export class RetailComponent implements OnInit {
     console.log(this.isDisabled);
   }
 }
-
-
