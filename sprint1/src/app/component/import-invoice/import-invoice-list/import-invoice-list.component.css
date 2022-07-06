@@ -138,10 +138,9 @@ legend.scheduler-border {
 .button:hover {
   color: white;
 }
-.width{
-  width: 170px;
-  height: 30px;
+.width1{
+  width: 210px;
+  height: 35px;
 }
-.highlight {
-  background: yellow;
-}
+
+

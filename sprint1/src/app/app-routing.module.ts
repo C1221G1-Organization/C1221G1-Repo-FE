@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 
-
 const routes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: 'templates'
@@ -71,7 +70,7 @@ const routes: Routes = [
     loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {
-    path: 'import-invoice',
+    path        : 'import-invoice',
     loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
   },
   {
