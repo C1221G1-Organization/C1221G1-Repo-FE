@@ -4,9 +4,25 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080',
+  apiBaseUrl: 'http://localhost:3000',
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
+  adminChat: {
+    name: 'ADMIN',
+    uuid: 'ADMIN-C12'
+  },
 };
-
+export const config = {
+  apiKey: 'AIzaSyAmka5eULManLz7IecrSgJy4LF85j8ptYA',
+  authDomain: 'c1221g1-pharmacy.firebaseapp.com',
+  projectId: 'c1221g1-pharmacy',
+  storageBucket: 'c1221g1-pharmacy.appspot.com',
+  messagingSenderId: '286698930676',
+  appId: '1:286698930676:web:64331d09dc09f2dc7939a1',
+  databaseURL: 'https://c1221g1-pharmacy-default-rtdb.asia-southeast1.firebasedatabase.app',
+  measurementId: 'G-904D7C7FF4'
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -13,9 +13,9 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./customer-edit.component.css']
 })
 export class CustomerEditComponent implements OnInit {
+
   customer: Customer;
   customerId: string;
-  // findById: string;
   customerTypeList: CustomerType[];
   age: number;
 
@@ -105,6 +105,6 @@ export class CustomerEditComponent implements OnInit {
     } else if (this.age >= 100) {
       this.updateForm.get('customerBirthday').setErrors({checkAge: true});
     }
-  }
 
+  }
 }

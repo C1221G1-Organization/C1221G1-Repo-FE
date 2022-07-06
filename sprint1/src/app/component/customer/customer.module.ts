@@ -16,7 +16,6 @@ import {HttpClientModule} from '@angular/common/http';
     CustomerModalComponent,
     CustomerCreateComponent,
     CustomerListComponent,
-
     CustomerEditComponent],
   imports: [
     CommonModule,
@@ -29,3 +28,6 @@ import {HttpClientModule} from '@angular/common/http';
 
 export class CustomerModule {
 }
+
+
+

@@ -13,6 +13,7 @@ import {CustomerService} from '../../../service/customer/customer.service';
   styleUrls: ['./customer-list.component.css']
 })
 
+
 export class CustomerListComponent implements OnInit {
   customers: Customer;
   customer: Customer[] = [];
@@ -366,6 +367,6 @@ export class CustomerListComponent implements OnInit {
         break;
     }
   }
-}
 
+}
 
