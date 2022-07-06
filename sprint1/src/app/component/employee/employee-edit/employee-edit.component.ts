@@ -125,6 +125,9 @@ export class EmployeeEditComponent implements OnInit {
   Function:  Edit Employee
 */
   onSubmit(id: string) {
+     if (!this.employeeFormEdit.valid) {
+      this.employeeFormEdit.markAllAsTouched();
+     }
     const employee = this.employeeFormEdit.value;
     console.log(this.valueEmployee);
     console.log(employee);
