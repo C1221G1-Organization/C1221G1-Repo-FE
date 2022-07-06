@@ -1,11 +1,11 @@
 <div class="wrapper mb-2">
   <div class="container-fluid mx-auto">
     <div class="flex">
-      <div *ngIf="cartDetails.length<1" class="row">
+      <div *ngIf="cartDetails == null || cartDetails.length <1" class="row">
         <div class="col-8 mx-auto mt-2">
           <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
-              <h3>Giỏ hàng</h3>
+              <h4 class="font-weight-bold">Giỏ hàng</h4>
             </div>
             <br>
             <br>
@@ -18,7 +18,7 @@
             <h5 class="text-center">Giỏ hàng của bạn đang trống</h5>
             <div class="form-group row mt-4">
               <div class="col-sm-3 mx-auto pb-1">
-                <button [routerLink]="['/templates']" style="min-height: 45px"
+                <button [routerLink]="['/home-page']" style="min-height: 45px"
                         class="btn btn-outline-success btn-block">
                   Tiếp tục mua hàng
                 </button>
@@ -27,12 +27,12 @@
           </div>
         </div>
       </div>
-      <div *ngIf="cartDetails.length >= 1" class="row">
+      <div *ngIf="cartDetails != null && cartDetails.length >= 1" class="row">
         <div class="col-xl-8 col-lg-12 my-2">
           <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
-              <h3>Giỏ hàng</h3>
-              <h4>{{cartDetails.length}} Sản phẩm</h4>
+              <h4 class="font-weight-bold">Giỏ hàng</h4>
+              <h5 class="font-weight-bold">{{cartDetails.length}} Sản phẩm</h5>
             </div>
             <div class="table-responsive">
               <table class="table table-borderless table-hover">
@@ -104,7 +104,7 @@
         <div class="col-xl-4 col-lg-12 my-2">
           <div class="shadow-lg bg-white p-3 rounded-lg">
             <div class="d-flex justify-content-between border-bottom pb-8">
-              <h3>Tổng tiền</h3>
+              <h4 class="font-weight-bold">Tổng tiền</h4>
             </div>
             <div class="table-responsive">
               <table class="table table-borderless ">
@@ -153,6 +153,32 @@
                   (click)="removeItem(medicineDelete)"
                   data-dismiss="modal">Xóa
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#errorModal">Open Modal</button>
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tạm hết hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p *ngFor="let medicine of medicineErrorArray">
+          <span class="text-danger font-weight-bold">{{medicine}}</span>
+        </p>
+        <p>Vui lòng điều chỉnh lại danh sách!</p>
+      </div>
+      <div class="modal-footer">
+        <div class="mx-auto row">
+          <button class="mx-2 btn btn-secondary" data-dismiss="modal">Đóng</button>
         </div>
       </div>
     </div>

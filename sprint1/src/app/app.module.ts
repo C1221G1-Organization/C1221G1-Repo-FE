@@ -10,7 +10,7 @@ import {HomePageComponent} from './component/templates/home-page/home-page.compo
 import {TemplatesModule} from './component/templates/templates.module';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 import {ReportModule} from "./component/reports/report.module";
-
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import {ReportModule} from "./component/reports/report.module";
     TemplatesModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right'
-    })
+    }),
+    NgxSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
