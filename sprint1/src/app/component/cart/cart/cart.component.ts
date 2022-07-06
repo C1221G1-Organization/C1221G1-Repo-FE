@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {CartService} from "../../../service/cart/cart.service";
-import {Router} from "@angular/router";
-import {CartDetailDto} from "../../../dto/cart/CartDetailDto";
-import {MedicineDtoForCart} from "../../../dto/cart/MedicineDtoForCart";
-import {CartAndDetailDto} from "../../../dto/cart/CartAndDetailDto";
-import {PaymentOnlineService} from "../../../service/cart/payment-online.service";
+import {CartService} from '../../../service/cart/cart.service';
+import {Router} from '@angular/router';
+import {CartDetailDto} from '../../../dto/cart/CartDetailDto';
+import {MedicineDtoForCart} from '../../../dto/cart/MedicineDtoForCart';
+import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
+import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
 
 @Component({
   selector: 'app-cart',
@@ -39,8 +39,8 @@ export class CartComponent implements OnInit {
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
-      this.route.navigate(['cart/payment-online'])
-    })
+      this.route.navigate(['cart/payment-online']);
+    });
   }
 
   removeItem(medicine: MedicineDtoForCart) {
@@ -66,12 +66,11 @@ export class CartComponent implements OnInit {
     let total = 0;
     this.cartDetails.forEach(item => {
       total += (item.quantity * item.medicine.medicinePrice);
-    })
+    });
     return total;
   }
 
   getMedicineDelete(medicine: MedicineDtoForCart) {
     this.medicineDelete = medicine;
   }
-
 }

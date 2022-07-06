@@ -1,14 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SharedServiceService} from "../../../../service/shared-service.service";
-import {PrescriptionDetail} from "../../../../dto/prescription/prescriptionDetail";
-import {PrescriptionMedicineDetail} from "../../../../dto/prescription/prescriptionMedicineDetail";
-import {RetailService} from "../../../../service/retail.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
-import {MedicineSale} from "../../../../dto/invoice/medicineSale";
-import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
-import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {PrescriptionDetail} from '../../../../dto/prescription/prescriptionDetail';
+import {PrescriptionMedicineDetail} from '../../../../dto/prescription/prescriptionMedicineDetail';
+import {RetailService} from '../../../../service/retail.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {MedicineSale} from '../../../../dto/invoice/medicineSale';
+import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
+import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-prescription-detail',
@@ -16,7 +15,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./prescription-detail.component.css']
 })
 export class PrescriptionDetailComponent implements OnInit {
-
   presciptionForm: FormGroup;
   idChoice: string;
   prescriptionDetail: PrescriptionDetail;
@@ -53,14 +51,14 @@ export class PrescriptionDetailComponent implements OnInit {
     this.retailService.getPrescriptionDetail(prescriptionId).subscribe(res => {
       this.prescriptionDetail = res;
       console.log(this.prescriptionDetail);
-    })
+    });
   }
 
   getPrescriptionMedicineDetail(prescriptionId: string) {
     this.retailService.getPrescriptionMedicineDetail(prescriptionId).subscribe(res => {
       this.listPrescriptionMedicine = res;
       console.log(res);
-    })
+    });
   }
 
   createRetailInvoice() {
@@ -68,7 +66,7 @@ export class PrescriptionDetailComponent implements OnInit {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.totalQuantity
-      }
+      };
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
       let invoiceDto: any = {
         customerId: 'KH-0001',
@@ -79,21 +77,21 @@ export class PrescriptionDetailComponent implements OnInit {
       console.log(invoiceDto);
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/sales-management/retail');
           this.listMedicineChoice = [];
         }, error => {
-          this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
+          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.listMedicineChoice = [];
-          console.log(error)
+          console.log(error);
         }
-      )
+      );
     }
   }
 }

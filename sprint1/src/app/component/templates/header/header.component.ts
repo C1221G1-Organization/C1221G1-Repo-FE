@@ -1,8 +1,8 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ShareService} from "../../../share/ShareService";
-import {MedicineHomePage} from "../../../dto/medicine-home-page";
-import {TokenStorageService} from "../../../service/security/token-storage.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ShareService} from '../../../share/ShareService';
+import {MedicineHomePage} from '../../../dto/medicine-home-page';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private tokenStorageService: TokenStorageService,
@@ -43,6 +44,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
   }
+
   // logout() {
   //   this.tokenStorageService.signOut();
   //   window.location.reload();
