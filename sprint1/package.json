@@ -20,7 +20,13 @@
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
     "ngx-toastr": "^12.1.0",
+    "ngx-paypal": "^8.0.0",
+    "firebase": "^7.15.0",
+    "@types/chart.js": "^2.9.37",
+    "chart.js": "^3.8.0",
+    "uuid": "^8.3.2",
     "rxjs": "~6.5.4",
+    "ngx-pagination": "^5.1.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
