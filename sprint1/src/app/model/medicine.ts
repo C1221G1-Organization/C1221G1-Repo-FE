@@ -1,5 +1,6 @@
 export interface Medicine {
   medicineId: string,
   medicineName: string,
-  medicineWholesaleProfit: number
+  medicineWholesaleProfit: number,
+  medicineConversionRate: number
 }

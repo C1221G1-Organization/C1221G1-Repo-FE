@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
@@ -14,7 +15,10 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-top-right'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

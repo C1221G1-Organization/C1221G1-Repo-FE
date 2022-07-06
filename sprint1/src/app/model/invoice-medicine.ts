@@ -1,6 +1,6 @@
 import {Medicine} from "./medicine";
 
 export interface InvoiceMedicine {
-  medicine: Medicine,
+  medicineId: string,
   quantity: number
 }

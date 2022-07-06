@@ -1,5 +1,5 @@
 export interface ListMedicineDto {
-  medicineId: number,
+  medicineId: string,
   medicineName: string,
   quantity: number,
   newMoney: number,
