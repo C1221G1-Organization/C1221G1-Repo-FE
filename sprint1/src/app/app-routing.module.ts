@@ -1,11 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NotFoundComponent} from './component/not-found/not-found.component';
-
+import {HomePageComponent} from './component/home-page/home-page.component';
 
 const routes: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'templates'
+    path: '', pathMatch: 'full', redirectTo: 'home-page'
+  },
+  {path: 'home-page', component: HomePageComponent},
+  {
+    path: 'customer',
+    loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
     path: 'customer',
@@ -64,8 +69,8 @@ const routes: Routes = [
     loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
   {
-
     path: 'import-invoice-medicine',
+    // tslint:disable-next-line:max-line-length
     loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
   },
   {

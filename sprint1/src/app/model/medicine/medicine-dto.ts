@@ -1,8 +1,3 @@
-import {MedicineOrigin} from './medicine-origin';
-import {MedicineType} from './medicine-type';
-import {MedicineUnit} from './medicine-unit';
-import {MedicineConversionUnit} from './medicine-conversion-unit';
-
 export interface MedicineDto {
   medicineId: string;
   medicineName: string;
