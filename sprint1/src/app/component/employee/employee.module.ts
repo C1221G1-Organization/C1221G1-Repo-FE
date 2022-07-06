@@ -5,11 +5,9 @@ import {EmployeeEditComponent} from './employee-edit/employee-edit.component';
 import {EmployeeModalComponent} from './employee-modal/employee-modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
-
+import {environment} from '../../../environments/environment.prod';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {config, environment} from '../../../environments/environment';
-
 
 
 @NgModule({
@@ -23,7 +21,7 @@ import {config, environment} from '../../../environments/environment';
       EmployeeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(config)
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ]
 })
 export class EmployeeModule {

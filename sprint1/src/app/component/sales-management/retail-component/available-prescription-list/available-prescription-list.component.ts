@@ -5,19 +5,19 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 
-
 @Component({
   selector: 'app-available-prescription-list',
   templateUrl: './available-prescription-list.component.html',
   styleUrls: ['./available-prescription-list.component.css']
 })
 export class AvailablePrescriptionListComponent implements OnInit {
+
   prescriptions: Prescription[] = [];
   id = '';
   names = '';
   target = '';
   symptom = '';
-  page: number;
+  page = 0;
   totalPages: any;
   pageSize: any;
   firsts: boolean;
@@ -108,7 +108,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
     const input = this.searchForm.get('inputSearch').value;
     const type = this.searchForm.get('typeSearch').value;
     if (type === 'id' && input.trim() !== '') {
-      this.retailService.getAllPrescription(null, this.id = input.trim(), '', '', '').subscribe(
+      this.retailService.getAllPrescription(this.page, this.id = input.trim(), '', '', '').subscribe(
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
@@ -125,7 +125,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'names' && input.trim() !== '') {
-      this.retailService.getAllPrescription(null, this.id = '', this.names = input.trim(),
+      this.retailService.getAllPrescription(this.page, this.id = '', this.names = input.trim(),
         this.target = '', this.symptom = '').subscribe(
         (data: any) => {
           this.message = false;
@@ -143,7 +143,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'target' && input.trim() !== '') {
-      this.retailService.getAllPrescription(null, this.id = '', this.names = '',
+      this.retailService.getAllPrescription(this.page, this.id = '', this.names = '',
         this.target = input.trim(), this.symptom = '').subscribe(
         (data: any) => {
           this.message = false;
@@ -161,7 +161,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'symptom' && input.trim() !== '') {
-      this.retailService.getAllPrescription(null, this.id = '', this.names = '',
+      this.retailService.getAllPrescription(this.page, this.id = '', this.names = '',
         this.target = '', this.symptom = input.trim()).subscribe(
         (data: any) => {
           this.message = false;

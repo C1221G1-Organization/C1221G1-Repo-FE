@@ -4,12 +4,12 @@ import {ShareService} from "../../../share/ShareService";
 import {MedicineHomePage} from "../../../dto/medicine/medicine-home-page";
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit, AfterContentChecked {
   isLogIn = false;
   username: string;
@@ -44,15 +44,13 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
-    this.ngOnInit();
+    this.ngOnInit()
   }
 
-  logout(e) {
-    e.preventDefault();
-    this.tokenStorageService.signOut();
-    this.router.navigateByUrl("/home-page").then()
-    this.ngOnInit();
-  }
+  // logout() {
+  //   this.tokenStorageService.signOut();
+  //   window.location.reload();
+  // }
 
 
   searchMedicine(name: HTMLInputElement, typeId:  HTMLSelectElement) {

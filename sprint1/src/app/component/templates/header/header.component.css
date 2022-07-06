@@ -10,7 +10,7 @@
   --navbar-height: 34px;
   --header-height: 130px;
   --header-with-search-height: calc(
-    var(--header-height) - var(--navbar-height)
+    var(--header-height - var(--navbar-height))
   );
 }
 
@@ -178,7 +178,7 @@ html {
   right: 0;
   width: 100%;
   transform: translateZ(0);
-  z-index: 100;
+  z-index: 9999999;
 }
 
 .header__navbar {

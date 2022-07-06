@@ -8,7 +8,6 @@ const routes: Routes = [
   {path: 'static', component: StatistitalChartComponent},
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

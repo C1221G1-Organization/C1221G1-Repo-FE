@@ -12,6 +12,7 @@ import {PaymentOnlineService} from '../../../service/cart/payment-online.service
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
+
   cartDetails: CartDetailDto [] = [];
   total = 0;
   medicineDelete = {} as MedicineDtoForCart;

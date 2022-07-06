@@ -50,5 +50,4 @@ textarea {
 #exampleModal{
   position: fixed;
   top: 15%;
-  z-index: 100;
 }

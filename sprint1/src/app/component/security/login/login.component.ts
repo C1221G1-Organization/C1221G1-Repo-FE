@@ -5,7 +5,6 @@ import {SecurityService} from "../../../service/security/security.service";
 import {SignInRequest} from "../../../dto/request/SignInRequest";
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 import {ToastrService} from "ngx-toastr";
-import {FacebookAuthService} from "../../../service/security/facebook-auth.service";
 
 
 /**
@@ -31,7 +30,6 @@ export class LoginComponent implements OnInit {
               private route: Router,
               private tokenStorageService: TokenStorageService,
               private toast:ToastrService,
-              public facebookAuth:FacebookAuthService
   ) {
 
   }
@@ -69,37 +67,26 @@ export class LoginComponent implements OnInit {
             }
             this.userName = this.tokenStorageService.getUser().username;
             this.roles = this.tokenStorageService.getUser().roles;
-
+            this.signInForm.reset();
             this.isSignIn = true;
             this.toast.success("Đăng nhập thành công","Chúc mừng", {
-              timeOut:1000,tapToDismiss:true,
+              timeOut:1000
             })
-            this.signInForm.reset();
             setTimeout(()=>{
-              this.roles.forEach(role =>{
-                if(role === 'ROLE_USER'){
-                  this.route.navigateByUrl('/home-page').then();
-                }else{
-                  this.route.navigateByUrl('/')
-                }
-              })
-
-            },1000)
+              this.route.navigateByUrl('/').then();
+            },2000)
 
           },
           error => {
             this.isSignIn = false;
             if(error.error?.errorMap){
-              this.toast.warning("Đăng nhập không thành công","Thông báo")
+              // this.toast.warning("Đăng nhập thành công","Chúc mừng")
                 }else{
-              this.toast.warning("Mật khẩu không chính xác","Thông báo")
+              // this.toast.warning("Mật khẩu không chính xác")
                 }
           }
         )
     }
   }
-  signInWithFaceBook(e){
-    e.preventDefault();
-    this.facebookAuth.FacebookAuth();
-  }
+
 }
