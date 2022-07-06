@@ -4,6 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NotFoundComponent } from './component/not-found/not-found.component';
+import {ImportInvoiceModule} from './component/import-invoice/import-invoice.module';
+import {ToastrModule} from 'ngx-toastr';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ImportInvoiceModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

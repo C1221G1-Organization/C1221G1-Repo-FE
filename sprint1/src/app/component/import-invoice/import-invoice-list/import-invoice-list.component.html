@@ -13,23 +13,44 @@
     <legend class="scheduler-border">Bộ lọc</legend>
     <form [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="row d-flex justify-content-around">
-        <div class="col-2">
-          <label class="mt-2">Từ ngày</label>
-          <input formControlName="startDate" class="form-control border-dark border-1" type="date">
+
+        <div class="ml-5" formGroupName="dateForm" >
+          <div class="col-12">
+            <label class="mt-2">Từ ngày</label>
+            <input formControlName="startDate" class="form-control border-dark border-1 width1" type="date">
+          </div>
+
+          <div class="col-12">
+            <label class="mt-2">Đến ngày</label>
+            <input formControlName="endDate" class="form-control border-dark border-1 width1" type="date">
+            <p *ngIf="searchForm.controls.dateForm.hasError('dateError') && startDate !== '' && endDate !== ''" class="text-danger mt-2">
+              Ngày kết thúc phải lớn hơn
+            </p>
+            <p *ngIf="!searchForm.controls.dateForm.hasError('dateError') || startDate === '' || endDate === ''" class="text-light mt-2">
+              No message!
+            </p>
+          </div>
         </div>
-        <div class="col-2">
-          <label class="mt-2">Đến ngày</label>
-          <input formControlName="endDate" class="form-control border-dark border-1" type="date">
-        </div>
-        <div class="col-2">
+
+        <div class="ml-3" formGroupName="timeForm" >
+          <!--          <div class="col-12">-->
           <label class="mt-2">Từ giờ</label>
-          <input formControlName="startTime" class="form-control border-dark border-1" type="time">
-        </div>
-        <div class="col-2">
+          <input formControlName="startTime" class="form-control border-dark border-1 width1" type="time">
+          <!--          </div>-->
+
+          <!--          <div class="col-12">-->
           <label class="mt-2">Đến giờ</label>
-          <input formControlName="endTime" class="form-control border-dark border-1" type="time">
+          <input formControlName="endTime" class="form-control border-dark border-1 width1" type="time">
+          <p *ngIf="searchForm.controls.timeForm.hasError('timeError') && startTime !== '' && endTime !== ''" class="text-danger mt-2">
+            Giờ kết thúc phải lớn hơn
+          </p>
+          <p *ngIf="!searchForm.controls.timeForm.hasError('timeError') || startTime === '' || endTime === ''" class="text-light mt-2">
+            No message!
+          </p>
+          <!--          </div>-->
         </div>
-        <div class="col-2">
+
+        <div class="col-2  ml-1">
           <label class="mt-2">Sắp xếp theo</label>
           <select formControlName="fieldSort" class="form-control border-dark border-1 width" style="height: 34px">
             <option value="import_invoice_id">Vui lòng chọn</option>
@@ -37,26 +58,35 @@
             <option value="import_system_code">Số CT</option>
             <option value="import_invoice_hour">Giờ lập</option>
             <option value="total">Tổng tiền</option>
-            <option value="payment_prepayment">Nợ hóa đơn</option>
             <option value="supplier_id">Nhà cung cấp</option>
           </select>
+          <label class="mt-2">Thứ tự</label>
+          <select formControlName="fieldSortBy" class="form-control border-dark border-1 width" style="height: 34px">
+            <option value="asc">Vui lòng chọn</option>
+            <option value="asc">Tăng dần</option>
+            <option value="desc">Giảm dần</option>
+          </select>
         </div>
-        <div class="col-2" style="top: 38px; padding-left: 40px;">
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Lọc KQ
+
+        <div class="col-2 mt-1 ml-2">
+          <button type="submit" class="btn btn-primary mt-4 ml-1"><i class="fa-solid fa-magnifying-glass"></i> Lọc KQ
+          </button>
+          <button type="reset" class="btn btn-primary mt-5" (click)="resetAll()"><i class="fa-solid fa-magnifying-glass"></i> Làm mới
           </button>
         </div>
       </div>
     </form>
   </fieldset>
 
-  <fieldset class="scheduler-border ">
+  <fieldset class="scheduler-border">
     <legend class="scheduler-border">Danh sách hóa đơn</legend>
     <div class="container pt-4 pb-5">
       <div *ngIf="importInvoiceList.length !== 0">
         <div class="card-body">
-          <table class="table text-center">
+          <table class="table text-center table-hover">
             <thead class="table-success">
             <tr>
+              <th scope="col">#</th>
               <th scope="col">Mã HĐ</th>
               <th scope="col">Số CT</th>
               <th scope="col">Ngày lập</th>
@@ -68,25 +98,27 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let import_invoice of importInvoiceList index as i"
-                (click)="hightlight(import_invoice.importInvoiceId, i)" [class.highlight]="import_invoice.complete">
+            <tr *ngFor="let import_invoice of importInvoiceList, index as i"
+                [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === import_invoice.importInvoiceId ? 'rgba(213,234,215,0.69)' : ''}"
+                (click)="chooseImportInvoice(i, import_invoice.importInvoiceId, currentPage+1)">
+              <td>{{(5 * currentPage) + (i + 1)}}</td>
               <td>{{import_invoice.importInvoiceId}}</td>
               <td>{{import_invoice.importSystemCode}}</td>
-              <td>{{import_invoice.importInvoiceDate}}</td>
+              <td>{{import_invoice.importInvoiceDate | date: 'dd-MM-yyyy'}}</td>
               <td>{{import_invoice.importInvoiceHour}}</td>
-              <td>{{import_invoice.total}}</td>
-              <td>{{import_invoice.paymentPrepayment}}</td>
+              <td>{{import_invoice.total | currency: 'VND'}}</td>
+              <td>{{import_invoice.paymentPrepayment | currency: 'VND'}}</td>
               <td>{{import_invoice.supplier.supplierName}}</td>
               <td>{{import_invoice.supplier.supplierAddress}}</td>
             </tr>
             </tbody>
           </table>
         </div>
-        <div class="d-flex justify-content-end mr-4 mb-4">
+        <div class="d-flex justify-content-center mr-4 mb-4">
           <nav class="blog-pagination d-flex justify-content-center py-3">
             <ul class="pagination">
               <li class="page-item px-1">
-                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trang trước</a>
+                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trang trước</a>
               </li>
               <li class="page-item">
                 <a class="page-link">
@@ -96,7 +128,7 @@
                 </a>
               </li>
               <li class="page-item px-1">
-                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trang sau</a>
+                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage + 1 >= totalPages" *ngIf="totalPages !== (currentPage + 1)">Trang sau</a>
               </li>
             </ul>
           </nav>
@@ -107,12 +139,12 @@
       </div>
       <div class="d-flex justify-content-end">
         <button class="mr-4 btn btn-success button"
-                type="submit"><i class="fa fa-plus" aria-hidden="true"></i> Thêm
+                type="submit"><i class="fa-solid fa-circle-plus"></i> Thêm
         </button>
         <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#staticBackdrop">
-          <i class="fa fa-trash-o"></i> Xóa hóa đơn
+          <i class="fa-solid fa-circle-xmark"></i> Xóa
         </button>
-        <button class="mr-4 btn btn-secondary button" type="button"><i class="icon-sidebar fa fa-reply"></i>
+        <button class="mr-4 btn btn-secondary button" type="button"><i class="fa fa-undo" aria-hidden="true"></i>
           Trở về
         </button>
       </div>
@@ -131,12 +163,15 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="idDelete === null || n !== currentPage + 1">
+        Chưa có hóa đơn nào được chọn.
+      </div>
+      <div class="modal-body" *ngIf="idDelete !== null && n === currentPage + 1">
         Bạn có muốn xóa hóa đơn này <span class="text-danger">{{idDelete}}</span>.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete(idDelete)">Xóa</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete(idDelete)" *ngIf="idDelete !== null && n === currentPage + 1">Xóa</button>
       </div>
     </div>
   </div>

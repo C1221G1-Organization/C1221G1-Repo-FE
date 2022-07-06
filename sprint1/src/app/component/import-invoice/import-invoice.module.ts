@@ -8,10 +8,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [ImportInvoiceListComponent],
+  exports: [
+    ImportInvoiceListComponent
+  ],
   imports: [
     CommonModule,
     ImportInvoiceRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
-export class ImportInvoiceModule { }
+export class ImportInvoiceModule {}
