@@ -25,7 +25,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartService.setCart();
+    // this.cartService.setCart();
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
     window.scrollBy(0,0);

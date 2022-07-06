@@ -108,8 +108,11 @@
       </div>
     </div>
 </div>
-  <h1 *ngIf="isHasContent" class="text-center">Không có dữ liệu phù hợp</h1>
-  <nav aria-label="Page navigation example">
+  <div class="text-center" *ngIf="isHasContent">
+    <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
+    <h4>Không có dữ liệu phù hợp</h4>
+  </div>
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
     <ul class="pagination justify-content-end">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
