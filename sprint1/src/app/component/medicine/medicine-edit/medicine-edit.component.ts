@@ -246,6 +246,8 @@ export class MedicineEditComponent implements OnInit {
     return this.medicineService.findMedicineById(id).subscribe(medicine => {
       this.confirmMedicine = medicine;
       this.onSubmitExistMedicine();
+    }, error => {
+      this.route.navigateByUrl('not-found');
     });
   }
 

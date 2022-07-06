@@ -236,7 +236,7 @@
         <h5 class="text-danger">(*) Thông tin bắt buộc</h5>
       </div>
       <div class="col-12 my-2 d-flex justify-content-center">
-        <button class="btn btn-dark mx-5" type="reset" [disabled]="isLoading">
+        <button class="btn btn-primary mx-4" type="reset" [disabled]="isLoading">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                class="bi bi-x-octagon" viewBox="0 0 16 16">
             <path
@@ -246,10 +246,10 @@
           </svg>
           Làm mới
         </button>
-        <button class="btn btn-secondary mx-5" [disabled]="isLoading">
+        <button class="btn btn-secondary mx-4" [disabled]="isLoading">
           <i class="fa fa-undo" aria-hidden="true" routerLink="/medicine/list"></i> Trở về
         </button>
-        <button class="btn btn-success mx-5" [disabled]="isLoading">
+        <button class="btn btn-success mx-4" [disabled]="isLoading">
           <i class="fa-solid fa-circle-plus"></i> Thêm mới
           <span class="spinner-border spinner-border-sm" role="status" *ngIf=" isLoading">
             <span class="sr-only">Loading...</span>
