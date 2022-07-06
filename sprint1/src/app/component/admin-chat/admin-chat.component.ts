@@ -27,6 +27,7 @@ const YEAR_MILLIS = WEEK_MILLIS * 52;
   styleUrls  : ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
+
   rooms: any[];
   colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -36,7 +37,6 @@ export class AdminChatComponent implements OnInit {
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
-   * @param
    * @return retrieve rooms from Rooms FRD and sort by lastMessagePost time
    */
   constructor(private title: Title) {

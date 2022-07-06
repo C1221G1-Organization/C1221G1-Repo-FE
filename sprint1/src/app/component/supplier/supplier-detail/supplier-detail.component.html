@@ -39,14 +39,13 @@
               <div class="input-group-prepend">
                 <span class="input-group-text w-all  ">  Công Nợ </span>
               </div>
-              <div *ngIf="supplierValue.debt">
-                <input aria-label="First name" class="form-control" value="{{supplierValue.debt}}" disabled
-                       type="text">
-              </div>
-              <div *ngIf="supplierValue.debt == null || supplierValue.debt == undefined">
-                <input aria-label="First name" class="form-control" value="Chưa Nhập Thuốc Vào Kho" disabled
-                       type="text">
-              </div>
+              <input *ngIf="supplierValue.debt" aria-label="First name" class="form-control"
+                     value="{{supplierValue.debt | number }} VND" disabled
+                     type="text">
+
+              <input *ngIf="supplierValue.debt == null || supplierValue.debt == undefined" aria-label="First name"
+                     class="form-control" value="Chưa Nhập Thuốc Vào Kho" disabled
+                     type="text">
             </div>
             <br>
             <div class="col-sm-12 col-md-6  input-group mg-b">
@@ -67,8 +66,6 @@
               <textarea aria-label="Last name" class="form-control" disabled
                         value=""
                         *ngIf="supplierValue.note.length == 0 ">Không Có Ghi Chú gì Cho Nhà Cung Cấp Này  </textarea>
-
-
             </div>
           </div>
         </fieldset>
@@ -79,18 +76,20 @@
             <i aria-hidden="true" class="fa fa-address-card"></i>Xem Hóa Đơn
           </button>
         </div>
+        <button class="btn btn-warning  mx-2" style="float: right">
+          <a [routerLink]="['/supplier/edit/',supplierValue.supplierId]"
+             style="color: white">
+            <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
+        </button>
         <div style="float: right">
-          <button class="btn btn-secondary mg-r">
-            <a [routerLink]="['/supplier/']">
+          <button class="btn btn-secondary  mx-2">
+            <a [routerLink]="['/supplier/']" style="color: white">
               <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
           </button>
         </div>
       </div>
-
     </div>
     <div class="mx-auto text-center" style="clear: both">
-      Nội dung Tiếp theo Nếu Có
     </div>
-
   </div>
 </div>

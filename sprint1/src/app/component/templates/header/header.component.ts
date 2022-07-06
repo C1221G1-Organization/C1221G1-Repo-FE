@@ -1,8 +1,8 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ShareService} from "../../../share/ShareService";
-import {MedicineHomePage} from "../../../dto/medicine/medicine-home-page";
-import {TokenStorageService} from "../../../service/security/token-storage.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ShareService} from '../../../share/ShareService';
+import {MedicineHomePage} from '../../../dto/medicine/medicine-home-page';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
-  medicineTypeList= [{id:1,name:'Bổ'},{id:2,name: "Cảm"}]
+  medicineTypeList = [{id: 1, name: 'Bổ'}, {id: 2, name: 'Cảm'}];
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -44,18 +44,22 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
-    this.ngOnInit();
+    this.ngOnInit()
   }
 
   logout(e) {
     e.preventDefault();
     this.tokenStorageService.signOut();
-    this.router.navigateByUrl("/home-page").then()
+    this.router.navigateByUrl('/home-page').then();
     this.ngOnInit();
   }
 
+  // logout() {
+  //   this.tokenStorageService.signOut();
+  //   window.location.reload();
+  // }
 
-  searchMedicine(name: HTMLInputElement, typeId:  HTMLSelectElement) {
+  searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;
     this.medicine.medicineTypeId = typeId.value;
     this.shareService.emitChange(this.medicine);

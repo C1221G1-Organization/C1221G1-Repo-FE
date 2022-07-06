@@ -1,7 +1,7 @@
 <header class="header">
   <div class="grid">
     <nav class="header__navbar row" style="margin: 0px">
-      <ul class="header__navbar-list col-xl-4 col-lg-5 col-md-5 col-6">
+      <ul class="header__navbar-list col-xl-5 col-lg-5 col-md-6 col-6">
         <li class=" header__navbar-item header__navbar-item--has-qr header__navbar-item--separate px-3">
           Hotline Đặt hàng (Miễn phí)
         </li>
@@ -10,10 +10,10 @@
           1900 1221
         </li>
       </ul>
-      <ul class="header__navbar-list d-flex justify-content-end col-xl-8 col-lg-7 col-md-7 col-6">
+      <ul class="header__navbar-list d-flex justify-content-end col-xl-7 col-lg-7 col-md-6 col-6">
         <li class="header__navbar-item">
           <i aria-hidden="true" class="header__navbar-icon far fa-question-circle"></i>
-          <a class="header__navbar-item-link" href="">Trợ giúp</a>
+          <a class="header__navbar-item-link">Trợ giúp</a>
         </li>
         <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate" [hidden]="isLogIn"
             routerLink="/log/sign-up">
@@ -37,8 +37,7 @@
               <a href="">Quản lý cửa hàng</a>
             </li>
             <li class="header__navbar-user-item header__navbar-user-item--separate">
-              <a (click)="logout($event)">Đăng xuất</a>
-
+              <a routerLink="/log/log-out">Đăng xuất</a>
             </li>
           </ul>
         </li>
@@ -59,8 +58,8 @@
           <input class="header__search-input" placeholder="Bạn đang tìm gì hôm nay" type="text" #name>
         </div>
         <div class=" mr-3 select-box">
-          <select class="form-control" style="border: none;" #typeId>
-            <option value="">Loại thuốc</option>
+          <select class="form-control " style="border: none;" #typeId>
+            <option value="">Danh mục</option>
             <option [value]="1">Bổ</option>
             <option [value]="2">Cảm</option>
           </select>
@@ -109,3 +108,4 @@
     </div>
   </div>
 </header>
+
