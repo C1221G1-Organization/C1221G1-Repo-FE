@@ -1,23 +1,31 @@
-import {Component} from '@angular/core';
-import firebase from 'firebase/app';
 import 'firebase/database';
-import {environment} from '../environments/environment';
-
 import {TokenStorageService} from './service/security/token-storage.service';
 
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import firebase from "firebase/app";
+import "firebase/database";
+import {config, environment} from "../environments/environment";
+
+
 @Component({
-  selector   : 'app-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls  : ['./app.component.css']
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
 
   isGuest = true;
   user;
 
   constructor(private tokenStorageService: TokenStorageService) {
-    firebase.initializeApp(environment.firebaseConfig);
+    firebase.initializeApp(config);
+
+    console.log(this.user);
+  }
+
+
+  ngOnInit(): void {
     this.user = this.tokenStorageService.getUser();
     if (this.user == null) {
       this.isGuest = true;
@@ -29,7 +37,10 @@ export class AppComponent {
         this.isGuest = false;
       }
     }
-    console.log(this.user);
+  }
+
+  ngAfterViewChecked(): void {
+    this.ngOnInit()
   }
 
 }

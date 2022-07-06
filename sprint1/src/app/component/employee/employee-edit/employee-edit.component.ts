@@ -17,6 +17,7 @@ import {PositionService} from '../../../service/employee/position.service';
   styleUrls: ['./employee-edit.component.css']
 })
 export class EmployeeEditComponent implements OnInit {
+
   id: string;
   employeeFormEdit: FormGroup;
   employee: Employee[] = [];

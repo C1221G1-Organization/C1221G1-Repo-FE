@@ -6,11 +6,19 @@
     --secondary-color: #0a55ff;
     --border-color: #dbdbdb;
     --star-gold-color: #ffce3e;
-    --navbar-height: 34px;
-    --header-height: 130px;
+    --navbar-height: 10vh;
+    --header-height: 16vh;
     --header-with-search-height: calc(
             var(--header-height - var(--navbar-height))
     );
 }
+
+* {
+  box-sizing: border-box;
+}
+
+/*body{*/
+/*  min-width: 100vh;*/
+/*}*/
 
 

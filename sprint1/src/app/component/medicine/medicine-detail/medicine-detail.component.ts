@@ -1,27 +1,36 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
-import {MedicineDetailDto} from '../../../dto/medicine-detail.model';
+import {MedicineDetailDto} from '../../../dto/medicine/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
+import {CartService} from '../../../service/cart/cart.service';
+
+const MAXIMUM_QUANTITY_ALLOWED = 10;
 
 @Component({
   selector   : 'app-medicine-detail',
   templateUrl: './medicine-detail.component.html',
   styleUrls  : ['./medicine-detail.component.css']
 })
-export class MedicineDetailComponent implements OnInit, AfterViewChecked {
+export class MedicineDetailComponent implements OnInit {
 
   medicineId: string;
   medicine: MedicineDetailDto;
   relativeMedicineList: MedicineDetailDto[];
   quantity = 1;
+  toastrOptions = {
+    preventOpenDuplicates: true,
+    timeOut              : 5000
+  };
 
   constructor(private toastr: ToastrService,
+              private cartService: CartService,
               private router: Router,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
 
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -35,8 +44,9 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
+          this.scrollToTopOfScrollable()
         }, err => {
-          this.router.navigateByUrl("not-found")
+          this.router.navigateByUrl("not-found");
         }
       );
       this.medicineService.get5RelativeMedicinesOf(this.medicineId).subscribe(
@@ -55,8 +65,21 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
    */
   increaseQuantity() {
     this.quantity++;
-    this.quantity = this.quantity > this.medicine.medicineQuantity ? this.medicine.medicineQuantity : this.quantity;
+    if (this.quantity > MAXIMUM_QUANTITY_ALLOWED) {
+      this.quantity = MAXIMUM_QUANTITY_ALLOWED;
+      this.toastr.warning(
+        `Bạn chỉ được mua tối đa ${MAXIMUM_QUANTITY_ALLOWED} sản phảm`,
+        '',
+        {...this.toastrOptions});
+    } else if (this.quantity > this.medicine.medicineQuantity) {
+      this.quantity = this.medicine.medicineQuantity;
+      this.toastr.warning(
+        `Số lượng sản phảm còn lại không đủ`,
+        '',
+        {...this.toastrOptions});
+    }
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -69,6 +92,7 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
       this.quantity = 1;
     }
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -76,36 +100,38 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
    * @return add item and quantity to localstorage
    */
   addItemToCart() {
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    if (cart == null) {
-      const newCart = {};
-      newCart[this.medicine.medicineId] = this.quantity;
-      localStorage.setItem('cart', JSON.stringify(newCart));
-    } else {
-      cart[this.medicine.medicineId] = cart[this.medicine.medicineId] ?
-        cart[this.medicine.medicineId] + this.quantity :
-        this.quantity;
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
+    this.cartService.addToCart(
+      {
+        medicineId: this.medicine.medicineId,
+        medicineName: this.medicine.medicineName,
+        medicineImage: this.medicine.medicineImage,
+        medicinePrice: this.medicine.medicinePrice
+      }, this.quantity);
     this.toastr.success(`Thêm thành công ${this.quantity} sản phẩm vào giỏ hàng`, '', {
       timeOut    : 3000,
       progressBar: false
     });
+    this.quantity = 1;
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
    * @param
    * @return scroll to top when view is checked
    */
-  ngAfterViewChecked() {
-    console.log("view checkeđ");
-    // Hack: Scrolls to top of Page after page view initialized
-    let top = document.getElementById('product-detail-view');
-    if (top !== null) {
-      top.scrollIntoView();
-      top = null;
-    }
+  scrollToTopOfScrollable() {
+    window.scrollBy(0, -window.innerHeight);
   }
 
+  buyNow() {
+    this.cartService.addToCart(
+      {
+        medicineId: this.medicine.medicineId,
+        medicineName: this.medicine.medicineName,
+        medicineImage: this.medicine.medicineImage,
+        medicinePrice: this.medicine.medicinePrice
+      }, 1);
+    this.router.navigateByUrl('cart');
+  }
 }

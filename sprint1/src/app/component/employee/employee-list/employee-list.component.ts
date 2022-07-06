@@ -5,12 +5,14 @@ import {ToastrService} from 'ngx-toastr';
 import {Employee} from '../../../model/employee/employee';
 import {Position} from '../../../model/employee/position';
 
+
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
+
   @ViewChild('criteria') criteria: ElementRef;
   @ViewChild('valueSearchInput') valueSearchInput: ElementRef;
   @ViewChild('valueSearchDropDown') valueSearchDropDown: ElementRef;
@@ -391,5 +393,6 @@ export class EmployeeListComponent implements OnInit {
         timeOut: 3000,
         progressBar: true
       }));
+
   }
 }

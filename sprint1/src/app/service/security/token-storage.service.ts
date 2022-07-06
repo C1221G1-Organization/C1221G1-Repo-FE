@@ -11,6 +11,10 @@ export class TokenStorageService {
   constructor() { }
 
   signOut(){
+    window.localStorage.removeItem('c1221g1_impossible');
+    window.localStorage.removeItem('c1221g1_champion');
+    window.sessionStorage.removeItem('c1221g1_impossible');
+    window.sessionStorage.removeItem('c1221g1_champion');
     window.localStorage.clear();
     window.sessionStorage.clear();
   }
@@ -61,26 +65,5 @@ export class TokenStorageService {
 
   getRememberFlag() {
     return window.localStorage.getItem('Remember');
-  }
-  public setCookie(params: any) {
-    let d: Date = new Date();
-    d.setTime(
-      d.getTime() +
-      (params.expireDays ? params.expireDays : 1) * 24 * 60 * 60 * 1000
-    );
-    document.cookie =
-      (params.name ? params.name : '') +
-      '=' +
-      (params.value ? params.value : '') +
-      ';' +
-      (params.session && params.session == true
-        ? ''
-        : 'expires=' + d.toUTCString() + ';') +
-      'path=' +
-      (params.path && params.path.length > 0 ? params.path : '/') +
-      ';' +
-      (location.protocol === 'https:' && params.secure && params.secure == true
-        ? 'secure'
-        : '');
   }
 }

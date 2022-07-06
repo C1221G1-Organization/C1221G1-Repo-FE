@@ -41,10 +41,6 @@ export class AdminChatDetailComponent implements OnInit {
     this.chatForm = this.formBuilder.group({
       message: [null, Validators.required]
     });
-    firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
-      const room = res.val();
-      firebase.database().ref('rooms/' + this.uuid).update({...room, isSeen: true});
-    });
   }
   /**
    * @Author NghiaNTT
