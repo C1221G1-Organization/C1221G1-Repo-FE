@@ -3,7 +3,7 @@ import {TokenStorageService} from './service/security/token-storage.service';
 import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
-import {config} from "rxjs";
+import {config} from '../environments/environment';
 
 @Component({
   selector: 'app-root',

@@ -12,7 +12,8 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {TemplatesModule} from './component/templates/templates.module';
-import 'firebase/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import "firebase/database";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
 
@@ -22,7 +23,7 @@ import {ReportModule} from './component/reports/report.module';
     NotFoundComponent,
     HomePageComponent,
   ],
-  imports: [
+  imports     : [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -43,6 +44,7 @@ import {ReportModule} from './component/reports/report.module';
     NgxSpinnerModule,
 
   ],
+
   providers: [Title],
   bootstrap: [AppComponent]
 })
