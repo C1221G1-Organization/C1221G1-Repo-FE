@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {CustomerType} from "../../../model/customer/customer-type";
-import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {CustomerTypeService} from "../../../service/customer/customer-type.service";
 import {CustomerService} from "../../../service/customer/customer.service";
 import {Customer} from "../../../model/customer/customer";
 import {ToastrService} from "ngx-toastr";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-customer-edit',
@@ -25,11 +23,10 @@ export class CustomerEditComponent implements OnInit {
     customerId: new FormControl(""),
     customerName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
     customerBirthday: new FormControl("", [Validators.required]),
-    customerGender: new FormControl("", [Validators.required]),
+    customerGender: new FormControl([Validators.required]),
     customerAddress: new FormControl(""),
-    customerPhone: new FormControl("", [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')], this.checkDuplicatePhone(this.customerService)),
+    customerPhone: new FormControl("", [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]),
     customerNote: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-    // customerUsername: new FormControl(),
     customerType: new FormControl("", [Validators.required])
   });
 
@@ -49,7 +46,6 @@ export class CustomerEditComponent implements OnInit {
   getCustomer(index: string) {
     return this.customerService.findById(index).subscribe(item => {
       this.customer = item;
-      // this.findById = this.customerId;
       this.updateForm.patchValue(item);
       console.log(this.updateForm.value);
     }, error => {
@@ -57,6 +53,7 @@ export class CustomerEditComponent implements OnInit {
         timeOut: 3000,
         progressBar: true
       });
+      this.router.navigateByUrl('customer/list');
     })
   }
 
@@ -65,6 +62,9 @@ export class CustomerEditComponent implements OnInit {
   }
 
   update(index: string) {
+    if (!this.updateForm.valid) {
+      this.updateForm.markAllAsTouched();
+    }
     const value = this.updateForm.value;
     this.customerService.update(index, value).subscribe(() => {
       }, error => {
@@ -80,7 +80,7 @@ export class CustomerEditComponent implements OnInit {
           timeOut: 3000,
           progressBar: true
         })
-        this.router.navigateByUrl('customer');
+        this.router.navigateByUrl('customer/list');
       });
   }
 
@@ -92,20 +92,6 @@ export class CustomerEditComponent implements OnInit {
     this.getCustomer(this.customerId);
   }
 
-  private checkDuplicatePhone(customerService: CustomerService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return customerService
-        .checkPhoneNotTaken(control.value)
-        .pipe(
-          map((result) => {
-              return result ? null : {
-                phoneAlreadyExists: true
-              };
-            }
-          )
-        );
-    };
-  }
 
   check() {
     const birthDay = new Date(this.updateForm.get('customerBirthday').value);
