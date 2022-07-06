@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import firebase from "firebase/app";
+import "firebase/database";
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
 import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';
@@ -10,8 +10,11 @@ import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
-
-@Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
+@Component({
+  selector   : 'app-user-chat',
+  templateUrl: './user-chat.component.html',
+  styleUrls  : ['./user-chat.component.css']
+})
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
   scrollTop: number = null;
@@ -27,6 +30,7 @@ export class UserChatComponent implements OnInit {
   chat: Chat;
 
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    // firebase.initializeApp(environment.firebaseConfig);
   }
 
   /**
@@ -64,9 +68,7 @@ export class UserChatComponent implements OnInit {
     this.userChat = JSON.parse(localStorage.getItem('user-chat-info'));
     if (this.userChat && this.userChat.name && this.userChat.phone && this.userChat.uuid) {
       this.uuid = this.userChat.uuid;
-      console.log(this.uuid);
       firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value', snapshot => {
-        console.log(snapshot.val());
         if (snapshot.exists()) {
           this.isLogin = true;
           this.loginToChatRoom();
@@ -105,7 +107,7 @@ export class UserChatComponent implements OnInit {
    * */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    if (chat.message.trim().length == 0) {
+    if (chat.message.trim().length != 0) {
       chat.name = this.userChat.name;
       chat.uuid = this.uuid;
       chat.message = chat.message.trim();
@@ -137,7 +139,11 @@ export class UserChatComponent implements OnInit {
       this.userChat.phone = form.phone;
       this.userChat.uuid = this.uuid;
       firebase.database().ref('users/').push().set(this.userChat);
-      firebase.database().ref('rooms/' + this.uuid).set({...this.userChat, isSeen: false, lastMessagePost: getTimeStamp()});
+      firebase.database().ref('rooms/' + this.uuid).set({
+        ...this.userChat,
+        isSeen: false,
+        lastMessagePost: getTimeStamp()
+      });
       this.chat = {};
       this.chat = {...this.userChat, message: form.message, createdAt: getTimeStamp()};
       firebase.database().ref('chats/' + this.uuid).push().set(this.chat);
