@@ -1,19 +1,22 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {CustomerService} from '../../../service/customer.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Customer} from '../../../model/customer/customer';
-import {CustomerTypeService} from '../../../service/customer-type.service';
 import {Router} from '@angular/router';
-import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 import {CustomerType} from '../../../model/customer/customer-type';
+import {CustomerTypeService} from '../../../service/customer/customer-type.service';
+import {CustomerService} from '../../../service/customer/customer.service';
+
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
+
 export class CustomerListComponent implements OnInit {
+  customers: Customer;
   customer: Customer[] = [];
-  customerType: CustomerType[] = [];
+  customerType: CustomerType[];
   totalPages: number;
   currentPage: number;
   data: any;
@@ -27,7 +30,7 @@ export class CustomerListComponent implements OnInit {
   @ViewChild('keySearch2') keySearch2: ElementRef;
   @ViewChild('sort') sort: ElementRef;
   @ViewChild('type') type: ElementRef;
-  @ViewChild('typeSort') typeSort: ElementRef;
+  @ViewChild('valueSearchDropDown') typeSort: ElementRef;
 
   constructor(private customerService: CustomerService,
               private customerTypeService: CustomerTypeService,
@@ -40,6 +43,12 @@ export class CustomerListComponent implements OnInit {
     this.getAllCustomerType();
     console.log(this.customerType);
   }
+
+  /**
+   * create by TinBQ
+   * time: 01/07/2022
+   * This method to get data from table customer in database
+   */
 
   getAllCustomers(request) {
     console.log(request);
@@ -63,14 +72,23 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
+  /**
+   * create by TinBQ
+   * time: 01/07/2022
+   * This method to get data from table customer-type in database
+   */
   getAllCustomerType() {
     this.customerTypeService.getAllCustomerType().subscribe(customerTypes => {
-      // @ts-ignore
-      this.customerType = customerTypes.content;
+      this.customerType = customerTypes;
       console.log(this.customerType);
     });
   }
 
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to transfer previous page
+   */
   previousPage() {
     const request = {};
     if ((this.currentPage) > 0) {
@@ -89,7 +107,7 @@ export class CustomerListComponent implements OnInit {
           break;
         case
         'customerType':
-          request['customerType '] = this.keySearch2.nativeElement.value;
+          request['customerType'] = this.typeSort.nativeElement.value;
           break;
         case
         'customerName':
@@ -108,7 +126,11 @@ export class CustomerListComponent implements OnInit {
       this.getAllCustomers(request);
     }
   }
-
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to transfer next page
+   */
   nextPage() {
     const request = {};
     if ((this.currentPage + 1) < this.totalPages) {
@@ -124,7 +146,7 @@ export class CustomerListComponent implements OnInit {
           break;
         case
         'customerType':
-          request['customerType '] = this.keySearch2.nativeElement.value;
+          request['customerType'] = this.typeSort.nativeElement.value;
           break;
         case
         'customerName':
@@ -146,13 +168,16 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to search customer base on condition
+   */
   search() {
-    // console.log(this.keySearch1.nativeElement.value);
-    // console.log(this.keySearch2.nativeElement.value);
     switch (this.keySearch1.nativeElement.value) {
-      case 'noChoice':
+      case '':
         this.getAllCustomers({
-          sortBySearch: '', customerType: '', customerName: '', customerAddress: '', customerPhone: ''
+          customerType: this.keySearch2.nativeElement.value, customerName: this.keySearch2.nativeElement.value, customerAddress: this.keySearch2.nativeElement.value, customerPhone: this.keySearch2.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -160,7 +185,7 @@ export class CustomerListComponent implements OnInit {
         break;
       case 'customerId':
         this.getAllCustomers({
-          sortBySearch: this.keySearch2.nativeElement.value
+          customerId: this.keySearch2.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -169,7 +194,7 @@ export class CustomerListComponent implements OnInit {
       case
       'customerType':
         this.getAllCustomers({
-          sortBySearch: this.keySearch2.nativeElement.value
+          customerType: this.typeSort.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -178,7 +203,7 @@ export class CustomerListComponent implements OnInit {
       case
       'customerName':
         this.getAllCustomers({
-          sortBySearch: this.keySearch2.nativeElement.value
+          customerName: this.keySearch2.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -187,7 +212,7 @@ export class CustomerListComponent implements OnInit {
       case
       'customerAddress':
         this.getAllCustomers({
-          sortBySearch: this.keySearch2.nativeElement.value
+          customerAddress: this.keySearch2.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -196,7 +221,7 @@ export class CustomerListComponent implements OnInit {
       case
       'customerPhone':
         this.getAllCustomers({
-          sortBySearch: this.keySearch2.nativeElement.value
+          customerPhone: this.keySearch2.nativeElement.value
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
@@ -205,17 +230,18 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to soft customer base on condition
+   */
   sortBy() {
     switch (this.sort.nativeElement.value) {
       case 'customer_id':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerId: this.keySearch2.nativeElement.value
-          // , customerType: this.keySearch1.nativeElement.value
-          // , customerName: this.keySearch1.nativeElement.value
-          // , customerAddress: this.keySearch1.nativeElement.value
-          // , customerPhone: this.keySearch1.nativeElement.value
-          , sort: this.sort.nativeElement.value
+          customerId: this.keySearch2.nativeElement.value,
+          sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
           , size: 5
@@ -224,15 +250,21 @@ export class CustomerListComponent implements OnInit {
       case 'customer_type_id':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
+          , page: 0
+          , size: 5
         });
         break;
       case 'customer_name':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
+          customerName: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
+          , page: 0
+          , size: 5
         });
         break;
       case 'customer_address':
@@ -248,25 +280,39 @@ export class CustomerListComponent implements OnInit {
       case 'customer_phone':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
+          customerPhone: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
+          , page: 0
+          , size: 5
         });
         break;
     }
   }
-
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to delet customer in database
+   */
   deleteCustomer(customerId: string) {
+    console.log(customerId);
     this.customerService.delete(customerId).subscribe(() => {
       this.toastr.warning('Xóa Thành Công !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });
       this.router.navigateByUrl('/customer/list');
+      this.ngOnInit();
+      this.getAllCustomers({page: 0, size: 5});
+      console.log(customerId);
     });
-    this.ngOnInit();
-    this.getAllCustomers({page: 0, size: 5});
   }
 
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to get id delete customer
+   */
   getValueToDelete(i: number, customerId: string) {
     if (this.choosenIndex !== i) {
       this.isChoosen = true;
@@ -280,9 +326,12 @@ export class CustomerListComponent implements OnInit {
     if (this.isChoosen) {
       this.idDelete = customerId;
     }
-
   }
-
+  /**
+   * create by TinBQ
+   * time: 04/07/2022
+   * This method to change drop down list when admin choose field'mã khách hàng'
+   */
   changeValueFind(value: any) {
     console.log(value);
     switch (value) {
@@ -309,4 +358,5 @@ export class CustomerListComponent implements OnInit {
     }
   }
 }
+
 

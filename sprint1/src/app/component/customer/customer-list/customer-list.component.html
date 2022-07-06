@@ -2,21 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Customer list</title>
   <link rel="stylesheet" href="customer-list.component.css">
   <style>
-    .selected {
-      background: #6FF425;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .unselected {
-      background: white;
-      color: black;
-    }
-
-
     td {
       cursor: pointer;
       transition: all .25s ease-in-out
@@ -31,7 +19,8 @@
       <div class="row">
         <div class="col-2"><p>Lọc theo:</p></div>
         <div class="col-2">
-          <select name="find" class="form-control" id="findCustomer" (change)="changeValueFind($event.target.value)" #keySearch1 >
+          <select name="find" class="form-control" id="findCustomer" (change)="changeValueFind($event.target.value)"
+                  #keySearch1>
             <option value="">--chọn--</option>
             <option value="customerId">Mã khách hàng</option>
             <option value="customerType">Nhóm khách hàng</option>
@@ -44,7 +33,8 @@
           <input class="form-control" type="text" [hidden]="!isInputHidden" #keySearch2>
           <select name="valueDropDownSearch" class="form-control mr-sm-2" [hidden]="!isSelectHidden"
                   #valueSearchDropDown>
-            <option *ngFor="let items of customerType" [value]="items.customerTypeId">{{items.customerTypeName}}</option>
+            <option *ngFor="let items of customerType"
+                    [value]="items.customerTypeId">{{items.customerTypeName}}</option>
           </select>
         </div>
         <div class="col-2">
@@ -117,7 +107,7 @@
               </span>
           </td>
           <td class="col-1">{{item.customerNote}}</td>
-          <!--          <td class="col-1">{{item.customerUsername.username}}</td>-->
+<!--          <td class="col-1">{{item.customerUsername.username}}</td>-->
         </tr>
         </tbody>
       </table>
@@ -129,7 +119,7 @@
       <nav class="blog-pagination d-flex justify-content-center py-3">
         <ul class="pagination">
           <li class="page-item px-1">
-            <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Previous</a>
+            <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trước</a>
           </li>
           <li class="page-item">
             <a class="page-link">
@@ -139,7 +129,8 @@
             </a>
           </li>
           <li class="page-item px-1">
-            <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Next</a>
+            <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages"
+               *ngIf="totalPages !== currentPage + 1">Sau</a>
           </li>
         </ul>
       </nav>
@@ -149,23 +140,19 @@
   <div>
     <div class="d-flex justify-content-between">
       <div>
-        <button type="button" class="btn btn-primary"><i class="fa fa-book" aria-hidden="true"></i>
-          <a href="list-customer-detail.html" style="color: white">Thông tin chi tiết</a>
-        </button>
       </div>
       <div id="btn" class="col-5">
-        <button type="button" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm
+        <button routerLink="/customer/create" type="button" class="btn btn-success mx-2"><i
+          class="fa-solid fa-circle-plus"></i> Thêm
         </button>
-        &nbsp;
-        <button type="button" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>
+        <button [routerLink]="['/customer/edit',idDelete]" type="button" class="btn btn-warning mx-2"><i class="fa fa-pencil"
+                                                                                                    aria-hidden="true"></i>
           Sửa
         </button>
-        &nbsp;
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><i
+        <button type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#exampleModal"><i
           class="fa-solid fa-circle-xmark"></i> Xóa
         </button>
-        &nbsp;
-        <button type="button" class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i>
+        <button type="button" class="btn btn-secondary mx-2"><i class="fa fa-undo" aria-hidden="true"></i>
           Trở về
         </button>
       </div>
@@ -184,12 +171,22 @@
         </button>
       </div>
       <div class="modal-body">
-        Bạn có muốn xóa khách hàng
-        <span> {{idDelete}}</span>
+        <div *ngIf="idDelete != undefined && idDelete!= null">
+          <div style="text-align: center">
+            <p>Bạn có muốn xóa khách hàng
+              <b style="color: red ">{{idDelete}}</b>
+            </p>
+          </div>
+        </div>
+        <div *ngIf="idDelete == undefined && idDelete== null">
+          <div style="text-align: center">
+            <h4 style="color:red;">Chưa có khách hàng nào để xóa</h4>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"
+        <button *ngIf="idDelete != undefined && idDelete != null" type="button" class="btn btn-danger" data-dismiss="modal"
                 (click)="deleteCustomer(idDelete)">Xóa
         </button>
       </div>
@@ -199,3 +196,4 @@
 <!--table-->
 </body>
 </html>
+

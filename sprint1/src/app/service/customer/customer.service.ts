@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Customer} from '../model/customer/customer';
-import {environment} from '../../environments/environment';
+
 import {map} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {Customer} from '../../model/customer/customer';
+
 
 
 const API_URL = `${environment.apiUrl}`;
