@@ -51,10 +51,10 @@ export class EmployeeListComponent implements OnInit {
     }, () => {
       this.employees = null;
       this.isHasContent = true;
-      this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-        timeOut:3000,
+      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+        timeOut: 3000,
         progressBar: true
-      })
+      });
     });
   }
 
@@ -101,10 +101,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
-          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-            timeOut:3000,
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
             progressBar: true
-          })
+          });
         });
         break;
       case 'name':
@@ -119,10 +119,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
-          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-            timeOut:3000,
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
             progressBar: true
-          })
+          });
         });
         break;
       case 'position':
@@ -137,10 +137,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
-          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-            timeOut:3000,
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
             progressBar: true
-          })
+          });
         });
         break;
       case 'address':
@@ -155,10 +155,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
-          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-            timeOut:3000,
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
             progressBar: true
-          })
+          });
         });
         break;
       case 'phone':
@@ -173,10 +173,10 @@ export class EmployeeListComponent implements OnInit {
         }, () => {
           this.employees = null;
           this.isHasContent = true;
-          this.toastr.warning("Không tìm thấy dữ liệu tương ứng !", "Thông báo", {
-            timeOut:3000,
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
             progressBar: true
-          })
+          });
         });
         break;
     }
@@ -317,7 +317,8 @@ export class EmployeeListComponent implements OnInit {
         this.employees = employees['content'];
         this.currentPage = employees['number'];
         this.totalPages = employees['totalPages'];
-      }, () => {});
+      }, () => {
+      });
     }
   }
 
@@ -368,7 +369,8 @@ export class EmployeeListComponent implements OnInit {
         this.employees = employees['content'];
         this.currentPage = employees['number'];
         this.totalPages = employees['totalPages'];
-      }, () => {});
+      }, () => {
+      });
     }
   }
 
@@ -378,10 +380,10 @@ export class EmployeeListComponent implements OnInit {
   }
 
   deleteEmployeeByid(employeeIdValue: string) {
-    this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() =>{
+    this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() => {
       this.ngOnInit(),
-    alert('Thành công rồi đại vương')},() =>
-      alert('Không thể tìm thấy nhân viên cần xoá hoặc nhân viên này đã đước xoá trước đó'))
+        alert('Thành công rồi đại vương');
+    }, () =>
+      alert('Không thể tìm thấy nhân viên cần xoá hoặc nhân viên này đã đước xoá trước đó'));
   }
-
 }
