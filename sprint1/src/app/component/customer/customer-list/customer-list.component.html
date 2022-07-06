@@ -85,7 +85,7 @@
           <th class="col-2">Nhóm khách</th>
           <th class="col-1">Giới tính</th>
           <th class="col-1">Ghi chú</th>
-          <th class="col-1">Email</th>
+<!--          <th class="col-1">Email</th>-->
         </tr>
         </thead>
         <tbody>
@@ -99,11 +99,14 @@
           <td class="col-1">{{item.customerPhone}}</td>
           <td class="col-2">{{item.customerType.customerTypeName}}</td>
           <td class="col-1">
-              <span *ngIf="item.customerGender== 1">
+              <span *ngIf="item.customerGender== 0">
                 Nam
               </span>
-            <span *ngIf="item.customerGender== 0">
+            <span *ngIf="item.customerGender== 1">
                 Nữ
+              </span>
+            <span *ngIf="item.customerGender== 2">
+                Giới tính khác
               </span>
           </td>
           <td class="col-1">{{item.customerNote}}</td>

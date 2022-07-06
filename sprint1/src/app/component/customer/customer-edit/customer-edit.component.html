@@ -1,4 +1,4 @@
-<h1 class="h1" style="text-align: center">Chỉnh sửa khách hàng</h1> <br>
+<h1 class="h1" style="text-align: center">Chỉnh Sửa Khách Hàng</h1> <br>
 <div class="container shadow-lg">
 
   <form [formGroup]="updateForm" (ngSubmit)="update(customerId)">
@@ -21,29 +21,23 @@
           <p style="color: red"
              *ngIf="updateForm.controls.customerName.hasError('required') && updateForm.controls.customerName.touched">
             Không được bỏ trống.</p>
-          <p style="color: red"
-             *ngIf="updateForm.controls.customerName.hasError('minLength') && updateForm.controls.customerName.touched">
-            Nhập phải nhiều hơn 2 kí tự.</p>
+          <!--          <p style="color: red"-->
+          <!--             *ngIf="updateForm.controls.customerName.hasError('minLength') && updateForm.controls.customerName.touched">-->
+          <!--            Nhập phải nhiều hơn 2 kí tự.</p>-->
           <p style="color: red"
              *ngIf="updateForm.controls.customerName.hasError('maxLength') && updateForm.controls.customerName.touched">
             Không được quá 20 kí tự.</p>
           <p style="color: red"
-             *ngIf="updateForm.controls.customerName.hasError('pattern') && updateForm.controls.customerName.touched">
-            Nhập đúng họ tên</p>
+             *ngIf="updateForm.controls.customerName.hasError('pattern')&& ('minlength') && updateForm.controls.customerName.touched">
+            Nhập đúng họ tên và nhiều hơn 2 kí tự (ví dụ : Nguyễn Văn A)</p>
         </div>
       </div>
     </div>
-
     <div class="row no-margin">
       <div class="col-sm-6">
         <div class="form-group">
           <b class="title" class="form-label">Nhóm khách hàng <span
             style="color: red"> (*) </span></b>
-          <!--          <select class="custom-select">-->
-          <!--            <option selected>Vui lòng chọn</option>-->
-          <!--            <option value="1">Khách sỉ</option>-->
-          <!--            <option value="2">Khách lẻ</option>-->
-          <!--          </select>-->
           <select class="form-control" formControlName="customerType">
             <option value="">Vui lòng chọn</option>
             -->
@@ -77,11 +71,7 @@
             Không được bỏ trống.</p>
           <p style="color: red"
              *ngIf="updateForm.controls.customerPhone.hasError('pattern') && updateForm.controls.customerPhone.touched">
-            Định dạng 10 số (Bắt đầu từ số 0)</p>
-          <p style="color: red" *ngIf=" updateForm.get('customerPhone').hasError('phoneAlreadyExists')">
-            Số điện thoại này đã tồn tại.
-          </p>
-
+            Số điện thoại 10 chữ số (ví dụ : 09XXXXXXXX)</p>
         </div>
       </div>
       <div class="col-sm-6">
@@ -91,8 +81,6 @@
         </div>
       </div>
     </div>
-
-
     <div class="row no-margin">
       <div class="col-sm-6">
         <div class="form-group">
@@ -100,24 +88,21 @@
             style="color: red"> (*) </span></b>
           <div style="margin-top: 7px">
             <div class="form-check form-check-inline">
-              <input id="0" formControlName="customerGender" class="form-check-input" type="radio" value="0">
-              <label for="0" class="form-check-label">Nam</label>
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio1" [value]="0">
+              <label class="form-check-label" for="inlineRadio1">Nam</label>
             </div>
             <div class="form-check form-check-inline">
-              <input id="1" formControlName="customerGender" class="form-check-input" type="radio" value="1">
-              <label for="1" class="form-check-label">Nữ</label>
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio2" [value]="1">
+              <label class="form-check-label" for="inlineRadio2">Nữ</label>
             </div>
             <div class="form-check form-check-inline">
-              <input id="2" formControlName="customerGender" class="form-check-input" type="radio" value="2">
-              <label for="2" class="form-check-label">Giới tính khác</label>
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio3" [value]="2">
+              <label class="form-check-label" for="inlineRadio3">Giới tính khác</label>
             </div>
           </div>
-          <!--          <select class="form-control" formControlName="customerGender">-->
-          <!--            <option value="">Vui lòng chọn</option>-->
-          <!--            <option value="0">Nam</option>-->
-          <!--            <option value="1">Nữ</option>-->
-          <!--            <option value="2">Giới tính khác</option>-->
-          <!--          </select>-->
           <p style="color: red"
              *ngIf="updateForm.controls.customerGender.hasError('required') && updateForm.controls.customerGender.touched">
             Bắt buộc chọn</p>

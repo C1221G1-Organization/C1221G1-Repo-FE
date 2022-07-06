@@ -126,6 +126,7 @@ export class CustomerListComponent implements OnInit {
       this.getAllCustomers(request);
     }
   }
+
   /**
    * create by TinBQ
    * time: 04/07/2022
@@ -177,10 +178,16 @@ export class CustomerListComponent implements OnInit {
     switch (this.keySearch1.nativeElement.value) {
       case '':
         this.getAllCustomers({
-          customerType: this.keySearch2.nativeElement.value, customerName: this.keySearch2.nativeElement.value, customerAddress: this.keySearch2.nativeElement.value, customerPhone: this.keySearch2.nativeElement.value
-          , page: 0
-          , size: 5
-          , sort: this.sort.nativeElement.value
+          customerType: this.keySearch2.nativeElement.value,
+          customerName: this.keySearch2.nativeElement.value,
+          customerAddress: this.keySearch2.nativeElement.value,
+          customerPhone: this.keySearch2.nativeElement.value
+          ,
+          page: 0
+          ,
+          size: 5
+          ,
+          sort: this.sort.nativeElement.value
         });
         break;
       case 'customerId':
@@ -289,6 +296,7 @@ export class CustomerListComponent implements OnInit {
         break;
     }
   }
+
   /**
    * create by TinBQ
    * time: 04/07/2022
@@ -327,6 +335,7 @@ export class CustomerListComponent implements OnInit {
       this.idDelete = customerId;
     }
   }
+
   /**
    * create by TinBQ
    * time: 04/07/2022

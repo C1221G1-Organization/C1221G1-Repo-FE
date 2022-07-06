@@ -19,31 +19,30 @@ export class CustomerCreateComponent implements OnInit {
   customerTypeList: CustomerType[];
   age: number;
 
-
   constructor(private customerService: CustomerService,
               private customerTypeService: CustomerTypeService,
               private toastr: ToastrService,
               private router: Router) {
   }
 
+
   ngOnInit(): void {
+
     this.getCustomerType();
-    // @ts-ignore
     this.createForm = new FormGroup({
-      customerId: new FormControl('KH'),
-      customerName: new FormControl('', [Validators.required, Validators.minLength(2),
-        Validators.maxLength(20), Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      customerId: new FormControl(''),
+      customerName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),
+        Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       customerBirthday: new FormControl('', [Validators.required]),
       customerGender: new FormControl('', [Validators.required]),
       customerAddress: new FormControl(''),
       customerPhone: new FormControl('', [Validators.required,
-          Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]
-        , this.checkDuplicatePhone(this.customerService)
+          Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]
+        , this.checkDuplicatePhone(this.customerService),
       ),
       customerNote: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       // customerUsername: new FormControl(),
-      customerType: new FormControl('', [Validators.required])
-
+      customerType: new FormControl('', [Validators.required]),
     });
   }
 
@@ -54,12 +53,15 @@ export class CustomerCreateComponent implements OnInit {
   }
 
   create() {
+    // /** Để bắt lỗi khi submit
+    if (!this.createForm.valid) {
+      this.createForm.markAllAsTouched();
+    }
     const customer = this.createForm.value;
     console.log(this.createForm.value);
 
     this.customerService.create(customer).subscribe(() => {
       }, error => {
-        // alert("Bắt buộc phải nhập đúng thông tin")
         this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', '', {
           timeOut: 3000,
           progressBar: true
@@ -71,7 +73,7 @@ export class CustomerCreateComponent implements OnInit {
           timeOut: 3000,
           progressBar: true
         });
-        this.router.navigateByUrl('customer');
+        this.router.navigateByUrl('customer/list');
       });
   }
 
@@ -101,5 +103,6 @@ export class CustomerCreateComponent implements OnInit {
       this.createForm.get('customerBirthday').setErrors({checkAge: true});
     }
   }
+
 
 }
