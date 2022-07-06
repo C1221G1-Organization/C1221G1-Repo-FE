@@ -1,4 +1,4 @@
-<header class="header mb-5">
+<header class="header">
   <div class="grid">
     <nav class="header__navbar">
       <ul class="header__navbar-list">
@@ -34,7 +34,7 @@
               <a href="">Quản lý cửa hàng</a>
             </li>
             <li class="header__navbar-user-item header__navbar-user-item--separate">
-              <a routerLink="/log/log-out">Đăng xuất</a>
+              <a (click)="logout($event)">Đăng xuất</a>
             </li>
           </ul>
         </li>

@@ -10,7 +10,6 @@
     --header-height: 130px;
     --header-with-search-height:
       calc(var(--header-height) - var(--navbar-height));
-    );
 }
 
 

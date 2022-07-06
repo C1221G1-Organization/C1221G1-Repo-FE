@@ -43,12 +43,15 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
+    this.ngOnInit();
   }
 
-  // logout() {
-  //   this.tokenStorageService.signOut();
-  //   window.location.reload();
-  // }
+  logout(e) {
+    e.preventDefault();
+    this.tokenStorageService.signOut();
+    this.router.navigateByUrl("/home-page").then()
+    this.ngOnInit();
+  }
 
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;

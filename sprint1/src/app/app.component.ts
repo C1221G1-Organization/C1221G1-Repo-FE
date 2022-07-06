@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import * as firebase from 'firebase';
-import {environment} from '../environments/environment';
-
 import {TokenStorageService} from "./service/security/token-storage.service";
-
+import firebase from "firebase/app";
+import "firebase/database";
+import {config, environment} from "../environments/environment";
 @Component({
   selector   : 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +15,7 @@ export class AppComponent {
   user;
 
   constructor(private tokenStorageService: TokenStorageService) {
-    firebase.initializeApp(environment.firebaseConfig);
+    firebase.initializeApp(config);
     this.user = this.tokenStorageService.getUser();
     if (this.user == null) {
       this.isGuest = true;

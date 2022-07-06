@@ -10,6 +10,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
 import {TemplatesModule} from './component/templates/templates.module';
+import {AngularFireModule, FirebaseApp} from '@angular/fire'
+import {AngularFireAuthModule} from '@angular/fire/auth'
+import {config, environment} from "../environments/environment";
+import firebase from "firebase/app";
+import "firebase/database";
 
 
 @NgModule({
@@ -27,7 +32,8 @@ import {TemplatesModule} from './component/templates/templates.module';
     FormsModule,
     ReactiveFormsModule,
     TemplatesModule,
-
+    AngularFireModule.initializeApp(config),
+    AngularFireAuthModule
   ],
   providers   : [],
   bootstrap   : [AppComponent]

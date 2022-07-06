@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase';
-
+import firebase from "firebase/app";
+import "firebase/database";
 
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
@@ -34,8 +34,13 @@ export class AdminChatComponent implements OnInit {
       this.rooms.sort((a,b) => b.lastMessagePost - a.lastMessagePost)
     });
   }
-
   ngOnInit(): void {
   }
 
+  isSeenToggle(uuid: any) {
+    firebase.database().ref('rooms/' + uuid).once('value').then(res => {
+      const room = res.val();
+      firebase.database().ref('rooms/' + uuid).update({...room, isSeen: true});
+    });
+  }
 }
