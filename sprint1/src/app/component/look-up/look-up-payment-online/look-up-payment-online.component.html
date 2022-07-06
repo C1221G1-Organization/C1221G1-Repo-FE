@@ -24,7 +24,7 @@
           </div>
           <div class="col-xl-4 col-lg-12">
             <div class="float-md-right float-sm-left">
-              <button type="button" class="btn btn-success mb-2 mr-2 my-1"
+              <button type="button" class="btn btn-primary mb-2 mr-2 my-1"
                       (click)="searchPaymentOnline()">
                 <i class="fa-solid fa-magnifying-glass mr-2"></i>
                 Tra cứu
@@ -72,7 +72,7 @@
         </div>
       </div>
       <!--          paging-->
-      <nav class="d-flex justify-content-center py-3">
+      <nav *ngIf="totalPages > 1" class="d-flex justify-content-center py-3">
         <ul class="pagination">
           <li class="page-item px-1 disabled">
             <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trang trước</a>

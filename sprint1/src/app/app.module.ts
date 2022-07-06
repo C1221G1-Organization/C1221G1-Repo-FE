@@ -12,8 +12,8 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {TemplatesModule} from './component/templates/templates.module';
+import { NgxSpinnerModule } from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
-
 
 @NgModule({
   declarations: [
@@ -36,6 +36,11 @@ import {ReportModule} from './component/reports/report.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TemplatesModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right'
+    }),
+    NgxSpinnerModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
