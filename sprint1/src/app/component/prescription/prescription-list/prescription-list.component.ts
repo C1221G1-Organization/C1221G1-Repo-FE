@@ -19,17 +19,18 @@ export class PrescriptionListComponent implements OnInit {
   names = '';
   target = '';
   symptom = '';
-  // prescriptionName = '';
   page: any;
   totalPages = 0;
   pageSize: 0;
   firsts: boolean;
   last: boolean;
   message: boolean;
-  activeProjectIndex: number;
   flag = false;
-  nameDelete: string;
-  idClick = '';
+  chooseIndex: number;
+  isChoose: boolean;
+  chooseId: string;
+  idDel: string;
+  valuePrescription: Prescription;
   searchForm: FormGroup;
 
   constructor(private prescriptionService: PrescriptionService,
@@ -65,7 +66,7 @@ export class PrescriptionListComponent implements OnInit {
     const input = this.searchForm.get('inputSearch').value;
     const type = this.searchForm.get('typeSearch').value;
     if (type === 'id' && input.trim() !== '') {
-      this.prescriptionService.getAllPrescription(this.page, this.id = input.trim(), '', '', '').subscribe(
+      this.prescriptionService.getAllPrescription(null, this.id = input.trim(), '', '', '').subscribe(
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
@@ -82,7 +83,7 @@ export class PrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'names' && input.trim() !== '') {
-      this.prescriptionService.getAllPrescription(this.page, this.id = '', this.names = input.trim(),
+      this.prescriptionService.getAllPrescription(null, this.id = '', this.names = input.trim(),
         this.target = '', this.symptom = '').subscribe(
         (data: any) => {
           this.message = false;
@@ -100,7 +101,7 @@ export class PrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'target' && input.trim() !== '') {
-      this.prescriptionService.getAllPrescription(this.page, this.id = '', this.names = '',
+      this.prescriptionService.getAllPrescription(null, this.id = '', this.names = '',
         this.target = input.trim(), this.symptom = '').subscribe(
         (data: any) => {
           this.message = false;
@@ -118,7 +119,7 @@ export class PrescriptionListComponent implements OnInit {
         }
       );
     } else if (type === 'symptom' && input.trim() !== '') {
-      this.prescriptionService.getAllPrescription(this.page, this.id = '', this.names = '',
+      this.prescriptionService.getAllPrescription(null, this.id = '', this.names = '',
         this.target = '', this.symptom = input.trim()).subscribe(
         (data: any) => {
           this.message = false;
@@ -209,7 +210,7 @@ export class PrescriptionListComponent implements OnInit {
 
   delete(ids: string) {
     this.prescriptionService.deletePrescription(ids).subscribe(() => {
-      this.toastr.success('Đã Xoá Thành Công !', 'Thông báo', {
+      this.toastr.success('Đã xoá thành công! ', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });
@@ -231,6 +232,39 @@ export class PrescriptionListComponent implements OnInit {
   //     errorButton.click();
   //   }
   // }
+  confirmDelete() {
+    this.prescriptionService.deletePrescription(this.valuePrescription.prescriptionId).subscribe(() => {
+      this.ngOnInit();
+      this.toastr.warning('Xóa thành công ! ' + this.valuePrescription.prescriptionName, 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }, e => {
+      console.log(e);
+    });
+  }
 
 
+  choosePrescription(i: number, prescriptionId: string, prescription: Prescription) {
+    // tslint:disable-next-line:triple-equals
+    if (this.chooseIndex != i) {
+      this.isChoose = true;
+      this.chooseIndex = i;
+      this.chooseId = prescriptionId;
+    } else {
+      this.isChoose = !this.isChoose;
+      this.chooseId = null;
+      this.idDel = null;
+    }
+    if (this.isChoose) {
+      // this.valuePrescription = prescription;
+      this.idDel = prescriptionId;
+
+      this.toastr.success('Đã chọn đơn thuốc ' + this.valuePrescription.prescriptionName, 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true,
+        positionClass: 'toast-top-center'
+      });
+    }
+  }
 }

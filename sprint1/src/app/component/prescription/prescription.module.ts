@@ -7,13 +7,15 @@ import {PrescriptionCreateComponent} from './prescription-create/prescription-cr
 import {PrescriptionEditComponent} from './prescription-edit/prescription-edit.component';
 import {PrescriptionListComponent} from './prescription-list/prescription-list.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MedicinePrescriptionCreateComponent } from './medicine-prescription-create/medicine-prescription-create.component';
 
 @NgModule({
   declarations: [
     PrescriptionModalComponent,
     PrescriptionCreateComponent,
     PrescriptionEditComponent,
-    PrescriptionListComponent
+    PrescriptionListComponent,
+    MedicinePrescriptionCreateComponent
   ],
   imports: [
     CommonModule,
