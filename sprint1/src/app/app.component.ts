@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.ngOnInit() 
+    this.ngOnInit()
   }
 
 }
