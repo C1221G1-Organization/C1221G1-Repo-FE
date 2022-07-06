@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {ReportService} from '../../../service/report.service';
+
 
 @Component({
   selector: 'app-report-list',
@@ -6,8 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./report-list.component.css']
 })
 export class ReportListComponent implements OnInit {
+  reportForm: FormGroup;
 
-  constructor() { }
+  constructor(private reportService: ReportService,
+              private toastr: ToastrService) {
+  }
 
   ngOnInit(): void {
   }
