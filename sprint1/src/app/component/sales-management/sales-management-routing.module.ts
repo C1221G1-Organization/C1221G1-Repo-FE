@@ -8,7 +8,7 @@ import {PrescriptionDetailComponent} from "./retail-component/prescription-detai
 const routes: Routes = [
   { path: "retail", component: RetailComponent},
   { path: "available-prescription", component: AvailablePrescriptionListComponent},
-  { path: "prescription-detail", component: PrescriptionDetailComponent},
+  { path: "prescription-detail/:id", component: PrescriptionDetailComponent},
 ];
 
 @NgModule({

@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {RetailService} from "../../../../service/retail.service";
 import {Prescription} from "../../../../model/prescription";
 import {FormControl, FormGroup} from "@angular/forms";
+import {SharedServiceService} from "../../../../service/shared-service.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: 'app-available-prescription-list',
@@ -14,7 +18,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
   names = '';
   target = '';
   symptom = '';
-  page: number;
+  page = 0;
   totalPages: any;
   pageSize: any;
   firsts: boolean;
@@ -25,7 +29,9 @@ export class AvailablePrescriptionListComponent implements OnInit {
   idChoice: any;
   searchForm: FormGroup;
 
-  constructor(private retailService: RetailService) {
+  constructor(private retailService: RetailService,
+              private toastr : ToastrService,
+              private router: Router,) {
   }
 
   ngOnInit(): void {
@@ -39,15 +45,18 @@ export class AvailablePrescriptionListComponent implements OnInit {
   getAllPrescription() {
     this.retailService.getAllPrescription(this.page, '', '', '', '').subscribe((data: any) => {
       this.prescriptions = data.content;
-      this.page = data.number;
+      this.page = data.pageable.pageNumber;
       this.totalPages = data.totalPages;
       this.pageSize = data.pageable.pageSize;
       this.firsts = data.first;
       this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
     }, error => {
+      this.prescriptions = [];
+      console.log(error);
       this.message = true;
     });
   }
+
   previous() {
     if (this.page > 0) {
       this.retailService.getAllPrescription(this.page - 1, this.id = '',
@@ -63,6 +72,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
       );
     }
   }
+
   next() {
     if (this.page < this.totalPages - 1) {
       this.retailService.getAllPrescription(this.page + 1, this.id = '', this.names = '',
@@ -103,7 +113,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
-          this.page = data.number;
+          this.page = data.pageable.pageNumber;
           this.totalPages = data.totalPages;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
@@ -121,7 +131,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
-          this.page = data.number;
+          this.page = data.pageable.pageNumber;
           this.totalPages = data.totalPages;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
@@ -139,7 +149,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
-          this.page = data.number;
+          this.page = data.pageable.pageNumber;
           this.totalPages = data.totalPages;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
@@ -157,7 +167,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
-          this.page = data.number;
+          this.page = data.pageable.pageNumber;
           this.totalPages = data.totalPages;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
@@ -176,7 +186,7 @@ export class AvailablePrescriptionListComponent implements OnInit {
         (data: any) => {
           this.message = false;
           this.prescriptions = data.content;
-          this.page = data.number;
+          this.page = data.pageable.pageNumber;
           this.totalPages = data.totalPages;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
@@ -187,4 +197,15 @@ export class AvailablePrescriptionListComponent implements OnInit {
         });
     }
   }
+  // [routerLink]="['/sales-management/prescription-detail/', idChoice]"
+  getEmitChange() {
+  if (this.idChoice == ''){
+      this.toastr.warning("Vui lòng chọn đơn thuốc !", "Cảnh báo", {
+        timeOut:3000,
+        progressBar: true
+      });
+      this.router.navigateByUrl('/sales-management/available-prescription');
+    }
+  }
 }
+

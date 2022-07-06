@@ -1,73 +1,47 @@
 <!--khung tìm kiếm toa thuốc-->
-  <div class="container mx-auto">
-    <div class="mx-auto shadow-lg p-3 mb-1 bg-white rounded-lg row d-flex justify-content-center">
-      <div class="col-4 px-0">
-        <div class="form-group row">
-          <label for="abc" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Số phiếu<span class="text-danger">(*)</span>:</label>
-          <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="abc" placeholder="HDL0001" [readOnly]="disableFlag">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="c" class="col-5 col-form-label px-0 ml-2" style="max-width: 25%">Nhân viên<span class="text-danger">(*)</span>:</label>
-          <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm " id="c" placeholder="Nguyễn Văn A"  [readOnly]="disableFlag">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="e" class="col-5 col-form-label w-50 px-0 ml-2" style="max-width: 25%">Ngày tạo<span class="text-danger">(*)</span>:</label>
-          <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="e" step="any" value="{{localDateTime | date : 'dd/MM/yyyy'}}" [readOnly]="disableFlag">
-          </div>
-        </div>
-      </div>
-      <div class="col-4 px-0 ">
-        <div class="form-group row">
-          <label for="kh" class="col-5 col-form-label w-50 px-0" style="max-width: 25%">Khách hàng<span class="text-danger">(*)</span>:</label>
-          <div class="col-7 px-0">
-            <input type="text" class="form-control form-control-sm" id="kh" placeholder="Khách lẻ" [readOnly]="disableFlag">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="note" class="col-5 col-form-label px-0" style="max-width: 25%">Ghi chú</label>
-          <div class="col-7 px-0">
-            <textarea class="form-control form-control-sm" rows="3" id="note" [(ngModel)]="note"></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="col-4 px-0 pl-3 ">
-        <div class="form-group row">
-          <label for="medicineSales" class="col-5 col-form-label px-0" style="max-width: 25%">Toa có sẵn</label>
-          <div class="col-5 px-0 mx-0">
-            <input list="medicineSales" value="" class="col-sm-10 form-control px-0  text-center mx-0"
-                   style="max-width: 100%">
 
-          </div>
-          <div class="col-sm-2 px-0 mx-0">
-            <button class="btn btn-primary">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+    <div class="mx-auto shadow-lg  mb-1 bg-white rounded-lg row d-flex justify-content-center ml-4">
+      <div class="col-5 mr-4 ">
+        <div class="form-group row">
+          <label for="c" class="col-8 col-form-label px-0 ml-2">Nhân viên<span class="text-danger">(*)</span>:</label>
+          <div class="col-12 px-0">
+            <input type="text" class="form-control" id="c" placeholder="Nguyễn Văn A"  [readOnly]="disableFlag">
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-3"></div>
-          <div class="col-9 px-0">
-            <button class="btn btn-light item-center" [routerLink]="['/sales-management/available-prescription']">
-              <i class="fa-solid fa-file-lines"></i>
-              Nhập thuốc từ toa
-            </button>
+          <label for="e" class="col-8 col-form-label w-50 px-0 ml-2">Ngày tạo<span class="text-danger">(*)</span>:</label>
+          <div class="col-12 px-0">
+            <input type="text" class="form-control " id="e" step="any" value="{{localDateTime | date : 'dd/MM/yyyy'}}" [readOnly]="disableFlag">
+          </div>
+          <button class="btn btn-light item-center mt-2" [routerLink]="['/sales-management/available-prescription']">
+            <i class="fa-solid fa-file-lines"></i>
+            Nhập thuốc từ toa
+          </button>
+        </div>
+
+      </div>
+      <div class="col-5  ml-4">
+        <div class="form-group row">
+          <label for="customer" class="col-8 col-form-label px-0 ml-2">Khách hàng<span class="text-danger">(*)</span>:</label>
+          <div class="col-12 px-0">
+            <input type="text" class="form-control  " id="customer" placeholder="Khách lẻ"  [readOnly]="disableFlag">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="note" class="col-8 col-form-label px-0 ml-2">Ghi chú:</label>
+          <div class="col-12 px-0">
+            <textarea class="form-control" rows="1" id="note" [(ngModel)]="note"></textarea>
           </div>
         </div>
 
       </div>
     </div>
-  </div>
-  <div class="container mx-auto">
-    <div class="mx-auto shadow-lg p-3 mb-5 bg-white rounded-lg">
+
+<!--list medicine-->
+<div class="mx-auto shadow-lg p-3 mb-5 bg-white rounded-lg mb-3" >
       <div>
         <h5>Danh sách thuốc<span class="text-danger">(*)</span>:</h5>
       </div>
-
       <table class="table table-hover">
         <thead >
 
@@ -120,10 +94,10 @@
           <td class="col-2 text-center">{{item.quantity}}</td>
           <td class="col-2 text-center">{{item.unit}}</td>
           <td class="col-2 text-center">
-            {{item.retailPrice | currency :'VND': 'symbol'}}
+            {{item.retailPrice | number }} VND
           </td>
           <td class="col-3 text-center">
-            {{item.money | currency :'VND':'symbol'}}
+            {{item.money | number }} VND
           </td>
         </tr>
         </tbody>
@@ -131,9 +105,11 @@
 
       <div class="d-flex justify-content-end">
         <label for="tongtien" class="p-2 col-form-label"><strong>TỔNG TIỀN:</strong></label>
-        <input id="tongtien" class="p-2 text-center form-control-sm" type="text"
-               value="{{totalMoney|currency :'VND' :'symbol'}}"
-               readonly>
+<!--        <input id="tongtien" class="p-2 text-center form-control-sm" type="text"-->
+<!--               value="{{totalMoney|number}}"-->
+<!--               readonly> -->
+          <span class="pt-2
+" id="tongtien">{{totalMoney|number}} VND</span>
       </div>
       <div class="d-flex justify-content-end">
         <div class="px-1">
@@ -163,8 +139,7 @@
         </div>
       </div>
     </div>
-  </div>
-<!--==================================-->
+<!--list medicine-->
 <!--success modal-->
 <div id="modal-success" class="modal fade">
   <div class="modal-dialog modal-confirm modal-confirm-success">

@@ -80,8 +80,9 @@
     <!--      button       -->
     <div class="d-flex justify-content-end">
       <div class="px-1">
-        <a [routerLink]="['/sales-management/prescription-detail']">
-          <button class="btn btn-info ">
+        <a >
+          <button class="btn btn-info" (click)="getEmitChange()"
+                  [routerLink]="['/sales-management/prescription-detail/', idChoice]">
             <i class="fa-solid fa-circle-info"></i>
             Chi tiết
           </button>
@@ -97,5 +98,4 @@
     <!--      button       -->
   </div>
 </div>
-
 

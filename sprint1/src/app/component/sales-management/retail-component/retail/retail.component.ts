@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {RetailService} from "../../../../service/retail.service";
 import {MedicineSale} from "../../../../dto/invoice/medicineSale";
 import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
-import {ListMedicineChoice} from "../../../../dto/invoice/ListMedicineChoice";
+import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 
@@ -23,7 +23,7 @@ export class RetailComponent implements OnInit {
   idDelete: string;
   nameDelete: string;
   index: number;
-  flagHover = false
+  flagHover = false;
   deleteMedicineChoiceArr: any = [];
   // dùng cho thêm thuốc
   isDisabled = false;
@@ -129,12 +129,13 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
+    this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.quantity
       }
-      this.invoiceMedicineDtos.push(invoiceMedicineDto);
+        this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
       customerId: 'KH-0001',
@@ -151,6 +152,11 @@ export class RetailComponent implements OnInit {
         });
         this.listMedicineChoice = [];
       }, error => {
+        this.toastr.warning("Thêm Mới Thất Bại !", "Hóa Đơn Bán Lẻ", {
+          timeOut:3000,
+          progressBar: true
+        });
+        this.listMedicineChoice = [];
         console.log(error)
       }
     )
