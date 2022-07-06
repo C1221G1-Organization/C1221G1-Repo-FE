@@ -1,0 +1,31 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #000000cc;
+    --primary-color: #1997ff;
+    --secondary-color: #0a55ff;
+    --border-color: #dbdbdb;
+    --star-gold-color: #ffce3e;
+<<<<<<< HEAD
+    --navbar-height: 34px;
+    --header-height: 130px;
+    --header-with-search-height:
+      calc(var(--header-height) - var(--navbar-height));
+=======
+    --navbar-height: 10vh;
+    --header-height: 16vh;
+    --header-with-search-height: calc(
+            var(--header-height - var(--navbar-height))
+    );
+>>>>>>> fe87e8687866cf390acedde3d0da403556352af2
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*body{*/
+/*  min-width: 100vh;*/
+/*}*/
+
+
