@@ -1,12 +1,10 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-
-import {ReactiveFormsModule} from '@angular/forms';
-import {LoginComponent} from "../security/login/login.component";
-import {LogoutComponent} from "../security/logout/logout.component";
-import {SignUpComponent} from "../security/sign-up/sign-up.component";
-import {LogRoutingModule} from "../security/log-routing.module";
+import { LogRoutingModule } from './log-routing.module';
+import {LoginComponent} from "./login/login.component";
+import {LogoutComponent} from "./logout/logout.component";
+import {SignUpComponent} from "./sign-up/sign-up.component";
 
 
 @NgModule({
@@ -17,9 +15,7 @@ import {LogRoutingModule} from "../security/log-routing.module";
   ],
   imports: [
     CommonModule,
-    LogRoutingModule,
-    ReactiveFormsModule
+    LogRoutingModule
   ]
 })
-export class LogModule {
-}
+export class LogModule { }

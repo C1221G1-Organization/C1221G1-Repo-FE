@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/styles.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/base.css"
             ],

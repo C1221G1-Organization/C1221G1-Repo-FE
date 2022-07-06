@@ -1,27 +1,19 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import {AngularFireStorageModule} from '@angular/fire/storage';
-import {AngularFireModule} from '@angular/fire';
-import {config} from '../environments/environment';
-import {ToastrModule} from 'ngx-toastr';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NotFoundComponent} from './component/not-found/not-found.component';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HomePageComponent} from './component/templates/home-page/home-page.component';
-import {TemplatesModule} from './component/templates/templates.module';
-import {AngularFireAuthModule} from '@angular/fire/auth'
-import "firebase/database";
-import {NgxSpinnerModule} from "ngx-spinner";
+import {ToastrModule} from 'ngx-toastr';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 import {ReportModule} from './component/reports/report.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
-    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,17 +26,9 @@ import {ReportModule} from './component/reports/report.module';
     BrowserAnimationsModule,
     ReportModule,
     FormsModule,
-    ReactiveFormsModule,
-    TemplatesModule,
-    AngularFireModule.initializeApp(config),
-    AngularFireAuthModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-right'
-    }),
-    NgxSpinnerModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
