@@ -28,11 +28,27 @@
   margin: 0;
 }
 .chat-app-left-side ul li a, .chat-app-left-side ul li a:link, .chat-app-left-side ul li a:active {
-  padding: 0 0 0 20px;
+  padding: 0;
   font-size: 1.25rem;
   font-weight: bold;
   color: white;
   text-decoration: none;
+}
+.chat-app-left-side .circle-name {
+  border-radius: 50%;
+  background-color: coral;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white
+}
+.chat-app-left-side .phone-number {
+  font-size: .9rem;
+  color: #ffffff
 }
 .chat-app-left-side ul li {
   padding: 6px 12px;
@@ -44,6 +60,10 @@
   border-radius: 0.75rem;
   margin-bottom: 0.75rem;
   cursor: pointer;
+}
+.chat-app-left-side .last-seen {
+  margin-left: auto;
+  font-size: .75rem;
 }
 .chat-app-left-side ul li.active {
   background-color: rgb(212, 183, 96);
