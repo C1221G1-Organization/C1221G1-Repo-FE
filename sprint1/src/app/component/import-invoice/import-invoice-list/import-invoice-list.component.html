@@ -5,7 +5,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="row d-flex justify-content-around">
 
-        <div class="ml-5" formGroupName="dateForm">
+        <div class="ml-5" formGroupName="dateForm" >
           <div class="col-12">
             <label class="mt-2">Từ ngày</label>
             <input formControlName="startDate" class="form-control border-dark border-1 width1" type="datetime-local">
@@ -14,12 +14,10 @@
           <div class="col-12">
             <label class="mt-2">Đến ngày</label>
             <input formControlName="endDate" class="form-control border-dark border-1 width1" type="datetime-local">
-            <p *ngIf="searchForm.controls.dateForm.hasError('dateError') && startDate !== '' && endDate !== ''"
-               class="text-danger mt-2">
+            <p *ngIf="searchForm.controls.dateForm.hasError('dateError') && startDate !== '' && endDate !== ''" class="text-danger mt-2">
               Ngày kết thúc phải lớn hơn
             </p>
-            <p *ngIf="!searchForm.controls.dateForm.hasError('dateError') || startDate === '' || endDate === ''"
-               class="text-light mt-2">
+            <p *ngIf="!searchForm.controls.dateForm.hasError('dateError') || startDate === '' || endDate === ''" class="text-light mt-2">
               No message!
             </p>
           </div>
@@ -46,8 +44,7 @@
         <div class="col-2 mt-1 ml-5">
           <button type="submit" class="btn btn-primary mt-4 ml-1"><i class="fa-solid fa-magnifying-glass"></i> Lọc KQ
           </button>
-          <button type="reset" class="btn btn-primary mt-5" (click)="resetAll()"><i
-            class="fa-solid fa-magnifying-glass"></i> Làm mới
+          <button type="reset" class="btn btn-primary mt-5" (click)="resetAll()"><i class="fa-solid fa-magnifying-glass"></i> Làm mới
           </button>
         </div>
       </div>
@@ -94,8 +91,7 @@
           <nav class="blog-pagination d-flex justify-content-center py-3">
             <ul class="pagination">
               <li class="page-item px-1">
-                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link"
-                   *ngIf="currentPage !== 0">Trang trước</a>
+                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trang trước</a>
               </li>
               <li class="page-item">
                 <a class="page-link">
@@ -105,8 +101,7 @@
                 </a>
               </li>
               <li class="page-item px-1">
-                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage + 1 >= totalPages"
-                   *ngIf="totalPages !== (currentPage + 1)">Trang sau</a>
+                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage + 1 >= totalPages" *ngIf="totalPages !== (currentPage + 1)">Trang sau</a>
               </li>
             </ul>
           </nav>
@@ -117,18 +112,12 @@
       </div>
       <div class="d-flex justify-content-end">
         <button class="mr-4 btn btn-success button">
-          <a class="text-decoration-none text-light" routerLink="/import-invoice/create"><i
-            class="fa-solid fa-circle-plus"></i> Thêm</a>
+          <a class="text-decoration-none text-light" routerLink="/import-invoice/create"><i class="fa-solid fa-circle-plus"></i> Thêm</a>
         </button>
-        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#staticBackdrop12"
-                *ngIf="idDelete !== null && n === currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa
-        </button>
-        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#exampleModal"
-                *ngIf="idDelete === null || n !== currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa
-        </button>
+        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#staticBackdrop12" *ngIf="idDelete !== null && n === currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
+        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#exampleModal" *ngIf="idDelete === null || n !== currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
         <button class="mr-4 btn btn-secondary button">
-          <a class="text-decoration-none text-light" routerLink="/home-page"><i class="fa fa-undo"
-                                                                                aria-hidden="true"></i> Trở về</a>
+          <a class="text-decoration-none text-light" routerLink="/home-page"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</a>
         </button>
       </div>
     </div>
@@ -137,7 +126,7 @@
 
 
 <div class="modal fade" id="staticBackdrop12" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+     aria-labelledby="staticBackdropLabel" aria-hidden="true" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

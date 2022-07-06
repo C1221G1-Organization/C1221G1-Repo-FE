@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+<p>payment-online works!</p>
+=======
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true"><p
+  style="color: white"> Vui lòng đợi ...</p></ngx-spinner>
 <div class="wrapper mb-2">
   <div class="container-fluid mx-auto">
     <div class="flex">
@@ -34,6 +39,10 @@
               <div class="d-flex justify-content-between border-bottom pb-8">
                 <h5 class="pb-2 font-weight-bold"><span class="badge badge-pill badge-success">1</span> &ensp; Giỏ hàng
                 </h5>
+                <button [routerLink]="['/cart']"
+                        class="btn btn-outline-success mb-1">
+                  Quay lại giỏ hàng
+                </button>
               </div>
               <div class="table-responsive">
                 <table class="table table-borderless table-hover">
@@ -45,7 +54,7 @@
                                [src]=cartDetail.medicine.medicineImage
                                alt="">
                         </div>
-                        <div class="pl-4 text-success">
+                        <div class="pl-4">
                           {{cartDetail.medicine.medicineName}}
                         </div>
                       </div>
@@ -75,16 +84,16 @@
               <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="pl-3">
                 <div class="form-group">
                   <label for="name">Tên Người nhận <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="name" placeholder="Nguyễn Văn A"
+                  <input type="text" class="form-control" id="name"
                          formControlName='customerName'
                          [class.is-invalid]='(customerName.touched || customerName.dirty||submitted) && customerName.invalid'
                          [class.is-valid]='customerName.valid'>
                   <div *ngIf='!customerName.valid && (customerName.dirty ||customerName.touched||submitted)'>
                     <small [hidden]='!customerName.errors.required' class="text-danger">
-                      Vui lòng nhập tên
+                      Vui lòng nhập tên.
                     </small>
                     <small [hidden]='!customerName.errors.pattern' class="text-danger">
-                      Tên vượt quá số ký tự cho phép
+                      Tên vượt quá số ký tự cho phép.
                     </small>
 
                   </div>
@@ -92,50 +101,51 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputEmail4">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="email@domain.com"
+                    <input type="email" class="form-control" id="inputEmail4"
                            formControlName='customerUserName'
                            [class.is-invalid]='(customerUserName.touched || customerUserName.dirty||submitted) && customerUserName.invalid'
                            [class.is-valid]='customerUserName.valid'>
-                    <div *ngIf='!customerUserName.valid && (customerUserName.dirty ||customerUserName.touched||submitted)'>
+                    <div
+                      *ngIf='!customerUserName.valid && (customerUserName.dirty ||customerUserName.touched||submitted)'>
                       <small [hidden]='!customerUserName.errors.required' class="text-danger">
-                        Vui lòng nhập customerUserName
+                        Vui lòng nhập địa chỉ email.
                       </small>
                       <small [hidden]='!customerUserName.errors.pattern' class="text-danger">
-                        customerUserName không đúng định dạng
+                        Địa chỉ email không đúng định dạng.
                       </small>
                     </div>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="phone" placeholder="0901123123"
+                    <input type="text" class="form-control" id="phone"
                            formControlName='customerPhone'
                            [class.is-invalid]="(customerPhone.touched||submitted || customerPhone.dirty) && customerPhone.invalid"
                            [class.is-valid]="customerPhone.valid">
                     <div *ngIf="!customerPhone.valid && (customerPhone.dirty ||customerPhone.touched||submitted)">
                       <small class="text-danger" [hidden]="!customerPhone.errors.required">
-                        Vui lòng nhập số điện thoại
+                        Vui lòng nhập số điện thoại.
                       </small>
                       <small class="text-danger" [hidden]="!customerPhone.errors.pattern">
-                        Số điện thoại bắt đầu bằng 09|08|03 ...
+                        Số điện thoại bắt đầu bằng 09 hoặc 08 hoặc 03 ...
                       </small>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputAddress">Địa chỉ <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="295 Nguyễn Tất Thành"
+                  <input type="text" class="form-control" id="inputAddress"
                          formControlName='customerAddress'
                          [class.is-invalid]="(customerAddress.touched||submitted || customerAddress.dirty) && customerAddress.invalid"
                          [class.is-valid]="customerAddress.valid">
                   <div *ngIf="!customerAddress.valid && (customerAddress.dirty ||customerAddress.touched||submitted)">
                     <small class="text-danger" [hidden]="!customerAddress.errors.required">
-                      Vui lòng nhập địa chỉ
+                      Vui lòng nhập địa chỉ.
                     </small>
                     <small class="text-danger" [hidden]="!customerAddress.errors.minlength">
-                      Vui lòng nhập địa chỉ đầy đủ
+                      Vui lòng nhập địa chỉ đầy đủ.
                     </small>
                     <small class="text-danger" [hidden]="!customerAddress.errors.maxlength">
-                      Vui lòng nhập địa chỉ đúng định dạng
+                      Địa chỉ vượt quá số ký tự cho phép.
                     </small>
                   </div>
                 </div>
@@ -225,10 +235,11 @@
           <p *ngIf="isError">Liên kết Paypal hiện tại đang gặp lỗi, vui lòng thử lại sau!</p>
         </div>
         <div class="modal-footer">
-          <button *ngIf="isError" type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-          <button *ngIf="isSuccess" type="button" class="btn btn-success" (click)="returnHome()">Close</button>
+          <button *ngIf="isError" type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+          <button *ngIf="isSuccess" type="button" class="btn btn-success" (click)="returnHome()">Đóng</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+>>>>>>> develop

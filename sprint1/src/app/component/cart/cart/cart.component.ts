@@ -6,16 +6,18 @@ import {MedicineDtoForCart} from '../../../dto/cart/MedicineDtoForCart';
 import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
 
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-
   cartDetails: CartDetailDto [] = [];
   total = 0;
   medicineDelete = {} as MedicineDtoForCart;
+  medicineErrorArray: string[] = [];
+  display = 'none';
 
   constructor(private cartService: CartService,
               private route: Router,
@@ -26,6 +28,7 @@ export class CartComponent implements OnInit {
     // this.cartService.setCart();
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
+    window.scrollBy(0, 0);
   }
 
   reload() {
@@ -40,6 +43,18 @@ export class CartComponent implements OnInit {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
       this.route.navigate(['cart/payment-online']);
+    }, error => {
+      this.medicineErrorArray = [];
+      console.log(error.error);
+      for (let i = 0; i < cartAndDetailDto.cartDetail.length; i++) {
+        console.log('cartDetail[' + i + '].medicine');
+        console.log(error.error['cartDetail[' + i + '].medicine']);
+        if (error.error['cartDetail[' + i + '].medicine'] != undefined ||
+          error.error['cartDetail[' + i + '].medicine'] != null) {
+          this.medicineErrorArray.push(error.error['cartDetail[' + i + '].medicine']);
+        }
+        this.openModal();
+      }
     });
   }
 
@@ -64,13 +79,24 @@ export class CartComponent implements OnInit {
 
   getTotal(): number {
     let total = 0;
-    this.cartDetails.forEach(item => {
-      total += (item.quantity * item.medicine.medicinePrice);
-    });
+    if (this.cartDetails != null) {
+      this.cartDetails.forEach(item => {
+        total += (item.quantity * item.medicine.medicinePrice);
+      });
+    }
     return total;
   }
 
   getMedicineDelete(medicine: MedicineDtoForCart) {
     this.medicineDelete = medicine;
+  }
+
+  openModal() {
+    // this.display = 'block';
+    document.getElementById('openModalButton').click();
+  }
+
+  closeModal() {
+    this.display = 'none';
   }
 }

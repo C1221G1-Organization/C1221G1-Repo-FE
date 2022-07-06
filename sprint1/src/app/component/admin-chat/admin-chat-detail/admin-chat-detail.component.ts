@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import 'firebase/database';
 import firebase from "firebase/app";
 import "firebase/database";
 import {snapshotToArray} from '../admin-chat.component';
@@ -8,9 +9,9 @@ import {environment} from '../../../../environments/environment';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 
 @Component({
-  selector   : 'app-admin-chat-detail',
+  selector: 'app-admin-chat-detail',
   templateUrl: './admin-chat-detail.component.html',
-  styleUrls  : ['./admin-chat-detail.component.css']
+  styleUrls: ['./admin-chat-detail.component.css']
 })
 export class AdminChatDetailComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
@@ -42,10 +43,11 @@ export class AdminChatDetailComponent implements OnInit {
       'message': [null, Validators.required]
     });
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
-   * @param
+   * @ param
    * @return handle chat message submit to Chats in FRD
    */
   onChatSubmit() {

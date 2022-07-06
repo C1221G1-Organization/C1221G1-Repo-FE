@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {HomePageService} from "../../service/home-page/home-page.service";
-import {MedicineBestSeller} from "../../dto/medicine-best-seller";
+import {MedicineBestSeller} from "../../dto/medicine/medicine-best-seller";
 import {ToastrService} from "ngx-toastr";
 import {ShareService} from "../../share/ShareService";
-import {MedicineDtoForCart} from "../../dto/MedicineDtoForCart";
-import {CartDetailDto} from "../../dto/CartDetailDto";
-import {MedicineHomePage} from "../../dto/medicine-home-page";
+import {CartDetailDto} from "../../dto/cart/CartDetailDto";
+import {CartService} from "../../service/cart/cart.service";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -28,19 +28,23 @@ export class HomePageComponent implements OnInit {
 
 
   constructor(private homePageService: HomePageService, private toastrService: ToastrService,
-              private shareService: ShareService) {
+              private shareService: ShareService, private cartService: CartService,
+              private title: Title) {
     this.shareService.changeEmitted$.subscribe(data => {
       console.log(data)
       this.name = data.medicineName;
       this.typeId = data.medicineTypeId;
       this.getAllMedicineByNameAndTypeId({page: 0, size: 5, name: this.name, typeId: this.typeId, sort: this.sort});
+      let scrollEle = document.getElementById('carouselExampleControls2');
+      scrollEle.scrollIntoView();
     })
   }
 
 
   ngOnInit(): void {
     this.getAllMedicineBestSeller();
-    this.getAllMedicineByNameAndTypeId({page: 0, size: 5})
+    this.getAllMedicineByNameAndTypeId({page: 0, size: 5});
+    this.title.setTitle('Trang chủ - Pharmacode')
   }
 
   /*
@@ -71,6 +75,7 @@ export class HomePageComponent implements OnInit {
   getAllMedicineByNameAndTypeId(request) {
     this.homePageService.getMedicineByNameAndTypeId(request).subscribe((data) => {
       console.log(data)
+
       if (data != null) {
         this.medicineList = data.content;
         this.currentPage = data.number;
@@ -81,9 +86,9 @@ export class HomePageComponent implements OnInit {
         this.currentPage = -1;
         this.totalPages = 0;
       }
-
     }, error => {
       console.log(error);
+    }, () => {
     });
 
   }
@@ -117,47 +122,8 @@ export class HomePageComponent implements OnInit {
   Function: Add medicine to Cart by LocalStorage
   */
   addItemToCart(medicine: MedicineBestSeller) {
-
-    // this.cartList = JSON.parse(localStorage.getItem('cart'));
-    // if (this.cartList == null) {
-    //   const newCart = {};
-    //   newCart[medicineId] = 1;
-    //   localStorage.setItem('cart', JSON.stringify(newCart));
-    //   this.showMessageSuccess(medicineName);
-    // } else {
-    //   this.cartList[medicineId] = this.cartList[medicineId] ?
-    //     this.cartList[medicineId] + 1 :  1;
-    //   localStorage.setItem('cart', JSON.stringify(this.cartList));
-    //   this.showMessageSuccess(medicineName);
-    // }
-    // console.log(localStorage.getItem('cart'))
-    //Kiem tra xem dã đăng nhập hay chưa
-    // TH chưa đăng nhập
-    if (localStorage.getItem('cart')) {
-      this.cartDetailDtos = JSON.parse(localStorage.getItem('cart'));
-    }
-    let exists = false;
-    // for(let i=0; i<this.cartDetailDtos.length;i++){
-    //   if (this.cartDetailDtos[i].medicine.medicineId == medicine.medicineId) {
-    //     exists = true;
-    //     this.cartDetailDtos[i].quantity += 1;
-    //   }
-    // }
-    this.cartDetailDtos.forEach(item => {
-      if (item.medicine.medicineId == medicine.medicineId) {
-        exists = true;
-          item.quantity += 1;
-      }
-    });
-    if (!exists) {
-      let cartDetailDto = {} as CartDetailDto;
-      cartDetailDto.quantity = 1;
-      cartDetailDto.medicine = medicine;
-      console.log(this.cartDetailDtos);
-      this.cartDetailDtos.push(cartDetailDto);
-    }
-    localStorage.setItem('cart', JSON.stringify(this.cartDetailDtos));
-    console.log(localStorage.getItem('cart'));
+    this.cartService.addToCart(medicine, 1);
+    console.log()
   }
 
   /*

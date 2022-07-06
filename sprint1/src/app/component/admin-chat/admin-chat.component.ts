@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import firebase from 'firebase/app';
 import 'firebase/database';
-
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
   snapshot.forEach((childSnapshot: any) => {
@@ -20,12 +19,12 @@ export const snapshotToArray = (snapshot: any) => {
   styleUrls: ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
+
   rooms: any[];
 
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
-   * @param
    * @return retrieve rooms from Rooms FRD and sort by lastMessagePost time
    */
   constructor() {
@@ -39,6 +38,7 @@ export class AdminChatComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 
   isSeenToggle(uuid: any) {
     firebase.database().ref('rooms/' + uuid).once('value').then(res => {

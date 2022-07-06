@@ -5,6 +5,7 @@ import {MedicineEditComponent} from './medicine-edit/medicine-edit.component';
 import {MedicineDetailComponent} from './medicine-detail/medicine-detail.component';
 import {MedicineListComponent} from './medicine-list/medicine-list.component';
 
+
 const routes: Routes = [
   {path: 'create', component: MedicineCreateComponent},
   {path: 'list', component: MedicineListComponent},
@@ -12,9 +13,13 @@ const routes: Routes = [
   {path: 'detail/:medicineId', component: MedicineDetailComponent}
 ];
 
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+
+
 export class MedicineRoutingModule {
 }
+

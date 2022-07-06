@@ -5,6 +5,9 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
 import {Router} from '@angular/router';
+import {CartService} from '../../../service/cart/cart.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-payment-online',
@@ -12,7 +15,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./payment-online.component.css']
 })
 export class PaymentOnlineComponent implements OnInit {
-
   cartAndDetailDto = {} as CartAndDetailDto;
   rate = 23315;
   public payPalConfig ?: IPayPalConfig;
@@ -29,7 +31,9 @@ export class PaymentOnlineComponent implements OnInit {
 
   constructor(private currencyExchangeService: CurrencyExchangeService,
               private paymentOnlineService: PaymentOnlineService,
-              private route: Router) {
+              private route: Router,
+              private cartService: CartService,
+              private spinner: NgxSpinnerService) {
   }
 
   ngOnInit(): void {
@@ -54,7 +58,7 @@ export class PaymentOnlineComponent implements OnInit {
         customerPhone: new FormControl('',
           [Validators.required, Validators.pattern('^(09|08|03)\\d{8}$')]),
         customerAddress: new FormControl('',
-          [Validators.required, Validators.minLength(10), Validators.maxLength(255)])
+          [Validators.required, Validators.minLength(10), Validators.maxLength(150)])
       });
       this.changeRate();
       this.initConfig();
@@ -108,7 +112,7 @@ export class PaymentOnlineComponent implements OnInit {
       },
       advanced: {
         commit: 'true',
-        // extraQueryParams: [{name: 'disable-funding', value: 'credit,card'}]
+        extraQueryParams: [{name: 'disable-funding', value: 'credit,card'}]
       },
       style: {
         label: 'pay',
@@ -116,6 +120,7 @@ export class PaymentOnlineComponent implements OnInit {
         layout: 'vertical',
       },
       onApprove: (data, actions) => {
+        this.spinner.show();
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then(details => {
           console.log('onApprove - you can get full order details inside onApprove: ', details);
@@ -131,6 +136,8 @@ export class PaymentOnlineComponent implements OnInit {
           this.cartAndDetailDto = {};
           this.isSuccess = true;
           this.isError = false;
+          this.cartService.clearCart();
+          this.spinner.hide();
           this.openModal();
         });
       },

@@ -7,7 +7,7 @@ import {CartComponent} from "./cart/cart.component";
 import {PaymentFinishComponent} from "./payment-finish/payment-finish.component";
 import {NgxPayPalModule} from "ngx-paypal";
 import {ReactiveFormsModule} from "@angular/forms";
-
+import {NgxSpinnerModule} from "ngx-spinner";
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     CommonModule,
     CartRoutingModule,
     NgxPayPalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule,
   ]
 })
 export class CartModule { }

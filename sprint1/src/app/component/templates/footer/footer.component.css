@@ -1,7 +1,13 @@
 /* FOOTER */
+body{
+  min-height: 100vh;
+}
+
+
 .footer {
   padding-top: 16px;
   border-top: 5px solid var(--primary-color);
+
 }
 
 .footer__heading {

@@ -10,8 +10,8 @@ import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
-
 @Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
+
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
   scrollTop: number = null;
@@ -42,7 +42,7 @@ export class UserChatComponent implements OnInit {
       this.chats = snapshotToArray(resp);
       setTimeout(() => {
         if (this.chatContent) {
-          this.scrollTop = this.chatContent.nativeElement.scrollHeight
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight;
         }
       }, 200);
     });
@@ -118,6 +118,7 @@ export class UserChatComponent implements OnInit {
       this.chatForm.reset();
     }
   }
+
   /**
    * * @Author NghiaNTT
    * * @Time: 03/07/2022

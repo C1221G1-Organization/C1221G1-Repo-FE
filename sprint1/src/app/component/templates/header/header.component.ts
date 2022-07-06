@@ -1,7 +1,7 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShareService} from '../../../share/ShareService';
-import {MedicineHomePage} from '../../../dto/medicine-home-page';
+import {MedicineHomePage} from '../../../dto/medicine/medicine-home-page';
 import {TokenStorageService} from '../../../service/security/token-storage.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   cartList: any[] = [];
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
+  medicineTypeList = [{id: 1, name: 'Bổ'}, {id: 2, name: 'Cảm'}];
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -43,6 +44,14 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
+    this.ngOnInit()
+  }
+
+  logout(e) {
+    e.preventDefault();
+    this.tokenStorageService.signOut();
+    this.router.navigateByUrl('/home-page').then();
+    this.ngOnInit();
   }
 
   // logout() {
@@ -55,4 +64,5 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     this.medicine.medicineTypeId = typeId.value;
     this.shareService.emitChange(this.medicine);
   }
+
 }
