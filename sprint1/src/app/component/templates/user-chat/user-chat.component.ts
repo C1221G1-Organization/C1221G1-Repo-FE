@@ -9,12 +9,12 @@ import {ToastrService} from 'ngx-toastr';
 import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
-import {environment} from "../../../../environments/environment";
+
 
 @Component({
-  selector: 'app-user-chat',
+  selector   : 'app-user-chat',
   templateUrl: './user-chat.component.html',
-  styleUrls: ['./user-chat.component.css']
+  styleUrls  : ['./user-chat.component.css']
 })
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
@@ -32,7 +32,6 @@ export class UserChatComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     // firebase.initializeApp(environment.firebaseConfig);
-
   }
 
   /**

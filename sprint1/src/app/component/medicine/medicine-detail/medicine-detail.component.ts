@@ -106,6 +106,11 @@ export class MedicineDetailComponent implements OnInit, AfterViewChecked {
     //   top.scrollIntoView();
     //   top = null;
     // }
+    let top = document.getElementById('product-detail-view');
+    if (top !== null) {
+      top.scrollIntoView();
+      top = null;
+    }
   }
 
 }

@@ -4,24 +4,10 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyAyMrBGwsFyKO3vaKNu_U9LtdJbGiFP2gA',
-    databaseURL: 'https://fir-chat-9b119-default-rtdb.asia-southeast1.firebasedatabase.app'
-  },
   adminChat: {
     name: 'ADMIN',
     uuid: 'ADMIN-C12'
   },
-  firebaseFacebook:{
-    apiKey: "AIzaSyAmka5eULManLz7IecrSgJy4LF85j8ptYA",
-    authDomain: "c1221g1-pharmacy.firebaseapp.com",
-    projectId: "c1221g1-pharmacy",
-    storageBucket: "c1221g1-pharmacy.appspot.com",
-    messagingSenderId: "286698930676",
-    appId: "1:286698930676:web:64331d09dc09f2dc7939a1",
-    databaseURL: "https://c1221g1-pharmacy-default-rtdb.asia-southeast1.firebasedatabase.app",
-    measurementId: "G-904D7C7FF4"
-  }
 };
 export const config = {
   apiKey: "AIzaSyAmka5eULManLz7IecrSgJy4LF85j8ptYA",

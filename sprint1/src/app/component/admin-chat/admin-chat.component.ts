@@ -34,6 +34,7 @@ export class AdminChatComponent implements OnInit {
       this.rooms.sort((a,b) => b.lastMessagePost - a.lastMessagePost)
     });
   }
+
   ngOnInit(): void {
   }
 
