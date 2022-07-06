@@ -14,7 +14,7 @@ const routes: Routes = [{
   component: SignUpComponent
 },{
   path: 'sign-out',
-  component: LogoutComponent,canActivate:[AuthGuard]
+  component: LogoutComponent
 }];
 
 
