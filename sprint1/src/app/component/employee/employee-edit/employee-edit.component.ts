@@ -154,7 +154,6 @@ export class EmployeeEditComponent implements OnInit {
               });
               this.router.navigateByUrl('/employee/list');
             }, error => {
-              this.router.navigateByUrl('/employee/list');
               this.errorUser = error.error.errorMap.usersName;
               console.log(this.errorUser);
               this.errorImage = error.error.errorMap.employeeImage;
