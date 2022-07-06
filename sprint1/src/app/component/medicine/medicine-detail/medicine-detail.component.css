@@ -105,6 +105,7 @@
   height: 32px;
   font-size: 14px;
   border-radius: 5px;
+  border: 0;
 }
 .product-quantity-group button {
   border: 0;

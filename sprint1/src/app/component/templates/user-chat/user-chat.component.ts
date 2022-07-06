@@ -63,9 +63,7 @@ export class UserChatComponent implements OnInit {
     this.userChat = JSON.parse(localStorage.getItem('user-chat-info'));
     if (this.userChat && this.userChat.name && this.userChat.phone && this.userChat.uuid) {
       this.uuid = this.userChat.uuid;
-      console.log(this.uuid);
       firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value', snapshot => {
-        console.log(snapshot.val());
         if (snapshot.exists()) {
           this.isLogin = true;
           this.loginToChatRoom();
@@ -104,7 +102,7 @@ export class UserChatComponent implements OnInit {
    * */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    if (chat.message.trim().length == 0) {
+    if (chat.message.trim().length != 0) {
       chat.name = this.userChat.name;
       chat.uuid = this.uuid;
       chat.message = chat.message.trim();
