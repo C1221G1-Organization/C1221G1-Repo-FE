@@ -7,13 +7,13 @@ import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 
+
 @Component({
   selector: 'app-retail',
   templateUrl: './retail.component.html',
   styleUrls: ['./retail.component.css']
 })
 export class RetailComponent implements OnInit {
-
   invoiceForm: FormGroup;
   medicineSales: MedicineSale[] = [];
   invoiceMedicineDtos: InvoiceMedicineDto[] = [];
@@ -227,4 +227,3 @@ export class RetailComponent implements OnInit {
     console.log(this.isDisabled);
   }
 }
-

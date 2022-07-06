@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   medicine = {} as MedicineHomePage;
   cartDetailDtos: any = [];
   medicineTypeList= [{id:1,name:'Bổ'},{id:2,name: "Cảm"}]
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private tokenStorageService: TokenStorageService,
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     this.changeDetectorRef.detectChanges();
     this.ngOnInit()
   }
+
   // logout() {
   //   this.tokenStorageService.signOut();
   //   window.location.reload();
