@@ -5,7 +5,9 @@ import { CartModalComponent } from './cart-modal/cart-modal.component';
 import {PaymentOnlineComponent} from "./payment-online/payment-online.component";
 import {CartComponent} from "./cart/cart.component";
 import {PaymentFinishComponent} from "./payment-finish/payment-finish.component";
-
+import {NgxPayPalModule} from "ngx-paypal";
+import {ReactiveFormsModule} from "@angular/forms";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 
 @NgModule({
@@ -16,7 +18,10 @@ import {PaymentFinishComponent} from "./payment-finish/payment-finish.component"
     PaymentFinishComponent,],
   imports: [
     CommonModule,
-    CartRoutingModule
+    CartRoutingModule,
+    NgxPayPalModule,
+    ReactiveFormsModule,
+    NgxSpinnerModule,
   ]
 })
 export class CartModule { }

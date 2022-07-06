@@ -7,7 +7,7 @@
   height: 0;
 }
 .chatbox {
-  width: 400px;
+  width: 320px;
   height: 400px;
   margin: 0 20px 0 0;
   position: relative;
@@ -19,9 +19,22 @@
   bottom: 0;
   transition: .1s ease-out;
 }
+.chatbox label {
+  margin: 0;
+}
+.text-small {
+  font-size: .75rem;
+}
+.submit-button {
+  position: absolute;
+  margin: 0 auto;
+  bottom: 8px;
+  left: 16px;
+  width: 288px;
+}
 .login-form {
   border-top: 1px solid rgba(0, 0, 0, .05);
-  padding: 16px;
+  padding: 8px 16px;
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
@@ -32,7 +45,7 @@
   display: flex;
   padding: 10px 0;
   border-radius: 10px 10px 0 0;
-  background: rgba(40, 167, 69, 1);
+  background: rgba(2,139,179, 1);
 }
 .chat-partner-name {
   flex: 1;
@@ -52,7 +65,7 @@
   position: relative;
 }
 .chatbox-icons .fa {
-  background: rgba(40, 167, 69, 0.6);
+  background: rgba(2,139,179, .6);
   padding: 3px 5px;
   margin: 0 0 0 3px;
   color: white;
@@ -61,7 +74,7 @@
 }
 .chatbox-icons .fa:hover {
   border-radius: 5px 0 5px 0;
-  background: rgba(40, 167, 69, 1);
+  background: rgba(2,139,179, 1);
 }
 .chatbox-icons a, .chatbox-icons a:link, .chatbox-icons a:visited {
   color: white;
@@ -111,7 +124,7 @@
   padding: 6px 10px;
   border-radius: 6px;
   position: relative;
-  background: rgba(40, 167, 69, 1);
+  background: rgba(2,139,179, 1);
   border: 2px solid rgba(100, 170, 0, .1);
   color: white;
   font-size: 16px;
@@ -120,14 +133,14 @@
   content: "";
   position: absolute;
   border: 10px solid transparent;
-  border-top: 10px solid rgba(40, 167, 69, 1);
+  border-top: 10px solid rgba(2,139,179, 1);
   border-right: none;
   bottom: -22px;
   right: 10px;
 }
 .message-partner {
-  background: #007bff;
-  border: 2px solid rgba(0, 114, 135, .1);
+  background: rgba(212, 183, 96, 1);
+  border: 2px solid rgba(212, 183, 96, .6);
   align-self: flex-start;
 }
 .message-partner:after {
@@ -136,7 +149,7 @@
   top: -22px;
   left: 9px;
   border: 10px solid transparent;
-  border-bottom: 10px solid #007bff;
+  border-bottom: 10px solid rgba(212, 183, 96, 1);
   border-left: none;
 }
 .chat-input {
@@ -158,7 +171,7 @@
   padding: 0;
 }
 .message-send {
-  color: rgba(40, 167, 69, 1);
+  color: rgba(2,139,179, 1);
   font-size: 16px;
   padding: 0 15px;
   border: none;
