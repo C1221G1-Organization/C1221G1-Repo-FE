@@ -124,6 +124,8 @@
   },
   "defaultProject": "pharmacy-manager",
   "cli": {
-    "analytics": false
+    "analytics": "a2324402-9e92-4357-bf1a-7ed8c28a790f"
   }
 }
+
+

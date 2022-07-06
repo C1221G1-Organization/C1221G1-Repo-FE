@@ -1,5 +1,5 @@
 import {Position} from './position';
-import {Users} from '../users';
+import {Users} from '../users/users';
 
 export interface Employee {
   employeeId: string;
