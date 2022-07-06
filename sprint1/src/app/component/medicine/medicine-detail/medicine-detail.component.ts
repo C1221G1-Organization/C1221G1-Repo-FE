@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
-import {MedicineDetailDto} from '../../../dto/medicine-detail.model';
+import {MedicineDetailDto} from '../../../dto/medicine/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
@@ -28,6 +28,7 @@ export class MedicineDetailComponent implements OnInit {
               private router: Router,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
+
   }
 
   /**

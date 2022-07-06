@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ReportService} from "../../../service/report.service";
-import {Static} from "../../../model/static";
+import {ReportService} from '../../../service/report.service';
+import {Static} from '../../../model/static';
 import {Chart, registerables} from 'chart.js';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import * as $ from "jquery";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import * as $ from 'jquery';
 
 Chart.register(...registerables);
 
@@ -13,6 +13,7 @@ Chart.register(...registerables);
   styleUrls: ['./statistital-chart.component.css']
 })
 export class StatistitalChartComponent implements OnInit {
+
   statics: Static[] = [];
   public year = true;
   public month = true;
@@ -21,7 +22,9 @@ export class StatistitalChartComponent implements OnInit {
   show = false;
   showYear: string;
   staticForm: FormGroup;
-  constructor(private reportService: ReportService) { }
+
+  constructor(private reportService: ReportService) {
+  }
 
   ngOnInit(): void {
     this.staticForm = new FormGroup({
@@ -68,8 +71,8 @@ export class StatistitalChartComponent implements OnInit {
             {
               label: 'Doanh thu',
               data: [statics[0].revenue, statics[1].revenue, statics[2].revenue, statics[3].revenue
-              , statics[4].revenue, statics[5].revenue, statics[6].revenue, statics[7].revenue
-              , statics[8].revenue, statics[9].revenue, statics[10].revenue, statics[11].revenue],
+                , statics[4].revenue, statics[5].revenue, statics[6].revenue, statics[7].revenue
+                , statics[8].revenue, statics[9].revenue, statics[10].revenue, statics[11].revenue],
               borderColor: 'limegreen',
               backgroundColor: [
                 'limegreen'
@@ -97,9 +100,7 @@ export class StatistitalChartComponent implements OnInit {
             },
           },
         },
-
       });
-
     });
   }
 }

@@ -10,7 +10,11 @@ import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
-@Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
+@Component({
+  selector   : 'app-user-chat',
+  templateUrl: './user-chat.component.html',
+  styleUrls  : ['./user-chat.component.css']
+})
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
   scrollTop: number = null;
@@ -26,6 +30,7 @@ export class UserChatComponent implements OnInit {
   chat: Chat;
 
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    // firebase.initializeApp(environment.firebaseConfig);
   }
 
   /**
@@ -134,7 +139,11 @@ export class UserChatComponent implements OnInit {
       this.userChat.phone = form.phone;
       this.userChat.uuid = this.uuid;
       firebase.database().ref('users/').push().set(this.userChat);
-      firebase.database().ref('rooms/' + this.uuid).set({...this.userChat, isSeen: false, lastMessagePost: getTimeStamp()});
+      firebase.database().ref('rooms/' + this.uuid).set({
+        ...this.userChat,
+        isSeen: false,
+        lastMessagePost: getTimeStamp()
+      });
       this.chat = {};
       this.chat = {...this.userChat, message: form.message, createdAt: getTimeStamp()};
       firebase.database().ref('chats/' + this.uuid).push().set(this.chat);
