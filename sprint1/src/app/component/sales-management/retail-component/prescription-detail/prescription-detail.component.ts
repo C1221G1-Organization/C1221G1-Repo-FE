@@ -16,6 +16,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./prescription-detail.component.css']
 })
 export class PrescriptionDetailComponent implements OnInit {
+
   presciptionForm: FormGroup;
   idChoice: string;
   prescriptionDetail: PrescriptionDetail;
@@ -79,14 +80,14 @@ export class PrescriptionDetailComponent implements OnInit {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
           this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
-            timeOut:3000,
+            timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/sales-management/retail');
           this.listMedicineChoice = [];
         }, error => {
           this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
-            timeOut:3000,
+            timeOut: 3000,
             progressBar: true
           });
           this.listMedicineChoice = [];

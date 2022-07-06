@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {RetailService} from "../../../../service/retail.service";
 import {Prescription} from "../../../../model/prescription";
 import {FormControl, FormGroup} from "@angular/forms";
-import {SharedServiceService} from "../../../../service/shared-service.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: 'app-available-prescription-list',
@@ -13,6 +11,7 @@ import {BehaviorSubject, Observable} from "rxjs";
   styleUrls: ['./available-prescription-list.component.css']
 })
 export class AvailablePrescriptionListComponent implements OnInit {
+
   prescriptions: Prescription[] = [];
   id = '';
   names = '';
@@ -208,4 +207,3 @@ export class AvailablePrescriptionListComponent implements OnInit {
     }
   }
 }
-

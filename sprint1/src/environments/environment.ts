@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
   url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
+
+  apiUrl: 'http://localhost:8080',
   firebaseConfig: {
     apiKey: 'AIzaSyAyMrBGwsFyKO3vaKNu_U9LtdJbGiFP2gA',
     databaseURL: 'https://fir-chat-9b119-default-rtdb.asia-southeast1.firebasedatabase.app'
@@ -14,7 +16,8 @@ export const environment = {
     name: 'ADMIN',
     uuid: 'ADMIN-C12'
   }
-}
+};
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

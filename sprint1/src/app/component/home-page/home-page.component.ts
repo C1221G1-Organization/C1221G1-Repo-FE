@@ -7,6 +7,7 @@ import {MedicineDtoForCart} from "../../dto/MedicineDtoForCart";
 import {CartDetailDto} from "../../dto/CartDetailDto";
 import {MedicineHomePage} from "../../dto/medicine-home-page";
 
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',

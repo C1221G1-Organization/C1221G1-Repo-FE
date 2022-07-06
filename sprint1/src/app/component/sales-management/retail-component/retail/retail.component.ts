@@ -13,6 +13,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./retail.component.css']
 })
 export class RetailComponent implements OnInit {
+
   invoiceForm: FormGroup;
   medicineSales: MedicineSale[] = [];
   invoiceMedicineDtos: InvoiceMedicineDto[] = [];
