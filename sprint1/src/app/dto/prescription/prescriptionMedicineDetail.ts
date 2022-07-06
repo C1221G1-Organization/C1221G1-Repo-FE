@@ -6,5 +6,4 @@ export interface PrescriptionMedicineDetail {
   numberPerTime?: number;
   totalQuantity?: number;
   retailPrice?: number;
-  money?: number;
 }

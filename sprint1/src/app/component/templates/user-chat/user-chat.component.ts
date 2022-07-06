@@ -1,17 +1,90 @@
-import { Component, OnInit } from '@angular/core';
-import {getTimeStamp} from "../../../utils/time-stamp.utils";
-import firebase from "firebase";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import {snapshotToArray} from '../../admin-chat/admin-chat.component';
+import {UserChat} from '../../../dto/user-chat.model';
+import {ToastrService} from 'ngx-toastr';
+import {Chat} from '../../../dto/chat.model';
+import {getTimeStamp} from '../../../utils/time-stamp.utils';
+import {v4 as uuidv4} from 'uuid';
 
-@Component({
-  selector: 'app-user-chat',
-  templateUrl: './user-chat.component.html',
-  styleUrls: ['./user-chat.component.css']
-})
+
+@Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
 export class UserChatComponent implements OnInit {
+  @ViewChild('chatContent') chatContent: ElementRef;
+  scrollTop: number = null;
+  isExpanded = false;
+  isClosed = false;
+  isLogin = false;
+  customerForm: FormGroup;
+  chatForm: FormGroup;
+  userChat: UserChat;
+  message = '';
+  uuid: string;
+  chats = [];
+  chat: Chat;
 
-  constructor() { }
+  constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  }
 
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return load messages for chat room
+   * */
+  loginToChatRoom() {
+    this.chatForm = this.formBuilder.group({'message': [null, Validators.required]});
+    firebase.database().ref('chats/' + this.uuid).on('value', resp => {
+      this.chats = [];
+      this.chats = snapshotToArray(resp);
+      setTimeout(() => {
+        if (this.chatContent) {
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight
+        }
+      }, 200);
+    });
+  }
+
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return check localStorage exists. if yes -> login
+   * */
   ngOnInit(): void {
+    this.customerForm = this.formBuilder.group({
+      'name': [null, [Validators.required, Validators.pattern(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)]],
+      'phone': [null, [Validators.required, Validators.pattern('^0\\d{9}$')]],
+      'message': [null, Validators.required]
+    });
+    this.chatForm = this.formBuilder.group({'message': [null, Validators.required]});
+    this.userChat = JSON.parse(localStorage.getItem('user-chat-info'));
+    if (this.userChat && this.userChat.name && this.userChat.phone && this.userChat.uuid) {
+      this.uuid = this.userChat.uuid;
+      console.log(this.uuid);
+      firebase.database().ref('users/').orderByChild('uuid').equalTo(this.uuid).once('value', snapshot => {
+        console.log(snapshot.val());
+        if (snapshot.exists()) {
+          this.isLogin = true;
+          this.loginToChatRoom();
+        } else {
+          localStorage.removeItem('user-chat-info');
+        }
+      });
+    }
+  }
+
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 03/07/2022
+   * * @param
+   * * @return toggle expand function
+   * */
+  toggleExpanded() {
+    this.isExpanded = !this.isExpanded;
   }
 
   /**
@@ -32,7 +105,7 @@ export class UserChatComponent implements OnInit {
    * */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    if (chat.message.trim().length != 0) {
+    if (chat.message.trim().length == 0) {
       chat.name = this.userChat.name;
       chat.uuid = this.uuid;
       chat.message = chat.message.trim();
@@ -64,11 +137,7 @@ export class UserChatComponent implements OnInit {
       this.userChat.phone = form.phone;
       this.userChat.uuid = this.uuid;
       firebase.database().ref('users/').push().set(this.userChat);
-      firebase.database().ref('rooms/' + this.uuid).set({
-        ...this.userChat,
-        isSeen: false,
-        lastMessagePost: getTimeStamp()
-      });
+      firebase.database().ref('rooms/' + this.uuid).set({...this.userChat, isSeen: false, lastMessagePost: getTimeStamp()});
       this.chat = {};
       this.chat = {...this.userChat, message: form.message, createdAt: getTimeStamp()};
       firebase.database().ref('chats/' + this.uuid).push().set(this.chat);

@@ -1,17 +1,17 @@
 <div class="bg-img container-fluid"
 
 >
-  <div class="row d-flex justify-content-center align-items-center  vh-100 mx-auto p-0">
+  <div class="row d-flex justify-content-center align-items-center  vh-100 m-auto">
     <div>
-      <div class="h-75 p-3 shadow-lg  bg-white rounded">
-        <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+      <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+      <div class="h-50 p-4 shadow-lg  bg-white rounded">
         <div>
-          <h4 class="text-success">Đăng nhập</h4>
+          <h3 class="text-success">Đăng nhập</h3>
         </div>
-        <h5 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi</h5>
+        <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi</h4>
         <hr >
         <div class="row my-2">
-          <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Tài khoản</span>
+          <span class="text-success col-3 pl-4" style="font-size: 1.25rem">Tài khoản</span>
           <input type="text" class="w-100 border border-success rounded col-8 form-control-sm ml-4"
                  formControlName="username"
                  placeholder="pharmacy@email.com">
@@ -26,7 +26,7 @@
 <!--          >{{errorMap['name']}}</p>-->
         </div>
         <div class="row my-2">
-          <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Mật khẩu</span>
+          <span class="text-success col-3 pl-4" style="font-size: 1.25rem">Mật khẩu</span>
           <input type="password"
                  formControlName="password"
                  class="w-100 border border-success rounded form-control-sm col-8 ml-4">
@@ -53,25 +53,22 @@
           <input type="checkbox"
                  formControlName="remember"
                  class="rounded col-1 ml-4">
-          <span class="text-success col-7" style="font-size: 1.1rem">Ghi nhớ đăng nhập</span>
+          <span class="text-success col-7" style="font-size: 1.25rem">Ghi nhớ đăng nhập</span>
 
         </div>
         <hr>
-          <div class=" d-flex justify-content-center">
-            <a (click)="signInWithFaceBook($event)" class="btn btn-primary col-3 text-center mx-2"><i class="fa-brands fa-facebook"></i></a>
-            <button class="btn btn-danger col-3 text-center mx-2"><i class="fa-brands fa-instagram"></i></button>
-            <button class="btn btn-info col-3 text-center mx-2"><i class="fa-brands fa-twitter"></i></button>
-          </div>
+        <div class=" d-flex justify-content-center">
+          <a href="" class="btn btn-primary col-3 text-center mx-2"><i class="fa-brands fa-facebook"></i></a>
+          <button class="btn btn-danger col-3 text-center mx-2"><i class="fa-brands fa-instagram"></i></button>
+          <button class="btn btn-info col-3 text-center mx-2"><i class="fa-brands fa-twitter"></i></button>
+        </div>
         <p class="text-center text-success my-2">Quý khách có thể đăng nhập bằng tài khoản mạng xã hội</p>
         <div class="row my-2">
           <a href="#" class="btn btn-secondary col-4 mx-auto">Thoát</a>
           <button type="submit" class="btn btn-success col-4 mx-auto">Đăng nhập</button>
         </div>
-      </form>
-
       </div>
-
-
+      </form>
     </div>
   </div>
 </div>
