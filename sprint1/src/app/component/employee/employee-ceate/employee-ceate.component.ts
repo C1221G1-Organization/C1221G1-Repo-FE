@@ -16,6 +16,7 @@ import {Position} from '../../../model/employee/position';
   styleUrls: ['./employee-ceate.component.css']
 })
 export class EmployeeCeateComponent implements OnInit {
+
   employeeFormCreate: FormGroup;
   employee: Employee[] = [];
   position: Position[] = [];

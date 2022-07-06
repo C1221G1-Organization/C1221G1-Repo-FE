@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -31,8 +32,8 @@ import {ReportModule} from "./component/reports/report.module";
       positionClass: 'toast-top-right'
     })
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers   : [],
+  bootstrap   : [AppComponent]
 })
 export class AppModule {
 }

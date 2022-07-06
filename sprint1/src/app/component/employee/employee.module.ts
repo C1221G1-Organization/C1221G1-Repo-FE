@@ -9,7 +9,6 @@ import {environment} from '../../../environments/environment.prod';
 import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 
-
 @NgModule({
   declarations: [
     EmployeeListComponent,

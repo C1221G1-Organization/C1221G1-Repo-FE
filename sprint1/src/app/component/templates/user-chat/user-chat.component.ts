@@ -10,6 +10,7 @@ import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
+
 @Component({selector: 'app-user-chat', templateUrl: './user-chat.component.html', styleUrls: ['./user-chat.component.css']})
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;

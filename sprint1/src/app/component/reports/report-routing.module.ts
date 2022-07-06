@@ -8,8 +8,10 @@ const routes: Routes = [
   {path: 'report', component: ReportListComponent},
   {path: 'static', component: StatistitalChartComponent},
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ReportRoutingModule { }
+export class ReportRoutingModule {
+}

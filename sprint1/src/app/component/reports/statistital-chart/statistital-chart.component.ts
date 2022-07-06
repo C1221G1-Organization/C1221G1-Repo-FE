@@ -7,12 +7,14 @@ import * as $ from "jquery";
 
 Chart.register(...registerables);
 
+
 @Component({
   selector: 'app-statistital-chart',
   templateUrl: './statistital-chart.component.html',
   styleUrls: ['./statistital-chart.component.css']
 })
 export class StatistitalChartComponent implements OnInit {
+
   statics: Static[] = [];
   public year = true;
   public month = true;

@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-
 import {HomePageComponent} from "./component/home-page/home-page.component";
 import {NotFoundComponent} from './component/not-found/not-found.component';
 
@@ -72,10 +71,8 @@ const routes: Routes = [
   },
   {
     path        : 'import-invoice-medicine',
-
     loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').
     then(module => module.ImportInvoiceMedicineModule)
-
   },
   {
     path        : 'import-invoice',

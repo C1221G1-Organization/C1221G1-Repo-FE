@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
 
   apiUrl: 'http://localhost:8080',
   firebaseConfig: {

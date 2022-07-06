@@ -8,6 +8,8 @@ import {LookupPaymentOnlineService} from "../lookup-payment-online.service";
   styleUrls: ['./look-up-payment-online.component.css']
 })
 export class LookUpPaymentOnlineComponent implements OnInit {
+
+
   paymentOnlines: PaymentOnlineDto[] = []
   @ViewChild('paymentIdSearch') paymentIdSearch: ElementRef;
   @ViewChild('customerNameSearch') customerNameSearch: ElementRef;

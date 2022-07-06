@@ -41,7 +41,6 @@ export class AdminChatDetailComponent implements OnInit {
     this.chatForm = this.formBuilder.group({
       'message': [null, Validators.required]
     });
-
   }
   /**
    * @Author NghiaNTT

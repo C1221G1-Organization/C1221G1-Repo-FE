@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
               private changeDetectorRef: ChangeDetectorRef,
               private shareService: ShareService) {
   }
+
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.isLogIn = true;
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
       this.roles = this.tokenStorageService.getUser().roles;
     }
   }
+
   ngAfterContentChecked(): void {
     if (this.productQuantityInCart != 0) {
       this.productQuantityInCart = 0;
@@ -45,6 +47,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   //   this.tokenStorageService.signOut();
   //   window.location.reload();
   // }
+
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;
     this.medicine.medicineTypeId = typeId.value;

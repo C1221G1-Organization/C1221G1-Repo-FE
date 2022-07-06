@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./payment-online.component.css']
 })
 export class PaymentOnlineComponent implements OnInit {
+
   cartAndDetailDto = {} as CartAndDetailDto;
   rate = 23315;
   public payPalConfig ?: IPayPalConfig;

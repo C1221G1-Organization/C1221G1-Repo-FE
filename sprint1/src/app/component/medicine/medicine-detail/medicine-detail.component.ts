@@ -24,6 +24,7 @@ export class MedicineDetailComponent implements OnInit {
               private router: Router,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
+
   }
   /**
    * @Author NghiaNTT

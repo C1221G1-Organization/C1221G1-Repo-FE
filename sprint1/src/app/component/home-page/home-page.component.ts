@@ -3,7 +3,10 @@ import {HomePageService} from "../../service/home-page/home-page.service";
 import {MedicineBestSeller} from "../../dto/medicine-best-seller";
 import {ToastrService} from "ngx-toastr";
 import {ShareService} from "../../share/ShareService";
+import {MedicineDtoForCart} from "../../dto/MedicineDtoForCart";
 import {CartDetailDto} from "../../dto/CartDetailDto";
+import {MedicineHomePage} from "../../dto/medicine-home-page";
+
 
 @Component({
   selector: 'app-home-page',
