@@ -1,1 +1,112 @@
+<<<<<<< HEAD
 <p>statistital-chart works!</p>
+=======
+<<<<<<< HEAD
+<p>statistital-chart works!</p>
+=======
+<div class="container">
+  <h1 class="text-center">Biểu Đồ Thống kê</h1>
+  <div class="row">
+    <div class="col-lg-5 col-sm-12">
+      <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold;">Chọn thời gian thống kê</legend>
+        <form [formGroup]="staticForm" (ngSubmit)="submit()">
+          <div class="row" style="margin-bottom: 32px; padding-left: 15px; padding-right: 15px">
+            <div class="control-group col-7">
+              <label class="control-label input-label" style="font-weight: bold">Loại báo cáo : </label>
+              <select (change)="change($event.target.value)" class="form-control">
+                <option value="">---Chọn---</option>
+                <option value="1">Theo năm</option>
+                <option value="2">Theo tháng</option>
+              </select>
+            </div>
+            <div class="control-group col-5">
+              <div [hidden]="year">
+                <label class="control-label input-label" style="font-weight: bold">Chọn năm : </label>
+                <select class="form-control" formControlName="year">
+                  <option value="">---Chọn năm---</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                </select>
+              </div>
+
+              <div [hidden]="month">
+                <label class="control-label input-label" style="font-weight: bold">Chọn tháng : </label>
+                <select class="form-control">
+                  <option value="1">Tháng 1</option>
+                  <option value="2">Tháng 2</option>
+                  <option value="3">Tháng 3</option>
+                  <option value="4">Tháng 4</option>
+                  <option value="5">Tháng 5</option>
+                  <option value="6">Tháng 6</option>
+                  <option value="7">Tháng 7</option>
+                  <option value="8">Tháng 8</option>
+                  <option value="9">Tháng 9</option>
+                  <option value="10">Tháng 10</option>
+                  <option value="11">Tháng 11</option>
+                  <option value="12">Tháng 12</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="text-right" >
+            <a routerLink="/reports/static">
+            <button (click)="submit()" type="submit" class="btn btn-success">
+              <i class="fa fa-eye" aria-hidden="true"></i> Xem</button></a>
+          </div>
+        </form>
+      </fieldset>
+      <div style="height: 15px"></div>
+      <fieldset class="border p-2 shadow-lg bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold">Báo cáo chi tiết</legend>
+        <table class="table">
+          <tr>
+            <th>Doanh thu</th>
+            <td>{{statics[0].revenue+statics[1].revenue+statics[2].revenue+statics[3].revenue
+            +statics[4].revenue+statics[5].revenue+statics[6].revenue+statics[7].revenue
+            +statics[8].revenue+statics[9].revenue+statics[10].revenue+statics[11].revenue|currency: 'VND'}}</td>
+          </tr>
+          <tr>
+            <th>Lợi nhuận</th>
+            <td>{{statics[0].profit+statics[1].profit+statics[2].profit+statics[3].profit
+            +statics[4].profit+statics[5].profit+statics[6].profit+statics[7].profit
+            +statics[8].profit+statics[9].profit+statics[10].profit+statics[11].profit|currency: 'VND'}}</td>
+          </tr>
+          <tr>
+            <th>Doanh thu TB</th>
+            <td>{{(statics[0].revenue+statics[1].revenue+statics[2].revenue+statics[3].revenue
+            +statics[4].revenue+statics[5].revenue+statics[6].revenue+statics[7].revenue
+            +statics[8].revenue+statics[9].revenue+statics[10].revenue+statics[11].revenue)/12|currency: 'VND'}}</td>
+          </tr>
+          <tr>
+            <th>Lợi nhuận TB</th>
+            <td>{{(statics[0].profit+statics[1].profit+statics[2].profit+statics[3].profit
+            +statics[4].profit+statics[5].profit+statics[6].profit+statics[7].profit
+            +statics[8].profit+statics[9].profit+statics[10].profit+statics[11].profit)/12|currency: 'VND'}}</td>
+          </tr>
+        </table>
+      </fieldset>
+    </div>
+    <div class="col-lg-7 col-sm-12">
+      <fieldset id="containChart" class="border p-2 shadow-lg  bg-white rounded-lg "  style=" height: 100%; margin-bottom: 0px">
+        <legend class="w-auto" style="font-weight: bold">Biểu  đồ</legend>
+        <h5 class="text-center" style="color: burlywood" *ngIf="show">Năm {{showYear}}</h5>
+        <canvas style="width: 100%" id="myChart"></canvas>
+        <h5 class="text-center" style="color: red" *ngIf="!show">Cần chọn thời gian thống kê</h5>
+      </fieldset>
+    </div>
+  </div>
+  <div style="height: 15px"></div>
+  <div class="container col-12 text-right" id="btn">
+    <a routerLink="/reports/report">
+      <button class="btn btn-secondary">
+        <i class="fa fa-undo" aria-hidden="true"></i> Trở về
+      </button>
+    </a>
+  </div>
+</div>
+
+>>>>>>> d37d461415496bc23af43614a5d05a1d354e89db

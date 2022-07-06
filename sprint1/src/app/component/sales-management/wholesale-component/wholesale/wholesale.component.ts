@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {InvoiceWholesaleAndRefundService} from "../../../../service/invoiceWholesaleAndRefund.service";
 import {InvoiceMedicine} from "../../../../model/invoice-medicine";
@@ -6,6 +7,7 @@ import {MedicineStorageDto} from "../../../../dto/medicine-storage-dto";
 import {ListMedicineDto} from "../../../../dto/list-medicine-dto";
 import {ToastrService} from "ngx-toastr";
 import {Customer} from "../../../../model/customer";
+
 
 @Component({
   selector: 'app-wholesale',
@@ -111,7 +113,8 @@ export class WholesaleComponent implements OnInit {
     invoiceNote: this.note,
     invoiceMedicineList: this.invoiceMedicineList
   }
-    if (invoice.invoiceMedicineList == []){
+    if (invoice.invoiceMedicineList == null){
+      console.log(invoice.invoiceMedicineList)
       this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa Đơn Bán Lẻ", {
         timeOut: 3000,
         progressBar: true
@@ -172,4 +175,5 @@ export class WholesaleComponent implements OnInit {
         this.customerList = customer;
     })
   }
+
 }

@@ -19,11 +19,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     WholesaleComponent,
     RefundCustomerComponent,
   ],
-  imports: [
-    CommonModule,
-    SalesManagementRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        SalesManagementRoutingModule,
+        ReactiveFormsModule,
+        FormsModule
+    ]
 })
 export class SalesManagementModule { }

@@ -2,10 +2,11 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InvoiceWholesaleAndRefundService} from "../../../service/invoiceWholesaleAndRefund.service";
 import {InvoiceDto} from "../../../dto/invoice-dto";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Employee} from "../../../model/employee";
+import {Employee} from "../../../model/employee/employee";
 import {MedicineOfInvoiceDto} from "../../../dto/medicine-of-invoice-dto";
 import {ListMedicineDto} from "../../../dto/list-medicine-dto";
 import {InvoiceMedicine} from "../../../model/invoice-medicine";
+
 
 @Component({
   selector: 'app-refund-customer',
@@ -75,4 +76,5 @@ export class RefundCustomerComponent implements OnInit {
   importMedicine(medicine: any) {
     this.medicineRefundList.push(medicine)
   }
+
 }

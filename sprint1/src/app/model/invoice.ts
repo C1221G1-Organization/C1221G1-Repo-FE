@@ -1,5 +1,5 @@
+import {Employee} from "./employee/employee";
 import {Customer} from "./customer";
-import {Employee} from "./employee";
 
 
 export interface Invoice {
