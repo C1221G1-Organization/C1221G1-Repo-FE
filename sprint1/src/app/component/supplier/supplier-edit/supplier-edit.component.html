@@ -1,0 +1,155 @@
+<div class="container mg mx-auto">
+  <h3 style="text-align: center"> Chỉnh Sửa Nhà Cung Cấp</h3>
+
+  <div class="col-9 mx-auto">
+
+    <form *ngIf="supplierForm" [formGroup]="supplierForm" (ngSubmit)="updateSupplier()" novalidate>
+
+      <div class="form-group">
+        <b class="form-label">Tên Nhà Cung Cấp<span
+          style="color: red"> (*) </span></b>
+        <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"
+               type="text">
+        <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
+          <small [hidden]='!supplierName.errors.required' class="text-danger">
+            Tên Nhà Cung Cấp Bắt Buộc Phải Có !
+          </small>
+          <small [hidden]='!supplierName.errors.minlength' class="text-danger">
+            Tên Nhà Cung Cấp Quá Ngắn
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <b class="form-label">Địa Chỉ Nhà Cung Cấp</b>
+        <input class="form-control" formControlName="supplierAddress" placeholder="Địa Chỉ : "
+               type="text">
+      </div>
+
+      <div class="row no-margin">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <b class="form-label">Số Điện Thoại Nhà Cung Cấp <span
+              style="color: red"> (*) </span></b>
+            <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"
+                   type="text">
+            <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
+              <small [hidden]='!supplierPhone.errors.required' class="text-danger">
+                Số Điện Thoại Không Được Để Trống
+              </small>
+              <small [hidden]='!supplierPhone.errors.pattern' class="text-danger">
+                Số Điện Thoại Không Đúng Định Dạng EX : 090(XXXXXXX)!
+              </small>
+              <div *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
+                ID has been registered
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <b class="form-label">Email Nhà Cung Cấp</b>
+            <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "
+                   type="email">
+            <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
+              <small [hidden]='!supplierEmail.errors.required' class="text-danger">
+                Email Không Được Để Trống !
+              </small>
+              <small [hidden]='!supplierEmail.errors.pattern' class="text-danger">
+                Email Không Đúng Định Dạng [name]@gmail.com!
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <b class="form-label">Ghi chú</b>
+          <textarea class="form-control" formControlName="note" id="message-text"></textarea>
+        </div>
+      </div>
+      <br>
+      <div class=" d-flex justify-content-right " style="float: right">-->
+        <div class="row">
+          <div class="m-2">
+            <button class="btn btn-secondary mgl">
+              <a [routerLink]="['/supplier/']"  style="color: white">
+                <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-success" type="submit"  style="color: white">
+              <i class="fa-solid fa-circle-plus"></i> Hoàn thành
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!--<div class="container mg mx-auto">-->
+<!--  <h3 style="text-align: center"> Danh Sách Nhà Cung Cấp</h3>-->
+
+<!--  <div class="col-9  mx-auto  ">-->
+
+<!--    <form [formGroup]="carForm"-->
+<!--          (ngSubmit)="updateSupplier()" novalidate>-->
+
+<!--      <div class="form-group">-->
+<!--        <b class="form-label">Tên Nhà Cung Cấp<span-->
+<!--          style="color: red"> (*) </span></b>-->
+<!--        <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"-->
+<!--               type="text">-->
+<!--      </div>-->
+
+<!--      <div class="form-group">-->
+<!--        <b class="form-label">Địa Chỉ Nhà Cung Cấp</b>-->
+<!--        <input class="form-control" formControlName="supplierAddress" placeholder="Địa Chỉ : "-->
+<!--               type="text">-->
+<!--      </div>-->
+
+<!--      <div class="row no-margin">-->
+<!--        <div class="col-sm-6">-->
+<!--          <div class="form-group">-->
+<!--            <b class="form-label">Số Điện Thoại Nhà Cung Cấp <span-->
+<!--              style="color: red"> (*) </span></b>-->
+<!--            <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"-->
+<!--                   type="text">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm-6">-->
+<!--          <div class="form-group">-->
+<!--            <b class="form-label">Email Nhà Cung Cấp</b>-->
+<!--            <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "-->
+<!--                   type="email">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--        <div class="col-12">-->
+<!--          <b class="form-label">Ghi chú</b>-->
+<!--          <textarea class="form-control" formControlName="note" id="message-text"></textarea>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <br>-->
+
+<!--      <div class=" d-flex justify-content-right " style="float: right">-->
+<!--        <div class="row">-->
+<!--          <div class="m-2">-->
+<!--            <button class="btn btn-secondary mgl">-->
+<!--              <a [routerLink]="['/supplier/']">-->
+<!--                <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div class="m-2">-->
+<!--            <button class="btn btn-success" type="submit">-->
+<!--              <i class="fa-solid fa-circle-plus"></i> Hoàn thành-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
