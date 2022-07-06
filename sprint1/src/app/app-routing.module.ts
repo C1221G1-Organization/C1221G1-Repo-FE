@@ -1,79 +1,92 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomePageComponent} from "./component/home-page/home-page.component";
+import {NotFoundComponent} from './component/not-found/not-found.component';
 
 const routes: Routes = [
   {
-    path: '',pathMatch: 'full', redirectTo: 'templates'
+    path: '', pathMatch: 'full', redirectTo: 'home-page'
   },
+  {path: 'home-page', component: HomePageComponent},
   {
     path: 'customer',
-    loadChildren: () => import('./customer/customer.module').then(module => module.CustomerModule)
+    loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
-    path: 'employee',
-    loadChildren: () => import('./employee/employee.module').then(module => module.EmployeeModule)
+
+    path        : 'customer',
+    loadChildren: () => import('./component/customer/customer.module').then(module => module.CustomerModule)
   },
   {
-    path: 'account',
-    loadChildren: () => import('./account/account.module').then(module => module.AccountModule)
+    path        : 'employee',
+    loadChildren: () => import('./component/employee/employee.module').then(module => module.EmployeeModule)
   },
   {
-    path: 'admin-chat',
-    loadChildren: () => import('./admin-chat/admin-chat.module').then(module => module.AdminChatModule)
+    path        : 'account',
+    loadChildren: () => import('./component/account/account.module').then(module => module.AccountModule)
   },
   {
-    path: 'log',
-    loadChildren: () => import('./log/log.module').then(module => module.LogModule)
+    path        : 'admin-chat',
+    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule)
   },
   {
-    path: 'medicine',
-    loadChildren: () => import('./medicine/medicine.module').then(module => module.MedicineModule)
+    path        : 'log',
+    loadChildren: () => import('./component/log/log.module').then(module => module.LogModule)
   },
   {
-    path: 'look-up',
-    loadChildren: () => import('./look-up/look-up.module').then(module => module.LookUpModule)
+    path        : 'medicine',
+    loadChildren: () => import('./component/medicine/medicine.module').then(module => module.MedicineModule)
   },
   {
-    path: 'cart',
-    loadChildren: () => import('./cart/cart.module').then(module => module.CartModule)
+    path        : 'look-up',
+    loadChildren: () => import('./component/look-up/look-up.module').then(module => module.LookUpModule)
   },
   {
-    path: 'prescription',
-    loadChildren: () => import('./prescription/prescription.module').then(module => module.PrescriptionModule)
+    path        : 'cart',
+    loadChildren: () => import('./component/cart/cart.module').then(module => module.CartModule)
   },
   {
-    path: 'reports',
-    loadChildren: () => import('./reports/report.module').then(module => module.ReportModule)
+    path        : 'prescription',
+    loadChildren: () => import('./component/prescription/prescription.module').then(module => module.PrescriptionModule)
   },
   {
-    path: 'sales-management',
-    loadChildren: () => import('./sales-management/sales-management.module').then(module => module.SalesManagementModule)
+    path        : 'reports',
+    loadChildren: () => import('./component/reports/report.module').then(module => module.ReportModule)
   },
   {
-    path: 'supplier',
-    loadChildren: () => import('./supplier/supplier.module').then(module => module.SupplierModule)
+    path        : 'sales-management',
+    loadChildren: () => import('./component/sales-management/sales-management.module').then(module => module.SalesManagementModule)
   },
   {
-    path: 'templates',
-    loadChildren: () => import('./templates/templates.module').then(module => module.TemplatesModule)
+    path        : 'supplier',
+    loadChildren: () => import('./component/supplier/supplier.module').then(module => module.SupplierModule)
   },
   {
-    path: 'payment',
-    loadChildren: () => import('./payment/payment.module').then(module => module.PaymentModule)
+    path        : 'templates',
+    loadChildren: () => import('./component/templates/templates.module').then(module => module.TemplatesModule)
   },
   {
-    path: 'import-invoice-medicine',
-    loadChildren: () => import('./import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
+    path        : 'payment',
+    loadChildren: () => import('./component/payment/payment.module').then(module => module.PaymentModule)
   },
   {
-    path: 'import-invoice',
-    loadChildren: () => import('./import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
+    path        : 'import-invoice-medicine',
+    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').
+    then(module => module.ImportInvoiceMedicineModule)
   },
+  {
+    path        : 'import-invoice',
+    loadChildren: () => import('./component/import-invoice/import-invoice.module').then(module => module.ImportInvoiceModule)
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

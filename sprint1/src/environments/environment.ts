@@ -3,7 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
+
+  apiUrl: 'http://localhost:8080',
+  firebaseConfig: {
+    apiKey: 'AIzaSyAyMrBGwsFyKO3vaKNu_U9LtdJbGiFP2gA',
+    databaseURL: 'https://fir-chat-9b119-default-rtdb.asia-southeast1.firebasedatabase.app'
+  },
+  adminChat: {
+    name: 'ADMIN',
+    uuid: 'ADMIN-C12'
+  }
 };
 
 /*
