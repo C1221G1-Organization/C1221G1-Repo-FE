@@ -9,7 +9,6 @@ import {Employee} from '../../../model/employee/employee';
 import {PositionService} from '../../../service/employee/position.service';
 import {Position} from '../../../model/employee/position';
 
-
 @Component({
   selector: 'app-employee-ceate',
   templateUrl: './employee-ceate.component.html',
@@ -161,5 +160,4 @@ Function:  Show image on firebase
       });
     })).subscribe();
   }
-
 }

@@ -1,11 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PrescriptionDetail} from "../../../../dto/prescription/prescriptionDetail";
-import {PrescriptionMedicineDetail} from "../../../../dto/prescription/prescriptionMedicineDetail";
-import {RetailService} from "../../../../service/retail.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
-import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
-import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
+import {Component, OnInit} from '@angular/core';
+import {PrescriptionDetail} from '../../../../dto/prescription/prescriptionDetail';
+import {PrescriptionMedicineDetail} from '../../../../dto/prescription/prescriptionMedicineDetail';
+import {RetailService} from '../../../../service/retail.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {MedicineSale} from '../../../../dto/invoice/medicineSale';
+import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
+import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-prescription-detail',
@@ -28,6 +30,7 @@ export class PrescriptionDetailComponent implements OnInit {
   deleteErr: string;
   disableCreate = true;
   disableFlag: true;
+
   constructor(private retailService: RetailService,
               private route: ActivatedRoute,
               private toastr: ToastrService,
@@ -47,14 +50,14 @@ export class PrescriptionDetailComponent implements OnInit {
     this.retailService.getPrescriptionDetail(prescriptionId).subscribe(res => {
       this.prescriptionDetail = res;
       console.log(this.prescriptionDetail);
-    })
+    });
   }
 
   getPrescriptionMedicineDetail(prescriptionId: string) {
     this.retailService.getPrescriptionMedicineDetail(prescriptionId).subscribe(res => {
       this.listPrescriptionMedicine = res;
       for (let item of this.listPrescriptionMedicine) {
-         item.money = item.retailPrice*item.totalQuantity;
+        item.money = item.retailPrice * item.totalQuantity;
       }
       this.getTotalMoney();
     })
@@ -65,7 +68,7 @@ export class PrescriptionDetailComponent implements OnInit {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.totalQuantity
-      }
+      };
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
@@ -75,27 +78,28 @@ export class PrescriptionDetailComponent implements OnInit {
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
-    if (invoiceDto.invoiceMedicineList.length < 1){
+    if (invoiceDto.invoiceMedicineList.length < 1) {
       this.toastr.warning("Đơn chưa có thuốc !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
-    }else {
+    } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/sales-management/prescription-detail/' + this.idChoice);
         }, error => {
-          this.toastr.warning("Thêm Mới Thất Bại !", "Cảnh báo", {
+          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
             timeOut: 3000,
             progressBar: true
           });
-          console.log(error)
+          this.listMedicineChoice = [];
+          console.log(error);
         }
-      )
+      );
     }
   }
 
@@ -164,3 +168,4 @@ export class PrescriptionDetailComponent implements OnInit {
     }
   }
 }
+
