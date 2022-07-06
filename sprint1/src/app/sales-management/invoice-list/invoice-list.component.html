@@ -1,67 +1,73 @@
 <body>
-<!--    Searh form start-->
+<!--    Search form start-->
 <div class="container">
-  <div class="col-12 mx-auto">
-    <div class="mx-auto shadow-lg p-3 mb-2 bg-white rounded-lg">
-      <div>
-        <div class="row">
-          <div class="col-10 d-flex justify-content-around">
-            <div class="col-3">
-              <div style="margin-bottom: 20px">
-                <label for="startDate">Từ ngày</label>
-                <input class="form-control form-control-sm" id="startDate" type="date" [(ngModel)]="startDate">
+  <fieldset>
+    <legend>Bộ lọc</legend>
+    <div class="col-12 mx-auto">
+      <div class="mx-auto shadow-lg p-3 mb-2 bg-white rounded-lg">
+        <form [formGroup]="searchForm" (ngSubmit)="search()">
+          <div class="row">
+            <div class="col-10 d-flex justify-content-around">
+              <div class="col-3">
+                <div style="margin-bottom: 20px">
+                  <label for="startDate">Từ ngày</label>
+                  <input class="form-control form-control-sm" id="startDate" type="date" formControlName="startDate">
+                  <!--                <p style="color: red"-->
+                  <!--                   *ngIf="searchForm.controls.date.hasError('isAfter') && searchForm.controls.date.touched">Can-->
+                  <!--                  not be empty</p>-->
+                </div>
+                <div>
+                  <label for="endDate">Đến ngày</label>
+                  <input class="form-control form-control-sm" id="endDate" type="date" formControlName="endDate">
+                </div>
               </div>
-              <div>
-                <label for="endDate">Đến ngày</label>
-                <input class="form-control form-control-sm" id="endDate" type="date" [(ngModel)]="endDate">
+              <div class="col-3">
+                <div style="margin-bottom: 20px">
+                  <label for="startTime">Từ giờ</label>
+                  <input class="form-control form-control-sm" id="startTime" type="time" formControlName="startTime">
+                </div>
+                <div>
+                  <label for="endTime">Đến giờ</label>
+                  <input class="form-control form-control-sm" id="endTime" type="time" formControlName="endTime">
+                </div>
+              </div>
+              <div class="col-3">
+                <div style="margin-bottom: 20px">
+                  <label for="typeOfInvoiceId">Khách hàng</label>
+                  <select class="form-control form-control-sm" id="typeOfInvoiceId" formControlName="typeOfInvoiceId">
+                    <option value="1">Bán lẻ</option>
+                    <option value="2">Bán sỉ</option>
+                    <option value="3">Hoàn trả</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="fieldSort">Sắp xếp theo</label>
+                  <select class="form-control form-control-sm" id="fieldSort" formControlName="fieldSort">
+                    <option value="invoiceId">Mã hóa đơn</option>
+                    <option value="customerName">Tên khách hàng</option>
+                    <option value="time">Ngày giờ lập</option>
+                    <option value="employeeName">Người lập</option>
+                    <option value="invoiceTotalMoney">Tổng tiền</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="col-3">
-              <div style="margin-bottom: 20px">
-                <label for="startTime">Từ giờ</label>
-                <input class="form-control form-control-sm" id="startTime" type="time" [(ngModel)]="startTime">
+            <div class="col-2 d-flex align-content-around flex-wrap">
+              <div>
+                <button class="btn btn-primary"><i class="fa-solid fa-filter"></i> Lọc hóa đơn</button>
               </div>
               <div>
-                <label for="endTime">Đến giờ</label>
-                <input class="form-control form-control-sm" id="endTime" type="time" [(ngModel)]="endTime">
-              </div>
-            </div>
-            <div class="col-3">
-              <div style="margin-bottom: 20px">
-                <label for="typeOfInvoiceId">Khách hàng</label>
-                <select class="form-control form-control-sm" id="typeOfInvoiceId" [(ngModel)]="typeOfInvoiceId">
-                  <option value="1">Bán lẻ</option>
-                  <option value="2">Bán sỉ</option>
-                  <option value="3">Hoàn trả</option>
-                </select>
-              </div>
-              <div>
-                <label for="fieldSort">Sắp xếp theo</label>
-                <select class="form-control form-control-sm" id="fieldSort" [(ngModel)]="fieldSort">
-                  <option value="invoiceId">Mã hóa đơn</option>
-                  <option value="customerName">Tên khách hàng</option>
-                  <option value="time">Ngày giờ lập</option>
-                  <option value="employeeName">Người lập</option>
-                  <option value="sum((medicine.medicine_retail_sale_profit + 1)
-                  * medicine.medicine_import_price * invoice_medicine.invoice_medicine_quantity)">Tổng tiền</option>
-                </select>
+                <button type="reset" class="btn btn-secondary"><i class="fa fa-undo"></i>
+                  Chọn lại
+                </button>
               </div>
             </div>
           </div>
-          <div class="col-2 d-flex align-content-around flex-wrap">
-            <div>
-              <button  (click)="search()" class="btn btn-primary"><i class="fa-solid fa-filter"></i> Lọc hóa đơn</button>
-            </div>
-            <div>
-              <button type="reset" class="btn btn-secondary"><i class="fa fa-undo"></i>
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
+
+  </fieldset>
 </div>
 <!--Search form end-->
 <!--List start-->
@@ -84,15 +90,21 @@
             <th class="col-1">Ghi chú</th>
           </tr>
           </thead>
-          <tbody>
-          <tr (click)="getInfo(invoice.invoiceId)" *ngFor="let invoice of invoiceList">
+          <tbody *ngIf="invoiceList != null">
+          <tr (click)="chooseInvoice(i, invoice.invoiceId)" *ngFor="let invoice of invoiceList, index as i"
+              [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === invoice.invoiceId ? '#84c0ec' : ''}">
             <td>{{invoice.invoiceId}}</td>
             <td>{{invoice.customerName}}</td>
-            <td>{{invoice.invoiceCreatedDate}}</td>
+            <td>{{invoice.invoiceCreatedDate | date :'dd/MM/yyyy'}}</td>
             <td>{{invoice.invoiceCreateTime}}</td>
             <td>{{invoice.employeeName}}</td>
-            <td>{{invoice.invoiceTotalMoney}}</td>
+            <td>{{invoice.invoiceTotalMoney | currency :'VND'}}</td>
             <td>{{invoice.invoiceNote}}</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="invoiceList.length == 0">
+          <tr>
+            <td align="center" colspan="7"><h4 style="color: red">Không tìm thấy hóa đơn nào</h4></td>
           </tr>
           </tbody>
         </table>
@@ -101,7 +113,7 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
           <li class="page-item" >
-            <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
+            <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Trước</a>
           </li>
           <li class="page-item">
             <a class="page-link">
@@ -111,14 +123,14 @@
             </a>
           </li>
           <li class="page-item">
-            <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp theo</a>
+            <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Sau</a>
           </li>
         </ul>
       </nav>
       <!--Button start-->
       <div id="bottom-btn" class="d-flex justify-content-end">
         <button class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm hóa đơn</button>
-        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+        <button [disabled]="!isChosen" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
           <i class="fa-solid fa-circle-xmark" ></i> Xoá hóa đơn</button>
         <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
       </div>
@@ -149,3 +161,4 @@
   </div>
 </div>
 </body>
+
