@@ -154,4 +154,5 @@ export class UserChatComponent implements OnInit {
       this.toastr.info('Vui lòng nhập chính xác thông tin', '', {timeOut: 3000, progressBar: false});
     }
   }
+
 }

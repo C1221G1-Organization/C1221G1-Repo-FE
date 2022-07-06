@@ -214,4 +214,5 @@ Function:  Show image on firebase
         });
       })).subscribe();
   }
+
 }

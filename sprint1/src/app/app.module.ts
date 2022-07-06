@@ -17,7 +17,6 @@ import "firebase/database";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +27,6 @@ import {ReportModule} from './component/reports/report.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-
     AngularFireStorageModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right'

@@ -37,10 +37,8 @@ export class AdminChatComponent implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
   }
-
   isSeenToggle(uuid: any) {
     firebase.database().ref('rooms/' + uuid).once('value').then(res => {
       const room = res.val();
