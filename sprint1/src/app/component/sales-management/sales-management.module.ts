@@ -8,6 +8,7 @@ import {PrescriptionDetailComponent} from "./retail-component/prescription-detai
 import {WholesaleComponent} from "./wholesale-component/wholesale/wholesale.component";
 import { RefundCustomerComponent } from './refund-customer/refund-customer.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     PrescriptionDetailComponent,
     WholesaleComponent,
     RefundCustomerComponent,
+    InvoiceListComponent
   ],
     imports: [
         CommonModule,

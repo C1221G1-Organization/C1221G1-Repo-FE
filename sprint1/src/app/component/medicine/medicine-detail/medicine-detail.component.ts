@@ -1,17 +1,18 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
 import {MedicineDetailDto} from '../../../dto/medicine/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 
 const MAXIMUM_QUANTITY_ALLOWED = 10;
-@Component({
-  selector   : 'app-medicine-detail',
-  templateUrl: './medicine-detail.component.html',
-  styleUrls  : ['./medicine-detail.component.css']
-})
-export class MedicineDetailComponent implements OnInit {
 
+@Component({
+  selector: 'app-medicine-detail',
+  templateUrl: './medicine-detail.component.html',
+  styleUrls: ['./medicine-detail.component.css']
+})
+
+export class MedicineDetailComponent implements OnInit {
   medicineId: string;
   medicine: MedicineDetailDto;
   relativeMedicineList: MedicineDetailDto[];
@@ -19,13 +20,15 @@ export class MedicineDetailComponent implements OnInit {
   toastrOptions = {
     preventOpenDuplicates: true,
     timeOut: 5000
-  }
+  };
+
   constructor(private toastr: ToastrService,
               private router: Router,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
 
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -39,8 +42,10 @@ export class MedicineDetailComponent implements OnInit {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
+          this.scrollToTopOfScrollable();
         }, err => {
-          this.router.navigateByUrl("not-found")
+          this.router.navigateByUrl('not-found');
+
         }
       );
       this.medicineService.get5RelativeMedicinesOf(this.medicineId).subscribe(
@@ -64,15 +69,16 @@ export class MedicineDetailComponent implements OnInit {
       this.toastr.warning(
         `Bạn chỉ được mua tối đa ${MAXIMUM_QUANTITY_ALLOWED} sản phảm`,
         '',
-        {...this.toastrOptions})
+        {...this.toastrOptions});
     } else if (this.quantity > this.medicine.medicineQuantity) {
-      this.quantity = this.medicine.medicineQuantity
+      this.quantity = this.medicine.medicineQuantity;
       this.toastr.warning(
         `Số lượng sản phảm còn lại không đủ`,
         '',
-        {...this.toastrOptions})
+        {...this.toastrOptions});
     }
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -85,6 +91,7 @@ export class MedicineDetailComponent implements OnInit {
       this.quantity = 1;
     }
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
@@ -104,10 +111,11 @@ export class MedicineDetailComponent implements OnInit {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
     this.toastr.success(`Thêm thành công ${this.quantity} sản phẩm vào giỏ hàng`, '', {
-      timeOut    : 3000,
+      timeOut: 3000,
       progressBar: false
     });
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022

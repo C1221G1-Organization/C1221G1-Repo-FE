@@ -10,6 +10,7 @@ import firebase from "firebase";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {FacebookRequest} from "../../../dto/request/facebook-request";
 
+
 let provider = new firebase.auth.FacebookAuthProvider();
 
 /**
@@ -90,16 +91,7 @@ export class LoginComponent implements OnInit {
 
           }, 1000)
 
-        },
-        error => {
-          this.isSignIn = false;
-          if (error.error?.errorMap) {
-            this.toast.warning("Đăng nhập không thành công", "Thông báo")
-          } else {
-            this.toast.warning("Mật khẩu không chính xác", "Thông báo")
-          }
-        }
-      )
+        })
     }
   }
 
@@ -122,21 +114,21 @@ export class LoginComponent implements OnInit {
   fbSignIn: SignInRequest = null;
 
   AuthLogin(provider) {
-    let email:string;
+    let email: string;
     let fbRequest: FacebookRequest;
-    let facebook : string;
-    let pass : string;
-    let signInRequest : SignInRequest = {};
+    let facebook: string;
+    let pass: string;
+    let signInRequest: SignInRequest = {};
 
     this.angularFireAuth.signInWithPopup(provider).then(r => {
       // @ts-ignore
       let accessToken = r.credential.accessToken.substring(0, 20);
       let profile = r.additionalUserInfo.profile;
 
-      email= profile['email'];
+      email = profile['email'];
       let gender = profile['gender'];
       let location = profile['location'].name;
-       fbRequest = {email, gender, accessToken, location};
+      fbRequest = {email, gender, accessToken, location};
       this.securityService.signInWithFacebook(fbRequest).subscribe(
         next => {
           facebook = email;
@@ -145,7 +137,7 @@ export class LoginComponent implements OnInit {
           console.log(facebook);
           console.log(pass);
           signInRequest = {
-            "username" : facebook,
+            "username": facebook,
             "password": pass
           }
           console.log(signInRequest);
@@ -165,10 +157,11 @@ export class LoginComponent implements OnInit {
           )
         },
       )
-    })
-
-
-
+    });
   }
 }
+
+
+
+
 

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<p>look-up-payment-online works!</p>
-=======
 <div class="wrapper mb-2">
   <div class="container-fluid my-2 mt-10">
     <div class="bg-white py-2 shadow-lg rounded-lg">
@@ -74,8 +71,8 @@
       <!--          paging-->
       <nav *ngIf="totalPages > 1" class="d-flex justify-content-center py-3">
         <ul class="pagination">
-          <li class="page-item px-1 disabled">
-            <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trang trước</a>
+          <li class="page-item px-1">
+            <a (click)="previousPage()" [class.disabled]="currentPage == 0" class="page-link">Trang trước</a>
           </li>
           <li class="page-item disabled">
             <a class="page-link">
@@ -85,7 +82,7 @@
             </a>
           </li>
           <li class="page-item px-1">
-            <a (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages" class="page-link">Trang sau</a>
+            <a (click)="nextPage()" [class.disabled]="currentPage+1 == totalPages" class="page-link">Trang sau</a>
           </li>
         </ul>
       </nav>
@@ -93,6 +90,3 @@
     </div>
   </div>
 </div>
-
-
->>>>>>> 0b286a6b6c153a5784d1a1a7a4a99bfa0792f63b

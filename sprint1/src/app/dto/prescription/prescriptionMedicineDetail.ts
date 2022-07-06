@@ -1,4 +1,5 @@
 export interface PrescriptionMedicineDetail {
+  money: number;
   prescriptionId?: string;
   medicineId?: string;
   medicineName?: string;

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NotFoundComponent} from './component/not-found/not-found.component';
-
 import {HomePageComponent} from './component/home-page/home-page.component';
 
 const routes: Routes = [
@@ -73,7 +72,8 @@ const routes: Routes = [
   },
   {
     path: 'import-invoice-medicine',
-    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
+    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module')
+      .then(module => module.ImportInvoiceMedicineModule)
   },
   {
     path: 'import-invoice',

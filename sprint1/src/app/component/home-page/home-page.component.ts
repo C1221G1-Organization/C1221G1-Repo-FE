@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {ShareService} from "../../share/ShareService";
 import {CartDetailDto} from "../../dto/cart/CartDetailDto";
 import {CartService} from "../../service/cart/cart.service";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -27,7 +28,8 @@ export class HomePageComponent implements OnInit {
 
 
   constructor(private homePageService: HomePageService, private toastrService: ToastrService,
-              private shareService: ShareService, private cartService: CartService) {
+              private shareService: ShareService, private cartService: CartService,
+              private title: Title) {
     this.shareService.changeEmitted$.subscribe(data => {
       console.log(data)
       this.name = data.medicineName;
@@ -41,7 +43,8 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllMedicineBestSeller();
-    this.getAllMedicineByNameAndTypeId({page: 0, size: 5})
+    this.getAllMedicineByNameAndTypeId({page: 0, size: 5});
+    this.title.setTitle('Trang chủ - Pharmacode')
   }
 
   /*
