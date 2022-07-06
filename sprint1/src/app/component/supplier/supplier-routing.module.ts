@@ -5,7 +5,6 @@ import {SupplierCreateComponent} from './supplier-create/supplier-create.compone
 import {SupplierEditComponent} from './supplier-edit/supplier-edit.component';
 import {SupplierDetailComponent} from './supplier-detail/supplier-detail.component';
 
-
 const routes: Routes = [
   {path: '', component: SupplierListComponent},
   {path: 'create', component: SupplierCreateComponent},
@@ -19,3 +18,7 @@ const routes: Routes = [
 })
 export class SupplierRoutingModule {
 }
+
+export class ImportInvoiceRoutingModule {
+}
+

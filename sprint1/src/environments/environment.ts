@@ -15,7 +15,13 @@ export const environment = {
     appId: '1:535591875350:web:7c310ddb990697c0bbd637',
     measurementId: 'G-CVJD51BD70'
   },
-  apiBaseUrl: 'http://localhost:3000'
+  apiBaseUrl: 'http://localhost:3000',
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
+  adminChat: {
+    name: 'ADMIN',
+    uuid: 'ADMIN-C12'
+  }
 };
 
 /*

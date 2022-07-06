@@ -7,7 +7,6 @@ import {SupplierListComponent} from './supplier-list/supplier-list.component';
 import {SupplierDetailComponent} from './supplier-detail/supplier-detail.component';
 import {ReactiveFormsModule} from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     SupplierCreateComponent,
