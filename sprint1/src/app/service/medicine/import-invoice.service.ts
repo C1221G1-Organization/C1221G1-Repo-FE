@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Page} from 'ngx-pagination/dist/pagination-controls.directive';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -14,7 +14,8 @@ import {Employee} from '../../model/employee/employee';
 })
 export class ImportInvoiceService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   /**
    * this function use to get list Import Invoice from be

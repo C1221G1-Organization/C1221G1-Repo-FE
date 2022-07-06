@@ -7,7 +7,6 @@ import {Employee} from '../../../model/employee/employee';
 import {ImportInvoiceService} from '../../../service/medicine/import-invoice.service';
 
 
-
 @Component({
   selector: 'app-import-invoice-create',
   templateUrl: './import-invoice-create.component.html',
@@ -34,6 +33,9 @@ export class ImportInvoiceCreateComponent implements OnInit {
   importInvoiceMedicineSelectedArray: FormArray;
   successMessage = false;
   cartEmpty = false;
+  cartMedicine: boolean;
+  quantityCart = 0;
+
   equal(item1, item2) {
     return item1 && item2 && item1.supplierId === item2.supplierId;
   }
@@ -51,7 +53,7 @@ export class ImportInvoiceCreateComponent implements OnInit {
           this.defaultEmployee = this.employees[0];
           console.log(this.defaultEmployee);
           this.createImportInvoiceForm = this.fb.group({
-            importInvoiceId: 'HDN-XXXXX',
+            importInvoiceId: '',
             importSystemCode: '',
             paymentPrepayment: '',
             total: '',
@@ -82,9 +84,15 @@ export class ImportInvoiceCreateComponent implements OnInit {
   }
 
   get importInvoiceMedicineListSelected(): FormArray {
-    this.importInvoiceMedicineSelectedArray = this.createImportInvoiceForm.get('importInvoiceMedicineList') as FormArray;
+    this.importInvoiceMedicineSelectedArray = this.createImportInvoiceForm
+      .get('importInvoiceMedicineList') as FormArray;
     return this.importInvoiceMedicineSelectedArray;
   }
+
+  updateQuantityCart() {
+    this.quantityCart = this.importInvoiceMedicineSelectedArray.length;
+  }
+
   checkNoMedicine() {
     if (this.importInvoiceMedicineSelectedArray.length === 0) {
       this.flagNoMedicine = true;
@@ -106,13 +114,14 @@ export class ImportInvoiceCreateComponent implements OnInit {
       this.importInvoiceService.save(this.createImportInvoiceForm.value).subscribe(() =>
         console.log('saved'));
       this.successMessage = !this.successMessage;
-      this.createImportInvoiceForm.reset();
-      this.importInvoiceMedicineSelectedArray.controls.forEach(x => {
-          let count = 1;
-          this.importInvoiceMedicineSelectedArray.removeAt(count);
-          count++;
-        }
-      );
+      this.importInvoiceMedicineSelectedArray.clear();
+      // this.createImportInvoiceForm.reset();
+      // this.importInvoiceMedicineSelectedArray.controls.forEach(x => {
+      //     let count = 0;
+      //     this.importInvoiceMedicineSelectedArray.removeAt(count);
+      //     count++;
+      //   }
+      // );
       this.checkNoMedicine();
     }
   }
@@ -124,15 +133,16 @@ export class ImportInvoiceCreateComponent implements OnInit {
   }
 
   chooseMedicine() {
-    this.isShowMedicineList = !this.isShowMedicineList;
+    this.cartMedicine = false;
+    this.isShowMedicineList = true;
   }
 
   importMedicine(importInvoiceMedicine: ImportInvoiceMedicine) {
-    this.isShowMedicineList = !this.isShowMedicineList;
     this.medicineCurrent = importInvoiceMedicine;
     const importInvoiceMedicineForm = this.addNewImportInvoiceMedicine(this.medicineCurrent);
     this.importInvoiceMedicineListSelected.push(importInvoiceMedicineForm);
     this.checkNoMedicine();
+    this.updateQuantityCart();
     this.cartEmpty = false;
   }
 
@@ -164,6 +174,12 @@ export class ImportInvoiceCreateComponent implements OnInit {
   sendMedicineToDelete(i: number) {
     this.importInvoiceMedicineSelectedArray.removeAt(i);
     this.updateTotal();
+    this.updateQuantityCart();
     this.checkNoMedicine();
+  }
+
+  showMedicineImportList() {
+    this.isShowMedicineList = false;
+    this.cartMedicine = true;
   }
 }

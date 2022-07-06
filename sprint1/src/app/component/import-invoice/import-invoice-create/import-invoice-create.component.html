@@ -1,7 +1,7 @@
 <h1 *ngIf="successMessage" style="color: green">Tạo hoá đơn nhập thành công!</h1>
 <h1 *ngIf="cartEmpty" style="color: red">Không có sản phẩm trong hoá đơn! Vui lòng chọn thêm thuốc!</h1>
 <form *ngIf="createImportInvoiceForm" [formGroup]="createImportInvoiceForm">
-  <div class="container-fluid">
+  <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
     <div class="row">
       <div class="col-md-12 col-sm-12 col-lg-9 ">
         <fieldset class="scheduler-border">
@@ -51,12 +51,11 @@
             </div>
             <div class="col-xl-4 col-md-12 col-sm-12 ">
               <div class="mb-3 position-relative">
-                <div class="w-100 d-inline-flex">
-                  <label class="col-xl-3 col-3 px-0">Số HĐ</label>
-                  <input type="text" readonly
-                         class="form-control-sm text-secondary w-100" formControlName="importInvoiceId"
-                  >
-                </div>
+                <input type="hidden" formControlName="importInvoiceId">
+                <!--                <div class="w-100 d-inline-flex">-->
+                <!--                  <label for="importInvoiceId" class="col-xl-3 col-3 px-0">Số HĐ</label>-->
+                <!--                  <span id="importInvoiceId" >******</span>-->
+                <!--                </div>-->
               </div>
               <div class="mb-3 position-relative">
                 <div class="w-100 d-inline-flex">
@@ -103,45 +102,51 @@
           <div class="mb-4">
             <div class="w-100 d-inline-flex">
               <label class="col-6 pl-0">Còn lại</label>
-              <span>{{remainMoney|currency: 'VND'}}</span>
+              <span>{{remainMoney|currency: 'VND' }}</span>
             </div>
           </div>
         </fieldset>
       </div>
     </div>
+    <div class="d-flex justify-content-center mb-1">
+      <button class="btn btn-success button mx-1" (click)="chooseMedicine()">Chọn thuốc</button>
+      <button class="btn btn-secondary button mx-1"
+              (click)="showMedicineImportList()">Danh sách thuốc đã chọn
+        <span class="badge badge-light">{{quantityCart}}</span>
+      </button>
+    </div>
+    <div *ngIf="isShowMedicineList">
+      <table class="table table-striped table-hover">
+        <thead class="table-success">
+        <tr>
+          <th>Mã thuốc</th>
+          <th>Tên thuốc</th>
+          <th>Giá nhập</th>
+          <th>Xuất sứ</th>
+          <th>Nhà sản xuất</th>
+          <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let medicine of medicines">
+          <td>{{medicine.medicineId}}</td>
+          <td>{{medicine.medicineName}}</td>
+          <td>{{medicine.medicineImportPrice|currency: 'VND'}}</td>
+          <td>{{medicine.medicineOrigin.medicineOriginName}}</td>
+          <td>{{medicine.medicineManufacture}}</td>
+          <td>
+            <button class="btn-info" (mouseup)="sendMedicine(medicine)" (click)="importMedicine(medicine)">Nhập
+              thuốc
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="cartMedicine" >
     <fieldset class="scheduler-border ">
-      <legend class="scheduler-border">Danh sách thuốc nhập kho</legend>
-      <div class="d-flex justify-content-center mb-1">
-        <button class="btn btn-success button" (click)="chooseMedicine()">Thêm thuốc</button>
-      </div>
-      <div *ngIf="isShowMedicineList">
-        <table class="table table-striped table-hover">
-          <thead class="table-success">
-          <tr>
-            <th>Mã thuốc</th>
-            <th>Tên thuốc</th>
-            <th>Giá nhập</th>
-            <th>Xuất sứ</th>
-            <th>Nhà sản xuất</th>
-            <th>Thao tác</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let medicine of medicines">
-            <td>{{medicine.medicineId}}</td>
-            <td>{{medicine.medicineName}}</td>
-            <td>{{medicine.medicineImportPrice|currency: 'VND'}}</td>
-            <td>{{medicine.medicineOrigin.medicineOriginName}}</td>
-            <td>{{medicine.medicineManufacture}}</td>
-            <td>
-              <button class="btn-info" (mouseup)="sendMedicine(medicine)" (click)="importMedicine(medicine)">Nhập
-                thuốc
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      <legend class="scheduler-border text-center">Danh sách thuốc nhập kho</legend>
+
       <div class="row">
         <table class="table table-striped table-hover" style="table-layout: fixed;">
           <thead class="table-success w-100">
@@ -161,9 +166,9 @@
           <tbody formArrayName="importInvoiceMedicineList">
           <tr *ngFor="let medicine of importInvoiceMedicineListSelected.controls; let i=index" formGroupName="{{i}}">
             <input type="hidden" formGroupName="importInvoiceMedicineId">
-            <td class="center">
-              <input type="hidden" name="medicine" id="medicine"
-                     formControlName="medicine">
+            <input type="hidden" name="medicine" id="medicine"
+                   formControlName="medicine">
+            <td>
               <input type="text" class="form-control" formControlName="medicineName" readonly>
             </td>
             <td class="center">
@@ -179,7 +184,7 @@
             <td class="center">
               <input type="text" class="form-control" name="importInvoiceMedicineImportPrice"
                      id="importInvoiceMedicineImportPrice"
-                     formControlName="importInvoiceMedicineImportPrice">
+                     formControlName="importInvoiceMedicineImportPrice" readonly>
             </td>
             <td class="center">
               <input type="text" class="form-control" name="importInvoiceMedicineDiscountRate"
@@ -219,7 +224,7 @@
           </tbody>
         </table>
         <div *ngIf="flagNoMedicine">
-          <h2 class="messageError">Chưa có thuốc nào được chọn, vui lòng thêm thuốc!</h2>
+          <h2 class="text-center">Chưa có thuốc nào được chọn, vui lòng thêm thuốc!</h2>
         </div>
       </div>
       <div class="d-flex justify-content-end">
@@ -231,5 +236,6 @@
         </button>
       </div>
     </fieldset>
+    </div>
   </div>
 </form>

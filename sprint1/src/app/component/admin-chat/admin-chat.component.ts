@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
   snapshot.forEach((childSnapshot: any) => {
