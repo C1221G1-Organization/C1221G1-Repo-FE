@@ -8,11 +8,17 @@ import {Router} from "@angular/router";
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  isLogIn = false;
+  username: string;
 
   constructor(private tokenStorageService: TokenStorageService,
               private router : Router) { }
 
   ngOnInit(): void {
+    if (this.tokenStorageService.getToken()) {
+      this.isLogIn = true;
+      this.username = this.tokenStorageService.getUser().username;
+    }
   }
   signOut(e){
     e.preventDefault();

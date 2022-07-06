@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:8080',
+  apiBaseUrl: 'http://localhost:3000',
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
   adminChat: {
     name: 'ADMIN',
     uuid: 'ADMIN-C12'

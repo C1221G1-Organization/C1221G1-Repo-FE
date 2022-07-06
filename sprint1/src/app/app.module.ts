@@ -2,21 +2,20 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
-import {NotFoundComponent} from './component/not-found/not-found.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {config} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NotFoundComponent} from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
-import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
 import {TemplatesModule} from './component/templates/templates.module';
-import {AngularFireModule, FirebaseApp} from '@angular/fire'
 import {AngularFireAuthModule} from '@angular/fire/auth'
-import {config, environment} from "../environments/environment";
 import "firebase/database";
-
-
-
+import {NgxSpinnerModule} from "ngx-spinner";
+import {ReportModule} from './component/reports/report.module';
 
 @NgModule({
   declarations: [
@@ -24,20 +23,29 @@ import "firebase/database";
     NotFoundComponent,
     HomePageComponent,
   ],
-  imports     : [
+  imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    AngularFireStorageModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right'
+    }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ReportModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     TemplatesModule,
     AngularFireModule.initializeApp(config),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right'
+    }),
+    NgxSpinnerModule
   ],
-  providers   : [],
-  bootstrap   : [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
