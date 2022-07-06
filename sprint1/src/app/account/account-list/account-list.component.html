@@ -1,5 +1,5 @@
 <div class="container">
-  <div style="background-color:darkseagreen"><h2 style="text-align: center">Quản lý tài khoản</h2></div>
+  <h2 style="text-align: center">Quản lý tài khoản</h2>
 
   <fieldset class="border p-1 d-flex justify-content-center">
     <legend class="w-auto">Bộ lọc</legend>
@@ -14,7 +14,7 @@
           </div>
           <div class="form-group">
             <label for="inputState" style="margin-left: 10px">Lọc theo</label>
-            <select id="inputState" class="form-control mx-sm-3" formControlName="typeSearch">
+            <select id="inputState" style="margin-left: 5px" class="form-control mx-sm-3" formControlName="typeSearch">
               <option value="" disabled selected>Chọn tiêu chí tìm kiếm</option>
               <option value="id">Mã Nhân viên</option>
               <option value="name">Tên Nhân viên</option>
@@ -31,9 +31,11 @@
     </nav>
   </fieldset>
   <br>
+
   <fieldset class="border p-2">
     <legend class="w-auto">Danh sách tài khoản</legend>
-    <div  class="table-responsive-md">
+    <h3 style="text-align: center" *ngIf="accountEmployeeList.length == 0"> Không tìm thấy dữ liệu</h3>
+    <div class="table-responsive-md" *ngIf="accountEmployeeList != null">
       <table class="table" id="table" border="1">
         <thead class="table-success">
         <tr>
@@ -60,7 +62,7 @@
   </fieldset>
 
   <nav aria-label="Page navigation example" style="margin-right: 10px; margin-top: 10px">
-    <ul class="pagination justify-content-end">
+    <ul style="margin-bottom: 0px" class="pagination justify-content-end">
       <li *ngIf="!firsts" class="page-item">
         <button class="page-link" (click)="previous()">Trước</button>
       </li>
@@ -74,10 +76,10 @@
   <div class="d-flex justify-content-between">
     <div></div>
     <div>
-      <a (click)="clickEdit(sucessButton)" class="btn  btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa
-        tài khoản</a>
-      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px"><i class="fa fa-undo"
-                                                                                   aria-hidden="true"></i> Trở vể</a>
+      <a (click)="clickEdit(sucessButton)" class="btn  btn-warning" style="margin-right: 5px"><i class="fa fa-pencil" aria-hidden="true">
+      </i> Sửa tài khoản</a>
+      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px">
+        <i class="fa fa-undo" aria-hidden="true"></i> Trở vể</a>
     </div>
   </div>
 </div>
@@ -87,10 +89,10 @@
   <div class="modal-dialog modal-confirm">
     <div class="modal-content">
       <div class="modal-header flex-column">
-        <h4 class="modal-title w-100">Chọn nhân viên trước khi sửa</h4>
+        <h4 style="text-align: center" class="modal-title w-100">Chọn nhân viên trước khi sửa</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-grad-blue" data-dismiss="modal">OK</button>
+        <button style="background: #00ff90" type="button" class="btn btn-grad-blue" data-dismiss="modal">OK</button>
       </div>
     </div>
   </div>

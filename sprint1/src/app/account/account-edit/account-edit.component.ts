@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountEmployee} from "../../model/account/accountEmployee";
 import {AccountEmployeeService} from "../../service/account/account-employee.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Position} from "../../model/employee/position";
 import {PositionService} from "../../service/employee/position.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-account-edit',
@@ -15,28 +16,20 @@ export class AccountEditComponent implements OnInit {
   updateForm: FormGroup;
   id: string;
   positions: Position [];
+  position: any;
+
+  equals (item1, item2) {
+    return item1 && item2 && item2.positionId === item1.positionId;
+  };
 
 
   constructor(private accountEmployeeService: AccountEmployeeService,
               private positionService: PositionService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
-    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      this.id = paramMap.get('id')
-      this.accountEmployeeService.findAccountEmployeeById(this.id).subscribe(account => {
-        this.updateForm = new FormGroup({
-          employeeId: new FormControl(account.employeeId),
-          employeeName: new FormControl(account.employeeName),
-          position: new FormControl(account.position),
-          username: new FormControl(account.username),
-          password: new FormControl(''),
-        })
-      });
-    })
+              private router: Router,
+              private toastr : ToastrService) {
 
   }
-
-
 
   // **
   //  * create by HaiNX
@@ -46,7 +39,26 @@ export class AccountEditComponent implements OnInit {
   ngOnInit(): void {
     this.positionService.getAllPosition().subscribe(position => {
       this.positions = position;
-    })
+      this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+        this.id = paramMap.get('id')
+        this.accountEmployeeService.findAccountEmployeeById(this.id).subscribe(account => {
+          for(let p of this.positions) {
+            if (p.positionName === account.positionName) {
+              this.position = p
+            }
+          }
+          this.updateForm = new FormGroup({
+            employeeId: new FormControl(account.employeeId),
+            employeeName: new FormControl(account.employeeName),
+            position: new FormControl(this.position, [Validators.required]),
+            username: new FormControl(account.username),
+            password: new FormControl(account.password, [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$') ]),
+          })
+        });
+      })
+    });
+
+
   }
 
 
@@ -58,9 +70,11 @@ export class AccountEditComponent implements OnInit {
   update(id: string) {
     const account = this.updateForm.value;
     this.accountEmployeeService.update(id,account).subscribe(()=> {
-      alert('Cập nhật thành công');
-      this.router.navigateByUrl('/account/list')
+      this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+        timeOut:2000,
+        progressBar: true
+      });
+      this.router.navigateByUrl('/account/list');
     });
-
   }
 }

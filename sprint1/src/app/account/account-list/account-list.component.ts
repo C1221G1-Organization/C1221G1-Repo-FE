@@ -3,6 +3,7 @@ import {AccountEmployee} from "../../model/account/accountEmployee";
 import {AccountEmployeeService} from "../../service/account/account-employee.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup} from "@angular/forms";
+import {Position} from "../../model/employee/position";
 
 @Component({
   selector: 'app-account-list',
@@ -48,15 +49,17 @@ export class AccountListComponent implements OnInit {
     this.accountEmployeeService.getAllAccountEmployee(
       this.id = '', this.name = '', this.position = '', this.username = '', this.page).subscribe
     ((data: any) => {
-      this.accountEmployeeList = data.content;
-      this.page = data.number;
-      this.totalPages = data.totalPages;
-      this.firsts = data.first;
-      this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElemnts;
+      if (data !=null) {
+        this.accountEmployeeList = data.content;
+        this.page = data.number;
+        this.totalPages = data.totalPages;
+        this.firsts = data.first;
+        this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElemnts;
+      }
     }, error => {
+
     });
   }
-
 
 
   // **
@@ -67,14 +70,14 @@ export class AccountListComponent implements OnInit {
 
   previous() {
     if (this.page > 0) {
-      this.accountEmployeeService.getAllAccountEmployee(this.id, this.name , this.position,this.username, this.page - 1).subscribe(
+      this.accountEmployeeService.getAllAccountEmployee(this.id, this.name, this.position, this.username, this.page - 1).subscribe(
         (data: any) => {
           this.accountEmployeeList = data.content;
           this.page = data.number;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
         }, err => {
-          console.log(err);
+
         }
       );
     }
@@ -88,20 +91,18 @@ export class AccountListComponent implements OnInit {
   //  *
   next() {
     if (this.page < this.totalPages - 1) {
-      this.accountEmployeeService.getAllAccountEmployee(this.id, this.name , this.position,this.username, this.page + 1).subscribe(
+      this.accountEmployeeService.getAllAccountEmployee(this.id, this.name, this.position, this.username, this.page + 1).subscribe(
         data => {
           this.accountEmployeeList = data.content;
           this.page = data.number;
           this.firsts = data.first;
           this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
         }, err => {
-          console.log(err);
+
         }
       );
     }
   }
-
-
 
 
   // **
@@ -114,9 +115,8 @@ export class AccountListComponent implements OnInit {
     const type = this.searchForm.get('typeSearch').value;
 
     if (type === 'id' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = input.trim(), this.name = '', this.position = '', this.username = '', this.page ).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = input.trim(), this.name = '', this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
-        console.log(data.content);
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
@@ -126,10 +126,9 @@ export class AccountListComponent implements OnInit {
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
-        console.log(error)
       });
     } else if (type === 'username' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '' , this.name =  '', this.position = '', this.username = input.trim(), this.page ).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = '', this.username = input.trim(), this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -142,7 +141,7 @@ export class AccountListComponent implements OnInit {
         this.totalPages = 0;
       });
     } else if (type === 'name' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '' , this.name = input.trim(), this.position = '', this.username = '', this.page).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = input.trim(), this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -154,8 +153,8 @@ export class AccountListComponent implements OnInit {
         this.page = 0;
         this.totalPages = 0;
       });
-    }else if (type === 'position' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = input.trim(), this.username = '' , this.page).subscribe
+    } else if (type === 'position' && input.trim() !== '') {
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = input.trim(), this.username = '', this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -163,7 +162,6 @@ export class AccountListComponent implements OnInit {
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-
         this.accountEmployeeList = null;
         this.page = 0;
         this.totalPages = 0;
@@ -178,7 +176,6 @@ export class AccountListComponent implements OnInit {
         this.firsts = data.first;
         this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
       }, error => {
-
       });
     }
   }
@@ -191,19 +188,18 @@ export class AccountListComponent implements OnInit {
   //  *
 
   public activeProject(index: number, account: AccountEmployee): void {
-    if (this.activeProjectIndex != index){
+    if (this.activeProjectIndex != index) {
       this.flag = true;
-    }else{
+    } else {
       this.flag = !this.flag;
     }
     this.activeProjectIndex = index;
-    if (this.flag == true){
+    if (this.flag == true) {
       this.idClick = account.employeeId;
-    }else{
+    } else {
       this.idClick = '';
     }
   }
-
 
 
   // **
