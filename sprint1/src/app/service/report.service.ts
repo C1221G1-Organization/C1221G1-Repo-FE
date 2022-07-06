@@ -9,6 +9,7 @@ import {Static} from "../model/static";
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import {TopMedicine} from "../model/top-medicine";
+import {StaticByMonth} from "../model/static-by-month";
 
 const API_URL = `${environment.apiUrl}`;
 @Injectable({
@@ -45,6 +46,10 @@ export class ReportService {
 
   getStatic(year: string): Observable<Static[]> {
     return this.http.get<Static[]>(API_URL + `/api/manager_report/report/static?year=${year}`);
+  }
+
+  getStaticByMonth(month: string, year: string): Observable<StaticByMonth[]> {
+    return this.http.get<StaticByMonth[]>(API_URL + `/api/manager_report/report/staticByMonth?month=${month}&year=${year}`);
   }
 
   fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
