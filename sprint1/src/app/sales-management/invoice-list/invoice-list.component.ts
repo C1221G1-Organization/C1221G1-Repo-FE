@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Invoice} from "../../model/invoice";
 import {InvoiceService} from "../../service/invoice.service";
-import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-invoice-list',
@@ -24,7 +25,7 @@ export class InvoiceListComponent implements OnInit {
   chosenIndex: number;
   chosenId: string;
 
-  constructor(private invoiceService: InvoiceService) {
+  constructor(private invoiceService: InvoiceService, private toastr : ToastrService) {
     this.searchForm = new FormGroup({
       startDate: new FormControl(''),
       // startDate: new FormControl('', [this.checkStartDate]),
@@ -37,7 +38,7 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllInvoice({page: 0, size: 2});
+    this.getAllInvoice({page: 0, size: 5});
   }
 
   getAllInvoice(request) {
@@ -95,6 +96,10 @@ export class InvoiceListComponent implements OnInit {
     } else {
       this.invoiceService.deleteInvoiceById(idDel).subscribe(() => {
         this.ngOnInit();
+        this.toastr.success("Xóa hóa đơn thành công !", "", {
+          timeOut: 3000,
+          progressBar: true
+        })
       }, e => console.log(e));
     }
   }
@@ -121,7 +126,7 @@ export class InvoiceListComponent implements OnInit {
     this.fieldSort = this.searchForm.value.fieldSort
     this.typeOfInvoiceId = this.searchForm.value.typeOfInvoiceId
     this.invoiceService.getAll({
-      page: 0, size: 2, startDate: this.searchForm.value.startDate, endDate: this.searchForm.value.endDate,
+      page: 0, size: 5, startDate: this.searchForm.value.startDate, endDate: this.searchForm.value.endDate,
       startTime: this.searchForm.value.startTime, endTime: this.searchForm.value.endTime,
       typeOfInvoiceId: this.typeOfInvoiceId, fieldSort: this.fieldSort
     }).subscribe(invoices => {
@@ -134,9 +139,11 @@ export class InvoiceListComponent implements OnInit {
         this.currentPage = -1;
         this.totalPages = 0;
       }
-    }, () => {
-      alert('Không tìm thấy dữ liệu');
-    })
+    }
+    // , () => {
+    //   alert('Không tìm thấy dữ liệu');
+    // }
+    )
   }
 
   chooseInvoice(index: number, invoiceId: string): void {
@@ -163,4 +170,7 @@ export class InvoiceListComponent implements OnInit {
   //     return null;
   //   }
   // }
+  reset() {
+    this.ngOnInit();
+  }
 }

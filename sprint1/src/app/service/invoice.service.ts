@@ -1,15 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Invoice} from "../model/invoice";
 import {Page} from "ngx-pagination/dist/pagination-controls.directive";
+
 const API_URL = `${environment.apiUrl}`;
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +19,6 @@ export class InvoiceService {
     return this.http.get<Page>(API_URL + '/api/manager-sale/invoices', {params});
   }
   public deleteInvoiceById(id: string): Observable<Invoice> {
-    return this.http.delete<Invoice>(`${API_URL}/api/manager-invoice/invoices/${id}`)
+    return this.http.delete<Invoice>(`${API_URL}/api/manager-sale/invoices/${id}`)
   }
 }
