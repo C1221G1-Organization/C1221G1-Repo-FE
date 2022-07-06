@@ -30,7 +30,9 @@ export class SupplierCreateComponent implements OnInit {
    */
   supplierForm: FormGroup = new FormGroup({
     supplierId: new FormControl(""),
-    supplierName: new FormControl("", [Validators.required, Validators.minLength(4)]),
+    supplierName: new FormControl("", [Validators.required,
+      Validators.minLength(4),
+      Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
     supplierAddress: new FormControl(""),
     supplierPhone: new FormControl("",
       [Validators.required,

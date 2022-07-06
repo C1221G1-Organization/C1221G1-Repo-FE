@@ -82,7 +82,7 @@ export class SupplierService {
    *
    *  @23h 01/06/2022 LuatTN
    * @param supplierMail
-   * @unfinished!!
+   * @finished!!
    */
   checkMailNotTaken(supplierMail: string): Observable<boolean> {
     return this.http.get('http://localhost:8080/api/manager-medicine/medicines/supplier?pageSize=10000').pipe(

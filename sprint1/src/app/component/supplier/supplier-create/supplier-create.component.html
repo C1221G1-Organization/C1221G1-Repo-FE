@@ -1,27 +1,31 @@
 <div class="container mg mx-auto">
   <h3 style="text-align: center"> Thêm Mới Nhà Cung Cấp</h3>
 
-  <div class="col-9  mx-auto  ">
+  <div class="col-9  mx-auto">
 
     <form [formGroup]="supplierForm" (ngSubmit)="createSupplier()" novalidate>
       <div class="form-group">
         <b class="form-label">Tên Nhà Cung Cấp<span
           style="color: red"> (*) </span></b>
-        <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"
+        <input class="form-control" formControlName="supplierName"
                type="text">
         <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
           <p [hidden]='!supplierName.errors.required' class="text-danger">
-            Tên Nhà Cung Cấp Bắt Buộc Phải Có !
+            Tên Nhà Cung Cấp Bắt Buộc Phải Có
           </p>
           <p [hidden]='!supplierName.errors.minlength' class="text-danger">
             Tên Nhà Cung Cấp Quá Ngắn
+          </p>
+          <p *ngIf="!supplierName.errors.minlength"
+             [hidden]='!supplierName.errors.pattern' class="text-danger">
+            Tên Nhà Cung Cấp Không Hợp Lệ
           </p>
         </div>
       </div>
 
       <div class="form-group">
         <b class="form-label">Địa Chỉ Nhà Cung Cấp</b>
-        <input class="form-control" formControlName="supplierAddress" placeholder="Địa Chỉ : "
+        <input class="form-control" formControlName="supplierAddress"
                type="text">
       </div>
 
@@ -30,16 +34,15 @@
           <div class="form-group">
             <b class="form-label">Số Điện Thoại Nhà Cung Cấp <span
               style="color: red"> (*) </span></b>
-            <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"
+            <input class="form-control" formControlName="supplierPhone"
                    type="text">
             <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
               <p [hidden]='!supplierPhone.errors.required' class="text-danger">
                 Số Điện Thoại Không Được Để Trống
               </p>
               <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
-                Không Đúng Định Dạng Của Số Điện Thoại Ex : 090(*******)
+                Không Đúng Định Dạng Của Số Điện Thoại
               </p>
-
             </div>
             <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
               Số Điện Thoại Này Đã Tồn Tại
@@ -48,8 +51,9 @@
         </div>
         <div class="col-sm-6">
           <div class="form-group">
-            <b class="form-label">Email Nhà Cung Cấp</b>
-            <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "
+            <b class="form-label">Email Nhà Cung Cấp<span
+              style="color: red"> (*) </span></b>
+            <input class="form-control" formControlName="supplierEmail"
                    type="email">
             <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
               <p [hidden]='!supplierEmail.errors.required' class="text-danger">
