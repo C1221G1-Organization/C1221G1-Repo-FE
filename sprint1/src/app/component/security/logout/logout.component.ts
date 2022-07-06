@@ -20,5 +20,4 @@ export class LogoutComponent implements OnInit {
     this.token.signOut();
     this.route.navigateByUrl('/').then();
   }
-
 }

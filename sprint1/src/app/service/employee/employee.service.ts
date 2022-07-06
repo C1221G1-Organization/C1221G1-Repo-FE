@@ -37,7 +37,7 @@ export class EmployeeService {
     Function:  save employee
   */
   saveEmployee(employee): Observable<Employee> {
-    return this.http.post<Employee>('http://localhost:8080/api/manager-employee/employees/', employee);
+    return this.http.post<Employee>('http://localhost:8080/api/manager-employee/employees', employee);
   }
 
 

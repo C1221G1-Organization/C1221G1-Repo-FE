@@ -174,14 +174,6 @@ html {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal__body {
-  --grow-from: 0.7;
-  --grow-to: 1;
-  margin: auto;
-  position: relative;
-  z-index: 1;
-  animation: growth linear 0.1s;
-}
 
 /* Button style */
 
@@ -225,8 +217,7 @@ html {
   background-color: var(--white-color);
   padding: 8px 16px;
   list-style: none;
-  display: none;
-  z-index: 1;
+  display: none
 }
 
 .select-input__link {

@@ -1,9 +1,9 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {environment} from '../environments/environment';
+import 'firebase/database';
+import {TokenStorageService} from './service/security/token-storage.service';
+import {AfterViewChecked, ChangeDetectorRef, AfterViewInit, Component, OnInit} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
-import {TokenStorageService} from "./service/security/token-storage.service";
-import {config} from "rxjs";
+import {config, environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -34,6 +34,8 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
+
+      // this.isGuest = false;
   }
 
   ngAfterViewChecked(): void {
