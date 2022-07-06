@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MedicineService} from '../../service/medicine/medicine.service';
-import {MedicineDto} from '../../model/medicine/medicine-dto';
+import {MedicineService} from '../../../service/medicine/medicine.service';
+import {MedicineDto} from '../../../model/medicine/medicine-dto';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -15,8 +15,7 @@ export class MedicineListComponent implements OnInit {
   idToDelete: string;
   getMedicine: MedicineDto;
   infoMedicine: MedicineDto;
-  p = 1;
-
+  p = 0;
   chosenIndex: number;
   isChosen: boolean;
   chooseId: string;
@@ -32,11 +31,11 @@ export class MedicineListComponent implements OnInit {
   ngOnInit(): void {
     this.medicineService.searchListMedicine('medicineId', 'like', '%%').subscribe(medicines => {
       if (medicines != null) {
-        this.medicines = medicines['content'];
+        this.medicines = medicines;
+        console.log(this.medicines);
       } else {
         this.medicines = [];
       }
-      console.log(this.medicines);
     });
   }
 
@@ -60,7 +59,7 @@ export class MedicineListComponent implements OnInit {
    */
   deleteMedicineById() {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
-        this.toastr.warning('Đã xóa Thành Công !', '', {
+        this.toastr.warning('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
           timeOut: 2000,
           progressBar: true
         });
@@ -86,7 +85,7 @@ export class MedicineListComponent implements OnInit {
         'like', '%27%25' + keyWordSearch + '%25%27').subscribe(medicines => {
         if (medicines != null) {
           console.log(medicines);
-          this.medicines = medicines['content'];
+          this.medicines = medicines;
         } else {
           this.medicines = [];
         }
@@ -97,7 +96,7 @@ export class MedicineListComponent implements OnInit {
         conditionSearch, keyWordSearch).subscribe(medicines => {
         if (medicines != null) {
           console.log(medicines);
-          this.medicines = medicines['content'];
+          this.medicines = medicines;
         } else {
           this.medicines = [];
         }
@@ -118,15 +117,14 @@ export class MedicineListComponent implements OnInit {
       this.chosenIndex = index;
       this.chooseId = medicineId;
     } else {
-      this.isChosen = !this.isChosen;
+      this.isChosen = false;
       this.chooseId = null;
     }
     if (this.isChosen) {
       this.getMedicine = medicine;
-      this.toastr.success('Xác Nhận Đã Chọn 1 Nhà Cung Cấp ' + this.getMedicine.medicineName, 'Thông Báo Xác Nhận', {
+      this.toastr.success('Xác Nhận Đã Chọn ' + this.getMedicine.medicineName, 'Thông Báo Xác Nhận', {
         timeOut: 3000,
         progressBar: true,
-        positionClass: 'toast-top-center',
       });
     }
   }

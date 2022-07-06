@@ -69,16 +69,16 @@
             <tr *ngFor="let medicine of medicines|paginate : { itemsPerPage: 3, currentPage: p },  index as index"
                 (click)="getValueMedicine( index, medicine.medicineId, medicine)"
                 [ngStyle]="{'background-color': chosenIndex === index && isChosen && medicine.medicineId==chooseId ? 'darkgrey' : ''}">
-              <td>{{index + 1}}</td>
+              <td>{{index+1}}</td>
               <td>{{medicine.medicineId}}</td>
               <td>{{medicine.medicineTypeName}}</td>
               <td>{{medicine.medicineName}}</td>
               <td>{{medicine.medicineActiveIngredients}}</td>
               <td>{{medicine.medicineUnitName}}</td>
               <td>{{medicine.medicineConversionUnitName}}</td>
-              <td>{{medicine.medicineImportPrice | currency : 'VND'}}</td>
-              <td>{{medicine.wholesalePrice | currency : 'VND'}}</td>
-              <td>{{medicine.retailPrice | currency : 'VND'}}</td>
+              <td>{{medicine.medicineImportPrice | number}}</td>
+              <td>{{medicine.wholesalePrice | number}}</td>
+              <td>{{medicine.retailPrice | number}}</td>
               <td>
                 <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)"
                         data-toggle="modal" data-target="#infoModal">
@@ -107,9 +107,10 @@
     <button class="btn btn-success mx-2" [routerLink]="['/medicine/create']"><i class="fa-solid fa-circle-plus"></i>
       Thêm
     </button>
-    <button class="btn btn-warning mx-2" [routerLink]="['/medicine/edit']"><i class="fa-solid fa-pen-fancy"></i> Sửa
+    <button class="btn btn-warning mx-2" [disabled]="!isChosen" [routerLink]="['/medicine/edit']"><i
+      class="fa-solid fa-pen-fancy"></i> Sửa
     </button>
-    <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)"
+    <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)" [disabled]="!isChosen"
             class="btn btn-danger mx-2" data-toggle="modal" data-target="#deleteModal">
       <i class="fa-solid fa-trash-can"></i> Xoá
     </button>
@@ -166,7 +167,7 @@
         <p>Tỉ lệ chuyển đổi thuốc : {{infoMedicine.medicineConversionRate}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Tắt</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>
