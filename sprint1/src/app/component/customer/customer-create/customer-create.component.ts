@@ -15,6 +15,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./customer-create.component.css']
 })
 export class CustomerCreateComponent implements OnInit {
+
   createForm: FormGroup;
   customerTypeList: CustomerType[];
   age: number;
@@ -103,6 +104,4 @@ export class CustomerCreateComponent implements OnInit {
       this.createForm.get('customerBirthday').setErrors({checkAge: true});
     }
   }
-
-
 }
