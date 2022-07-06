@@ -6,6 +6,7 @@ import {PrescriptionDetailComponent} from './retail-component/prescription-detai
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
 
+
 const routes: Routes = [
   {path: 'retail', component: RetailComponent},
   {path: 'available-prescription', component: AvailablePrescriptionListComponent},

@@ -1,10 +1,10 @@
 import 'firebase/database';
 import {TokenStorageService} from './service/security/token-storage.service';
-
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import firebase from 'firebase/app';
-import {config} from '../environments/environment';
-
+import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {environment} from '../environments/environment';
+import firebase from "firebase/app";
+import "firebase/database";
+import {config} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -14,15 +14,14 @@ import {config} from '../environments/environment';
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
 
-  isGuest = true;
+  isGuest: boolean;
   user;
 
-  constructor(private tokenStorageService: TokenStorageService) {
+  constructor(private tokenStorageService: TokenStorageService,
+              private cdr: ChangeDetectorRef) {
     firebase.initializeApp(config);
-
     console.log(this.user);
   }
-
 
   ngOnInit(): void {
     this.user = this.tokenStorageService.getUser();
@@ -40,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.ngOnInit();
+    this.ngOnInit()
+    this.cdr.detectChanges();
   }
-
 }

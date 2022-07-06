@@ -43,8 +43,8 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     if ((this.currentPage) > 0) {
       request['page'] = this.currentPage - 1;
       request['size'] = 5;
-      request['paymentOnlineId'] = this.paymentIdSearch;
-      request['customerName'] = this.customerNameSearch;
+      request['paymentOnlineId'] = this.paymentIdSearch.nativeElement.value;
+      request['customerName'] = this.customerNameSearch.nativeElement.value;
       this.getPaymentOnlines(request);
     }
   }
@@ -54,8 +54,8 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     if ((this.currentPage + 1) < this.totalPages) {
       request['page'] = this.currentPage + 1;
       request['size'] = 5;
-      request['paymentOnlineId'] = this.paymentIdSearch;
-      request['customerName'] = this.customerNameSearch;
+      request['paymentOnlineId'] = this.paymentIdSearch.nativeElement.value;
+      request['customerName'] = this.customerNameSearch.nativeElement.value;
       this.getPaymentOnlines(request);
     }
   }

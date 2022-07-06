@@ -3,11 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AccountListComponent} from './account-list/account-list.component';
 import {AccountEditComponent} from './account-edit/account-edit.component';
 
-
-const routes: Routes = [
-  {path: 'list', component: AccountListComponent},
-  {path: 'update/:id', component: AccountEditComponent}
-];
+const routes: Routes = [];
 
 
 @NgModule({

@@ -10,7 +10,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {config} from '../../../environments/environment';
 
-
 @NgModule({
   declarations: [
     EmployeeListComponent,
@@ -23,7 +22,6 @@ import {config} from '../../../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(config)
-
   ]
 })
 export class EmployeeModule {

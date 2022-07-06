@@ -21,20 +21,20 @@ export class RetailComponent implements OnInit {
   note: string;
   localDateTime: any;
   totalMoney = 0;
-  idDelete = '';
+  idDelete: string;
   nameDelete: string;
   index: number;
   flagHover = false;
   deleteMedicineChoiceArr: any = [];
   // dùng cho thêm thuốc
-  isDisabled = true;
+  isDisabled = false;
   // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
   deleteErr: string;
 
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr : ToastrService) {
   }
 
   ngOnInit(): void {
@@ -93,8 +93,8 @@ export class RetailComponent implements OnInit {
     };
     const myArray = this.listMedicineChoice;
     console.log('ádsad' + idChoice);
-    const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '');
-    if (idChoice == undefined || idChoice == '' || nameChoice == '' || quantityChoice == ''
+    const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
+    if (idChoice == '' || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
       flag = true;
     } else {
@@ -132,7 +132,7 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
-    // this.listMedicineChoice = [];
+    this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
@@ -171,6 +171,22 @@ export class RetailComponent implements OnInit {
         }
       );
     }
+    this.retailService.createRetailInvoice(invoiceDto).subscribe(
+      () => {
+        this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
+          timeOut:3000,
+          progressBar: true
+        });
+        this.listMedicineChoice = [];
+      }, error => {
+        this.toastr.warning("Thêm Mới Thất Bại !", "Hóa Đơn Bán Lẻ", {
+          timeOut:3000,
+          progressBar: true
+        });
+        this.listMedicineChoice = [];
+        console.log(error)
+      }
+    )
   }
 
   /*
@@ -184,6 +200,7 @@ export class RetailComponent implements OnInit {
       this.totalMoney += item.money;
     }
   }
+
 
   /*
  * Created by DaLQA
@@ -227,23 +244,22 @@ export class RetailComponent implements OnInit {
       this.getTotalMoney();
       closeModal.click();
     }
+    this.listMedicineChoice = this.listMedicineChoice.filter(
+      (item) => {
+        return item.medicineId != this.idDelete;
+        this.resetIdAndName();
+      })
+    this.deleteMedicineChoiceArr = [];
+    console.log(this.listMedicineChoice);
+    this.getTotalMoney();
+    closeModal.click();
   }
 
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
-* */
   resetIdAndName() {
     this.idDelete = '';
     this.nameDelete = '';
   }
 
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
-* */
   changeIsDisabled() {
     this.isDisabled = false;
     console.log(this.isDisabled);

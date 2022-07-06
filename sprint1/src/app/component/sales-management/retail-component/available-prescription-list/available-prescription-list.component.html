@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p>available-prescription-list works!</p>
 =======
 <div class="mb-3 pt-1">
@@ -15,69 +16,91 @@
             <option value="target">Đối tượng</option>
             <option value="symptom">Triệu chứng</option>
           </select>
+=======
+<div class="container mx-auto ">
+  <div class="mx-auto shadow-lg p-3 mb-1 bg-white rounded-lg row">
+    <div class="col-12 px-0">
+      <form [formGroup]="searchForm" (ngSubmit)="search()">
+        <div class="form-group row d-flex justify-content-center">
+          <label class="col-3 col-form-label px-0" style="max-width: 15%">Tìm kiếm theo</label>
+          <div class="col-3 px-0 mx-0">
+            <select name="" id="" class="form-control" formControlName="typeSearch">
+              <option value="id">Mã đơn thuốc</option>
+              <option value="names">Tên đơn</option>
+              <option value="target">Đối tượng</option>
+              <option value="symptom">Triệu chứng</option>
+            </select>
+          </div>
+          <div class="col-3 px-0 mx-0">
+            <input value="" class="col-sm-10 form-control px-0  text-center mx-0"
+                   style="max-width: 100%" formControlName="inputSearch">
+          </div>
+          <div class="col-2 px-0 mx-3">
+            <button class="btn btn-primary">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              Lọc kết quả
+            </button>
+          </div>
+>>>>>>> 5eee737ca6e52dfc2fdec166fecf42cb835f8603
         </div>
-        <div class="col-3 px-0 mx-0">
-          <input value="" class="col-sm-10 form-control px-0  text-center mx-0"
-                 style="max-width: 100%" formControlName="inputSearch">
-        </div>
-        <div class="col-2 px-0 mx-3">
-          <button class="btn btn-primary">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            Lọc kết quả
-          </button>
-        </div>
-      </div>
-    </form>
-    <fieldset class="border p-2 shadow">
-      <legend class="w-auto"></legend>
-      <table class="table table-striped">
-        <thead class="table-success ">
-        <tr>
-<!--          <th class="col-1 text-center">STT</th>-->
-          <th class="col-2 text-center">Mã toa thuốc</th>
-          <th class="col-2 text-center">Tên toa thuốc</th>
-          <th class="col-2 text-center">Đối tượng</th>
-          <th class="col-2 text-center">Triệu chứng</th>
-          <th class="col-2 text-center px-0">Ghi chú</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of prescriptions; index as i; let k = index" (click)="activeProject(k,item)"
-            [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
-<!--          <th class="col-1 text-center">{{i + 1}}</th>-->
-          <td class="col-2 text-center">{{item.prescriptionId}}</td>
-          <td class="col-2 text-center">{{item.prescriptionName}}</td>
-          <td class="col-2 text-center">{{item.prescriptionTargetUser}}</td>
-          <td class="col-2 text-center">{{item.prescriptionSymptom}}</td>
-          <td class="col-2 text-center px-0">{{item.prescriptionNote}}</td>
-        </tr>
-        </tbody>
-      </table>
-      <!--        list       -->
-      <!--      panation    -->
-      <nav class="blog-pagination d-flex justify-content-center py-3">
-        <ul class="pagination">
-          <li class="page-item px-1">
-            <a class="page-link" (click)="previous()">Trang trước</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link">
-              <span>{{page + 1}}</span>
-              <span>/</span>
-              <span>{{totalPages}}</span>
-            </a>
-          </li>
-          <li class="page-item px-1">
-            <a class="page-link" (click)="next()">Trang sau</a>
-          </li>
-        </ul>
-      </nav>
-      <!--      Pagination     -->
-    </fieldset>
+      </form>
+    </div>
+  </div>
+  <!--    search    -->
+</div>
+<div class="container mx-auto">
+  <div class="mx-auto shadow-lg p-3 mb-5 bg-white rounded-lg">
+    <!--      list      -->
+    <div>
+      <h5>Danh sách toa thuốc</h5>
+    </div>
+    <table class="table table-striped">
+      <thead class="table-success ">
+      <tr>
+        <th class="col-1 text-center">STT</th>
+        <th class="col-2 text-center">Mã toa thuốc</th>
+        <th class="col-2 text-center">Tên toa thuốc</th>
+        <th class="col-2 text-center">Đối tượng</th>
+        <th class="col-2 text-center">Triệu chứng</th>
+        <th class="col-2 text-center px-0">Ghi chú</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of prescriptions; index as i; let k = index" (click)="activeProject(k,item)"
+          [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
+        <th class="col-1 text-center">{{i + 1}}</th>
+        <td class="col-2 text-center">{{item.prescriptionId}}</td>
+        <td class="col-2 text-center">{{item.prescriptionName}}</td>
+        <td class="col-2 text-center">{{item.prescriptionTargetUser}}</td>
+        <td class="col-2 text-center">{{item.prescriptionSymptom}}</td>
+        <td class="col-2 text-center px-0">{{item.prescriptionNote}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <!--        list       -->
+    <!--      panation    -->
+    <nav class="blog-pagination d-flex justify-content-end py-3">
+      <ul class="pagination">
+        <li class="page-item px-1">
+          <a class="page-link" (click)="previous()">Trang trước</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link">
+            <span>{{page + 1}}</span>
+            <span>/</span>
+            <span>{{totalPages}}</span>
+          </a>
+        </li>
+        <li class="page-item px-1">
+          <a class="page-link" (click)="next()">Trang sau</a>
+        </li>
+      </ul>
+    </nav>
+    <!--      Pagination     -->
     <!--      button       -->
-    <div class="d-flex justify-content-end py-3">
+    <div class="d-flex justify-content-end">
       <div class="px-1">
-        <a>
+        <a >
           <button class="btn btn-info" (click)="getEmitChange()"
                   [routerLink]="['/sales-management/prescription-detail/', idChoice]">
             <i class="fa-solid fa-circle-info"></i>
@@ -92,7 +115,11 @@
         </button>
       </div>
     </div>
+    <!--      button       -->
   </div>
 </div>
+<<<<<<< HEAD
 
 >>>>>>> develop
+=======
+>>>>>>> 5eee737ca6e52dfc2fdec166fecf42cb835f8603

@@ -6,8 +6,6 @@ import {AccountEmployeeService} from '../../../service/account/account-employee.
 import {PositionService} from '../../../service/employee/position.service';
 import {Position} from '../../../model/employee/position';
 
-
-
 @Component({
   selector: 'app-account-edit',
   templateUrl: './account-edit.component.html',
@@ -21,7 +19,7 @@ export class AccountEditComponent implements OnInit {
 
   equals(item1, item2) {
     return item1 && item2 && item2.positionId === item1.positionId;
-  }
+  };
 
 
   constructor(private accountEmployeeService: AccountEmployeeService,

@@ -6,7 +6,6 @@ import {LogoutComponent} from '../security/logout/logout.component';
 import {SignUpComponent} from '../security/sign-up/sign-up.component';
 import {LogRoutingModule} from '../security/log-routing.module';
 
-
 @NgModule({
   declarations: [
     LoginComponent,

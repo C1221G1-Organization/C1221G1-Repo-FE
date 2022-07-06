@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-
 import {TokenStorageService} from '../../../service/security/token-storage.service';
 import {Router} from '@angular/router';
 
@@ -15,8 +14,7 @@ export class SidebarComponent implements OnInit {
   username: string;
 
   constructor(private tokenStorageService: TokenStorageService,
-              private router: Router) {
-  }
+              private router: Router) {}
 
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {

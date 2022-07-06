@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     this.productQuantityInCart += this.cartDetailDtos.length;
     this.changeDetectorRef.detectChanges();
-    this.ngOnInit();
+    this.ngOnInit()
   }
 
   logout(e) {
@@ -54,6 +54,10 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     this.ngOnInit();
   }
 
+  // logout() {
+  //   this.tokenStorageService.signOut();
+  //   window.location.reload();
+  // }
 
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;

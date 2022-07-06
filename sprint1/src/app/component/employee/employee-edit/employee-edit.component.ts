@@ -6,7 +6,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {formatDate} from '@angular/common';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {ToastrService} from 'ngx-toastr';
 import {Employee} from '../../../model/employee/employee';
 import {Position} from '../../../model/employee/position';
 import {EmployeeService} from '../../../service/employee/employee.service';
@@ -28,15 +27,13 @@ export class EmployeeEditComponent implements OnInit {
   errorImage: string;
   employeeImage: string;
   selectedImage: any = null;
-  valueEmployee: any;
+
   downloadURL: string;
   listIMG: Array<string> = [];
   myMap = new Map();
   checkUploadAvatar = false;
   giveURLtoCreate = new EventEmitter<string>();
   selectedFile: File;
-  display: string;
-
 
   compareWithId(item1, item2) {
     return item1 && item2 && item1.id === item2.id;
@@ -46,24 +43,24 @@ export class EmployeeEditComponent implements OnInit {
               private positionService: PositionService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage,
-              private toastr: ToastrService) {
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.employeeFormEdit = new FormGroup({
-      employeeId: new FormControl(''),
+      employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
-      employeeImage: new FormControl(''),
-      employeeAddress: new FormControl('', [Validators.required]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
-      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]),
+      employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      // tslint:disable-next-line:max-line-length
+      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
       employeeDateStart: new FormControl('', [Validators.required]),
       employeeNote: new FormControl(''),
       flag: new FormControl(''),
       position: new FormControl('', [Validators.required]),
       employeeUsername: new FormGroup({
         // tslint:disable-next-line:max-line-length
-        username: new FormControl(''),
+        username: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')])),
         password: new FormControl(''),
         flag: new FormControl('')
       })
@@ -89,14 +86,10 @@ export class EmployeeEditComponent implements OnInit {
 */
   getEmployeeById(id: string) {
     return this.employeeService.findEmployeeById(id).subscribe(employee => {
-      this.employeeFormEdit.patchValue(employee);
-      this.valueEmployee = employee;
-      console.log(this.valueEmployee);
       // lấy hình ảnh và gắn lên cho employeeImage
       this.employeeImage = employee.employeeImage;
-      console.log(employee.employeeImage);
-    }, error => {
-      this.router.navigateByUrl('/employee/list');
+      console.log(this.employeeImage);
+      this.employeeFormEdit.patchValue(employee);
     });
   }
 
@@ -107,6 +100,7 @@ export class EmployeeEditComponent implements OnInit {
 */
 
   showPreview(event: any) {
+
     if (event.target.files && event.target.files[0]) {
       // tslint:disable-next-line:prefer-const
       let reader = new FileReader();
@@ -115,7 +109,7 @@ export class EmployeeEditComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       reader.onload = (event) => { // called once readAsDataURL is completed
         // @ts-ignore
-        this.displayEmployeeImage();
+        this.downloadURL = this.displayEmployeeImage();
       };
     }
     this.employeeImage = '';
@@ -128,44 +122,24 @@ export class EmployeeEditComponent implements OnInit {
 */
   onSubmit(id: string) {
     const employee = this.employeeFormEdit.value;
-    console.log(this.valueEmployee);
     console.log(employee);
-    console.log(Object.is(employee.toString(), this.valueEmployee.toString()));
-    if (this.employeeFormEdit.valid) {
-      if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
-        this.employeeService.updateEmployee(id, employee).subscribe(() => {
-          this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
-            timeOut: 3000,
-            progressBar: true
-          });
-          this.router.navigateByUrl('/employee/list');
-        });
-      } else {
-        console.log(employee);
-        const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-        const fileRef = this.storage.ref(nameImg);
-        this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            this.employeeFormEdit.patchValue(employee.employeeImage = url);
-            console.log(url);
+    const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
+    const fileRef = this.storage.ref(nameImg);
+    this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+        this.employeeFormEdit.patchValue(employee.employeeImage = url);
+        console.log(url);
 // Call API to update
-            this.employeeFormEdit.patchValue(employee.employeeImage = url);
-            this.employeeService.updateEmployee(id, employee).subscribe(() => {
-              this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
-                timeOut: 3000,
-                progressBar: true
-              });
-              this.router.navigateByUrl('/employee/list');
-            }, error => {
-              this.errorUser = error.error.errorMap.usersName;
-              console.log(this.errorUser);
-              this.errorImage = error.error.errorMap.employeeImage;
-              console.log(this.errorImage);
-            });
-          });
-        })).subscribe();
-      }
-    }
+        this.employeeService.updateEmployee(id, employee).subscribe(() => {
+          alert('thành công');
+        }, error => {
+          this.errorUser = error.error.errorMap.usersName;
+          console.log(this.errorUser);
+          this.errorImage = error.error.errorMap.employeeImage;
+          console.log(this.errorImage);
+        });
+      });
+    })).subscribe();
   }
 
   /*
@@ -178,7 +152,7 @@ export class EmployeeEditComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('lớn hơn  ');
+      console.log('1');
       this.employeeFormEdit.get('employeeDateStart').setErrors({check: true});
     }
   }
@@ -205,7 +179,6 @@ Function:  Show image on firebase
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
           this.downloadURL = url;
-          this.giveURLtoCreate.emit(this.downloadURL);
           this.checkUploadAvatar = false;
           this.listIMG.push(url);
           console.log('LIST ==> ', this.listIMG);
