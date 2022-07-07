@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'admin-chat',
-    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule)
+    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule),
   },
   {
     path: 'log',
