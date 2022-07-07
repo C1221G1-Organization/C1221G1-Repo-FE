@@ -7,31 +7,31 @@
     <div class="mx-auto mb-1 rounded-lg ml-4">
       <form [formGroup]="searchForm" (ngSubmit)="search()">
         <div class="row pb-3">
-          <div class="col-10 d-flex justify-content-around">
-            <div class="col-3">
+          <div class="col-9 d-flex justify-content-around">
+            <div class="col-4">
               <div style="margin-bottom: 20px">
                 <label for="startDate">Từ ngày</label>
-                <input class="form-control form-control-sm" id="startDate" type="date" formControlName="startDate">
+                <input class="form-control form-control-sm" id="startDate" type="datetime-local" formControlName="startDate">
                 <!--                <p style="color: red"-->
                 <!--                   *ngIf="searchForm.controls.date.hasError('isAfter') && searchForm.controls.date.touched">Can-->
                 <!--                  not be empty</p>-->
               </div>
               <div>
                 <label for="endDate">Đến ngày</label>
-                <input class="form-control form-control-sm" id="endDate" type="date" formControlName="endDate">
+                <input class="form-control form-control-sm" id="endDate" type="datetime-local" formControlName="endDate">
               </div>
             </div>
-            <div class="col-3">
-              <div style="margin-bottom: 20px">
-                <label for="startTime">Từ giờ</label>
-                <input class="form-control form-control-sm" id="startTime" type="time" formControlName="startTime">
-              </div>
-              <div>
-                <label for="endTime">Đến giờ</label>
-                <input class="form-control form-control-sm" id="endTime" type="time" formControlName="endTime">
-              </div>
-            </div>
-            <div class="col-3">
+<!--            <div class="col-3">-->
+<!--              <div style="margin-bottom: 20px">-->
+<!--                <label for="startTime">Từ giờ</label>-->
+<!--                <input class="form-control form-control-sm" id="startTime" type="datetime-local" formControlName="startTime">-->
+<!--              </div>-->
+<!--              <div>-->
+<!--                <label for="endTime">Đến giờ</label>-->
+<!--                <input class="form-control form-control-sm" id="endTime" type="time" formControlName="endTime">-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="col-4">
               <div style="margin-bottom: 20px">
                 <label for="typeOfInvoiceId">Khách hàng</label>
                 <select class="form-control form-control-sm" id="typeOfInvoiceId" formControlName="typeOfInvoiceId">
@@ -52,7 +52,7 @@
               </div>
             </div>
           </div>
-          <div class="col-2 d-flex align-content-around flex-wrap pt-3">
+          <div class="col-3 d-flex align-content-around flex-wrap pt-3">
             <div>
               <button class="btn btn-primary ml-1"><i class="fa-solid fa-filter"></i> Lọc hóa đơn</button>
             </div>
@@ -101,31 +101,32 @@
         </tr>
         </tbody>
       </table>
-
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Sau</a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link btn-sm">
-              <span>{{currentPage + 1}}</span>
-              <span>/</span>
-              <span>{{totalPages}}</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link btn btn-sm" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trước</a>
-          </li>
-        </ul>
-      </nav>
+      <div *ngIf="invoiceList.length == !0" >
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Sau</a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link btn-sm">
+                <span>{{currentPage + 1}}</span>
+                <span>/</span>
+                <span>{{totalPages}}</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link btn btn-sm" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trước</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
       <!--Button start-->
       <div id="bottom-btn" class="d-flex justify-content-end">
         <button [routerLink]="['/sales-management/retail']" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm hóa đơn</button>
         <button [disabled]="!isChosen" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
           <i class="fa-solid fa-circle-xmark"></i> Xoá hóa đơn
         </button>
-        <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+        <button [routerLink]="['/home-page']" class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
       </div>
       <!--Button end-->
     </fieldset>
