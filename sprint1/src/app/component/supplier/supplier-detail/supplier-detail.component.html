@@ -70,14 +70,16 @@
           </div>
         </fieldset>
       </div>
-      <div >
+      <div style="margin-top: 10px">
         <div style="float: right">
-          <button class="btn btn-info " type="button">
-            <a routerLink="/import-invoice"></a>
-            <i aria-hidden="true" class="fa fa-address-card"></i>Xem Hóa Đơn
+          <button class="btn btn-info  mx-2" type="button">
+            <a [routerLink]="['/import-invoice/']" style="color: white"><i aria-hidden="true"
+                                                                           class="fa fa-address-card"></i>Xem Hóa
+              Đơn</a>
+
           </button>
         </div>
-        <button class="btn btn-warning  mx-2"  style="float: right">
+        <button class="btn btn-warning  mx-2" style="float: right">
           <a [routerLink]="['/supplier/edit/',supplierValue.supplierId]"
              style="color: white">
             <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>

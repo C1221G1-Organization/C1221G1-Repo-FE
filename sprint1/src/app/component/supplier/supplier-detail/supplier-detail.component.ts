@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../../service/supplier.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
-import {ISupplierDto} from "../../../dto/ISupplierDto";
+import {SupplierService} from '../../../service/supplier.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {FormGroup} from '@angular/forms';
+import {ISupplierDto} from '../../../dto/ISupplierDto';
 
 @Component({
   selector: 'app-supplier-detail',
@@ -42,15 +42,13 @@ export class SupplierDetailComponent implements OnInit {
    */
   getSupplier(supplierId: string) {
     return this.supplierService.findByDetailId(supplierId).subscribe(supplier => {
-      console.log(" detail supplier")
-      console.log(supplier)
-      this.supplierValue = supplier
+      this.supplierValue = supplier;
     }, error => {
       return this.supplierService.findById(supplierId).subscribe(next => {
-        this.supplierValue = next
+        this.supplierValue = next;
       }, notFound => {
-        this.router.navigateByUrl('/not-found')
-      })
+        this.router.navigateByUrl('/not-found');
+      });
     });
   }
 
