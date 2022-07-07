@@ -6,6 +6,7 @@ import "firebase/database";
 import {snapshotToArray} from '../admin-chat.component';
 import {environment} from '../../../../environments/environment';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector   : 'app-admin-chat-detail',
@@ -22,6 +23,7 @@ export class AdminChatDetailComponent implements OnInit {
   chats = [];
 
   constructor(private router: Router,
+              private toastr: ToastrService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -50,14 +52,20 @@ export class AdminChatDetailComponent implements OnInit {
    */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    chat.uuid = this.uuid;
-    chat.name = this.adminChat.name;
-    chat.createdAt = getTimeStamp();
-    firebase.database().ref('chats/' + this.uuid).push().set(chat);
-    firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
-      const room = res.val();
-      firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: true});
-    });
-    this.chatForm.reset();
+    if (chat.message.trim().length != 0 && chat.message.trim().length < 255) {
+      chat.name = this.adminChat.name;
+      chat.uuid = this.uuid;
+      chat.message = chat.message.trim();
+      chat.createdAt = getTimeStamp();
+      firebase.database().ref('chats/' + this.uuid).push().set(chat);
+      firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
+        const room = res.val();
+        firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
+      });
+      this.chatForm.reset();
+    } else {
+      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {timeOut: 3000, progressBar: false});
+      this.chatForm.reset();
+    }
   }
 }

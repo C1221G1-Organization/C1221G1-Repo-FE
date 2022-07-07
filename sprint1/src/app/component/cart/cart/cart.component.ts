@@ -8,13 +8,13 @@ import {PaymentOnlineService} from '../../../service/cart/payment-online.service
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 import {Title} from "@angular/platform-browser";
 
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-
   cartDetails: CartDetailDto [] = [];
   total = 0;
   medicineDelete = {} as MedicineDtoForCart;
@@ -53,20 +53,20 @@ export class CartComponent implements OnInit {
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
-      this.route.navigate(['cart/payment-online'])
+      this.route.navigate(['cart/payment-online']);
     }, error => {
       this.medicineErrorArray = [];
       console.log(error.error);
       for (let i = 0; i < cartAndDetailDto.cartDetail.length; i++) {
-        console.log("cartDetail[" + i + "].medicine");
-        console.log(error.error["cartDetail[" + i + "].medicine"]);
-        if (error.error["cartDetail[" + i + "].medicine"] != undefined ||
-          error.error["cartDetail[" + i + "].medicine"] != null) {
-          this.medicineErrorArray.push(error.error["cartDetail[" + i + "].medicine"]);
+        console.log('cartDetail[' + i + '].medicine');
+        console.log(error.error['cartDetail[' + i + '].medicine']);
+        if (error.error['cartDetail[' + i + '].medicine'] != undefined ||
+          error.error['cartDetail[' + i + '].medicine'] != null) {
+          this.medicineErrorArray.push(error.error['cartDetail[' + i + '].medicine']);
         }
         this.openModal();
       }
-    })
+    });
   }
 
   removeItem(medicine: MedicineDtoForCart) {
@@ -93,7 +93,7 @@ export class CartComponent implements OnInit {
     if (this.cartDetails != null) {
       this.cartDetails.forEach(item => {
         total += (item.quantity * item.medicine.medicinePrice);
-      })
+      });
     }
     return total;
   }
@@ -104,7 +104,7 @@ export class CartComponent implements OnInit {
 
   openModal() {
     // this.display = 'block';
-    document.getElementById("openModalButton").click();
+    document.getElementById('openModalButton').click();
   }
 
   closeModal() {

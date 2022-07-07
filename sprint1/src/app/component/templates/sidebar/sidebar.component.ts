@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TokenStorageService} from "../../../service/security/token-storage.service";
+import {TokenStorageService} from '../../../service/security/token-storage.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -7,11 +9,12 @@ import {TokenStorageService} from "../../../service/security/token-storage.servi
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+
   isLogIn = false;
   username: string;
 
-  constructor(private tokenStorageService: TokenStorageService,) {
-  }
+  constructor(private tokenStorageService: TokenStorageService,
+              private router: Router) {}
 
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
@@ -20,4 +23,11 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+
+  signOut(e) {
+    e.preventDefault();
+    this.tokenStorageService.signOut();
+    this.router.navigateByUrl('/home-page').then();
+    this.ngOnInit();
+  }
 }

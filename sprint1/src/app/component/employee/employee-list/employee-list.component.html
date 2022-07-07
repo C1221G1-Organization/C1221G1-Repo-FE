@@ -1,3 +1,4 @@
+
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -46,7 +47,7 @@
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-between col-2 p-0">
       <button type="button" class="btn btn-secondary "><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
-      <button type="button" class="btn btn-success "><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+      <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
     </div>
   </div>
   <br>
@@ -95,7 +96,7 @@
             </table>
             <hr>
             <div class="d-grid d-flex justify-content-between">
-              <button class="btn btn-warning">
+              <button class="btn btn-warning" [routerLink]="['/employee/edit',item.employeeId]">
                 <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
               </button>
 
@@ -154,3 +155,4 @@
   </div>
 </div>
 </div>
+

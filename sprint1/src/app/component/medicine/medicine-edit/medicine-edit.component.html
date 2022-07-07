@@ -254,8 +254,8 @@
           </svg>
           Làm mới
         </button>
-        <button class="btn btn-secondary mx-4" [disabled]="isLoading">
-          <i class="fa fa-undo" aria-hidden="true" routerLink="/medicine/list"></i> Trở về
+        <button class="btn btn-secondary mx-4" routerLink="/medicine/list" [disabled]="isLoading">
+          <i class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
         <button class="btn btn-success mx-4" [disabled]="isLoading"><i class="fa-solid fa-circle-plus"></i> Chỉnh sửa
           <span class="spinner-border spinner-border-sm" role="status" *ngIf=" isLoading">
