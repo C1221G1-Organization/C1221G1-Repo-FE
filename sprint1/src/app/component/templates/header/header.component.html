@@ -33,9 +33,6 @@
             <li class="header__navbar-user-item">
               <a routerLink="/cart/details">Giỏ hàng</a>
             </li>
-            <li class="header__navbar-user-item">
-              <a href="">Quản lý cửa hàng</a>
-            </li>
             <li class="header__navbar-user-item header__navbar-user-item--separate">
               <a (click)="logout($event)">Đăng xuất</a>
             </li>
@@ -68,7 +65,7 @@
           </select>
         </div>
         <button class="header__search-btn">
-          <i aria-hidden="true" class="header__search-btn-icon fa fa-search"></i>
+          <i aria-hidden="true" (click)="searchMedicine(name,typeId)" class="header__search-btn-icon fa fa-search"></i>
         </button>
       </div>
 

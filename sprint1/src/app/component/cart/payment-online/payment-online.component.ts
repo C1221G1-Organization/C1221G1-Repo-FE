@@ -39,6 +39,7 @@ export class PaymentOnlineComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollBy(0, 0);
     console.log('paymentonline');
     this.paymentOnlineService.getCartAndDetail().subscribe(value => {
       this.cartAndDetailDto = value;
