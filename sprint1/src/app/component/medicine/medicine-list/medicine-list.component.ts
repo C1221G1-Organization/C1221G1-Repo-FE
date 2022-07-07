@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MedicineService} from '../../../service/medicine/medicine.service';
 import {MedicineDto} from '../../../model/medicine/medicine-dto';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-medicine-list',
@@ -9,29 +10,29 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./medicine-list.component.css']
 })
 export class MedicineListComponent implements OnInit {
+
   public medicines: MedicineDto[];
   nameToDelete: string;
   idToDelete: string;
   getMedicine: MedicineDto;
   infoMedicine: MedicineDto;
-  p = 0;
+  p = 1;
   chosenIndex: number;
   isChosen: boolean;
   chooseId: string;
-
+  isCondition: boolean;
   @ViewChild('columName') columName: ElementRef;
   @ViewChild('condition') condition: ElementRef;
   @ViewChild('keyWord') keyWord: ElementRef;
 
 
-  constructor(private medicineService: MedicineService, private toastr: ToastrService) {
+  constructor(private medicineService: MedicineService, private toastr: ToastrService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.medicineService.searchListMedicine('medicineId', 'like', '%%').subscribe(medicines => {
       if (medicines != null) {
         this.medicines = medicines;
-        console.log(this.medicines);
       } else {
         this.medicines = [];
       }
@@ -58,10 +59,12 @@ export class MedicineListComponent implements OnInit {
    */
   deleteMedicineById() {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
-        this.toastr.warning('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
+        this.isChosen = false;
+        this.toastr.success('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
           timeOut: 2000,
           progressBar: true
         });
+        this.p = 1;
         this.ngOnInit();
       }
     );
@@ -77,13 +80,13 @@ export class MedicineListComponent implements OnInit {
     const colNameSearch = this.columName.nativeElement.value;
     const conditionSearch = this.condition.nativeElement.value;
     const keyWordSearch = this.keyWord.nativeElement.value;
-
-    if (colNameSearch === 'medicineId' || colNameSearch === 'medicineTypeName' ||
+    if (keyWordSearch.match(/[^a-z0-9 ]/) && keyWordSearch.length !== 0) {
+      this.medicines = [];
+    } else if (colNameSearch === 'medicineId' || colNameSearch === 'medicineTypeName' ||
       colNameSearch === 'medicineName' || colNameSearch === 'medicineActiveIngredients') {
       this.medicineService.searchListMedicine(colNameSearch,
         'like', '%27%25' + keyWordSearch + '%25%27').subscribe(medicines => {
         if (medicines != null) {
-          console.log(medicines);
           this.medicines = medicines;
         } else {
           this.medicines = [];
@@ -94,7 +97,6 @@ export class MedicineListComponent implements OnInit {
       this.medicineService.searchListMedicine(colNameSearch,
         conditionSearch, keyWordSearch).subscribe(medicines => {
         if (medicines != null) {
-          console.log(medicines);
           this.medicines = medicines;
         } else {
           this.medicines = [];
@@ -141,6 +143,15 @@ export class MedicineListComponent implements OnInit {
         this.infoMedicine = this.medicines[i];
         break;
       }
+    }
+  }
+
+  changeCondition($event: string) {
+    if ($event === '' || $event === 'medicineId' || $event === 'medicineTypeName' || $event === 'medicineName' ||
+      $event === 'medicineActiveIngredients') {
+      this.isCondition = false;
+    } else {
+      this.isCondition = true;
     }
   }
 }
