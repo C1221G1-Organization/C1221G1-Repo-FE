@@ -61,7 +61,7 @@ export class MedicineListComponent implements OnInit {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
         this.isChosen = false;
         this.toastr.success('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
-          timeOut: 2000,
+          timeOut: 1500,
           progressBar: true
         });
         this.p = 1;
@@ -82,7 +82,7 @@ export class MedicineListComponent implements OnInit {
     const keyWordSearch = this.keyWord.nativeElement.value;
     if (colNameSearch === '' && conditionSearch === '') {
       this.toastr.warning('Bạn chưa chọn điều kiện tìm kiếm ', 'Tìm kiếm', {
-        timeOut: 1600,
+        timeOut: 1500,
         progressBar: true,
       });
     }
@@ -131,7 +131,7 @@ export class MedicineListComponent implements OnInit {
     if (this.isChosen) {
       this.getMedicine = medicine;
       this.toastr.success('Xác Nhận Đã Chọn ' + this.getMedicine.medicineName, 'Thông Báo Xác Nhận', {
-        timeOut: 1600,
+        timeOut: 1500,
         progressBar: true,
       });
     }

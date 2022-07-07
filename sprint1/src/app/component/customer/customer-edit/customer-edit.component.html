@@ -39,7 +39,7 @@
         <div class="form-group">
           <b class="title" class="form-label">Nhóm khách hàng <span
             style="color: red"> (*) </span></b>
-          <select class="form-control" formControlName="customerType">
+          <select class="form-control" formControlName="customerType" [compareWith]="compareWithId">
             <option value="">Vui lòng chọn</option>
             -->
             <option *ngFor="let type of customerTypeList" [ngValue]="type"
@@ -65,7 +65,7 @@
         <div class="form-group">
           <b class="title" class="form-label">Điện thoại <span
             style="color: red"> (*) </span></b>
-          <input class="form-control" type="number" formControlName="customerPhone"
+          <input class="form-control" type="text" formControlName="customerPhone"
                  placeholder="Nhập số điện thoại">
           <p style="color: red"
              *ngIf="updateForm.controls.customerPhone.hasError('required') && updateForm.controls.customerPhone.touched">
