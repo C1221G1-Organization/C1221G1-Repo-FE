@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Invoice} from "../../../model/invoice";
 import {InvoiceService} from "../../../service/invoice.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import firebase from "firebase";
 
 @Component({
   selector: 'app-invoice-list',
@@ -25,13 +26,12 @@ export class InvoiceListComponent implements OnInit {
   chosenIndex: number;
   chosenId: string;
 
-  constructor(private invoiceService: InvoiceService, private toastr : ToastrService) {
+  constructor(private invoiceService: InvoiceService, private toastr: ToastrService) {
     this.searchForm = new FormGroup({
-      startDate: new FormControl(''),
-      // startDate: new FormControl('', [this.checkStartDate]),
-      endDate: new FormControl(),
-      startTime: new FormControl(),
-      endTime: new FormControl(),
+      dateForm: new FormGroup({
+        startDate: new FormControl(),
+        endDate: new FormControl()
+      }, [this.dateErrorValidator, this.startDateErrorValidator]),
       typeOfInvoiceId: new FormControl("1"),
       fieldSort: new FormControl("invoiceId")
     })
@@ -43,19 +43,19 @@ export class InvoiceListComponent implements OnInit {
 
   getAllInvoice(request) {
     this.invoiceService.getAll(request).subscribe(invoices => {
-      if (invoices != null) {
-        this.invoiceList = invoices['content'];
-        this.currentPage = invoices['number'];
-        this.totalPages = invoices['totalPages'];
-      } else {
-        this.invoiceList = [];
-        // this.currentPage = -1;
-        // this.totalPages = 0;
+        if (invoices != null) {
+          this.invoiceList = invoices['content'];
+          this.currentPage = invoices['number'];
+          this.totalPages = invoices['totalPages'];
+        } else {
+          this.invoiceList = [];
+          // this.currentPage = -1;
+          // this.totalPages = 0;
+        }
       }
-    }
-    // , () => {
-    //   alert('Không tìm thấy dữ liệu');
-    // }
+      // , () => {
+      //   alert('Không tìm thấy dữ liệu');
+      // }
     )
   }
 
@@ -98,7 +98,7 @@ export class InvoiceListComponent implements OnInit {
     } else {
       this.invoiceService.deleteInvoiceById(idDel).subscribe(() => {
         this.ngOnInit();
-        this.toastr.success("Xóa hóa đơn thành công !", "", {
+        this.toastr.success("Xóa thành công hóa đơn!", "Thông báo", {
           timeOut: 3000,
           progressBar: true
         })
@@ -132,19 +132,19 @@ export class InvoiceListComponent implements OnInit {
       startTime: this.searchForm.value.startTime, endTime: this.searchForm.value.endTime,
       typeOfInvoiceId: this.typeOfInvoiceId, fieldSort: this.fieldSort
     }).subscribe(invoices => {
-      if (invoices != null) {
-        this.invoiceList = invoices['content'];
-        this.currentPage = invoices['number'];
-        this.totalPages = invoices['totalPages'];
-      } else {
-        this.invoiceList = [];
-        this.currentPage = -1;
-        this.totalPages = 0;
+        if (invoices != null) {
+          this.invoiceList = invoices['content'];
+          this.currentPage = invoices['number'];
+          this.totalPages = invoices['totalPages'];
+        } else {
+          this.invoiceList = [];
+          this.currentPage = -1;
+          this.totalPages = 0;
+        }
       }
-    }
-    // , () => {
-    //   alert('Không tìm thấy dữ liệu');
-    // }
+      // , () => {
+      //   alert('Không tìm thấy dữ liệu');
+      // }
     )
   }
 
@@ -163,15 +163,6 @@ export class InvoiceListComponent implements OnInit {
     }
   }
 
-  // checkStartDate(date: FormGroup) {
-  //   const start = date.get('startDate').value;
-  //   const today = new Date().toLocaleDateString('ez-ZA');
-  //   if(start > today) {
-  //     return {isAfter: true}
-  //   } else {
-  //     return null;
-  //   }
-  // }
   reset() {
     this.startDate = "";
     this.endDate = new Date().toLocaleDateString('ez-ZA');
@@ -179,5 +170,41 @@ export class InvoiceListComponent implements OnInit {
     this.endTime = "23:59";
     this.typeOfInvoiceId = '1';
     this.fieldSort = 'invoiceId';
+  }
+
+  dateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const start = control.get('startDate');
+    // if (start.value !== null) {
+    //   this.startDate = start.value.slice(0, 10) + start.value.slice(11);
+    // }
+    const end = control.get('endDate');
+    // if (end.value !== null) {
+    //   this.endDate = end.value.slice(0, 10) + end.value.slice(11);
+    // }
+    return start.value > end.value ? {dateError: true} : null;
+  }
+
+  startDateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const start = control.get('startDate');
+    if (start.value !== null) {
+      this.startDate = start.value.slice(0, 10) + start.value.slice(11);
+    }
+    console.log(this.startDate)
+    let now = new Date().toLocaleString('en-ZA', {hour12: false});
+    console.log(now)
+    // const string1 = now.charAt(0)+now.charAt(1)+now.charAt(2)+now.charAt(3)
+    // const string2 = now.charAt(5)+now.charAt(6);
+    // const string3 = now.charAt(8)+now.charAt(9);
+    const string1 = now.substr(0,4)
+    const string2 = now.substr(5,2)
+    const string3 = now.substr(8,2)
+    const string4 = now.substr(12,5);
+    const nowVal = string1+"-"+string2+"-"+string3+string4
+    console.log(nowVal)
+    if (this.startDate > nowVal) {
+      return {startDateError: true}
+    } else {
+      return null;
+    }
   }
 }
