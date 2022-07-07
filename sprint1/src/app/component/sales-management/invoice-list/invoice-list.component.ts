@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Invoice} from "../../../model/invoice";
 import {InvoiceService} from "../../../service/invoice.service";
 import {FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
