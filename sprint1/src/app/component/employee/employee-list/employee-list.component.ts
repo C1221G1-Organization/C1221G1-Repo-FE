@@ -1,8 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Employee} from "../../../model/employee/employee";
-import {PositionService} from "../../../service/employee/position.service";
-import {ToastrService} from "ngx-toastr";
-import {EmployeeService} from "../../../service/employee/employee.service";
+import {PositionService} from '../../../service/employee/position.service';
+import {EmployeeService} from '../../../service/employee/employee.service';
+import {ToastrService} from 'ngx-toastr';
+import {Employee} from '../../../model/employee/employee';
+import {Position} from '../../../model/employee/position';
+
 
 @Component({
   selector: 'app-employee-list',
@@ -10,6 +12,8 @@ import {EmployeeService} from "../../../service/employee/employee.service";
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
+
+
   @ViewChild('criteria') criteria: ElementRef;
   @ViewChild('valueSearchInput') valueSearchInput: ElementRef;
   @ViewChild('valueSearchDropDown') valueSearchDropDown: ElementRef;
@@ -29,11 +33,74 @@ export class EmployeeListComponent implements OnInit {
               private toastr: ToastrService) {
   }
 
-
   ngOnInit(): void {
+    this.getAllPosition();
+    this.getAllEmployee();
+  }
+
+  getAllPosition() {
+    this.positionService.getAllPosition().subscribe(positions => this.positions = positions);
+  }
+
+  getAllEmployee() {
+    this.employeeService.getAllEmployee({
+      page: 0, size: 8, employeeId: '', employeeName: '',
+      position: '', employeeAddress: '', employeePhone: '', sort: ''
+    }).subscribe(employees => {
+      this.employees = employees['content'];
+      this.currentPage = employees['number'];
+      this.totalPages = employees['totalPages'];
+      console.log(employees['content']);
+    }, () => {
+      this.employees = null;
+      this.isHasContent = true;
+      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    });
+  }
+
+  changeValueFind(value: any) {
+    console.log(value);
+    switch (value) {
+      case 'code':
+        this.isInputHidden = true;
+        this.isSelectHidden = false;
+        break;
+      case 'name':
+        this.isInputHidden = true;
+        this.isSelectHidden = false;
+        break;
+      case 'position':
+        this.isInputHidden = false;
+        this.isSelectHidden = true;
+        break;
+      case 'address':
+        this.isInputHidden = true;
+        this.isSelectHidden = false;
+        break;
+      case 'phone':
+        this.isInputHidden = true;
+        this.isSelectHidden = false;
+        break;
+    }
   }
 
   search() {
+    let str:string = this.valueSearchInput.nativeElement.value;
+    console.log(str);
+    if(!str.match("^[a-zA-Z0-9 vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ-]+$")){
+      if(str == ""){
+        return this.ngOnInit()
+      }
+      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.isHasContent = true;
+      return this.employees = null;
+    }
     console.log(this.criteria.nativeElement.value);
     console.log(this.valueSearchInput.nativeElement.value);
     console.log(this.valueSearchDropDown.nativeElement.value);
@@ -340,6 +407,5 @@ export class EmployeeListComponent implements OnInit {
         timeOut: 3000,
         progressBar: true
       }));
-
   }
 }

@@ -7,11 +7,13 @@
       <div><h3 style="text-align: center">Chỉnh Sửa Đơn Thuốc</h3></div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p></p></label></div>
-        <div class="col-lg-10 col-md-10"><input type="hidden" formControlName="prescriptionId" name="prescriptionId"></div>
+        <div class="col-lg-10 col-md-10"><input type="hidden" formControlName="prescriptionId" name="prescriptionId">
+        </div>
       </div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Tên đơn thuốc<span> (*)</span></p></label></div>
-        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionName" name="prescriptionName">
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionName"
+                                                name="prescriptionName">
           <span *ngIf="prescriptionForm.get('prescriptionName').errors?.required &&
           prescriptionForm.get('prescriptionName').dirty">
             Tên đơn thuốc không được để trống!</span>
@@ -28,7 +30,8 @@
       </div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Triệu chứng<span> (*)</span></p></label></div>
-        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionSymptom" name="prescriptionSymptom">
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionSymptom"
+                                                name="prescriptionSymptom">
           <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.required &&
           prescriptionForm.get('prescriptionSymptom').dirty">
             Triệu chứng không được để trống!</span>
@@ -45,7 +48,8 @@
       </div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Ghi chú<span> (*)</span></p></label></div>
-        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionNote" name="prescriptionNote">
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionNote"
+                                                name="prescriptionNote">
           <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.required &&
           prescriptionForm.get('prescriptionNote').dirty">
             Ghi chú không được để trống!</span>
@@ -63,7 +67,7 @@
       <div class="row">
         <div class="col-lg-2 col-md-2"><label>Đối tượng<span> (*)</span></label></div>
         <div class="col-lg-3 col-md-2">
-          <select class="form-control" formControlName="prescriptionTargetUser" name="prescriptionTargetUser" id="">
+          <select class="form-control" formControlName="prescriptionTargetUser" name="prescriptionTargetUser">
             <option value="" disabled selected>--- Chọn đối tượng ---</option>
             <option value="Trẻ em">Trẻ em</option>
             <option value="Người lớn">Người lớn</option>
@@ -75,7 +79,8 @@
         </div>
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2"><label for=""><p>Số ngày uống<span> (*)</span></p></label></div>
-        <div class="col-lg-3 col-md-3"><input class="form-control" formControlName="prescriptionNumberOfDays" name="prescriptionNumberOfDays" type="number">
+        <div class="col-lg-3 col-md-3"><input class="form-control" formControlName="prescriptionNumberOfDays"
+                                              name="prescriptionNumberOfDays" type="number">
           <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.required &&
           prescriptionForm.get('prescriptionNumberOfDays').dirty">
             Số ngày uống không được để trống!</span>
@@ -90,16 +95,18 @@
 
       <div>
         <div>
-          <div id="bt" class="row">
+          <div id="bts" class="row">
             <div class="col-lg-8 col-md-8"></div>
             <div class="col-lg-2 col-md-2">
               <button type="submit" class="btn btn-success" style="width: 110px; margin: 5px"><i class="fa fa-check"
-                                                                                   aria-hidden="true"></i> Sửa
+                                                                                                 aria-hidden="true"></i>
+                Sửa
               </button>
             </div>
             <div class="col-lg-2 col-md-2">
               <button [routerLink]="['/prescription/list']" class="btn btn-danger" style="width: 110px;
-              margin: 5px"><i class="fa-solid fa-circle-xmark"></i> Huỷ</button>
+              margin: 5px"><i class="fa-solid fa-circle-xmark"></i> Huỷ
+              </button>
             </div>
           </div>
         </div>
@@ -107,5 +114,6 @@
 
     </form>
   </div>
+
 
 </div>

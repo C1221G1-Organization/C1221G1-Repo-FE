@@ -157,8 +157,8 @@ export class PrescriptionListComponent implements OnInit {
 
   previous() {
     if (this.page > 0) {
-      this.prescriptionService.getAllPrescription(this.page - 1, this.id = '',
-        this.names = '', this.target = '', this.symptom = '').subscribe(
+      this.prescriptionService.getAllPrescription(this.page - 1, this.id,
+        this.names, this.target, this.symptom).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -173,8 +173,8 @@ export class PrescriptionListComponent implements OnInit {
 
   next() {
     if (this.page < this.totalPages - 1) {
-      this.prescriptionService.getAllPrescription(this.page + 1, this.id = '', this.names = '',
-        this.target = '', this.symptom = '').subscribe(
+      this.prescriptionService.getAllPrescription(this.page + 1, this.id, this.names,
+        this.target, this.symptom).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -222,16 +222,6 @@ export class PrescriptionListComponent implements OnInit {
     });
   }
 
-
-
-
-  // clickEdit(errorButton: HTMLButtonElement) {
-  //   if (this.idClick) {
-  //     this.router.navigate(['/employee/edit/', this.idClick]);
-  //   } else {
-  //     errorButton.click();
-  //   }
-  // }
   confirmDelete() {
     this.prescriptionService.deletePrescription(this.valuePrescription.prescriptionId).subscribe(() => {
       this.ngOnInit();

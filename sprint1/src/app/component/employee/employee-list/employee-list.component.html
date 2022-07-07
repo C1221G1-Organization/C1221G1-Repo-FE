@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-<p>employee-list works!</p>
-=======
+
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -49,7 +47,7 @@
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-between col-2 p-0">
       <button type="button" class="btn btn-secondary "><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
-      <button type="button" class="btn btn-success " [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+      <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
     </div>
   </div>
   <br>
@@ -115,7 +113,7 @@
     <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
     <h4>Không có dữ liệu phù hợp</h4>
   </div>
-  <nav aria-label="Page navigation example" *ngIf="isHasContent">
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
     <ul class="pagination justify-content-end">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
@@ -157,4 +155,4 @@
   </div>
 </div>
 </div>
->>>>>>> 6b3ce7b8412211223d68b2ad34512e4771c3cc50
+

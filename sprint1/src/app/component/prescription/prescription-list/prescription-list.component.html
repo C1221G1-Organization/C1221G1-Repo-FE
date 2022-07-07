@@ -1,5 +1,5 @@
 <div class="container-fluid p-2">
-  <h3 style="text-align: center">Danh sách đơn thuốc</h3>
+  <h3 style="text-align: center">Danh Sách Đơn Thuốc</h3>
 </div>
 <div id="field" class="container-fluid">
   <fieldset class="border p-2  shadow">
@@ -25,17 +25,17 @@
           <button class="btn btn-primary" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Lọc kết quả
           </button>
         </div>
-<!--        <div class="col-lg-3 col-md-3">-->
-<!--          <p class="float-right">Sắp xếp</p>-->
-<!--        </div>-->
-<!--        <div class="col-lg-2 col-md-2">-->
-<!--          <select class="form-control">-->
-<!--            <option value="Mã toa thuốc">Mã đơn thuốc</option>-->
-<!--            <option value="Tên toa">Tên đơn</option>-->
-<!--            <option value="Đối tượng">Đối tượng</option>-->
-<!--            <option value="Triệu chứng">Triệu chứng</option>-->
-<!--          </select>-->
-<!--        </div>-->
+        <!--        <div class="col-lg-3 col-md-3">-->
+        <!--          <p class="float-right">Sắp xếp</p>-->
+        <!--        </div>-->
+        <!--        <div class="col-lg-2 col-md-2">-->
+        <!--          <select class="form-control">-->
+        <!--            <option value="Mã toa thuốc">Mã đơn thuốc</option>-->
+        <!--            <option value="Tên toa">Tên đơn</option>-->
+        <!--            <option value="Đối tượng">Đối tượng</option>-->
+        <!--            <option value="Triệu chứng">Triệu chứng</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
       </div>
     </form>
 
@@ -123,29 +123,29 @@
   <!--  </div>-->
   <div>
     <div id="bt" class="row">
-      <div class="col-lg-7 col-md-7"></div>
-      <div class="col-lg-1 col-md-1">
+      <div class="col-lg-2 col-md-2"></div>
+      <div class="col-lg-2 col-md-2">
         <button [routerLink]="['/prescription/create']" style="margin: 2px" class="btn btn-success shadow"><i
           class="fa-solid fa-circle-plus"></i> Thêm
         </button>
       </div>
-      <div class="col-lg-1 col-md-1">
+      <div class="col-lg-2 col-md-2">
         <button [routerLink]="['/prescription/create-medicine-prescription']" style="margin: 2px"
                 class="btn btn-success shadow"><i
           class="fa-solid fa-circle-plus"></i>Chỉ định
         </button>
       </div>
-      <div class="col-lg-1 col-md-1">
+      <div class="col-lg-2 col-md-2">
         <button style="margin: 2px" class="btn btn-warning shadow" [routerLink]="['/prescription/edit/',idDel]">
           <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
         </button>
       </div>
-      <div class="col-lg-1 col-md-1">
+      <div class="col-lg-2 col-md-2">
         <button style="margin: 2px" type="button" class="btn btn-danger"
                 data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-circle-xmark"></i> Xoá
         </button>
       </div>
-      <div class="col-lg-1 col-md-1">
+      <div class="col-lg-2 col-md-2">
         <button [routerLink]="['/prescription/list']" style="margin: 2px" class="btn btn-secondary shadow"><i
           class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
@@ -170,7 +170,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-        <button ype="button" class="btn btn-primary" (click)="confirmDelete()" data-dismiss="modal">Xoá</button>
+        <button type="button" class="btn btn-primary" (click)="delete(idDel)" data-dismiss="modal">Xoá</button>
       </div>
     </div>
   </div>
