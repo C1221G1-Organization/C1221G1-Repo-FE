@@ -11,9 +11,19 @@
         <div class="chat-app-left-side" style="padding-left: 24px;">
           <ul>
             <li (click)="isSeenToggle(room.uuid)" [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
-              <a>
-                {{room.name}} <span *ngIf="!room.isSeen" class="badge badge-danger">!</span>
-              </a>
+              <div class="circle-name" [ngStyle]="{'background-color':getAvatarColor(room.name)}">{{room.name[0].toUpperCase().normalize("NFD")}}</div>
+              <div class="pl-2 d-flex flex-column align-items-start">
+                <a>
+                  {{room.name}} <span *ngIf="!room.isSeen" class="badge badge-danger">!</span>
+                </a>
+                <div class="phone-number">
+                  {{room.phone}}
+                </div>
+              </div>
+              <div class="last-seen">
+                {{calculateLastMessagePost(room.lastMessagePost)}}
+              </div>
+
             </li>
           </ul>
         </div>

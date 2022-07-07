@@ -3,7 +3,7 @@ import {TokenStorageService} from './service/security/token-storage.service';
 import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
-import {config} from "rxjs";
+import {config} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,6 @@ import {config} from "rxjs";
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
-
   isGuest: boolean;
   user;
 
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
-    this.isGuest = false;
+    // this.isGuest = false;
     console.log(this.user);
   }
 

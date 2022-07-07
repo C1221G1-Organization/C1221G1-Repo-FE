@@ -9,7 +9,7 @@
     --navbar-height: 320px;
     --header-height: 320px;
     --header-with-search-height: calc(
-            var(--header-height - var(--navbar-height))
+            var(--header-height) - var(--navbar-height)
     );
 }
 
