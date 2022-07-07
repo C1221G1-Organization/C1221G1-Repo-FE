@@ -1,12 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {RetailService} from '../../../../service/retail.service';
-import {MedicineSale} from '../../../../dto/invoice/medicineSale';
-import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
-import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
-import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
+import {FormControl, FormGroup, Validators} from '@angular/forms'
+import {RetailService} from "../../../../service/retail.service";
+import {MedicineSale} from "../../../../dto/invoice/medicineSale";
+import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
+import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-retail',
@@ -21,20 +24,21 @@ export class RetailComponent implements OnInit {
   note: string;
   localDateTime: any;
   totalMoney = 0;
-  idDelete: string;
+  idDelete = '';
   nameDelete: string;
   index: number;
   flagHover = false;
   deleteMedicineChoiceArr: any = [];
   // dùng cho thêm thuốc
-  isDisabled = false;
+  isDisabled = true;
   // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
   deleteErr: string;
+  printInvoice: string;
 
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr : ToastrService) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -42,7 +46,7 @@ export class RetailComponent implements OnInit {
       medicineSale: new FormControl('', [Validators.required]),
       quantity: new FormControl('', [Validators.required]),
       unit: new FormControl('', [Validators.required])
-    });
+    })
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
   }
@@ -54,11 +58,11 @@ export class RetailComponent implements OnInit {
 * */
   getMedicineDto() {
     this.retailService.getMedicineDto().subscribe(medicineSales => {
-      console.log(medicineSales);
+      console.log(medicineSales)
       this.medicineSales = medicineSales;
     }, error => {
-      console.log(error);
-    });
+      console.log(error)
+    })
   }
 
   /*
@@ -81,7 +85,7 @@ export class RetailComponent implements OnInit {
     } else if (unitChoice == 'hop') {
       priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
     }
-    let moneyChoice = quantityChoice * priceChoice;
+    let moneyChoice = quantityChoice * priceChoice
     let flag = false;
     let medicine: any = {
       medicineId: idChoice,
@@ -92,9 +96,8 @@ export class RetailComponent implements OnInit {
       money: moneyChoice,
     };
     const myArray = this.listMedicineChoice;
-    console.log('ádsad' + idChoice);
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == '' || nameChoice == '' || quantityChoice == ''
+    if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
       flag = true;
     } else {
@@ -103,10 +106,8 @@ export class RetailComponent implements OnInit {
     if (!flag) {
       this.isDisabled = false;
       this.listMedicineChoice.push(medicine);
-      console.log(this.isDisabled);
     } else {
       this.isDisabled = true;
-      console.log(this.isDisabled);
     }
     console.log(this.listMedicineChoice);
     this.getTotalMoney();
@@ -123,7 +124,7 @@ export class RetailComponent implements OnInit {
       medicineSale: new FormControl(''),
       quantity: new FormControl(''),
       unit: new FormControl('')
-    });
+    })
   }
 
   /*
@@ -132,12 +133,12 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
-    this.listMedicineChoice = [];
+    // this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.quantity
-      };
+      }
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
@@ -148,45 +149,32 @@ export class RetailComponent implements OnInit {
     };
     console.log(invoiceDto);
     if (invoiceDto.invoiceMedicineList.length < 1) {
-      this.toastr.warning('Danh sách thuốc trống !', 'Cảnh báo', {
+      this.toastr.warning("Danh sách thuốc trống !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
+          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
             timeOut: 3000,
             progressBar: true
           });
           this.totalMoney = 0;
           this.listMedicineChoice = [];
+          this.invoiceMedicineDtos = [];
         }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
+          console.log(error);
+          this.toastr.warning(error.error.errors, "Cảnh báo", {
             timeOut: 3000,
             progressBar: true
           });
+          this.totalMoney = 0;
           this.listMedicineChoice = [];
-          console.log(error);
+          this.invoiceMedicineDtos = [];
         }
-      );
+      )
     }
-    this.retailService.createRetailInvoice(invoiceDto).subscribe(
-      () => {
-        this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
-          timeOut:3000,
-          progressBar: true
-        });
-        this.listMedicineChoice = [];
-      }, error => {
-        this.toastr.warning("Thêm Mới Thất Bại !", "Hóa Đơn Bán Lẻ", {
-          timeOut:3000,
-          progressBar: true
-        });
-        this.listMedicineChoice = [];
-        console.log(error)
-      }
-    )
   }
 
   /*
@@ -200,7 +188,6 @@ export class RetailComponent implements OnInit {
       this.totalMoney += item.money;
     }
   }
-
 
   /*
  * Created by DaLQA
@@ -222,7 +209,7 @@ export class RetailComponent implements OnInit {
       console.log(this.idDelete);
     } else {
       this.idDelete = '';
-      this.deleteErr = 'Bạn chưa chọn thuốc để xóa!';
+      this.deleteErr = "Bạn chưa chọn thuốc để xóa!"
       console.log(this.idDelete);
     }
   }
@@ -237,31 +224,114 @@ export class RetailComponent implements OnInit {
       this.listMedicineChoice = this.listMedicineChoice.filter(
         (item) => {
           return item.medicineId != this.idDelete;
-          this.resetIdAndName();
         });
+      this.resetIdAndName();
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
       this.deleteMedicineChoiceArr = [];
       console.log(this.listMedicineChoice);
       this.getTotalMoney();
       closeModal.click();
     }
-    this.listMedicineChoice = this.listMedicineChoice.filter(
-      (item) => {
-        return item.medicineId != this.idDelete;
-        this.resetIdAndName();
-      })
-    this.deleteMedicineChoiceArr = [];
-    console.log(this.listMedicineChoice);
-    this.getTotalMoney();
-    closeModal.click();
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function deleteMedicine
+* */
   resetIdAndName() {
     this.idDelete = '';
     this.nameDelete = '';
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function deleteMedicine
+* */
   changeIsDisabled() {
     this.isDisabled = false;
     console.log(this.isDisabled);
+  }
+
+  print(yes: string) {
+    this.printInvoice = yes;
+    this.generatePDF(this.printInvoice);
+  }
+  generatePDF(action) {
+    console.log(this.listMedicineChoice);
+    const docDefinition = {
+      content: [
+        {
+          text: 'C1221G1 PHARMACODE',
+          fontSize: 16,
+          alignment: 'center',
+          color: '#047886'
+        },
+        {
+          text: 'Hóa đơn mua thuốc',
+          fontSize: 20,
+          bold: true,
+          alignment: 'center',
+          decoration: 'underline',
+          color: 'skyblue'
+        },
+        {
+          columns: [
+            [
+              {
+                text: `Ngày: ${new Date().toLocaleString()}`,
+                alignment: 'right'
+              },
+            ]
+          ]
+        },
+        {
+          text: 'Chi tiết hóa đơn ',
+          style: 'sectionHeader'
+        },
+        {
+          table: {
+            // headers are automatically repeated if the table spans over multiple pages
+            // you can declare how many rows should be treated as headers
+            headerRows: 1,
+            widths: [ '*', 'auto',100 , '*' ],
+
+            body: [
+              ['Sản phẩm','Số lượng', 'Giá tiền' , 'Tổng tiền'],
+              // this.listMedicineChoice.map(item => {
+              //     [item.medicineName, '','','']
+              // })
+            ]
+          }
+        },
+
+        {
+          text: 'Các điều khoản và điều kiện',
+          style: 'sectionHeader'
+        },
+        {
+          ul: [
+            'Hóa đơn có thể được trả lại sau không quá 3 ngày.',
+            'Sẽ không chấp nhận hoàn trả nếu thuốc không được nguyên vẹn.',
+            'Đây là hóa đơn do hệ thống tạo.',
+          ],
+        }
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15]
+        }
+      }
+    };
+    if (action === 'yes') {
+      pdfMake.createPdf(docDefinition).download();
+    }
   }
 }

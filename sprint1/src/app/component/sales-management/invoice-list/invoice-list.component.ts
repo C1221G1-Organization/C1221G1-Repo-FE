@@ -52,9 +52,11 @@ export class InvoiceListComponent implements OnInit {
         // this.currentPage = -1;
         // this.totalPages = 0;
       }
-    }, () => {
-      alert('Không tìm thấy dữ liệu');
-    })
+    }
+    // , () => {
+    //   alert('Không tìm thấy dữ liệu');
+    // }
+    )
   }
 
   previousPage() {
@@ -171,6 +173,11 @@ export class InvoiceListComponent implements OnInit {
   //   }
   // }
   reset() {
-    this.ngOnInit();
+    this.startDate = "";
+    this.endDate = new Date().toLocaleDateString('ez-ZA');
+    this.startTime = "";
+    this.endTime = "23:59";
+    this.typeOfInvoiceId = '1';
+    this.fieldSort = 'invoiceId';
   }
 }
