@@ -1,4 +1,4 @@
-<h1 class="text-center">Danh Sách Nhân Viên</h1>
+<h2 class="text-center">Danh Sách Nhân Viên</h2>
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -20,11 +20,11 @@
           </select>
 
           <input class="form-control mr-sm-2" type="search" placeholder="Nhập giá trị lọc" aria-label="Search"
-                 [hidden]="!isInputHidden" #valueSearchInput>
+                 [hidden]="!isInputHidden" #valueSearchInput [(ngModel)]="str">
 
           <select name="valueDropDownSearch" class="form-control mr-sm-2" [hidden]="!isSelectHidden"
                   #valueSearchDropDown [(ngModel)]="drowDownValue">
-            <option value="">--Chọn chức vụ</option>
+            <option value="">--Chọn chức vụ--</option>
             <option *ngFor="let item of positions" [value]="item.positionId">{{item.positionName}}</option>
           </select>
           <button class="btn btn-primary my-2 my-sm-0" type="submit" (click)="search()"><i class="fa fa-search"
@@ -45,11 +45,9 @@
     </nav>
   </fieldset>
   <br>
-  <div class="d-flex justify-content-between">
-    <div class="d-flex justify-content-between col-2 p-0">
-      <button type="button" class="btn btn-secondary "><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+  <div>
+      <button type="button" class="btn btn-secondary mx-2" [routerLink]="['/sales-management/invoices']"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
       <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
-    </div>
   </div>
   <br>
   <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">

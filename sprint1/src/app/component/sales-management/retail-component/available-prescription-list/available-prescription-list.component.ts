@@ -51,7 +51,6 @@ export class AvailablePrescriptionListComponent implements OnInit {
       this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
     }, error => {
       this.prescriptions = [];
-      console.log(error);
       this.message = true;
     });
   }
@@ -100,7 +99,6 @@ export class AvailablePrescriptionListComponent implements OnInit {
       console.log(this.idChoice);
     } else {
       this.idChoice = '';
-      console.log(this.idChoice);
     }
   }
 
