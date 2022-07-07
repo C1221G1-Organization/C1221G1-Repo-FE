@@ -30,6 +30,7 @@ export class UserChatComponent implements OnInit {
   chats = [];
   chat: Chat;
   isFirstLoad = true;
+  isMute = false;
 
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     // firebase.initializeApp(environment.firebaseConfig);
@@ -46,7 +47,7 @@ export class UserChatComponent implements OnInit {
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      if (this.chats[this.chats.length - 1].name !== this.userChat.name && !this.isFirstLoad) {
+      if (!this.isMute && this.chats[this.chats.length - 1].name !== this.userChat.name && !this.isFirstLoad) {
         // console.log('sound user');
         this.playAudio();
       } else {
@@ -170,5 +171,9 @@ export class UserChatComponent implements OnInit {
     audio.src = "../../../../assets/audio/noti.wav";
     audio.load();
     audio.play();
+  }
+
+  toggleSound() {
+    this.isMute = !this.isMute;
   }
 }
