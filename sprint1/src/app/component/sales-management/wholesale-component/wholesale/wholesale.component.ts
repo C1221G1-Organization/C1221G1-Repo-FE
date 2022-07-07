@@ -33,6 +33,7 @@ export class WholesaleComponent implements OnInit {
   flag: Boolean;
   createDate = new Date()
   customerList: Customer[] = []
+  price: number
   constructor(private invoiceService: InvoiceWholesaleAndRefundService, private toastr: ToastrService) {
   }
 
@@ -57,7 +58,7 @@ export class WholesaleComponent implements OnInit {
   addMedicine() {
       console.log(this.invoiceMedicineForm.value)
       let quantityMedicine = this.invoiceMedicineForm.value.quantity;
-      let money = 50 * quantityMedicine * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit;
+      let money = 50 * quantityMedicine * (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
       let idChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineId;
       let nameChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineName;
       let medicine: any = {
@@ -106,6 +107,7 @@ export class WholesaleComponent implements OnInit {
       quantity: medicine.quantity * 50
     }
     this.invoiceMedicineList.push(invoiceMedicine);
+   console.log(this.invoiceMedicineList)
   }
   let invoice: any = {
     employeeId: 'NV-0001',
@@ -113,8 +115,7 @@ export class WholesaleComponent implements OnInit {
     invoiceNote: this.note,
     invoiceMedicineList: this.invoiceMedicineList
   }
-    if (invoice.invoiceMedicineList == null){
-      console.log(invoice.invoiceMedicineList)
+    if (invoice.invoiceMedicineList.length < 1){
       this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa Đơn Bán Lẻ", {
         timeOut: 3000,
         progressBar: true

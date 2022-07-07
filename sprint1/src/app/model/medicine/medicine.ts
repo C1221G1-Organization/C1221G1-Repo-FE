@@ -24,4 +24,5 @@ export interface Medicine {
   medicineType: MedicineType;
   medicineUnit: MedicineUnit;
   medicineConversionUnit: MedicineConversionUnit;
+
 }

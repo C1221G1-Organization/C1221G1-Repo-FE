@@ -3,7 +3,6 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Invoice} from "../model/invoice";
 import {Observable} from "rxjs";
-import {Medicine} from "../model/medicine";
 import {MedicineStorageDto} from "../dto/medicine-storage-dto";
 import {InvoiceDto} from "../dto/invoice-dto";
 import {ListMedicineDto} from "../dto/list-medicine-dto";

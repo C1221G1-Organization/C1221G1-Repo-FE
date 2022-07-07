@@ -1,8 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InvoiceWholesaleAndRefundService} from "../../../service/invoiceWholesaleAndRefund.service";
 import {InvoiceDto} from "../../../dto/invoice-dto";
-import {FormControl, FormGroup} from "@angular/forms";
-import {Employee} from "../../../model/employee/employee";
+import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MedicineOfInvoiceDto} from "../../../dto/medicine-of-invoice-dto";
 import {ListMedicineDto} from "../../../dto/list-medicine-dto";
 import {InvoiceMedicine} from "../../../model/invoice-medicine";
@@ -23,9 +22,17 @@ export class RefundCustomerComponent implements OnInit {
   invoiceMedicineList: InvoiceMedicine[] =[];
   quantityRefund: number[] = [];
   medicineRefundList: MedicineOfInvoiceDto[] = [];
- isShowMedicineList: boolean;
-
-  constructor(private invoiceService: InvoiceWholesaleAndRefundService) {
+  isShowMedicineList: boolean;
+  invoiceForm: FormGroup;
+  medicineList: MedicineOfInvoiceDto[] = [];
+  medicineCurrent: MedicineOfInvoiceDto;
+  invoiceMedicineSelectedArray: FormArray;
+  flagNoMedicine = true
+  constructor(private invoiceService: InvoiceWholesaleAndRefundService,private fb: FormBuilder,) {
+    this.invoiceForm = this.fb.group({
+      medicineRefundList: this.fb.array(this.medicineList
+        .map(invoiceMedicine => this.addNewMedicineRefund(invoiceMedicine)))
+    })
   }
 
   ngOnInit(): void {
@@ -41,7 +48,14 @@ export class RefundCustomerComponent implements OnInit {
         this.total = 0;
       }
     })
+    console.log(this.invoice)
+    console.log(this.searchInvoice)
   }
+  get medicineRefundListSelected(): FormArray {
+    this.invoiceMedicineSelectedArray = this.invoiceForm.get('importInvoiceMedicineList') as FormArray;
+    return this.invoiceMedicineSelectedArray;
+  }
+
 
   createInvoice() {
     for(let medicine of this.medicineOfInvoiceList){
@@ -74,7 +88,19 @@ export class RefundCustomerComponent implements OnInit {
   }
 
   importMedicine(medicine: any) {
-    this.medicineRefundList.push(medicine)
+    this.isShowMedicineList = !this.isShowMedicineList;
+    this.medicineCurrent = medicine;
+    const invoiceRefund = this.addNewMedicineRefund(this.medicineCurrent);
+    this.medicineRefundListSelected.push(invoiceRefund);
   }
 
+  private addNewMedicineRefund(invoiceMedicine: MedicineOfInvoiceDto) {
+    return this.fb.group({
+      medicineName: [invoiceMedicine.medicine.medicineName],
+      quantityRefund: '',
+      medicineUnit: 'Hộp',
+      intoMoney: 0,
+      price: [invoiceMedicine.medicine.medicineWholesaleProfit * invoiceMedicine.medicine.medicineImportPrice]
+    })
+  }
 }
