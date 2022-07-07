@@ -13,9 +13,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {TemplatesModule} from './component/templates/templates.module';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import "firebase/database";
-import {NgxSpinnerModule} from "ngx-spinner";
+import 'firebase/database';
+import {NgxSpinnerModule} from 'ngx-spinner';
 import {ReportModule} from './component/reports/report.module';
+import {authInterceptorProviders} from "./service/security/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -36,12 +37,11 @@ import {ReportModule} from './component/reports/report.module';
     ReportModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     TemplatesModule,
     NgxSpinnerModule,
   ],
 
-  providers: [Title],
+  providers: [Title,authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

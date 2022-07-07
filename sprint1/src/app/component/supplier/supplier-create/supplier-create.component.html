@@ -11,10 +11,10 @@
                type="text">
         <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
           <p [hidden]='!supplierName.errors.required' class="text-danger">
-            Tên Nhà Cung Cấp Bắt Buộc Phải Có
+            Tên Nhà Cung Cấp Bắt Buộc Phải Có.
           </p>
           <p [hidden]='!supplierName.errors.pattern' class="text-danger">
-            Tên Nhà Cung Cấp Không Có Số
+            Tên Nhà Cung Cấp Không Có Số.
           </p>
         </div>
       </div>
@@ -34,15 +34,15 @@
                    type="text">
             <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
               <p [hidden]='!supplierPhone.errors.required' class="text-danger">
-                Số Điện Thoại Không Được Để Trống
+                Số Điện Thoại Không Được Để Trống.
               </p>
               <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
-                Không Đúng Định Dạng Của Số Điện Thoại
+                Không Đúng Định Dạng Của Số Điện Thoại.
               </p>
 
             </div>
             <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
-              Số Điện Thoại Này Đã Tồn Tại
+              Số Điện Thoại Này Đã Tồn Tại.
             </p>
           </div>
         </div>
@@ -54,15 +54,15 @@
                    type="email">
             <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
               <p [hidden]='!supplierEmail.errors.required' class="text-danger">
-                Email Không Được Để Trống
+                Email Không Được Để Trống.
               </p>
               <p [hidden]='!supplierEmail.errors.pattern' class="text-danger">
-                Không Đúng Định Dạng Của Email
+                Không Đúng Định Dạng Của Email.
               </p>
 
             </div>
             <p class="text-danger" *ngIf="supplierForm.get('supplierEmail').hasError('emailAlreadyExists')">
-              Email Này Đã Có Người Sữ Dụng
+              Email Này Đã Có Người Sữ Dụng.
             </p>
           </div>
         </div>

@@ -42,7 +42,7 @@ export class SignUpComponent implements OnInit {
         next => {
           this.toast.success("Đăng ký thành công","Chúc mừng")
           this.signUpForm.reset();
-          this.route.navigateByUrl('/templates').then()
+          this.route.navigateByUrl('/').then()
         },error => {
           this.errorMap = error.error.errorMap
         }
