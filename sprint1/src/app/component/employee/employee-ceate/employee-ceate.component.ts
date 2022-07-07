@@ -91,6 +91,9 @@ export class EmployeeCeateComponent implements OnInit {
   Function:  Save Employee
 */
   onSubmit() {
+    if (!this.employeeFormCreate.valid) {
+      this.employeeFormCreate.markAllAsTouched();
+    }
     const employee = this.employeeFormCreate.value;
     console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
