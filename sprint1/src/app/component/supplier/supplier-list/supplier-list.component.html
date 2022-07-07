@@ -109,7 +109,7 @@
 
   </div>
 
-  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1">
+  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1 &&( listSupplier.length >=5 ||listSupplier.length>=1 ) ">
     <nav class="blog-pagination d-flex justify-content-center py-3">
       <ul class="pagination">
         <li class="page-item px-1">
