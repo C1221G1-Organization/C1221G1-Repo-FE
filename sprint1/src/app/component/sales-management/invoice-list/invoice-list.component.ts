@@ -192,9 +192,6 @@ export class InvoiceListComponent implements OnInit {
     console.log(this.startDate)
     let now = new Date().toLocaleString('en-ZA', {hour12: false});
     console.log(now)
-    // const string1 = now.charAt(0)+now.charAt(1)+now.charAt(2)+now.charAt(3)
-    // const string2 = now.charAt(5)+now.charAt(6);
-    // const string3 = now.charAt(8)+now.charAt(9);
     const string1 = now.substr(0,4)
     const string2 = now.substr(5,2)
     const string3 = now.substr(8,2)
