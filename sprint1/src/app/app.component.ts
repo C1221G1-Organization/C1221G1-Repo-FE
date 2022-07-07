@@ -33,12 +33,12 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
-    // this.isGuest = false;
+    this.isGuest = false;
     console.log(this.user);
   }
 
   ngAfterViewChecked(): void {
-    this.ngOnInit()
+    this.ngOnInit();
     this.cdr.detectChanges();
   }
 }
