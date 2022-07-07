@@ -7,6 +7,7 @@ import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 import {Title} from "@angular/platform-browser";
+import {CustomerDtoForCart} from "../../../dto/cart/CustomerDtoForCart";
 
 
 @Component({
@@ -33,6 +34,7 @@ export class CartComponent implements OnInit {
     this.title.setTitle('Giỏ hàng - Pharmacycode');
     if (this.tokenStorageService.getUser() != null) {
       this.username = this.tokenStorageService.getUser().username;
+      console.log(this.username);
     }
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
@@ -47,7 +49,9 @@ export class CartComponent implements OnInit {
     let cartAndDetailDto = {} as CartAndDetailDto;
     cartAndDetailDto.cartDetail = this.cartDetails;
     if (this.username != null) {
-      cartAndDetailDto.customer.customerUserName = this.username;
+      let customer = {} as CustomerDtoForCart;
+      customer.customerUserName = this.username;
+      cartAndDetailDto.customer = customer;
     }
     console.log(cartAndDetailDto);
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {

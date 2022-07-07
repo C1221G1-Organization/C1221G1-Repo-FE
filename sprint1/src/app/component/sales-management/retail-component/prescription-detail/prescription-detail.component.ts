@@ -8,7 +8,10 @@ import {MedicineSale} from '../../../../dto/invoice/medicineSale';
 import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
 import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
 import {FormGroup} from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-prescription-detail',
   templateUrl: './prescription-detail.component.html',
@@ -30,6 +33,8 @@ export class PrescriptionDetailComponent implements OnInit {
   deleteErr: string;
   disableCreate = true;
   disableFlag: true;
+  printInvoice: string;
+  arrPDF = [];
 
   constructor(private retailService: RetailService,
               private route: ActivatedRoute,
@@ -73,8 +78,8 @@ export class PrescriptionDetailComponent implements OnInit {
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
-      customerId: 'KH-0001',
-      employeeId: 'NV-0001',
+      customerId: 'KH-00001',
+      employeeId: 'NV-00001',
       invoiceNote: 'no comment',
       invoiceMedicineList: this.invoiceMedicineDtos
     };
@@ -172,6 +177,112 @@ export class PrescriptionDetailComponent implements OnInit {
     this.totalMoney = 0;
     for (let item of this.listPrescriptionMedicine) {
       this.totalMoney += item.money;
+    }
+  }
+
+  print(yes: string) {
+    this.arrPDF.push( ['Sản phẩm','Số lượng', 'Giá tiền(VND)' , 'Tổng tiền(VND)'],);
+    for (let item of this.listPrescriptionMedicine){
+      this.arrPDF.push([item.medicineName,item.totalQuantity,item.retailPrice,item.money]);
+    }
+    if(this.listPrescriptionMedicine.length > 0){
+      this.printInvoice = yes;
+      this.generatePDF(this.printInvoice);
+    }else {
+      this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }
+    this.arrPDF = [];
+  }
+
+  private generatePDF(action: string) {
+    console.log(this.listMedicineChoice);
+    const docDefinition = {
+      content: [
+        {
+          text: 'C1221G1 PHARMACODE',
+          fontSize: 30,
+          alignment: 'center',
+          color: '#047886'
+        },
+        {
+          text: 'Hóa đơn mua thuốc',
+          fontSize: 20,
+          bold: true,
+          alignment: 'center',
+          decoration: 'underline',
+          color: 'skyblue'
+        },
+        {
+          columns: [
+            [
+              {
+                text: `Ngày: ${new Date().toLocaleString()}`,
+                alignment: 'right'
+              },
+            ]
+          ]
+        },
+        {
+          text: 'Chi tiết hóa đơn:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          table: {
+            // headers are automatically repeated if the table spans over multiple pages
+            // you can declare how many rows should be treated as headers
+            headerRows: 1,
+            widths: [ '*', 'auto',100 , '*' ],
+            body: this.arrPDF
+          }
+        },
+        {
+          text: 'Tổng tiền:',
+          style: 'sectionHeader'
+        },
+        {
+          columns: [
+            [this.totalMoney + ' VND'] ,
+          ]
+        },
+
+        {
+          text: 'Chi tiết bổ sung:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          columns: [
+            [{qr: `lqad1649engineer@gmail.com`, fit: '50'}],
+          ]
+        },
+        {
+          text: 'Các điều khoản và điều kiện:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          ul: [
+            'Hóa đơn có thể được trả lại sau không quá 3 ngày.',
+            'Sẽ không chấp nhận hoàn trả nếu thuốc không được nguyên vẹn.',
+            'Đây là hóa đơn do hệ thống tạo.',
+          ],
+        }
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15]
+        }
+      }
+    };
+    if (action === 'yes') {
+      pdfMake.createPdf(docDefinition).download();
     }
   }
 }

@@ -57,7 +57,7 @@ export class WholesaleComponent implements OnInit {
   addMedicine() {
     console.log(this.invoiceMedicineForm.value)
     let quantityMedicine = this.invoiceMedicineForm.value.quantity;
-    let money = 50 * quantityMedicine * (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
+    let money = quantityMedicine * ((this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit)/100 * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
     let idChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineId;
     let nameChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineName;
     let medicine: any = {

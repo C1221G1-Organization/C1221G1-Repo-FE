@@ -35,6 +35,7 @@ export class RetailComponent implements OnInit {
   disableFlag = true;
   deleteErr: string;
   printInvoice: string;
+  arrPDF = [];
 
   constructor(private retailService: RetailService,
               private router: Router,
@@ -142,8 +143,8 @@ export class RetailComponent implements OnInit {
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
-      customerId: 'KH-0001',
-      employeeId: 'NV-0001',
+      customerId: 'KH-00001',
+      employeeId: 'NV-00001',
       invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
@@ -258,16 +259,29 @@ export class RetailComponent implements OnInit {
   }
 
   print(yes: string) {
-    this.printInvoice = yes;
-    this.generatePDF(this.printInvoice);
+    this.arrPDF.push( ['Sản phẩm','Số lượng', 'Giá tiền(VND)' , 'Tổng tiền(VND)'],);
+    for (let item of this.listMedicineChoice){
+      this.arrPDF.push([item.medicineName,item.quantity,item.retailPrice,item.money]);
+    }
+    if(this.listMedicineChoice.length > 0){
+      this.printInvoice = yes;
+      this.generatePDF(this.printInvoice);
+    }else {
+      this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }
+    this.arrPDF = [];
   }
-  generatePDF(action) {
+
+  private generatePDF(action: string) {
     console.log(this.listMedicineChoice);
     const docDefinition = {
       content: [
         {
           text: 'C1221G1 PHARMACODE',
-          fontSize: 16,
+          fontSize: 30,
           alignment: 'center',
           color: '#047886'
         },
@@ -290,8 +304,9 @@ export class RetailComponent implements OnInit {
           ]
         },
         {
-          text: 'Chi tiết hóa đơn ',
-          style: 'sectionHeader'
+          text: 'Chi tiết hóa đơn:',
+          style: 'sectionHeader',
+          color: '#865604'
         },
         {
           table: {
@@ -299,19 +314,33 @@ export class RetailComponent implements OnInit {
             // you can declare how many rows should be treated as headers
             headerRows: 1,
             widths: [ '*', 'auto',100 , '*' ],
-
-            body: [
-              ['Sản phẩm','Số lượng', 'Giá tiền' , 'Tổng tiền'],
-              // this.listMedicineChoice.map(item => {
-              //     [item.medicineName, '','','']
-              // })
-            ]
+            body: this.arrPDF
           }
+        },
+        {
+          text: 'Tổng tiền:',
+          style: 'sectionHeader'
+        },
+        {
+          columns: [
+            [this.totalMoney + ' VND'] ,
+          ]
         },
 
         {
-          text: 'Các điều khoản và điều kiện',
-          style: 'sectionHeader'
+          text: 'Chi tiết bổ sung:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          columns: [
+            [{qr: `lqad1649engineer@gmail.com`, fit: '50'}],
+          ]
+        },
+        {
+          text: 'Các điều khoản và điều kiện:',
+          style: 'sectionHeader',
+          color: '#865604'
         },
         {
           ul: [

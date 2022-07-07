@@ -65,7 +65,6 @@ export class SupplierEditComponent implements OnInit {
       this.supplierForm = new FormGroup({
         supplierId: new FormControl(supplier.supplierId),
         supplierName: new FormControl(supplier.supplierName, [Validators.required,
-          Validators.minLength(4),
           Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
         supplierAddress: new FormControl(supplier.supplierAddress),
         supplierPhone: new FormControl(supplier.supplierPhone, [Validators.required,

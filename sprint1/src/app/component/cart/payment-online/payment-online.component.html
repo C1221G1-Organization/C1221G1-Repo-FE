@@ -78,7 +78,7 @@
                   &ensp; Thông tin giao hàng </h5>
                 <span class="text-danger pl-3"> (Vui lòng điền đầy đủ thông tin để thực hiện thanh toán)</span>
               </div>
-              <div [hidden]="cartAndDetailDto.customer !=null">
+              <div>
                 <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="pl-3">
                   <div class="form-group">
                     <label for="name">Tên Người nhận <span class="text-danger">*</span></label>

@@ -7,6 +7,7 @@ import {PaymentOnlineService} from '../../../service/cart/payment-online.service
 import {Router} from '@angular/router';
 import {CartService} from '../../../service/cart/cart.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {CustomerDtoForCart} from "../../../dto/cart/CustomerDtoForCart";
 
 
 @Component({
@@ -16,6 +17,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 })
 export class PaymentOnlineComponent implements OnInit {
   cartAndDetailDto = {} as CartAndDetailDto;
+  customer = {} as CustomerDtoForCart;
   rate = 23315;
   public payPalConfig ?: IPayPalConfig;
   total: number;
@@ -40,6 +42,9 @@ export class PaymentOnlineComponent implements OnInit {
     console.log('paymentonline');
     this.paymentOnlineService.getCartAndDetail().subscribe(value => {
       this.cartAndDetailDto = value;
+      if (this.cartAndDetailDto.customer != null) {
+        this.customer = this.cartAndDetailDto.customer;
+      }
       if (this.cartAndDetailDto.discount != null) {
         console.log('in');
         this.total = this.getTotal();
@@ -90,7 +95,7 @@ export class PaymentOnlineComponent implements OnInit {
     this.payPalConfig = {
       currency: 'USD',
       clientId: 'AYEhWF15yjs4kqngtEVpTs3wSAwNJKlg-XFf7Dogm9sHO3qzuXjKjvEK7O7m-aCx-83wAH91ABiEqkZ-',
-      createOrderOnClient: (data) => <ICreateOrderRequest> {
+      createOrderOnClient: (data) => <ICreateOrderRequest>{
         intent: 'CAPTURE',
         purchase_units: [{
           amount: {
@@ -155,6 +160,9 @@ export class PaymentOnlineComponent implements OnInit {
       },
       onClick: (data, actions) => {
         this.cartAndDetailDto.customer = this.customerForm.value;
+        if (this.customer != null) {
+          this.cartAndDetailDto.customer.customerId = this.customer.customerId;
+        }
         console.log(this.cartAndDetailDto.customer);
         this.submitted = true;
         console.log('onClick', data, actions);
