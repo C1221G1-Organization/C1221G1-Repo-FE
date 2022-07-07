@@ -31,6 +31,7 @@
     "ngx-paypal": "^8.0.0",
     "ngx-spinner": "^9.0.1",
     "ngx-toastr": "^12.1.0",
+    "pdfmake": "^0.2.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "uuid": "^8.3.2",

@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   constructor(private tokenStorageService: TokenStorageService,
               private cdr: ChangeDetectorRef) {
     firebase.initializeApp(config);
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   ngOnInit(): void {
