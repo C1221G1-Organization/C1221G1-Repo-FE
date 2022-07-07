@@ -1,5 +1,5 @@
 <div class="container p-2">
-  <h1 class="text-center">Biểu Đồ Thống Kê</h1>
+  <h2 class="text-center">Biểu Đồ Thống Kê</h2>
   <div class="row">
     <div class="col-lg-5 col-sm-12">
       <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
@@ -127,7 +127,7 @@
     <div class="col-lg-7 col-sm-12">
       <fieldset id="containChart" class="border p-2 shadow-lg  bg-white rounded-lg "  style=" height: 100%; margin-bottom: 0px">
         <legend class="w-auto" style="font-weight: bold">Biểu  đồ</legend>
-        <h5 class="text-center" style="color: red" *ngIf="!show&&!show1">Cần chọn thời gian thống kê</h5>
+        <h5 class="text-center" style="color: red" *ngIf="!show&&!show1">Cần chọn thời gian thống kê hợp lệ</h5>
         <h5 class="text-center" style="color: burlywood" *ngIf="show">Năm {{showYear}}</h5>
         <h5 class="text-center" style="color: burlywood" *ngIf="show1">Tháng {{showMonth}}</h5>
         <canvas style="width: 100%" id="myChart"></canvas>

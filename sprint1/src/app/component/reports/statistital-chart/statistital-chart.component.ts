@@ -56,22 +56,15 @@ export class StatistitalChartComponent implements OnInit {
   submit() {
     $('#myChart').remove(); // this is my <canvas> element
     $('#containChart').append('<canvas style="width: 100%" id="myChart"><canvas>');
-    if (this.staticForm.value.month != '' && this.staticForm.value.year == '') {
-      this.toastr.warning('Thời gian báo cáo không hợp lệ!', 'Thông báo', {
-        timeOut: 3000,
-        progressBar: true,
-      });
+    if ((this.staticForm.value.month != '' && this.staticForm.value.year == '')||
+      (this.staticForm.value.month == '' && this.staticForm.value.year == '')) {
+      // this.toastr.warning('Thời gian báo cáo không hợp lệ!', 'Thông báo', {
+      //   timeOut: 3000,
+      //   progressBar: true,
+      // });
       this.show = false;
       this.show1 = false;
-    } else if (this.staticForm.value.month == '' && this.staticForm.value.year == '') {
-      this.toastr.warning('Thời gian báo cáo không hợp lệ!', 'Thông báo', {
-        timeOut: 3000,
-        progressBar: true
-      });
-      this.show = false;
-      this.show1 = false;
-    }
-    else if (this.staticForm.value.month != '' && this.staticForm.value.year != '') {
+    } else if (this.staticForm.value.month != '' && this.staticForm.value.year != '') {
       this.statics = [];
       this.reportService.getStaticByMonth(this.staticForm.value.month, this.staticForm.value.year)
         .subscribe(staticsByMonth => {
