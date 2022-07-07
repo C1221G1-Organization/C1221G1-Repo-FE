@@ -1,7 +1,7 @@
 
 <div style="font-size:16px">
 
-  <h1 style="text-align: center;font-size: 32px"> Thêm Mới Nhân Viên</h1>
+  <h2 style="text-align: center;font-size: 32px"> Thêm Mới Nhân Viên</h2>
   <br>
   <div class="container shadow-lg">
     <form [formGroup]="employeeFormCreate" (ngSubmit)="onSubmit()">
@@ -15,7 +15,7 @@
             Tên không được để trống.</p>
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeName.hasError('pattern')  && employeeFormCreate.controls.employeeName.touched">
-            Tên không được chứa các kí tự đặt biệt, Vd: <b>Nguyễn Anh Tâm.</b>.</p>
+            Tên không được chứa các kí tự đặt biệt . </p>
         </div>
       </div>
       <div class="row">

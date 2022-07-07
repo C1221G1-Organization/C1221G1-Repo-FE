@@ -1,27 +1,27 @@
 <div class="container p-2">
-  <h1 class="text-center">Báo Cáo</h1>
+  <h2 class="text-center">Báo Cáo</h2>
   <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
     <div class="container">
 
       <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
         <legend class="w-auto" style="font-weight: bold">Thời gian</legend>
         <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="row col-lg-10 col-sm-12">
-          <div style="display: flex;align-items: center;" class="control-group col-6">
-            <label class="col-lg-4 col-sm-12" style="font-weight: bold">Từ ngày :</label>
-            <input class="form-control" type="date" #startDay name="startDay" formControlName="startTime"/>
+          <div class="col-lg-1"></div>
+          <div class="row col-lg-10 col-sm-12">
+            <div style="display: flex;align-items: center;" class="control-group col-6">
+              <label class="col-lg-4 col-sm-12" style="font-weight: bold">Từ ngày :</label>
+              <input class="form-control" type="date" #startDay name="startDay" formControlName="startTime"/>
 
-          </div>
-          <div style="display: flex;align-items: center;" class="control-group col-6">
-            <label class="col-lg-4 col-sm-12" style="font-weight: bold">Đến ngày :</label>
-            <input class="form-control" type="date" #endDay name="endDay" formControlName="endTime"/>
+            </div>
+            <div style="display: flex;align-items: center;" class="control-group col-6">
+              <label class="col-lg-4 col-sm-12" style="font-weight: bold">Đến ngày :</label>
+              <input class="form-control" type="date" #endDay name="endDay" formControlName="endTime"/>
 
-          </div>
-          <p class="text-center" style="color: red" *ngIf="(reportForm.controls.startTime.hasError('required')||
+            </div>
+            <p class="text-center" style="color: red" *ngIf="(reportForm.controls.startTime.hasError('required')||
           reportForm.controls.endTime.hasError('required'))
           &&(reportForm.controls.startTime.touched||reportForm.controls.endTime.touched)">Cần chọn khoảng thời gian báo cáo</p>
-        </div>
+          </div>
 
         </div>
       </fieldset>
@@ -130,7 +130,7 @@
             <div class="form-check">
               <input class="form-check-input" type="radio" name="type" value="7" formControlName="type">
               <label class="form-check-label">
-                100 thuốc bán chạy nhất
+                100 thuốc bán nhiều nhất
               </label>
             </div>
           </div>
@@ -147,7 +147,7 @@
           </a>
         </div>
         <div class="col-4 text-right" id="btn">
-            <button  type="submit" class="btn btn-success mx-2"><i class="fa-solid fa-circle-plus" ></i> Xuất Excel</button>
+          <button  type="submit" class="btn btn-success mx-2"><i class="fa-solid fa-circle-plus" ></i> Xuất Excel</button>
           <button class="btn btn-secondary mx-2">
             <i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
         </div>
@@ -156,4 +156,3 @@
     </div>
   </form>
 </div>
-
