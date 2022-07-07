@@ -51,13 +51,16 @@ export class AccountEditComponent implements OnInit {
             employeeName: new FormControl(account.employeeName),
             position: new FormControl(this.position, [Validators.required]),
             username: new FormControl(account.username),
-            password: new FormControl("", [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
+            password: new FormControl(account.password, [Validators.required])
           })
+        }, error => {
+          this.toastr.warning("Không tìm thấy đối tượng !", "Thông báo", {
+            timeOut: 2000,
+            progressBar: true
+          });
         });
       })
     });
-
-
   }
 
 
@@ -65,15 +68,25 @@ export class AccountEditComponent implements OnInit {
   //  * create by HaiNX
   //  * time: 03/06/2022
   //  * update account
-  //  *
+  //  */
   update(id: string) {
-    const account = this.updateForm.value;
-    this.accountEmployeeService.update(id, account).subscribe(() => {
-      this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
-        timeOut: 2000,
-        progressBar: true
-      });
-      this.router.navigateByUrl('/account/list');
-    });
+    if (!this.updateForm.valid) {
+      this.updateForm.markAllAsTouched();
+    }
+    if (this.updateForm.valid) {
+      const account = this.updateForm.value;
+      this.accountEmployeeService.update(id, account).subscribe(() => {
+        this.toastr.success("Chỉnh sửa thành công!", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        });
+        this.router.navigateByUrl('/account/list');
+      }, error => {
+        this.toastr.warning("Chỉnh thất bại!", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        });
+      })
+    }
   }
 }
