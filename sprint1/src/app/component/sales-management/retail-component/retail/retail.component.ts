@@ -97,7 +97,7 @@ export class RetailComponent implements OnInit {
     };
     const myArray = this.listMedicineChoice;
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == undefined || idChoice == '' || nameChoice == '' || quantityChoice == ''
+    if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
       flag = true;
     } else {
@@ -145,7 +145,7 @@ export class RetailComponent implements OnInit {
     let invoiceDto: any = {
       customerId: 'KH-0001',
       employeeId: 'NV-0001',
-      invoiceNote: this.note,
+      invoiceNote: this.note.trim(),
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
@@ -225,7 +225,7 @@ export class RetailComponent implements OnInit {
       this.listMedicineChoice = this.listMedicineChoice.filter(
         (item) => {
           return item.medicineId != this.idDelete;
-        })
+        });
       this.resetIdAndName();
       this.deleteMedicineChoiceArr = [];
       console.log(this.listMedicineChoice);
