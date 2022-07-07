@@ -74,13 +74,20 @@
       <table class="table table-hover">
         <thead class="table-success">
         <tr>
-          <th class="col-1">Mã HĐ</th>
-          <th class="col-2">Tên khách hàng</th>
-          <th class="col-1">Ngày lập</th>
-          <th class="col-1">Giờ lập</th>
-          <th class="col-2">Người lập</th>
-          <th class="col-1">Tổng tiền</th>
-          <th class="col-1">Ghi chú</th>
+<!--          <th class="col-1">Mã HĐ</th>-->
+<!--          <th class="col-2">Tên khách hàng</th>-->
+<!--          <th class="col-1">Ngày lập</th>-->
+<!--          <th class="col-1">Giờ lập</th>-->
+<!--          <th class="col-2">Người lập</th>-->
+<!--          <th class="col-2">Tổng tiền</th>-->
+<!--          <th class="col-1">Ghi chú</th>-->
+          <th>Mã HĐ</th>
+          <th>Tên khách hàng</th>
+          <th>Ngày lập</th>
+          <th>Giờ lập</th>
+          <th>Người lập</th>
+          <th>Tổng tiền</th>
+          <th>Ghi chú</th>
         </tr>
         </thead>
         <tbody *ngIf="invoiceList != null">
@@ -91,7 +98,7 @@
           <td>{{invoice.invoiceCreatedDate | date :'dd/MM/yyyy'}}</td>
           <td>{{invoice.invoiceCreateTime}}</td>
           <td>{{invoice.employeeName}}</td>
-          <td>{{invoice.invoiceTotalMoney | currency :'VND'}}</td>
+          <td>{{invoice.invoiceTotalMoney | number }} VNĐ</td>
           <td>{{invoice.invoiceNote}}</td>
         </tr>
         </tbody>
@@ -101,7 +108,7 @@
         </tr>
         </tbody>
       </table>
-      <div *ngIf="invoiceList.length == !0" >
+<!--      <div *ngIf="invoiceList.length == !0" >-->
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item">
@@ -119,7 +126,7 @@
             </li>
           </ul>
         </nav>
-      </div>
+<!--      </div>-->
       <!--Button start-->
       <div id="bottom-btn" class="d-flex justify-content-end">
         <button [routerLink]="['/sales-management/retail']" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i> Thêm hóa đơn</button>

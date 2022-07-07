@@ -5,6 +5,7 @@ import {AvailablePrescriptionListComponent} from "./retail-component/available-p
 import {PrescriptionDetailComponent} from "./retail-component/prescription-detail/prescription-detail.component";
 import {WholesaleComponent} from "./wholesale-component/wholesale/wholesale.component";
 import {RefundCustomerComponent} from "./refund-customer/refund-customer.component";
+import {InvoiceListComponent} from "./invoice-list/invoice-list.component";
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: "available-prescription", component: AvailablePrescriptionListComponent},
   { path: "prescription-detail/:id", component: PrescriptionDetailComponent},
   { path: "wholesale", component: WholesaleComponent},
-  { path: "refund", component: RefundCustomerComponent}
+  { path: "refund", component: RefundCustomerComponent},
+  { path: "invoices", component: InvoiceListComponent}
 ];
 
 @NgModule({
