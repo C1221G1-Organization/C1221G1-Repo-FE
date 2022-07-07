@@ -13,12 +13,8 @@
           <p [hidden]='!supplierName.errors.required' class="text-danger">
             Tên Nhà Cung Cấp Bắt Buộc Phải Có
           </p>
-          <p [hidden]='!supplierName.errors.minlength' class="text-danger">
-            Tên Nhà Cung Cấp Quá Ngắn
-          </p>
-          <p *ngIf="!supplierName.errors.minlength"
-             [hidden]='!supplierName.errors.pattern' class="text-danger">
-            Tên Nhà Cung Cấp Không Hợp Lệ
+          <p [hidden]='!supplierName.errors.pattern' class="text-danger">
+            Tên Nhà Cung Cấp Không Có Số
           </p>
         </div>
       </div>
@@ -43,6 +39,7 @@
               <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
                 Không Đúng Định Dạng Của Số Điện Thoại
               </p>
+
             </div>
             <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
               Số Điện Thoại Này Đã Tồn Tại
@@ -81,8 +78,8 @@
       <div class=" d-flex justify-content-right " style="float: right">
         <div class="row">
           <div class="m-2">
-            <button class="btn btn-secondary mgl">
-              <a [routerLink]="['/supplier/']" style="color: white">
+            <button class="btn btn-secondary mgl" routerLink='/supplier/'>
+              <a style="color: white">
                 <i aria-hidden="true" class="fa fa-undo"></i> Trở về
               </a>
             </button>
