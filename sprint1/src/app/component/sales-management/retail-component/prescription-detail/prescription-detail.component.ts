@@ -8,6 +8,7 @@ import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
 import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-prescription-detail',
@@ -30,8 +31,9 @@ export class PrescriptionDetailComponent implements OnInit {
   deleteErr: string;
   disableCreate = true;
   disableFlag: true;
-  arrPDF = [];
   printInvoice: string;
+  arrPDF = [];
+
   constructor(private retailService: RetailService,
               private route: ActivatedRoute,
               private toastr: ToastrService,
@@ -74,8 +76,8 @@ export class PrescriptionDetailComponent implements OnInit {
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
-      customerId: 'KH-0001',
-      employeeId: 'NV-0001',
+      customerId: 'KH-00001',
+      employeeId: 'NV-00001',
       invoiceNote: 'no comment',
       invoiceMedicineList: this.invoiceMedicineDtos
     };

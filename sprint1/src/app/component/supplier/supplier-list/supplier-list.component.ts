@@ -34,7 +34,7 @@ export class SupplierListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListSupplier({
-      page: this.currentPage,
+      page: 0,
       size: 10000,
       searchId: '',
       searchName: '',
@@ -205,10 +205,17 @@ export class SupplierListComponent implements OnInit {
         break;
       }
       default: {
-        this.toastr.warning('Chưa Có Lựa Chịn Khi Tìm Kiếm ', 'Thông Báo Hệ Thống', {
+        this.toastr.warning('Chưa Có Lựa Chọn Khi Tìm Kiếm ', 'Thông Báo Hệ Thống', {
           timeOut: 3000,
           progressBar: true
         });
+        this.getListSupplier({
+          page: 0,
+          size: 10000,
+          searchId: '',
+          sort: '',
+          owner: this.ownerSearch
+        })
       }
     }
   }

@@ -68,7 +68,7 @@
         <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i"
             (click)="chooseSupplier(i, item)"
             [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
-          <td>{{i + 1}}</td>
+          <td>{{(5 * currentPage) + (i + 1)}}</td>
           <td>{{item.supplierId}}</td>
           <td class="lf">{{item.supplierName}}</td>
           <td>{{item.supplierPhone}}</td>
@@ -109,7 +109,7 @@
 
   </div>
 
-  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1">
+  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1 ">
     <nav class="blog-pagination d-flex justify-content-center py-3">
       <ul class="pagination">
         <li class="page-item px-1">

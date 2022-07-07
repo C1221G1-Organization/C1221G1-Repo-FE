@@ -47,7 +47,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let account of accountEmployeeList, index as i , let k = index" (click)="activeProject(k,account)"
-            [ngStyle]="{'background-color': activeProjectIndex === k && flag ? '#9deba7' : 'white' }">
+            [ngStyle]="{'background-color': activeProjectIndex === k && flag ? 'darkgrey' : 'white' }">
           <th scope="row">{{(3 * page) + (i + 1)}}</th>
           <td>{{account.employeeId}}</td>
           <td>{{account.employeeName}}</td>
@@ -77,7 +77,7 @@
     <div>
       <a (click)="clickEdit(sucessButton)" class="btn  btn-warning" style="margin-right: 5px"><i class="fa fa-pencil" aria-hidden="true">
       </i> Sửa tài khoản</a>
-      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px">
+      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px" [routerLink]="['/sales-management/invoices']">
         <i class="fa fa-undo" aria-hidden="true"></i> Trở vể</a>
     </div>
   </div>

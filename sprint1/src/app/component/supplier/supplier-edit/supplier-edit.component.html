@@ -9,14 +9,11 @@
                type="text">
         <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
           <p [hidden]='!supplierName.errors.required' class="text-danger">
-            Tên Nhà Cung Cấp Bắt Buộc Phải Có
-          </p>
-          <p [hidden]='!supplierName.errors.minlength' class="text-danger">
-            Tên Nhà Cung Cấp Quá Ngắn
+            Tên Nhà Cung Cấp Bắt Buộc Phải Có.
           </p>
           <p *ngIf="!supplierName.errors.minlength"
              [hidden]='!supplierName.errors.pattern' class="text-danger">
-            Tên Nhà Cung Cấp Không Hợp Lệ
+            Tên Nhà Cung Cấp Không Hợp Lệ.
           </p>
         </div>
       </div>
@@ -36,10 +33,10 @@
                    type="text">
             <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
               <p [hidden]='!supplierPhone.errors.required' class="text-danger">
-                Số Điện Thoại Không Được Để Trống
+                Số Điện Thoại Không Được Để Trống.
               </p>
               <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
-                Định Dạng Của Số Điện Thoại Không Hợp Lệ
+                Định Dạng Của Số Điện Thoại Không Hợp Lệ.
               </p>
             </div>
           </div>
@@ -51,10 +48,10 @@
                    type="email">
             <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
               <p [hidden]='!supplierEmail.errors.required' class="text-danger">
-                Email Không Được Để Trống
+                Email Không Được Để Trống.
               </p>
               <p [hidden]='!supplierEmail.errors.pattern' class="text-danger">
-                Định Dạng Của Email Không Hợp Lệ
+                Định Dạng Của Email Không Hợp Lệ.
               </p>
             </div>
           </div>

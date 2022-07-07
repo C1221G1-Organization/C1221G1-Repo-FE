@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
 import {Title} from '@angular/platform-browser';
+import {environment} from '../../../environments/environment';
 
 export const snapshotToArray = (snapshot: any) => {
   const returnArr = [];
@@ -27,12 +28,13 @@ const YEAR_MILLIS = WEEK_MILLIS * 52;
   styleUrls  : ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
-
+  @ViewChild("chatRoomList") private chatRoomList: ElementRef;
   rooms: any[];
   colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
   ];
+  latestMessagePostTime = 0;
 
   /**
    * @Author NghiaNTT
@@ -44,11 +46,18 @@ export class AdminChatComponent implements OnInit {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
       this.rooms.sort((a, b) => b.lastMessagePost - a.lastMessagePost);
+      if (this.rooms[0].lastMessagePost > this.latestMessagePostTime
+        && this.rooms[0].isSeen == false) {
+        // console.log('sound admin');
+        this.playAudio();
+        this.latestMessagePostTime = this.rooms[0].lastMessagePost
+      };
     });
   }
 
 
   ngOnInit(): void {
+    // this.chatRoomList.nativeElement.scrollIntoView({ behavior: "smooth", block:'nearest' });
     this.title.setTitle("Pharmacode | Hỗ trợ khách hàng");
   }
   /**
@@ -88,43 +97,50 @@ export class AdminChatComponent implements OnInit {
     let last: number;
     let roundup: number;
     if (diff < MINUTE_MILLIS) {
-      return "just now";
+      return "gần đây";
     } else if (diff < 2 * MINUTE_MILLIS) {
-      return "a minute ago";
+      return "1 phút trước";
     } else if (diff < 50 * MINUTE_MILLIS) {
       roundup = diff / MINUTE_MILLIS;
       last = Math.floor(roundup);
-      return last + " minutes ago";
+      return last + " phút trước";
     } else if (diff < 90 * MINUTE_MILLIS) {
       return "an hour ago";
     } else if (diff < 24 * HOUR_MILLIS) {
       roundup = diff / HOUR_MILLIS;
       last = Math.floor(roundup);
-      return last + " hours ago";
+      return last + " giờ trước";
     } else if (diff < 48 * HOUR_MILLIS) {
       return "yesterday";
     } else if (diff < 7 * DAY_MILLIS) {
       roundup = diff / DAY_MILLIS;
       last = Math.floor(roundup);
-      return last + " days ago";
+      return last + "ngày trước";
     } else if (diff < 2 * WEEK_MILLIS) {
       return "a week ago";
     } else if (diff < DAY_MILLIS * 30.43675) {
       roundup = diff / (DAY_MILLIS * 30.43675);
       last = Math.floor(roundup);
-      return last + " weeks ago";
+      return last + " tuần trước";
     } else if (diff < 2 * MONTH_MILLIS) {
       return "a month ago";
     } else if (diff < WEEK_MILLIS * 52.2) {
       roundup = diff / (WEEK_MILLIS * 52.2);
       last = Math.floor(roundup);
-      return last + " months ago";
+      return last + " tháng trước";
     } else if (diff < 2 * YEAR_MILLIS) {
-      return "a year ago";
+      return "1 năm trước";
     } else {
       roundup = diff / (YEAR_MILLIS * 2);
       last = Math.floor(roundup);
-      return last + " years ago";
+      return last + " năm trước";
     }
   }
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../../../assets/audio/noti.wav";
+    audio.load();
+    audio.play();
+  }
+
 }

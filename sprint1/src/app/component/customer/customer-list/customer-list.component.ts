@@ -246,7 +246,6 @@ export class CustomerListComponent implements OnInit {
   sortBy() {
     switch (this.sort.nativeElement.value) {
       case 'customer_id':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -256,7 +255,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_type_id':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -266,7 +264,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_name':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerName: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -276,7 +273,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_address':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerAddress: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -286,7 +282,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_phone':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerPhone: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value

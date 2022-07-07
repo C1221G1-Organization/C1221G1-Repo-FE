@@ -38,7 +38,7 @@ export class EmployeeCeateComponent implements OnInit {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
       employeeAddress: new FormControl('', [Validators.required]),
@@ -97,13 +97,11 @@ export class EmployeeCeateComponent implements OnInit {
       this.employeeFormCreate.markAllAsTouched();
     }
     const employee = this.employeeFormCreate.value;
-    console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
       fileRef.getDownloadURL().subscribe(url => {
         this.employeeFormCreate.patchValue(employee.employeeImage = url);
-        console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
           this.toastr.success('Thêm Mới Thành Công !', '', {
@@ -116,9 +114,7 @@ export class EmployeeCeateComponent implements OnInit {
             timeOut: 3000,
             progressBar: true
           });
-          console.log(error.error);
           this.errorUser = error.error?.errorMap?.usersName;
-          console.log(this.errorUser);
         });
       });
     })).subscribe();
@@ -135,7 +131,6 @@ export class EmployeeCeateComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('lớn hơn');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
   }
@@ -164,11 +159,9 @@ Function:  Show image on firebase
         this.giveURLtoCreate.emit(this.downloadURL);
         this.checkUploadAvatar = false;
         this.listIMG.push(url);
-        console.log('LIST ==> ', this.listIMG);
         for (let i = 0; i < this.listIMG.length; i++) {
           this.myMap.set(i, this.listIMG[i]);
         }
-        console.log('map ---> ', this.myMap);
       });
     })).subscribe();
   }

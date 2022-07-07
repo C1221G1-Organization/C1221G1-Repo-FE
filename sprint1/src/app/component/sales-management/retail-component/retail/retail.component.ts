@@ -29,9 +29,7 @@ export class RetailComponent implements OnInit {
   index: number;
   flagHover = false;
   deleteMedicineChoiceArr: any = [];
-  // dùng cho thêm thuốc
   isDisabled = true;
-  // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
   deleteErr: string;
   printInvoice: string;
