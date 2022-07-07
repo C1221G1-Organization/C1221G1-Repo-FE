@@ -4,10 +4,8 @@ import {PrescriptionMedicineDetail} from '../../../../dto/prescription/prescript
 import {RetailService} from '../../../../service/retail.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {MedicineSale} from '../../../../dto/invoice/medicineSale';
 import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
 import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
-import {FormGroup} from '@angular/forms';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
