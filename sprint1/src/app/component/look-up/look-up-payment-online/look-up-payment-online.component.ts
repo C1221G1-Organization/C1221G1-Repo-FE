@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {PaymentOnlineDto} from "../../../dto/cart/PaymentOnlineDto";
-import {LookupPaymentOnlineService} from "../lookup-payment-online.service";
+import {PaymentOnlineDto} from '../../../dto/cart/PaymentOnlineDto';
+import {LookupPaymentOnlineService} from '../lookup-payment-online.service';
 
 @Component({
   selector: 'app-look-up-payment-online',
@@ -10,7 +10,7 @@ import {LookupPaymentOnlineService} from "../lookup-payment-online.service";
 export class LookUpPaymentOnlineComponent implements OnInit {
 
 
-  paymentOnlines: PaymentOnlineDto[] = []
+  paymentOnlines: PaymentOnlineDto[] = [];
   @ViewChild('paymentIdSearch') paymentIdSearch: ElementRef;
   @ViewChild('customerNameSearch') customerNameSearch: ElementRef;
   totalPages: number;
@@ -70,5 +70,4 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     request['customerName'] = this.customerNameSearch.nativeElement.value;
     this.getPaymentOnlines(request);
   }
-
 }

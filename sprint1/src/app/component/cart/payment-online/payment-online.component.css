@@ -46,3 +46,8 @@ textarea {
   width: 100%;
   height: 100vh;
 }
+
+#exampleModal{
+  position: fixed;
+  top: 15%;
+}

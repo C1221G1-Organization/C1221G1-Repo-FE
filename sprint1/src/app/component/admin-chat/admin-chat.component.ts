@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -13,13 +13,13 @@ export const snapshotToArray = (snapshot: any) => {
   return returnArr;
 };
 
+
 @Component({
   selector: 'app-admin-chat',
   templateUrl: './admin-chat.component.html',
   styleUrls: ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
-
   rooms: any[];
 
   /**
@@ -32,9 +32,10 @@ export class AdminChatComponent implements OnInit {
     firebase.database().ref('rooms/').on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
-      this.rooms.sort((a, b) => b.lastMessagePost - a.lastMessagePost)
+      this.rooms.sort((a, b) => b.lastMessagePost - a.lastMessagePost);
     });
   }
+
 
   ngOnInit(): void {
   }
