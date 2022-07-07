@@ -17,9 +17,8 @@ export class ImportInvoiceListComponent implements OnInit {
   importInvoiceList: ImportInvoice[] = [];
   searchForm: FormGroup;
   startDate: string = '';
-  endDate: string = new Date().toLocaleDateString('en-ZA');
-  startTime: string = '';
-  endTime: string = '23:59';
+  endDate: string = (new Date().toLocaleString('en-ZA', {hour12: false}).slice(0, 10)) +
+    (new Date().toLocaleString('en-ZA', {hour12: false}).slice(12,));
   fieldSort: string = 'import_invoice_id';
   fieldSortBy: string = 'asc';
   idDelete: string = null;
@@ -41,10 +40,6 @@ export class ImportInvoiceListComponent implements OnInit {
         startDate: new FormControl(),
         endDate: new FormControl()
       }, this.dateErrorValidator),
-      timeForm: new FormGroup({
-        startTime: new FormControl(),
-        endTime: new FormControl()
-      }, this.timeErrorValidator),
       fieldSort: new FormControl(),
       fieldSortBy: new FormControl(),
     });
@@ -59,31 +54,13 @@ export class ImportInvoiceListComponent implements OnInit {
   dateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
     const start = control.get('startDate');
     if (start.value !== null) {
-      this.startDate = start.value;
+      this.startDate = start.value.slice(0, 10) + start.value.slice(11);
     }
     const end = control.get('endDate');
     if (end.value !== null) {
-      this.endDate = end.value;
+      this.endDate = end.value.slice(0, 10) + end.value.slice(11);
     }
     return start.value > end.value ? {dateError: true} : null;
-  };
-
-  /**
-   * this function use to validate time
-   *
-   * @author HongHTX
-   * @Time 19:30 05/07/2022
-   */
-  timeErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    const start = control.get('startTime');
-    if (start.value !== null) {
-      this.startTime = start.value;
-    }
-    const end = control.get('endTime');
-    if (end.value !== null) {
-      this.endTime = end.value;
-    }
-    return start.value > end.value ? {timeError: true} : null;
   };
 
   /**
@@ -94,8 +71,8 @@ export class ImportInvoiceListComponent implements OnInit {
    */
   ngOnInit(): void {
     this.getImportInvoiceList({
-      page: 0, size: 5, startDate: this.startDate, endDate: this.endDate, startTime: this.startTime,
-      endTime: this.endTime, fieldSort: this.fieldSort, fieldSortBy: this.fieldSortBy
+      page: 0, size: 5, startDate: this.startDate, endDate: this.endDate,
+      fieldSort: this.fieldSort, fieldSortBy: this.fieldSortBy
     });
   }
 
@@ -137,8 +114,6 @@ export class ImportInvoiceListComponent implements OnInit {
       request['size'] = 5;
       request['startDate'] = this.startDate;
       request['endDate'] = this.endDate;
-      request['startTime'] = this.startTime;
-      request['endTime'] = this.endTime;
       request['fieldSort'] = this.fieldSort;
       request['fieldSortBy'] = this.fieldSortBy;
       this.getImportInvoiceList(request);
@@ -158,8 +133,6 @@ export class ImportInvoiceListComponent implements OnInit {
       request['size'] = 5;
       request['startDate'] = this.startDate;
       request['endDate'] = this.endDate;
-      request['startTime'] = this.startTime;
-      request['endTime'] = this.endTime;
       request['fieldSort'] = this.fieldSort;
       request['fieldSortBy'] = this.fieldSortBy;
       this.getImportInvoiceList(request);
@@ -173,28 +146,11 @@ export class ImportInvoiceListComponent implements OnInit {
    * @Time 11:00 02/07/2022
    */
   search() {
-    console.log('toi dau' + this.searchForm.value.startDate);
-    console.log('toi dau' + this.searchForm.value.endDate);
-    console.log('toi dau' + this.searchForm.value.startTime);
     if (this.searchForm.value.startDate == null) {
       this.searchForm.value.startDate = this.startDate;
-    } else {
-      this.startDate = this.searchForm.value.startDate;
     }
     if (this.searchForm.value.endDate == null) {
       this.searchForm.value.endDate = this.endDate;
-    } else {
-      this.endDate = this.searchForm.value.endDate;
-    }
-    if (this.searchForm.value.startTime == null) {
-      this.searchForm.value.startTime = this.startTime;
-    } else {
-      this.startTime = this.searchForm.value.startTime;
-    }
-    if (this.searchForm.value.endTime == null) {
-      this.searchForm.value.endTime = this.endTime;
-    } else {
-      this.endTime = this.searchForm.value.endTime;
     }
     if (this.searchForm.value.fieldSort == null) {
       this.searchForm.value.fieldSort = this.fieldSort;
@@ -212,10 +168,6 @@ export class ImportInvoiceListComponent implements OnInit {
       endTime: this.searchForm.value.endTime, fieldSort: this.searchForm.value.fieldSort,
       fieldSortBy: this.searchForm.value.fieldSortBy
     });
-    console.log('toi dui' + this.searchForm.value.startDate);
-    console.log('toi dui' + this.searchForm.value.endDate);
-    console.log('toi dui' + this.searchForm.value.startTime);
-
   }
 
   /**
@@ -238,7 +190,6 @@ export class ImportInvoiceListComponent implements OnInit {
       this.idDelete = importInvoiceId;
     }
     this.n = m;
-    console.log(this.n);
   }
 
   /**
@@ -267,8 +218,6 @@ export class ImportInvoiceListComponent implements OnInit {
   resetAll() {
     this.startDate = '';
     this.endDate = new Date().toLocaleDateString('en-ZA');
-    this.startTime = '';
-    this.endTime = '23:59';
     this.fieldSort = 'import_invoice_id';
     this.fieldSortBy = 'asc';
     this.ngOnInit();

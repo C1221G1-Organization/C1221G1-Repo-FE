@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -13,8 +13,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {TemplatesModule} from './component/templates/templates.module';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import 'firebase/database';
-import { NgxSpinnerModule } from "ngx-spinner";
+import "firebase/database";
+import {NgxSpinnerModule} from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
 
 @NgModule({
@@ -23,7 +23,7 @@ import {ReportModule} from './component/reports/report.module';
     NotFoundComponent,
     HomePageComponent,
   ],
-  imports: [
+  imports     : [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -44,7 +44,8 @@ import {ReportModule} from './component/reports/report.module';
     NgxSpinnerModule,
 
   ],
-  providers: [],
+
+  providers: [Title],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<p>medicine-edit works!</p>
-=======
 <h1 *ngIf="medicineEditForm" class="text-center">Sửa thông tin thuốc với ID: <b
   class="text-success">{{confirmMedicine.medicineId}}</b></h1>
 <form [formGroup]="medicineEditForm" *ngIf="medicineEditForm" (ngSubmit)="updateMedicine()">
@@ -257,8 +254,8 @@
           </svg>
           Làm mới
         </button>
-        <button class="btn btn-secondary mx-4" [disabled]="isLoading">
-          <i class="fa fa-undo" aria-hidden="true" routerLink="/medicine/list"></i> Trở về
+        <button class="btn btn-secondary mx-4" routerLink="/medicine/list" [disabled]="isLoading">
+          <i class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
         <button class="btn btn-success mx-4" [disabled]="isLoading"><i class="fa-solid fa-circle-plus"></i> Chỉnh sửa
           <span class="spinner-border spinner-border-sm" role="status" *ngIf=" isLoading">
@@ -269,4 +266,3 @@
     </div>
   </div>
 </form>
->>>>>>> develop

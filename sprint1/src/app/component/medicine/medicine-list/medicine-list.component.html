@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<p>medicine-list works!</p>
-=======
 <div class="container-fluid">
   <div class="search">
     <fieldset class="border p-2">
@@ -72,7 +69,7 @@
             <tr *ngFor="let medicine of medicines|paginate : { itemsPerPage: 3, currentPage: p },  index as index"
                 (click)="getValueMedicine( index, medicine.medicineId, medicine)"
                 [ngStyle]="{'background-color': chosenIndex === index && isChosen && medicine.medicineId==chooseId ? 'darkgrey' : ''}">
-              <td>{{index+1}}</td>
+              <td>{{index + 1}}</td>
               <td>{{medicine.medicineId}}</td>
               <td>{{medicine.medicineTypeName}}</td>
               <td>{{medicine.medicineName}}</td>
@@ -110,7 +107,8 @@
     <button class="btn btn-success mx-2" routerLink="/medicine/create"><i class="fa-solid fa-circle-plus"></i>
       Thêm
     </button>
-    <button class="btn btn-warning mx-2" [disabled]="!isChosen" [routerLink]="['/medicine/edit']"><i
+    <button class="btn btn-warning mx-2" [disabled]="!isChosen"
+            [routerLink]="['/medicine/edit',getMedicine.medicineId]"><i
       class="fa-solid fa-pen-fancy"></i> Sửa
     </button>
     <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)" [disabled]="!isChosen"
@@ -175,6 +173,3 @@
     </div>
   </div>
 </div>
-
-
->>>>>>> develop

@@ -17,13 +17,10 @@ const routes: Routes = [
   {path: 'detail/:supplierId', component: SupplierDetailComponent}
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 
-
 export class SupplierRoutingModule {
 }
-
