@@ -82,6 +82,7 @@ export class SupplierCreateComponent implements OnInit {
           timeOut: 3000,
           progressBar: true
         })
+        this.submitted= false;
       });
     }
   }

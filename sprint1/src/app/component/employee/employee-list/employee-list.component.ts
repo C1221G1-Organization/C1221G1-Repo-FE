@@ -27,8 +27,7 @@ export class EmployeeListComponent implements OnInit {
   public isHasContent = false;
   public employeeIdValue: string;
   public employeeNameValue: string;
-  public drowDownValue: string;
-
+  public drowDownValue: any = '';
   constructor(private positionService: PositionService,
               private employeeService: EmployeeService,
               private toastr: ToastrService) {
@@ -91,23 +90,27 @@ export class EmployeeListComponent implements OnInit {
   search() {
     let str:string = this.valueSearchInput.nativeElement.value;
     console.log(str);
-    if(!str.trim().match("^[a-zA-Z0-9 vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ-]+$")){
-      if(str == ""){
-        this.isHasContent = false;
-        return this.ngOnInit()
-      }
-      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
-        timeOut: 3000,
-        progressBar: true
-      });
-      this.isHasContent = true;
-      return this.employees = null;
-    }
+    // if(str == '%'){
+    //   this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+    //         timeOut: 3000,
+    //         progressBar: true
+    //       });
+    //       this.isHasContent = true;
+    //       return this.employees = null;
+    // }
     console.log(this.criteria.nativeElement.value);
     console.log(this.valueSearchInput.nativeElement.value);
     console.log(this.valueSearchDropDown.nativeElement.value);
     switch (this.criteria.nativeElement.value) {
       case 'code':
+        if(str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: str.trim(), employeeName: '',
           position: '', employeeAddress: '', employeePhone: '', sort: ''
@@ -126,6 +129,14 @@ export class EmployeeListComponent implements OnInit {
         });
         break;
       case 'name':
+        if(str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: '', employeeName: str.trim(),
           position: '', employeeAddress: '', employeePhone: '', sort: ''
@@ -161,8 +172,17 @@ export class EmployeeListComponent implements OnInit {
           });
         });
         this.drowDownValue = this.valueSearchDropDown.nativeElement.value;
+        console.log(this.drowDownValue);
         break;
       case 'address':
+        if(str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: '', employeeName: '',
           position: '', employeeAddress: str.trim(), employeePhone: '', sort: ''
@@ -181,6 +201,14 @@ export class EmployeeListComponent implements OnInit {
         });
         break;
       case 'phone':
+        if(str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: '', employeeName: '',
           position: '', employeeAddress: '', employeePhone: str.trim(), sort: ''
@@ -313,7 +341,7 @@ export class EmployeeListComponent implements OnInit {
         case 'position':
           request['employeeId'] = '';
           request['employeeName'] = '';
-          request['position'] = this.drowDownValue;
+          request['position'] = this.valueSearchDropDown.nativeElement.value;
           request['employeeAddress'] = '';
           request['employeePhone'] = '';
           break;
@@ -365,7 +393,7 @@ export class EmployeeListComponent implements OnInit {
         case 'position':
           request['employeeId'] = '';
           request['employeeName'] = '';
-          request['position'] = this.drowDownValue;
+          request['position'] = this.valueSearchDropDown.nativeElement.value;
           request['employeeAddress'] = '';
           request['employeePhone'] = '';
           break;

@@ -16,6 +16,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import "firebase/database";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
+import {authInterceptorProviders} from "./service/security/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import {ReportModule} from './component/reports/report.module';
     NgxSpinnerModule,
   ],
 
-  providers: [Title],
+  providers: [Title,authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

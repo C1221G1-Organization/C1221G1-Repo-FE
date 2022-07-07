@@ -34,8 +34,6 @@ html {
   width: 16.6667%;
 }
 
-
-
 .grid__column-10 {
   padding-left: 5px;
   padding-right: 5px;
@@ -62,8 +60,6 @@ html {
 }
 
 /* Button style */
-
-
 /* SELECTION */
 .select-input {
   height: 34px;
@@ -125,6 +121,7 @@ html {
   justify-content: center;
   align-items: center;
 }
+
 .pagination-item {
   list-style: none;
   margin: 0 12px;
@@ -333,7 +330,6 @@ html {
   font-weight: 600;
 }
 
-
 /* AUTHEN MODAL */
 .auth-form {
   width: 500px;
@@ -464,6 +460,7 @@ html {
   align-items: center;
   padding: 9px 8px 0;
 }
+
 .header__logo {
   width: 100% !important;
   flex: 1;
@@ -493,6 +490,7 @@ html {
   width: 15%;
   text-align: center;
 }
+
 .header__cart-notice {
   position: absolute;
   top: -4px;
@@ -505,6 +503,7 @@ html {
   color: var(--primary-color);
   font-size: 0.8rem;
 }
+
 .header__cart-wrap {
   position: relative;
   display: inline-block;
@@ -558,6 +557,7 @@ html {
   margin: 12px;
   border: 1px solid #e8e8e8;
 }
+
 .header__cart-heading {
   text-align: left;
   margin: 8px 0 8px 12px;
@@ -570,11 +570,13 @@ html {
   width: 100%;
   margin-right: 12px;
 }
+
 .header__cart-item-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .header__cart-item-name {
   font-size: 1rem;
   color: var(--text-color);
@@ -595,24 +597,29 @@ html {
   font-size: 1rem;
   color: var(--primary-color);
 }
+
 .header__cart-item-multiply {
   color: #757575;
   font-size: 1rem;
   margin: 0 0 4px;
 }
+
 .header__cart-item-qnt {
   color: #757575;
   font-size: 1.2rem;
 }
+
 .header__cart-item-body {
   display: flex;
   justify-content: space-between;
 }
+
 .header__cart-item-description {
   color: #757575;
   font-size: 0.8rem;
   margin-top: 5px;
 }
+
 .header__cart-item-remove {
   color: var(--text-color);
   font-size: 1.2rem;
@@ -668,6 +675,7 @@ html {
   float: right;
   margin: 0 12px 12px 0;
 }
+
 .header__search-input {
   flex: 1;
   width: 100%;
@@ -679,19 +687,13 @@ html {
   padding: 0 16px;
   border-radius: 2px;
 }
+
 .header__search-select-label {
   font-size: 1.3rem;
   color: var(--text-color);
 }
+
 /*SELECT*/
-
-
-
-
-
-
-
-
 .header__search-select-icon {
   font-size: 0.8rem;
   color: var(--text-color);
@@ -799,7 +801,6 @@ input:focus ~ div {
   display: block;
 }
 
-
 /*.select-box select{*/
 /*  height: 42px;*/
 /*  padding: 10px 15px;*/
@@ -810,7 +811,6 @@ input:focus ~ div {
 /*  -webkit-appearance: none;*/
 /*  appearance: none;*/
 /*}*/
-
 /*.select-box:after{*/
 /*  content: "";*/
 /*  position: absolute;*/
@@ -823,37 +823,24 @@ input:focus ~ div {
 /*  pointer-events: none;*/
 /*}*/
 
-
-
 * {
   box-sizing: border-box;
 }
 
-li{
-  font-size: 1rem;
-}
 
-p {
-  font-size: 1.2vw;
+::placeholder {
+  font-size: calc(12px + 0.390625vw) !important;
 }
-
-::placeholder{
-  font-size: calc(12px + 0.390625vw)!important;
-}
-option[value=lorem] {
-  font-size: 2.2vw;
-}
-
 
 li {
-  font-size: calc(12px + 0.390625vw)!important;
+  font-size: calc(12px + 0.390625vw) !important;
 }
 
 a {
-  font-size: calc(12px + 0.390625vw)!important;
-}
-select{
-  font-size: calc(10px + 0.390625vw)!important;
+  font-size: calc(12px + 0.390625vw) !important;
 }
 
+select {
+  font-size: calc(10px + 0.390625vw) !important;
+}
 

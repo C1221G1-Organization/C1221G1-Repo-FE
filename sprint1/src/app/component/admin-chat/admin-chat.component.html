@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="chat-app-left-side" style="padding-left: 24px;">
+        <div class="chat-app-left-side" #chatRoomList style="padding-left: 24px;">
           <ul>
             <li (click)="isSeenToggle(room.uuid)" [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
               <div class="circle-name" [ngStyle]="{'background-color':getAvatarColor(room.name)}">{{room.name[0].toUpperCase().normalize("NFD")}}</div>
@@ -34,4 +34,3 @@
     </div>
   </div>
 </div>
->>>>>>> develop
