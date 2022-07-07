@@ -60,11 +60,14 @@ export class AdminChatDetailComponent implements OnInit {
       firebase.database().ref('chats/' + this.uuid).push().set(chat);
       firebase.database().ref('rooms/' + this.uuid).once('value').then(res => {
         const room = res.val();
-        firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
+        firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: true});
       });
       this.chatForm.reset();
     } else {
-      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {timeOut: 3000, progressBar: false});
+      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {
+        timeOut    : 3000,
+        progressBar: false
+      });
       this.chatForm.reset();
     }
   }

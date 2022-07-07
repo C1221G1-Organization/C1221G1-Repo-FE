@@ -44,7 +44,8 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.getAllMedicineBestSeller();
     this.getAllMedicineByNameAndTypeId({page: 0, size: 5});
-    this.title.setTitle('Trang chủ - Pharmacode')
+    this.title.setTitle('Trang chủ - Pharmacode');
+    window.scrollBy(0, 0);
   }
 
   /*

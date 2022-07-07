@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
   templateUrl: './prescription-create.component.html',
   styleUrls: ['./prescription-create.component.css']
 })
+
 export class PrescriptionCreateComponent implements OnInit {
   prescriptionForm: FormGroup = new FormGroup({
     prescriptionName: new FormControl('', [Validators.required, Validators.minLength(5),

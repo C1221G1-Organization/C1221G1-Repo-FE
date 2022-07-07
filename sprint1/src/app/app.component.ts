@@ -1,8 +1,8 @@
 import 'firebase/database';
 import {TokenStorageService} from './service/security/token-storage.service';
 import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import firebase from "firebase/app";
-import "firebase/database";
+import firebase from 'firebase/app';
+import 'firebase/database';
 import {config} from '../environments/environment';
 
 @Component({
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.ngOnInit()
+    this.ngOnInit();
     this.cdr.detectChanges();
   }
 }
