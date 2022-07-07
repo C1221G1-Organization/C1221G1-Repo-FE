@@ -4,7 +4,7 @@
     <div class="col-lg-6" style="float: left">
       <div class="input-group mb-3">
         <select class="form-control" #nameSearchingSelect>
-          <option value="supplierId"> Chưa Có Lựa Chọn</option>
+          <option value=""> Chưa Có Lựa Chọn</option>
           <option value="supplierId"> Mã Nhà Cung Cấp</option>
           <option value="supplierName"> Tên Nhà Cung Cấp</option>
           <option value="supplierAddress">Địa Chỉ Nhà Cung Cấp</option>
@@ -19,7 +19,7 @@
     <div class="col-lg-6" style="float: left">
       <div class="input-group mb-3">
         <span class="center-s"> Sắp Xếp :</span>
-        <select class="form-control" #sort>
+        <select class="form-control mg-r" #sort>
           <option value=""> Chưa Có Lựa Chọn</option>
           <option value="supplier_id"> Mã Nhà Cung Cấp</option>
           <option value="supplier_name"> Tên Nhà Cung Cấp</option>
@@ -50,9 +50,10 @@
 
     <fieldset style="border: 1px groove black; margin-bottom: 10px"
               *ngIf="listSupplier != null && listSupplier != undefined && listSupplier.length != 0 ">
-      <legend class="w-auto">ㅤHệ thống ㅤ</legend>
+      <legend class="w-auto">Hệ thống</legend>
 
       <div class="d-flex justify-content-center my-3">
+
         <h4 style="font-weight: bold"> Thông Tin Nhà Cung Cấp</h4>
       </div>
 
@@ -61,32 +62,34 @@
           <th>STT</th>
           <th>Tên Nhà Cung Cấp</th>
           <th>Mã Nhà Cung Cấp</th>
-          <th> Địa Chỉ</th>
           <th> Số Điện Thoại</th>
-          <th>Email</th>
+          <th> Địa Chỉ</th>
         </tr>
         <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i"
             (click)="chooseSupplier(i, item)"
             [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
           <td>{{i + 1}}</td>
           <td>{{item.supplierId}}</td>
-          <td>{{item.supplierName}}</td>
-          <td>{{item.supplierAddress}}</td>
+          <td class="lf">{{item.supplierName}}</td>
           <td>{{item.supplierPhone}}</td>
-          <td>{{item.supplierEmail}}</td>
+          <td class="lf">{{item.supplierAddress}}</td>
         </tr>
       </table>
     </fieldset>
     <div>
+      <div style="float: right"><b>{{nameDelete}}</b></div>
+      <div style="clear: both"></div>
       <div style="float: left ">
-        <button class="btn btn-info  mx-2" type="button">
-          <a [routerLink]="['/supplier/detail',idDelete]" style="color: white">
+        <button class="btn btn-info  mx-2" type="button" (click)="getInforE()">
+          <a [ngStyle]="{'pointer-events': !isChosen? 'none':''}" [routerLink]="['/supplier/detail',idDelete]"
+             style="color: white">
             <i aria-hidden="true" class="fa fa-address-card"></i>Thông Tin Chi Tiết</a>
         </button>
       </div>
       <div id="btn" style="float: right">
-        <button class="btn btn-warning">
-          <a [routerLink]="['/supplier/edit/',idDelete]" style="color: white">
+        <button class="btn btn-warning" (click)="getInforE()">
+          <a [ngStyle]="{'pointer-events': !isChosen? 'none':''}" [routerLink]="['/supplier/edit/',idDelete]"
+             style="color: white">
             <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
         </button>
         <button class="btn btn-danger mx-2" data-target="#staticBackdrop" data-toggle="modal"
@@ -103,8 +106,10 @@
         </button>
       </div>
     </div>
+
   </div>
-  <div class="mx-auto text-center" style="clear: both">
+
+  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1">
     <nav class="blog-pagination d-flex justify-content-center py-3">
       <ul class="pagination">
         <li class="page-item px-1">
@@ -118,11 +123,12 @@
           </a>
         </li>
         <li class="page-item px-1">
-          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp </a>
+          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Sau </a>
         </li>
       </ul>
     </nav>
   </div>
+
 </div>
 
 
@@ -133,7 +139,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel" style="color: red">Hệ Thống Thông Báo </h5>
+        <h4 class="modal-title" id="staticBackdropLabel" style="color: red"><b>Hệ Thống Thông Báo</b></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -141,16 +147,16 @@
       <div class="modal-body">
         <div class="modal-body">
           <div *ngIf="idDelete != undefined && idDelete!= null">
-            <div style="text-align: center">
+            <div>
               <p>Bạn Chắc Chắn Muốn Xóa
                 <b style="color: red ">{{nameDelete}}</b>
               </p>
               <p>Có Mã Là
-                <b style="color: red ">{{idDelete}}</b></p> Toàn Bộ Thông Tin Của Nhà Cung Cấp Này Có Thể Sẽ Mất
+                <b style="color: red ">{{idDelete}}</b>
+                <span>  Toàn Bộ Thông Tin Của Nhà Cung Cấp Này Có Thể Sẽ Mất</span></p>
             </div>
           </div>
           <div *ngIf="idDelete == undefined && idDelete== null">
-
             <div style="text-align: center">
               <h4>Chưa Chọn Nhà Cung Cấp </h4>
             </div>
@@ -167,49 +173,3 @@
     </div>
   </div>
 </div>
-
-
-<!--<div>-->
-<!--  <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"-->
-<!--       data-keyboard="false"-->
-<!--       id="staticBackdrop" tabindex="-1">-->
-<!--    <div class="modal-dialog">-->
-<!--      <div class="modal-content">-->
-<!--        <div class="modal-header">-->
-<!--          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>-->
-<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--            <span aria-hidden="true">&times;</span>-->
-<!--          </button>-->
-<!--          <div class="modal-body">-->
-<!--          <div *ngIf="idDelete!= undefined && idDelete!= null">-->
-
-<!--              <div style="text-align: center">-->
-<!--                <p>Bạn Chắc Chắn Muốn Xóa-->
-<!--                  <b style="color: red ">{{nameDelete}}</b>-->
-<!--                </p>-->
-<!--                <p>Có Mã Là-->
-<!--                  <b style="color: red ">{{idDelete}}</b></p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div *ngIf="idDelete== undefined && idDelete== null">-->
-<!--            <div class="modal-body">-->
-<!--              <div style="text-align: center">-->
-<!--                <p>Bạn Chắc Chắn Muốn Xóa-->
-<!--                  <b style="color: red ">{{nameDelete}}</b>-->
-<!--                </p>-->
-<!--                <p>Có Mã Là-->
-<!--                  <b style="color: red ">{{idDelete}}</b></p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hoàn Tác</button>-->
-<!--          <button (click)="confirmDelete()" class="btn btn-danger" data-dismiss="modal" type="button">-->
-<!--            Xác Nhận-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-

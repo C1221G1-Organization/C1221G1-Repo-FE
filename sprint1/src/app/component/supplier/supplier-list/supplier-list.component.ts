@@ -23,6 +23,7 @@ export class SupplierListComponent implements OnInit {
   chosenIndex: number;
   isChosen: Boolean;
   chooseId: string;
+  stt: number = 1;
   idDelete: string;
   nameDelete: String;
 
@@ -32,7 +33,6 @@ export class SupplierListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getListSupplier({
       page: this.currentPage,
       size: 10000,
@@ -59,6 +59,10 @@ export class SupplierListComponent implements OnInit {
         timeOut: 3000,
         progressBar: true
       });
+      this.chooseId = null;
+      this.chosenIndex = null;
+      this.idDelete = null;
+      this.nameDelete = null;
     }, e => {
       console.log(e);
     });
@@ -198,6 +202,13 @@ export class SupplierListComponent implements OnInit {
           sort: this.sort.nativeElement.value,
           owner: this.ownerSearch
         });
+        break;
+      }
+      default: {
+        this.toastr.warning('Chưa Có Lựa Chịn Khi Tìm Kiếm ', 'Thông Báo Hệ Thống', {
+          timeOut: 3000,
+          progressBar: true
+        });
       }
     }
   }
@@ -270,5 +281,14 @@ export class SupplierListComponent implements OnInit {
       });
     }
 
+  }
+
+  getInforE() {
+    if (!this.isChosen) {
+      this.toastr.warning('Vui Lòng Chọn Nhà Cung Cấp  ', 'Thông Báo Hệ Thống', {
+        timeOut: 2000,
+        progressBar: true,
+      });
+    }
   }
 }

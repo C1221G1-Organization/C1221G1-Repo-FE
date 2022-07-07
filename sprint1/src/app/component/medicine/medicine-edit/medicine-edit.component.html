@@ -1,4 +1,4 @@
-<h1 *ngIf="medicineEditForm" class="text-center">Sửa thông tin thuốc với ID: <b
+<h1 *ngIf="medicineEditForm" class="text-center">Sửa Thông Tin Thuốc Với ID: <b
   class="text-success">{{confirmMedicine.medicineId}}</b></h1>
 <form [formGroup]="medicineEditForm" *ngIf="medicineEditForm" (ngSubmit)="updateMedicine()">
   <div class="container shadow-lg p-3 mb-5 bg-white rounded">
@@ -243,8 +243,8 @@
         <h5 class="text-danger">(*) Thông tin bắt buộc</h5>
       </div>
       <div class="col-12 my-2 d-flex justify-content-center">
-        <button class="btn btn-primary mx-4" [disabled]="isLoading"
-                [routerLink]="['/medicine/edit',confirmMedicine.medicineId]">
+        <button class="btn btn-primary mx-4" type="button" [disabled]="isLoading"
+                [routerLink]="['/medicine/edit',id]">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                class="bi bi-x-octagon" viewBox="0 0 16 16">
             <path
@@ -254,8 +254,8 @@
           </svg>
           Làm mới
         </button>
-        <button class="btn btn-secondary mx-4" [disabled]="isLoading">
-          <i class="fa fa-undo" aria-hidden="true" routerLink="/medicine/list"></i> Trở về
+        <button class="btn btn-secondary mx-4" type="button" routerLink="/medicine/list" [disabled]="isLoading">
+          <i class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
         <button class="btn btn-success mx-4" [disabled]="isLoading"><i class="fa-solid fa-circle-plus"></i> Chỉnh sửa
           <span class="spinner-border spinner-border-sm" role="status" *ngIf=" isLoading">

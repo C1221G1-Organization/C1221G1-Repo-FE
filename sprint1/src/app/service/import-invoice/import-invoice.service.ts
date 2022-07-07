@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Page} from 'ngx-pagination/dist/pagination-controls.directive';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Medicine} from '../../model/medicine/medicine';
 import {FormGroup} from '@angular/forms';
@@ -8,6 +8,11 @@ import {Employee} from '../../model/employee/employee';
 import {ImportInvoice} from '../../model/import-invoice/import-invoice';
 import {Supplier} from '../../model/supplier';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'

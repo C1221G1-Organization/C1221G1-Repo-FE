@@ -6,6 +6,7 @@ import {MedicineDtoForCart} from '../../../dto/cart/MedicineDtoForCart';
 import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
 
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -24,10 +25,10 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartService.setCart();
+    // this.cartService.setCart();
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
-    window.scrollBy(0,0);
+    window.scrollBy(0, 0);
   }
 
   reload() {
@@ -41,20 +42,20 @@ export class CartComponent implements OnInit {
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
-      this.route.navigate(['cart/payment-online'])
+      this.route.navigate(['cart/payment-online']);
     }, error => {
       this.medicineErrorArray = [];
       console.log(error.error);
       for (let i = 0; i < cartAndDetailDto.cartDetail.length; i++) {
-        console.log("cartDetail[" + i + "].medicine");
-        console.log(error.error["cartDetail[" + i + "].medicine"]);
-        if (error.error["cartDetail[" + i + "].medicine"] != undefined ||
-          error.error["cartDetail[" + i + "].medicine"] != null) {
-          this.medicineErrorArray.push(error.error["cartDetail[" + i + "].medicine"]);
+        console.log('cartDetail[' + i + '].medicine');
+        console.log(error.error['cartDetail[' + i + '].medicine']);
+        if (error.error['cartDetail[' + i + '].medicine'] != undefined ||
+          error.error['cartDetail[' + i + '].medicine'] != null) {
+          this.medicineErrorArray.push(error.error['cartDetail[' + i + '].medicine']);
         }
         this.openModal();
       }
-    })
+    });
   }
 
   removeItem(medicine: MedicineDtoForCart) {
@@ -81,7 +82,7 @@ export class CartComponent implements OnInit {
     if (this.cartDetails != null) {
       this.cartDetails.forEach(item => {
         total += (item.quantity * item.medicine.medicinePrice);
-      })
+      });
     }
     return total;
   }
@@ -92,7 +93,7 @@ export class CartComponent implements OnInit {
 
   openModal() {
     // this.display = 'block';
-    document.getElementById("openModalButton").click();
+    document.getElementById('openModalButton').click();
   }
 
   closeModal() {

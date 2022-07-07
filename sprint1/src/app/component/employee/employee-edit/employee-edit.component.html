@@ -58,6 +58,7 @@
           <br>
           <input type="file" class="form-control-file" (change)="showPreview($event)"
                  id="avatar" accept="image/*">
+
         </div>
         <div class="col-lg-3">
           <br>
@@ -74,6 +75,7 @@
               </div>
             </div>
           </div>
+
           <div><p style="color: red" *ngIf=" errorImage!= ''">{{errorImage}}</p></div>
         </div>
         <div class=" col-lg-6
@@ -133,12 +135,14 @@
         <div class="col-lg-10"></div>
         <span> &nbsp;</span><span> &nbsp;</span>
         <div>
-          <button class="btn btn-secondary" type="button" routerLink='/employee/list'><i class="fa fa-undo" aria-hidden="true" ></i> Trở về</button>
+          <button class="btn btn-secondary" type="button" [routerLink]="['/employee/list']"><i class="fa fa-undo" aria-hidden="true"
+                                                             ></i> Trở về
+          </button>
         </div>
         <span> &nbsp;</span>
         <div>
-          <button class="btn btn-warning"><i class="fa fa-pencil"
-                                             aria-hidden="true"></i> Sửa
+          <button class="btn btn-warning" type="submit"><i class="fa fa-pencil"
+                                                           aria-hidden="true"></i> Sửa
           </button>
         </div>
       </div>
@@ -148,8 +152,3 @@
   </div>
 
 </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 6546df071595ce4fea3382143452b5ecb4fba55a

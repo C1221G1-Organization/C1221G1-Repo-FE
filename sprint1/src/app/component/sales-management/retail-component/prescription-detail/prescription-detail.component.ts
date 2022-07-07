@@ -9,13 +9,13 @@ import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
 import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
 import {FormGroup} from '@angular/forms';
 
-
 @Component({
   selector: 'app-prescription-detail',
   templateUrl: './prescription-detail.component.html',
   styleUrls: ['./prescription-detail.component.css']
 })
 export class PrescriptionDetailComponent implements OnInit {
+
   idChoice: string;
   prescriptionDetail: PrescriptionDetail;
   listPrescriptionMedicine: PrescriptionMedicineDetail[] = [];
@@ -175,4 +175,3 @@ export class PrescriptionDetailComponent implements OnInit {
     }
   }
 }
-

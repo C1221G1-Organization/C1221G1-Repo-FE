@@ -13,7 +13,6 @@ export class PositionService {
 
   constructor(private http: HttpClient) { }
 
-
   /**
    * this function use to get all page Employee
    *

@@ -1,15 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CurrencyExchangeService} from "../../../service/cart/currency-exchange.service";
-import {
-  IPayPalConfig,
-  ICreateOrderRequest
-} from 'ngx-paypal';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CartAndDetailDto} from "../../../dto/cart/CartAndDetailDto";
-import {PaymentOnlineService} from "../../../service/cart/payment-online.service";
-import {Router} from "@angular/router";
-import {CartService} from "../../../service/cart/cart.service";
-import {NgxSpinnerService} from "ngx-spinner";
+import {CurrencyExchangeService} from '../../../service/cart/currency-exchange.service';
+import {ICreateOrderRequest, IPayPalConfig} from 'ngx-paypal';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
+import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
+import {Router} from '@angular/router';
+import {CartService} from '../../../service/cart/cart.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 
 @Component({
@@ -90,7 +87,7 @@ export class PaymentOnlineComponent implements OnInit {
     this.payPalConfig = {
       currency: 'USD',
       clientId: 'AYEhWF15yjs4kqngtEVpTs3wSAwNJKlg-XFf7Dogm9sHO3qzuXjKjvEK7O7m-aCx-83wAH91ABiEqkZ-',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
         purchase_units: [{
           amount: {
@@ -193,5 +190,4 @@ export class PaymentOnlineComponent implements OnInit {
   returnHome() {
     this.route.navigate(['home-page']);
   }
-
 }

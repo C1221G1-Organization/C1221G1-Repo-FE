@@ -1,3 +1,4 @@
+<h1 class="text-center">Danh Sách Nhân Viên</h1>
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -46,7 +47,7 @@
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-between col-2 p-0">
       <button type="button" class="btn btn-secondary "><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
-      <button type="button" class="btn btn-success " [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+      <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
     </div>
   </div>
   <br>
@@ -108,9 +109,12 @@
       </div>
     </div>
 </div>
-  <h1 *ngIf="isHasContent" class="text-center">Không có dữ liệu phù hợp</h1>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
+  <div class="text-center" *ngIf="isHasContent">
+    <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
+    <h4>Không có dữ liệu phù hợp</h4>
+  </div>
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
+    <ul class="pagination justify-content-center">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
       </li>
@@ -151,8 +155,4 @@
   </div>
 </div>
 </div>
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 6546df071595ce4fea3382143452b5ecb4fba55a

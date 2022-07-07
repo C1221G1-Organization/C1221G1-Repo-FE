@@ -110,7 +110,6 @@ export class RetailComponent implements OnInit {
       this.isDisabled = true;
     }
     console.log(this.listMedicineChoice);
-    console.log(this.printInvoice);
     this.getTotalMoney();
     this.resetForm();
   }
@@ -145,7 +144,7 @@ export class RetailComponent implements OnInit {
     let invoiceDto: any = {
       customerId: 'KH-0001',
       employeeId: 'NV-0001',
-      invoiceNote: this.note.trim(),
+      invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
@@ -227,6 +226,10 @@ export class RetailComponent implements OnInit {
           return item.medicineId != this.idDelete;
         });
       this.resetIdAndName();
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
       this.deleteMedicineChoiceArr = [];
       console.log(this.listMedicineChoice);
       this.getTotalMoney();

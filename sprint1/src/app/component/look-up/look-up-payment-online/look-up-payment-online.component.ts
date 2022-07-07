@@ -2,14 +2,12 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PaymentOnlineDto} from '../../../dto/cart/PaymentOnlineDto';
 import {LookupPaymentOnlineService} from '../lookup-payment-online.service';
 
-
 @Component({
   selector: 'app-look-up-payment-online',
   templateUrl: './look-up-payment-online.component.html',
   styleUrls: ['./look-up-payment-online.component.css']
 })
 export class LookUpPaymentOnlineComponent implements OnInit {
-
   paymentOnlines: PaymentOnlineDto[] = [];
   @ViewChild('paymentIdSearch') paymentIdSearch: ElementRef;
   @ViewChild('customerNameSearch') customerNameSearch: ElementRef;
@@ -45,8 +43,8 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     if ((this.currentPage) > 0) {
       request['page'] = this.currentPage - 1;
       request['size'] = 5;
-      request['paymentOnlineId'] = this.paymentIdSearch;
-      request['customerName'] = this.customerNameSearch;
+      request['paymentOnlineId'] = this.paymentIdSearch.nativeElement.value;
+      request['customerName'] = this.customerNameSearch.nativeElement.value;
       this.getPaymentOnlines(request);
     }
   }
@@ -56,8 +54,8 @@ export class LookUpPaymentOnlineComponent implements OnInit {
     if ((this.currentPage + 1) < this.totalPages) {
       request['page'] = this.currentPage + 1;
       request['size'] = 5;
-      request['paymentOnlineId'] = this.paymentIdSearch;
-      request['customerName'] = this.customerNameSearch;
+      request['paymentOnlineId'] = this.paymentIdSearch.nativeElement.value;
+      request['customerName'] = this.customerNameSearch.nativeElement.value;
       this.getPaymentOnlines(request);
     }
   }

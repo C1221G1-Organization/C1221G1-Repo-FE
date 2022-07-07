@@ -30,7 +30,7 @@
       <table class="table table-striped">
         <thead class="table-success ">
         <tr>
-<!--          <th class="col-1 text-center">STT</th>-->
+          <!--          <th class="col-1 text-center">STT</th>-->
           <th class="col-2 text-center">Mã toa thuốc</th>
           <th class="col-2 text-center">Tên toa thuốc</th>
           <th class="col-2 text-center">Đối tượng</th>
@@ -41,7 +41,7 @@
         <tbody>
         <tr *ngFor="let item of prescriptions; index as i; let k = index" (click)="activeProject(k,item)"
             [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
-<!--          <th class="col-1 text-center">{{i + 1}}</th>-->
+          <!--          <th class="col-1 text-center">{{i + 1}}</th>-->
           <td class="col-2 text-center">{{item.prescriptionId}}</td>
           <td class="col-2 text-center">{{item.prescriptionName}}</td>
           <td class="col-2 text-center">{{item.prescriptionTargetUser}}</td>
@@ -91,4 +91,3 @@
     </div>
   </div>
 </div>
-

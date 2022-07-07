@@ -1,4 +1,4 @@
-<h1 class="text-center">Thêm mới thông tin thuốc</h1>
+<h1 class="text-center">Thêm Mới Thông Tin Thuốc</h1>
 <form [formGroup]="medicineCreateForm" *ngIf="medicineCreateForm" (ngSubmit)="createMedicine()">
   <div class="container shadow-lg p-3 mb-5 bg-white rounded">
     <div class="row">
@@ -218,7 +218,14 @@
       </div>
       <div class="col-6 my-2 d-flex justify-content-between">
         <div class="col-4 my-2">
-          <label for="image">Hình Ảnh <span class="text-danger">(*):</span></label>
+          <label for="image">Hình Ảnh <span class="text-danger">(*) </span></label>
+          <span *ngFor="let validation of validationMessages.medicineImage">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineImage').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineImage').dirty ||
+            medicineCreateForm.get('medicineImage').touched || submit))">
+            {{validation.message}}</span>
+        </span>
           <input name="image" id="image" type="file" class="file__input" (change)="showPreview($event)">
           <label for="image" class="file__label">
             <i class="fa fa-upload"></i>
@@ -246,8 +253,8 @@
           </svg>
           Làm mới
         </button>
-        <button class="btn btn-secondary mx-4" [disabled]="isLoading">
-          <i class="fa fa-undo" aria-hidden="true" routerLink="/medicine/list"></i> Trở về
+        <button class="btn btn-secondary mx-4" routerLink="/medicine/list" [disabled]="isLoading">
+          <i class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
         <button class="btn btn-success mx-4" [disabled]="isLoading">
           <i class="fa-solid fa-circle-plus"></i> Thêm mới
