@@ -70,6 +70,10 @@ export class AccountEditComponent implements OnInit {
   //  * update account
   //  *
   update(id: string) {
+    if (!this.updateForm.valid) {
+      this.updateForm.markAllAsTouched();
+    }
+    if (this.updateForm.valid) {
       const account = this.updateForm.value;
       this.accountEmployeeService.update(id, account).subscribe(() => {
         this.toastr.success("Chỉnh sửa thành công !", "Thông báo", {
@@ -78,7 +82,11 @@ export class AccountEditComponent implements OnInit {
         });
         this.router.navigateByUrl('/account/list');
       }, error => {
-
-      });
+        this.toastr.warning("Chỉnh thất bại!", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        });
+      })
     }
+  }
 }
