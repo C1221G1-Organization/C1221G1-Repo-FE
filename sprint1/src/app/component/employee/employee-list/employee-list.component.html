@@ -23,7 +23,8 @@
                  [hidden]="!isInputHidden" #valueSearchInput>
 
           <select name="valueDropDownSearch" class="form-control mr-sm-2" [hidden]="!isSelectHidden"
-                  #valueSearchDropDown>
+                  #valueSearchDropDown [(ngModel)]="drowDownValue">
+            <option value="">--Chọn chức vụ</option>
             <option *ngFor="let item of positions" [value]="item.positionId">{{item.positionName}}</option>
           </select>
           <button class="btn btn-primary my-2 my-sm-0" type="submit" (click)="search()"><i class="fa fa-search"
