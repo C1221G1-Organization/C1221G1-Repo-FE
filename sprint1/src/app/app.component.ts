@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
-    this.isGuest = false;
+    this.isGuest = true;
     console.log(this.user);
   }
 
