@@ -50,7 +50,7 @@
           <td></td>
           <td class="col-3 text-center">
             <select id="medicineSales"
-                    class="form-control text-center"
+                    class="form-control text-center custom-select"
                     name="medicineSales"
                     formControlName="medicineSale" (click)="changeIsDisabled()">
               <option value="">--Tên thuốc--</option>
@@ -64,7 +64,7 @@
                    formControlName="quantity" (click)="changeIsDisabled()" placeholder="số lượng">
           </td>
           <td class="col-2 text-center">
-            <select class="form-control mx-auto text-center "
+            <select class="form-control mx-auto text-center custom-select"
                     formControlName="unit" (click)="changeIsDisabled()">
               <option value="">--Đơn vị--</option>
               <option [value]="'vien'"> Viên</option>
@@ -123,7 +123,7 @@
         </button>
       </div>
       <div class="px-1">
-        <button class="btn btn-info ">
+        <button class="btn btn-info " (click)="print('yes')">
           <i class="fa-solid fa-print"></i>
           In phiếu
         </button>

@@ -57,6 +57,7 @@ export class PrescriptionDetailComponent implements OnInit {
     this.retailService.getPrescriptionMedicineDetail(prescriptionId).subscribe(res => {
       this.listPrescriptionMedicine = res;
       for (let item of this.listPrescriptionMedicine) {
+        item.retailPrice = Math.floor(item.retailPrice);
         item.money = item.retailPrice * item.totalQuantity;
       }
       this.getTotalMoney();
@@ -90,13 +91,16 @@ export class PrescriptionDetailComponent implements OnInit {
             timeOut: 3000,
             progressBar: true
           });
+          invoiceDto.invoiceMedicineList = [];
+          this.invoiceMedicineDtos = [];
           this.router.navigateByUrl('/sales-management/prescription-detail/' + this.idChoice);
         }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
+          this.toastr.warning(error.error.errors, 'Cảnh báo', {
             timeOut: 3000,
             progressBar: true
           });
-          this.listMedicineChoice = [];
+          this.invoiceMedicineDtos = [];
+          invoiceDto.invoiceMedicineList = [];
           console.log(error);
         }
       );
