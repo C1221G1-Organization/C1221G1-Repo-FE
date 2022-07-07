@@ -5,7 +5,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="form-group row d-flex justify-content-center mx-auto">
         <div class="col-3 px-0 mx-3">
-          <select name="" id="" class="form-control text-center" formControlName="typeSearch">
+          <select name="" id="" class="form-control text-center custom-select" formControlName="typeSearch">
             <option value="">--Chọn tìm kiếm--</option>
             <option value="id">Mã đơn thuốc</option>
             <option value="names">Tên đơn</option>
@@ -54,7 +54,7 @@
       <!--      panation    -->
       <nav class="blog-pagination d-flex justify-content-center py-3">
         <ul class="pagination">
-          <li class="page-item px-1">
+          <li class="page-item px-1" >
             <a class="page-link" (click)="previous()">Trang trước</a>
           </li>
           <li class="page-item">
@@ -64,8 +64,8 @@
               <span>{{totalPages}}</span>
             </a>
           </li>
-          <li class="page-item px-1">
-            <a class="page-link" (click)="next()">Trang sau</a>
+          <li class="page-item px-1" >
+            <a class="page-link" (click)="next()">trang sau</a>
           </li>
         </ul>
       </nav>
