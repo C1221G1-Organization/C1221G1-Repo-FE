@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<p>sidebar works!</p>
-=======
 <nav class="navbar navbar-expand-xl navbar-dark bg-pharmacode">
   <a class="navbar-brand" href="#">Quản lý bán hàng</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +28,7 @@
           <a class="dropdown-item" routerLink="/customer/list">Quản lý khách hàng</a>
           <a class="dropdown-item" routerLink="/employee/list">Quản lý nhân viên</a>
           <a class="dropdown-item" routerLink="/supplier">Quản lý nhà cung cấp</a>
-          <a class="dropdown-item" routerLink="/prescription">Quản lý thông tin toa thuốc</a>
+          <a class="dropdown-item" routerLink="/prescription/list">Quản lý thông tin toa thuốc</a>
         </div>
       </li>
       <li class="nav-item dropdown mr-3">
@@ -50,7 +47,7 @@
         <a class="nav-link" routerLink="/admin-chat/rooms">Chat với khách</a>
       </li>
       <li class="nav-item mr-3">
-        <a class="nav-link" routerLink="/log/log-out">Đăng xuất</a>
+        <a class="nav-link" (click)="signOut($event)">Đăng xuất</a>
       </li>
     </ul>
   </div>
@@ -98,7 +95,7 @@
           </a>
         </li>
         <li class="nav-item seperate">
-          <a class="nav-link text-light font-weight-bold bg-pharmacode" routerLink="/log/log-out">
+          <a class="nav-link text-light font-weight-bold bg-pharmacode" (click)="signOut($event)">
             <i class="fa-solid fa-arrow-right-from-bracket mr-3 text-light fa-fw"></i>
             <!--                <i class="fa fa-line-chart "></i>-->
             Đăng xuất
@@ -106,7 +103,7 @@
         </li>
       </ul>
     </div>
-    <div class="col-xl-9 col-12 right-content">
+    <div class="col-xl-9 col-lg-10 col-12 right-content">
 
       <!------------------------        NỘI DUNG CHÍNH------------------------------->
       <router-outlet></router-outlet>
@@ -122,4 +119,4 @@
     <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Bản quyền thuộc về Công Ty Cổ Phần Dược Phẩm Pharmacode - C1221G1 Group</a>
   </div>
 </footer>
->>>>>>> develop
+

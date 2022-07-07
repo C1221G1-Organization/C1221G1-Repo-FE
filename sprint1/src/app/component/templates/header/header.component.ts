@@ -48,16 +48,14 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
   }
 
   logout(e) {
-    e.preventDefault();
     this.tokenStorageService.signOut();
-    this.router.navigateByUrl('/home-page').then();
+    this.tokenStorageService.getUser();
     this.ngOnInit();
+    e.preventDefault();
+    this.router.navigateByUrl("/").then()
+    window.location.reload();
   }
 
-  // logout() {
-  //   this.tokenStorageService.signOut();
-  //   window.location.reload();
-  // }
 
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.medicine.medicineName = name.value;

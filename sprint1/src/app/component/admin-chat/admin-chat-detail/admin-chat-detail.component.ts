@@ -44,7 +44,6 @@ export class AdminChatDetailComponent implements OnInit {
       'message': [null, Validators.required]
     });
   }
-
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022

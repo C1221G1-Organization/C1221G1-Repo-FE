@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from '../../../service/supplier.service';
-import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
+import {SupplierService} from "../../../service/supplier.service";
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-supplier-create',
@@ -15,7 +15,7 @@ export class SupplierCreateComponent implements OnInit {
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService,
-              private router: Router) {
+              private router : Router) {
   }
 
 
@@ -29,36 +29,35 @@ export class SupplierCreateComponent implements OnInit {
    * @LuatTN 365
    */
   supplierForm: FormGroup = new FormGroup({
-    supplierId: new FormControl(''),
-    supplierName: new FormControl('', [Validators.required,
-      Validators.minLength(4),
-      Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$')]),
-    supplierAddress: new FormControl(''),
-    supplierPhone: new FormControl('',
+    supplierId: new FormControl(""),
+    supplierName: new FormControl("", [Validators.required,
+      Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
+    supplierAddress: new FormControl(""),
+    supplierPhone: new FormControl("",
       [Validators.required,
-        Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')],
+        Validators.pattern("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$")],
       [this.checkDuplicatePhone(this.supplierService)]
     ),
-    supplierEmail: new FormControl('', [Validators.required,
-      Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')], [this.checkDuplicateEmail(this.supplierService)]),
-    note: new FormControl(''),
+    supplierEmail: new FormControl("", [Validators.required,
+      Validators.pattern("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")], [this.checkDuplicateEmail(this.supplierService)]),
+    note: new FormControl(""),
     flag: new FormControl(true)
-  });
+  })
 
   get supplierName() {
-    return this.supplierForm.get('supplierName');
+    return this.supplierForm.get("supplierName")
   }
 
   get supplierAddress() {
-    return this.supplierForm.get('supplierAddress');
+    return this.supplierForm.get("supplierAddress")
   }
 
   get supplierPhone() {
-    return this.supplierForm.get('supplierPhone');
+    return this.supplierForm.get("supplierPhone")
   }
 
   get supplierEmail() {
-    return this.supplierForm.get('supplierEmail');
+    return this.supplierForm.get("supplierEmail")
   }
 
   /**
@@ -70,15 +69,20 @@ export class SupplierCreateComponent implements OnInit {
   createSupplier() {
     this.submitted = true;
     const supplierValue = this.supplierForm.value;
-    console.log(supplierValue);
+    console.log(supplierValue)
     if (this.supplierForm.valid) {
-      console.log(supplierValue);
+      supplierValue.supplierName = supplierValue.supplierName.trim()
+      supplierValue.supplierAddress = supplierValue.supplierAddress.trim()
+      supplierValue.supplierEmail = supplierValue.supplierEmail.trim()
+      supplierValue.supplierPhone = supplierValue.supplierPhone.trim()
+      console.log(supplierValue)
       this.supplierService.saveSupplier(supplierValue).subscribe(() => {
         this.supplierForm.reset();
-        this.toastr.success('Thêm Mới Thành Công !', 'Thông Báo Chúc Mừng', {
+        this.toastr.success("Thêm Mới Thành Công !", "Thông Báo Chúc Mừng", {
           timeOut: 3000,
           progressBar: true
-        });
+        })
+        this.submitted= false;
       });
     }
   }
@@ -124,4 +128,6 @@ export class SupplierCreateComponent implements OnInit {
         );
     };
   }
+
+
 }

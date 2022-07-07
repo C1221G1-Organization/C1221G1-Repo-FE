@@ -21,11 +21,11 @@ export class SupplierListComponent implements OnInit {
 
   valueSupplier: Supplier = new Supplier();
   chosenIndex: number;
-  isChosen: boolean;
+  isChosen: Boolean;
   chooseId: string;
   stt: number = 1;
   idDelete: string;
-  nameDelete: string;
+  nameDelete: String;
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService) {
@@ -34,7 +34,7 @@ export class SupplierListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListSupplier({
-      page: this.currentPage,
+      page: 0,
       size: 10000,
       searchId: '',
       searchName: '',
@@ -202,6 +202,20 @@ export class SupplierListComponent implements OnInit {
           sort: this.sort.nativeElement.value,
           owner: this.ownerSearch
         });
+        break;
+      }
+      default: {
+        this.toastr.warning('Chưa Có Lựa Chọn Khi Tìm Kiếm ', 'Thông Báo Hệ Thống', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        this.getListSupplier({
+          page: 0,
+          size: 10000,
+          searchId: '',
+          sort: '',
+          owner: this.ownerSearch
+        })
       }
     }
   }

@@ -12,14 +12,13 @@ import {config} from '../environments/environment';
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
-
   isGuest: boolean;
   user;
 
   constructor(private tokenStorageService: TokenStorageService,
               private cdr: ChangeDetectorRef) {
     firebase.initializeApp(config);
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   ngOnInit(): void {
@@ -34,8 +33,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
-    this.isGuest = true;
-    // console.log(this.user);
+    // this.isGuest = false;
   }
 
   ngAfterViewChecked(): void {
