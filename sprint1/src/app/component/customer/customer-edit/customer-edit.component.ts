@@ -58,7 +58,9 @@ export class CustomerEditComponent implements OnInit {
       this.router.navigateByUrl('customer/list');
     });
   }
-
+  compareWithId(item1, item2) {
+    return item1 && item2 && item1.id === item2.id;
+  }
   ngOnInit(): void {
     this.getList();
   }

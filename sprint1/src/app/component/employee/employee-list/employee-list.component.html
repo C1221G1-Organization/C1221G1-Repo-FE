@@ -1,4 +1,4 @@
-
+<h1 class="text-center">Danh Sách Nhân Viên</h1>
 <div class="container">
   <fieldset class="border p-2">
     <legend class="w-auto">Bộ Lọc</legend>
@@ -114,7 +114,7 @@
     <h4>Không có dữ liệu phù hợp</h4>
   </div>
   <nav aria-label="Page navigation example" *ngIf="!isHasContent">
-    <ul class="pagination justify-content-end">
+    <ul class="pagination justify-content-center">
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
       </li>
