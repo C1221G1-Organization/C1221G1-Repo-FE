@@ -36,32 +36,11 @@ export class StatistitalChartComponent implements OnInit {
       month: new FormControl('', [Validators.required]),
     });
   }
-
-  // change(value: any) {
-  //   switch (value) {
-  //     case '1':
-  //       this.year = false;
-  //       this.month = true;
-  //       break;
-  //     case '2':
-  //       this.year = false;
-  //       this.month = false;
-  //       break;
-  //     default:
-  //       this.year = true;
-  //       this.month = true;
-  //   }
-  // }
-
   submit() {
     $('#myChart').remove(); // this is my <canvas> element
     $('#containChart').append('<canvas style="width: 100%" id="myChart"><canvas>');
     if ((this.staticForm.value.month != '' && this.staticForm.value.year == '')||
       (this.staticForm.value.month == '' && this.staticForm.value.year == '')) {
-      // this.toastr.warning('Thời gian báo cáo không hợp lệ!', 'Thông báo', {
-      //   timeOut: 3000,
-      //   progressBar: true,
-      // });
       this.show = false;
       this.show1 = false;
     } else if (this.staticForm.value.month != '' && this.staticForm.value.year != '') {

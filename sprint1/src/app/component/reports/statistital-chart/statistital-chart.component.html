@@ -6,16 +6,7 @@
         <legend class="w-auto" style="font-weight: bold;">Chọn thời gian thống kê</legend>
         <form [formGroup]="staticForm" (ngSubmit)="submit()">
           <div class="row" style="margin-bottom: 32px; padding-left: 15px; padding-right: 15px">
-<!--            <div class="control-group col-6">-->
-<!--              <label class="control-label input-label" style="font-weight: bold">Loại báo cáo : </label>-->
-<!--              <select (change)="change($event.target.value)" class="form-control">-->
-<!--                <option value="">&#45;&#45;&#45;&#45;Chọn&#45;&#45;&#45;&#45;</option>-->
-<!--                <option value="1">Theo năm</option>-->
-<!--                <option value="2">Theo tháng</option>-->
-<!--              </select>-->
-<!--            </div>-->
             <div class="control-group col-6">
-              <!--              <div [hidden]="year">-->
               <label class="control-label input-label" style="font-weight: bold">Chọn năm : </label>
               <select class="form-control" formControlName="year">
                 <option value="">----Chọn năm----</option>
@@ -27,7 +18,6 @@
               </select>
             </div>
             <div class="control-group col-6">
-              <!--              <div [hidden]="month">-->
               <label class="control-label input-label" style="font-weight: bold">Chọn tháng : </label>
               <select class="form-control" formControlName="month">
                 <option value="">----Chọn tháng----</option>
@@ -45,12 +35,10 @@
                 <option value="12">Tháng 12</option>
               </select>
             </div>
-            <!--            </div>-->
           </div>
           <div class="text-right" >
             <button (click)="submit()" type="submit" class="btn btn-success">
               <i class="fa fa-eye" aria-hidden="true"></i>Xem</button>
-<!--            <button (click)="refresh()">Refresh</button>-->
           </div>
         </form>
       </fieldset>
