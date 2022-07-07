@@ -54,7 +54,7 @@ export class EmployeeListComponent implements OnInit {
       console.log(employees['content']);
     }, () => {
       this.employees = null;
-      this.isHasContent = false;
+      this.isHasContent = true;
       this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
