@@ -9,13 +9,13 @@ import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
 import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
 import {FormGroup} from '@angular/forms';
 
+
 @Component({
   selector: 'app-prescription-detail',
   templateUrl: './prescription-detail.component.html',
   styleUrls: ['./prescription-detail.component.css']
 })
 export class PrescriptionDetailComponent implements OnInit {
-
   idChoice: string;
   prescriptionDetail: PrescriptionDetail;
   listPrescriptionMedicine: PrescriptionMedicineDetail[] = [];
@@ -137,9 +137,12 @@ export class PrescriptionDetailComponent implements OnInit {
       this.listPrescriptionMedicine = this.listPrescriptionMedicine.filter(
         (item) => {
           return item.medicineId != this.idDelete;
-          this.resetIdAndName();
-        })
-      console.log(this.listMedicineChoice);
+        });
+      this.resetIdAndName();
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
       this.getTotalMoney();
       closeModal.click();
     } else {

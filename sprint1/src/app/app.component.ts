@@ -1,8 +1,11 @@
+import 'firebase/database';
+import {TokenStorageService} from './service/security/token-storage.service';
+
 import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
-import {TokenStorageService} from "./service/security/token-storage.service";
 import firebase from "firebase/app";
 import "firebase/database";
 import {config, environment} from "../environments/environment";
+
 
 @Component({
   selector: 'app-root',

@@ -181,7 +181,7 @@
       <div class="modal-body" *ngIf="idDelete == null || idDelete == undefined || idDelete == ''">
           Bạn chưa chọn thuốc!
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
         <div class="mx-auto row">
           <input type="hidden" name="id" id="idDelete">
           <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>

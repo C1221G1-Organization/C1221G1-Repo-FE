@@ -13,7 +13,6 @@ Chart.register(...registerables);
   styleUrls: ['./statistital-chart.component.css']
 })
 export class StatistitalChartComponent implements OnInit {
-
   statics: Static[] = [];
   public year = true;
   public month = true;

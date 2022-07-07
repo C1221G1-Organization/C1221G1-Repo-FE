@@ -225,7 +225,7 @@ export class RetailComponent implements OnInit {
       this.listMedicineChoice = this.listMedicineChoice.filter(
         (item) => {
           return item.medicineId != this.idDelete;
-        })
+        });
       this.resetIdAndName();
       this.deleteMedicineChoiceArr = [];
       console.log(this.listMedicineChoice);
@@ -258,7 +258,6 @@ export class RetailComponent implements OnInit {
     this.printInvoice = yes;
     this.generatePDF(this.printInvoice);
   }
-
   generatePDF(action) {
     console.log(this.listMedicineChoice);
     const docDefinition = {
