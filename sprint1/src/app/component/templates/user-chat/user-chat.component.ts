@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector   : 'app-user-chat',
@@ -28,6 +29,7 @@ export class UserChatComponent implements OnInit {
   uuid: string;
   chats = [];
   chat: Chat;
+  isFirstLoad = true;
 
   constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     // firebase.initializeApp(environment.firebaseConfig);
@@ -44,6 +46,12 @@ export class UserChatComponent implements OnInit {
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
+      if (this.chats[this.chats.length - 1].name !== this.userChat.name && !this.isFirstLoad) {
+        // console.log('sound user');
+        this.playAudio();
+      } else {
+        this.isFirstLoad = false;
+      }
       setTimeout(() => {
         if (this.chatContent) {
           this.scrollTop = this.chatContent.nativeElement.scrollHeight
@@ -156,5 +164,11 @@ export class UserChatComponent implements OnInit {
     } else {
       this.toastr.info('Vui lòng nhập chính xác thông tin', '', {timeOut: 3000, progressBar: false});
     }
+  }
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../../../../assets/audio/noti.wav";
+    audio.load();
+    audio.play();
   }
 }

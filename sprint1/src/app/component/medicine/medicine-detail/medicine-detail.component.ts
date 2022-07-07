@@ -5,7 +5,7 @@ import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
 
-const MAXIMUM_QUANTITY_ALLOWED = 10;
+const MAXIMUM_QUANTITY_ALLOWED = 20;
 
 @Component({
   selector   : 'app-medicine-detail',
