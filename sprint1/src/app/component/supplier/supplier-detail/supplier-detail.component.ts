@@ -48,6 +48,8 @@ export class SupplierDetailComponent implements OnInit {
     }, error => {
       return this.supplierService.findById(supplierId).subscribe(next => {
         this.supplierValue = next
+      }, notFound => {
+        this.router.navigateByUrl('/not-found')
       })
     });
   }

@@ -5,22 +5,22 @@ import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
 
-const MAXIMUM_QUANTITY_ALLOWED = 10;
+const MAXIMUM_QUANTITY_ALLOWED = 20;
 
 @Component({
-  selector: 'app-medicine-detail',
+  selector   : 'app-medicine-detail',
   templateUrl: './medicine-detail.component.html',
-  styleUrls: ['./medicine-detail.component.css']
+  styleUrls  : ['./medicine-detail.component.css']
 })
-
 export class MedicineDetailComponent implements OnInit {
+
   medicineId: string;
   medicine: MedicineDetailDto;
   relativeMedicineList: MedicineDetailDto[];
   quantity = 1;
   toastrOptions = {
     preventOpenDuplicates: true,
-    timeOut: 5000
+    timeOut              : 5000
   };
 
   constructor(private toastr: ToastrService,
@@ -44,9 +44,9 @@ export class MedicineDetailComponent implements OnInit {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
-          this.scrollToTopOfScrollable();
+          this.scrollToTopOfScrollable()
         }, err => {
-          this.router.navigateByUrl('not-found');
+          this.router.navigateByUrl("not-found");
         }
       );
       this.medicineService.get5RelativeMedicinesOf(this.medicineId).subscribe(
@@ -108,7 +108,7 @@ export class MedicineDetailComponent implements OnInit {
         medicinePrice: this.medicine.medicinePrice
       }, this.quantity);
     this.toastr.success(`Thêm thành công ${this.quantity} sản phẩm vào giỏ hàng`, '', {
-      timeOut: 3000,
+      timeOut    : 3000,
       progressBar: false
     });
     this.quantity = 1;

@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import firebase from "firebase/app";
+import "firebase/database";
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
 import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';
@@ -11,9 +11,9 @@ import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
 
 @Component({
-  selector: 'app-user-chat',
+  selector   : 'app-user-chat',
   templateUrl: './user-chat.component.html',
-  styleUrls: ['./user-chat.component.css']
+  styleUrls  : ['./user-chat.component.css']
 })
 export class UserChatComponent implements OnInit {
   @ViewChild('chatContent') chatContent: ElementRef;
@@ -46,7 +46,7 @@ export class UserChatComponent implements OnInit {
       this.chats = snapshotToArray(resp);
       setTimeout(() => {
         if (this.chatContent) {
-          this.scrollTop = this.chatContent.nativeElement.scrollHeight;
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight
         }
       }, 200);
     });
@@ -107,7 +107,7 @@ export class UserChatComponent implements OnInit {
    * */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    if (chat.message.trim().length != 0) {
+    if (chat.message.trim().length != 0 && chat.message.trim().length < 255) {
       chat.name = this.userChat.name;
       chat.uuid = this.uuid;
       chat.message = chat.message.trim();
@@ -118,9 +118,11 @@ export class UserChatComponent implements OnInit {
         firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
       });
       this.chatForm.reset();
+    } else {
+      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {timeOut: 3000, progressBar: false});
+      this.chatForm.reset();
     }
   }
-
   /**
    * * @Author NghiaNTT
    * * @Time: 03/07/2022

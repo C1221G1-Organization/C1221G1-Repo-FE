@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AccountEmployee} from '../../../model/account/accountEmployee';
-import {AccountEmployeeService} from '../../../service/account/account-employee.service';
-import {Router} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
-
+import {AccountEmployee} from "../../../model/account/accountEmployee";
+import {AccountEmployeeService} from "../../../service/account/account-employee.service";
+import {Router} from "@angular/router";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Position} from "../../../model/employee/position";
 
 @Component({
   selector: 'app-account-list',
@@ -32,11 +32,11 @@ export class AccountListComponent implements OnInit {
     this.searchForm = new FormGroup({
       typeSearch: new FormControl(''),
       inputSearch: new FormControl('')
-    });
+    })
   }
 
   ngOnInit(): void {
-    this.getAll();
+    this.getAll()
   }
 
 
@@ -49,7 +49,7 @@ export class AccountListComponent implements OnInit {
     this.accountEmployeeService.getAllAccountEmployee(
       this.id = '', this.name = '', this.position = '', this.username = '', this.page).subscribe
     ((data: any) => {
-      if (data != null) {
+      if (data !=null) {
         this.accountEmployeeList = data.content;
         this.page = data.number;
         this.totalPages = data.totalPages;
@@ -115,8 +115,7 @@ export class AccountListComponent implements OnInit {
     const type = this.searchForm.get('typeSearch').value;
 
     if (type === 'id' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id =
-        input.trim(), this.name = '', this.position = '', this.username = '', this.page).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = input.trim(), this.name = '', this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -129,8 +128,7 @@ export class AccountListComponent implements OnInit {
         this.totalPages = 0;
       });
     } else if (type === 'username' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '',
-        this.name = '', this.position = '', this.username = input.trim(), this.page).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = '', this.username = input.trim(), this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -143,8 +141,7 @@ export class AccountListComponent implements OnInit {
         this.totalPages = 0;
       });
     } else if (type === 'name' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '',
-        this.name = input.trim(), this.position = '', this.username = '', this.page).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = input.trim(), this.position = '', this.username = '', this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;
@@ -157,9 +154,7 @@ export class AccountListComponent implements OnInit {
         this.totalPages = 0;
       });
     } else if (type === 'position' && input.trim() !== '') {
-      this.accountEmployeeService.getAllAccountEmployee(this.id = '',
-        this.name = '', this.position = input.trim(),
-        this.username = '', this.page).subscribe
+      this.accountEmployeeService.getAllAccountEmployee(this.id = '', this.name = '', this.position = input.trim(), this.username = '', this.page).subscribe
       ((data: any) => {
         this.accountEmployeeList = data.content;
         this.page = data.number;

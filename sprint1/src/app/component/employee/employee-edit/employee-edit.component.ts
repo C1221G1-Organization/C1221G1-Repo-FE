@@ -1,4 +1,3 @@
-
 import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
@@ -12,14 +11,13 @@ import {Position} from '../../../model/employee/position';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {PositionService} from '../../../service/employee/position.service';
 
-
-
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
   styleUrls: ['./employee-edit.component.css']
 })
 export class EmployeeEditComponent implements OnInit {
+
   id: string;
   employeeFormEdit: FormGroup;
   employee: Employee[] = [];
@@ -127,14 +125,18 @@ export class EmployeeEditComponent implements OnInit {
   Function:  Edit Employee
 */
   onSubmit(id: string) {
+    if (!this.employeeFormEdit.valid) {
+      this.employeeFormEdit.markAllAsTouched();
+    }
     const employee = this.employeeFormEdit.value;
     console.log(this.valueEmployee);
     console.log(employee);
     console.log(Object.is(employee.toString(), this.valueEmployee.toString()));
+
     if (this.employeeFormEdit.valid) {
       if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
         this.employeeService.updateEmployee(id, employee).subscribe(() => {
-          this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+          this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
@@ -151,7 +153,7 @@ export class EmployeeEditComponent implements OnInit {
 // Call API to update
             this.employeeFormEdit.patchValue(employee.employeeImage = url);
             this.employeeService.updateEmployee(id, employee).subscribe(() => {
-              this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+              this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
                 timeOut: 3000,
                 progressBar: true
               });

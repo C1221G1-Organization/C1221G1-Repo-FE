@@ -25,15 +25,13 @@ export class CustomerCreateComponent implements OnInit {
               private toastr: ToastrService,
               private router: Router) {
   }
-
-
   ngOnInit(): void {
 
     this.getCustomerType();
     this.createForm = new FormGroup({
       customerId: new FormControl(''),
       customerName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),
-        Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
+        Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       customerBirthday: new FormControl('', [Validators.required]),
       customerGender: new FormControl('', [Validators.required]),
       customerAddress: new FormControl(''),

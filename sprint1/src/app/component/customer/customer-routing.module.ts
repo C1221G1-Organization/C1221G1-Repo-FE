@@ -4,12 +4,20 @@ import {RouterModule, Routes} from '@angular/router';
 import {CustomerListComponent} from './customer-list/customer-list.component';
 import {CustomerCreateComponent} from './customer-create/customer-create.component';
 import {CustomerEditComponent} from './customer-edit/customer-edit.component';
+import {AccountListComponent} from "../account/account-list/account-list.component";
+import {AuthGuard} from "../../service/security/auth.guard";
 
 
 const routes: Routes = [
-  {path: 'list', component: CustomerListComponent},
-  {path: 'create', component: CustomerCreateComponent},
-  {path: 'edit/:customerId', component: CustomerEditComponent}
+  {path: 'list', component: CustomerListComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }},
+  {path: 'create', component: CustomerCreateComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }},
+  {path: 'edit/:customerId', component: CustomerEditComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }}
 ];
 
 

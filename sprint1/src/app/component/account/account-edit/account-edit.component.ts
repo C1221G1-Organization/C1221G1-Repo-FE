@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {AccountEmployeeService} from '../../../service/account/account-employee.service';
-import {PositionService} from '../../../service/employee/position.service';
-import {Position} from '../../../model/employee/position';
-
-
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {AccountEmployeeService} from "../../../service/account/account-employee.service";
+import {PositionService} from "../../../service/employee/position.service";
+import {Position} from "../../../model/employee/position";
 
 @Component({
   selector: 'app-account-edit',
@@ -21,7 +19,7 @@ export class AccountEditComponent implements OnInit {
 
   equals(item1, item2) {
     return item1 && item2 && item2.positionId === item1.positionId;
-  }
+  };
 
 
   constructor(private accountEmployeeService: AccountEmployeeService,
@@ -41,11 +39,11 @@ export class AccountEditComponent implements OnInit {
     this.positionService.getAllPosition().subscribe(position => {
       this.positions = position;
       this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-        this.id = paramMap.get('id');
+        this.id = paramMap.get('id')
         this.accountEmployeeService.findAccountEmployeeById(this.id).subscribe(account => {
           for (let p of this.positions) {
             if (p.positionName === account.positionName) {
-              this.position = p;
+              this.position = p
             }
           }
           this.updateForm = new FormGroup({
@@ -53,10 +51,13 @@ export class AccountEditComponent implements OnInit {
             employeeName: new FormControl(account.employeeName),
             position: new FormControl(this.position, [Validators.required]),
             username: new FormControl(account.username),
-            password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
-          });
-        });
-      });
+            password: new FormControl("", Validators.compose([Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])),
+          })
+        },() => this.toastr.warning("Không tìm thấy đối tượng chỉnh sửa !", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        }));
+      })
     });
 
 
@@ -69,13 +70,15 @@ export class AccountEditComponent implements OnInit {
   //  * update account
   //  *
   update(id: string) {
-    const account = this.updateForm.value;
-    this.accountEmployeeService.update(id, account).subscribe(() => {
-      this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
-        timeOut: 2000,
-        progressBar: true
+      const account = this.updateForm.value;
+      this.accountEmployeeService.update(id, account).subscribe(() => {
+        this.toastr.success("Chỉnh sửa thành công !", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        });
+        this.router.navigateByUrl('/account/list');
+      }, error => {
+
       });
-      this.router.navigateByUrl('/account/list');
-    });
-  }
+    }
 }
