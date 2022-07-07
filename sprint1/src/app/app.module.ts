@@ -35,7 +35,6 @@ import {ReportModule} from './component/reports/report.module';
     ReportModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     TemplatesModule,
     AngularFireModule.initializeApp(config),
     AngularFireAuthModule,

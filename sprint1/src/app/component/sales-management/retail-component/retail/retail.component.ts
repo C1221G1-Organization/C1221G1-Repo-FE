@@ -258,7 +258,6 @@ export class RetailComponent implements OnInit {
     this.printInvoice = yes;
     this.generatePDF(this.printInvoice);
   }
-
   generatePDF(action) {
     console.log(this.listMedicineChoice);
     const docDefinition = {

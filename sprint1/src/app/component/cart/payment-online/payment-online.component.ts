@@ -11,13 +11,13 @@ import {Router} from "@angular/router";
 import {CartService} from "../../../service/cart/cart.service";
 import {NgxSpinnerService} from "ngx-spinner";
 
+
 @Component({
   selector: 'app-payment-online',
   templateUrl: './payment-online.component.html',
   styleUrls: ['./payment-online.component.css']
 })
 export class PaymentOnlineComponent implements OnInit {
-
   cartAndDetailDto = {} as CartAndDetailDto;
   rate = 23315;
   public payPalConfig ?: IPayPalConfig;
@@ -193,4 +193,5 @@ export class PaymentOnlineComponent implements OnInit {
   returnHome() {
     this.route.navigate(['home-page']);
   }
+
 }

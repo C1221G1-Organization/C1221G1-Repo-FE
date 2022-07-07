@@ -4,12 +4,12 @@ import {ShareService} from "../../../share/ShareService";
 import {MedicineHomePage} from "../../../dto/medicine/medicine-home-page";
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-
 export class HeaderComponent implements OnInit, AfterContentChecked {
   isLogIn = false;
   username: string;
