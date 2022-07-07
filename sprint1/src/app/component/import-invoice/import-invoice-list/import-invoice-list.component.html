@@ -1,4 +1,4 @@
-<h1 class="my-4 text-center">Danh Sách Hóa Đơn Nhập Kho</h1>
+<h2 class="my-4 text-center">Danh Sách Hóa Đơn Nhập Kho</h2>
 <div class="container">
   <fieldset class="scheduler-border shadow">
     <legend class="scheduler-border">Bộ lọc</legend>
@@ -28,7 +28,6 @@
           <select formControlName="fieldSort" class="form-control border-dark border-1 width" style="height: 34px">
             <option value="import_invoice_id">Vui lòng chọn</option>
             <option value="import_invoice_id">Mã HD</option>
-            <option value="import_system_code">Số CT</option>
             <option value="import_invoice_hour">Giờ lập</option>
             <option value="total">Tổng tiền</option>
             <option value="supplier_id">Nhà cung cấp</option>
@@ -59,12 +58,11 @@
           <table class="table text-center table-hover">
             <thead class="table-success">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">STT</th>
               <th scope="col">Mã HĐ</th>
-              <th scope="col">Số CT</th>
               <th scope="col">Ngày lập</th>
               <th scope="col">Giờ lập</th>
-              <th scope="col" style="width: 162px;">Tổng tiền (VND)</th>
+              <th scope="col" style="width: 162px;">Tổng tiền</th>
               <th scope="col" style="width: 124px;">Nợ hóa đơn</th>
               <th scope="col">Nhà cung cấp</th>
               <th scope="col">Địa chỉ</th>
@@ -72,11 +70,10 @@
             </thead>
             <tbody>
             <tr *ngFor="let import_invoice of importInvoiceList, index as i"
-                [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === import_invoice.importInvoiceId ? 'rgba(213,234,215,0.69)' : ''}"
+                [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === import_invoice.importInvoiceId ? 'darkgrey' : ''}"
                 (click)="chooseImportInvoice(i, import_invoice.importInvoiceId, currentPage+1)">
               <td>{{(5 * currentPage) + (i + 1)}}</td>
               <td>{{import_invoice.importInvoiceId}}</td>
-              <td>{{import_invoice.importSystemCode}}</td>
               <td>{{import_invoice.importInvoiceDate | date: 'dd-MM-yyyy'}}</td>
               <td>{{import_invoice.importInvoiceHour}}</td>
               <td>{{import_invoice.total | number}} VND</td>
@@ -91,7 +88,7 @@
           <nav class="blog-pagination d-flex justify-content-center py-3">
             <ul class="pagination">
               <li class="page-item px-1">
-                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trang trước</a>
+                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trước</a>
               </li>
               <li class="page-item">
                 <a class="page-link">
@@ -101,7 +98,7 @@
                 </a>
               </li>
               <li class="page-item px-1">
-                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage + 1 >= totalPages" *ngIf="totalPages !== (currentPage + 1)">Trang sau</a>
+                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage + 1 >= totalPages" *ngIf="totalPages !== (currentPage + 1)">Sau</a>
               </li>
             </ul>
           </nav>
@@ -111,12 +108,12 @@
         <h3 class="text-center text-danger my-5">Không tìm thấy bất kỳ thông tin nào</h3>
       </div>
       <div class="d-flex justify-content-end">
-        <button class="mr-4 btn btn-success button">
+        <button class="mx-2 btn btn-success button">
           <a class="text-decoration-none text-light" routerLink="/import-invoice/create"><i class="fa-solid fa-circle-plus"></i> Thêm</a>
         </button>
-        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#staticBackdrop12" *ngIf="idDelete !== null && n === currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
-        <button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#exampleModal" *ngIf="idDelete === null || n !== currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
-        <button class="mr-4 btn btn-secondary button">
+        <button type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#staticBackdrop12" *ngIf="idDelete !== null && n === currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
+        <button type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#exampleModal" *ngIf="idDelete === null || n !== currentPage + 1"><i class="fa-solid fa-circle-xmark"></i> Xóa</button>
+        <button class="mx-2 btn btn-secondary button">
           <a class="text-decoration-none text-light" routerLink="/home-page"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</a>
         </button>
       </div>

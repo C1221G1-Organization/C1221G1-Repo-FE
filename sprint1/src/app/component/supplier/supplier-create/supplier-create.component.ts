@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../../service/supplier.service";
-import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
+import {SupplierService} from '../../../service/supplier.service';
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-supplier-create',
@@ -45,19 +45,19 @@ export class SupplierCreateComponent implements OnInit {
   })
 
   get supplierName() {
-    return this.supplierForm.get("supplierName")
+    return this.supplierForm.get('supplierName');
   }
 
   get supplierAddress() {
-    return this.supplierForm.get("supplierAddress")
+    return this.supplierForm.get('supplierAddress');
   }
 
   get supplierPhone() {
-    return this.supplierForm.get("supplierPhone")
+    return this.supplierForm.get('supplierPhone');
   }
 
   get supplierEmail() {
-    return this.supplierForm.get("supplierEmail")
+    return this.supplierForm.get('supplierEmail');
   }
 
   /**
@@ -69,19 +69,23 @@ export class SupplierCreateComponent implements OnInit {
   createSupplier() {
     this.submitted = true;
     const supplierValue = this.supplierForm.value;
-    console.log(supplierValue)
     if (this.supplierForm.valid) {
-      supplierValue.supplierName = supplierValue.supplierName.trim()
-      supplierValue.supplierAddress = supplierValue.supplierAddress.trim()
-      supplierValue.supplierEmail = supplierValue.supplierEmail.trim()
-      supplierValue.supplierPhone = supplierValue.supplierPhone.trim()
-      console.log(supplierValue)
+      supplierValue.supplierName = supplierValue.supplierName.trim();
+      supplierValue.supplierAddress = supplierValue.supplierAddress.trim();
+      supplierValue.supplierEmail = supplierValue.supplierEmail.trim();
+      supplierValue.supplierPhone = supplierValue.supplierPhone.trim();
       this.supplierService.saveSupplier(supplierValue).subscribe(() => {
         this.supplierForm.reset();
-        this.toastr.success("Thêm Mới Thành Công !", "Thông Báo Chúc Mừng", {
+        this.toastr.success('Thêm Mới Thành Công !', 'Thông Báo Chúc Mừng', {
           timeOut: 3000,
           progressBar: true
-        })
+        });
+        this.submitted = false;
+      });
+    } else {
+      this.toastr.error('Bạn thêm mới thất bại  ', 'Thêm mới !', {
+        timeOut: 1500,
+        progressBar: true
       });
     }
   }

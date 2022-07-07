@@ -1,6 +1,6 @@
 <div class="shadow-lg bg-white mx-2 my-2">
   <div class="container-fluid">
-    <h1 class="my-2 p-3 text-center">Danh Sách Thông Tin Thuốc</h1>
+    <h2 class="my-2 p-3 text-center">Danh Sách Thông Tin Thuốc</h2>
     <div class="search">
       <fieldset class="border p-2">
         <legend class="w-auto">Bộ lọc</legend>
@@ -75,8 +75,8 @@
                 <td *ngIf="p > 1">{{(index + 1) + ((p - 1) * 5)}}</td>
                 <td>{{medicine.medicineId}}</td>
                 <td>{{medicine.medicineTypeName}}</td>
-                <td>{{medicine.medicineName}}</td>
-                <td>{{medicine.medicineActiveIngredients}}</td>
+                <td><p class="name">{{medicine.medicineName}}</p></td>
+                <td><p class="ingredients">{{medicine.medicineActiveIngredients}}</p></td>
                 <td>{{medicine.medicineUnitName}}</td>
                 <td>{{medicine.medicineConversionUnitName}}</td>
                 <td>{{medicine.medicineImportPrice | number}}</td>
@@ -85,7 +85,7 @@
                 <td>
                   <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)"
                           data-toggle="modal" data-target="#infoModal">
-                    <i aria-hidden="true" class="fa fa-address-card"></i> Thông tin chi tiết
+                    <i aria-hidden="true" class="fa fa-address-card"></i> Chi tiết
                   </button>
                 </td>
               </tr>
@@ -101,8 +101,8 @@
     <!--function paging-->
     <div style="justify-content: space-around;display: flex;" [hidden]="medicines.length===0">
       <pagination-controls (pageChange)="p = $event" class=" page-item"
-                           previousLabel="Sau"
-                           nextLabel="Trước">
+                           previousLabel="Trước"
+                           nextLabel="Sau">
       </pagination-controls>
     </div>
 
@@ -110,16 +110,15 @@
       <button class="btn btn-success mx-2" [routerLink]="['/medicine/create']"><i class="fa-solid fa-circle-plus"></i>
         Thêm
       </button>
-      <button class="btn btn-warning mx-2" [disabled]="!isChosen"
-              [routerLink]="['/medicine/edit',getMedicine?.medicineId]"><i
+      <button class="btn btn-warning mx-2"
+              (click)="confirmSelect()"><i
         class="fa-solid fa-pen-fancy"></i> Sửa
       </button>
       <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)"
-              [disabled]="!isChosen"
               class="btn btn-danger mx-2" data-toggle="modal" data-target="#deleteModal">
         <i class="fa-solid fa-trash-can"></i> Xoá
       </button>
-      <a class="btn btn-secondary mx-2"><i class="fa-solid fa-reply"></i> Trở về</a>
+      <a class="btn btn-secondary mx-2" routerLink="/home-page"><i class="fa-solid fa-reply"></i> Trở về</a>
     </div>
   </div>
 </div>
@@ -135,10 +134,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" [hidden]="!isChosen">
         <p>Bạn có chắc chắn muốn xóa loại thuốc này !</p>
         <p class="text-danger">{{idToDelete}} : {{nameToDelete}}</p>
         <p class>Lưu ý hành động không thể hoàn tác !</p>
+      </div>
+      <div class="modal-body" [hidden]="isChosen">
+        <h3 class="text-danger">Bạn chưa chọn loại thuốc nào !</h3>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>

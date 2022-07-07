@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SupplierService} from "../../../service/supplier.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {SupplierService} from '../../../service/supplier.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -26,19 +26,19 @@ export class SupplierEditComponent implements OnInit {
   }
 
   get supplierName() {
-    return this.supplierForm.get("supplierName")
+    return this.supplierForm.get('supplierName');
   }
 
   get supplierAddress() {
-    return this.supplierForm.get("supplierAddress")
+    return this.supplierForm.get('supplierAddress');
   }
 
   get supplierPhone() {
-    return this.supplierForm.get("supplierPhone")
+    return this.supplierForm.get('supplierPhone');
   }
 
   get supplierEmail() {
-    return this.supplierForm.get("supplierEmail")
+    return this.supplierForm.get('supplierEmail');
   }
 
   /**
@@ -65,7 +65,6 @@ export class SupplierEditComponent implements OnInit {
       this.supplierForm = new FormGroup({
         supplierId: new FormControl(supplier.supplierId),
         supplierName: new FormControl(supplier.supplierName, [Validators.required,
-          Validators.minLength(4),
           Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
         supplierAddress: new FormControl(supplier.supplierAddress),
         supplierPhone: new FormControl(supplier.supplierPhone, [Validators.required,
@@ -86,23 +85,23 @@ export class SupplierEditComponent implements OnInit {
    */
   updateSupplier() {
     this.submitted = true;
+
     const supplierValue = this.supplierForm.value;
 
-    supplierValue.supplierName = supplierValue.supplierName.trim()
-    supplierValue.supplierAddress = supplierValue.supplierAddress.trim()
-    supplierValue.supplierEmail = supplierValue.supplierEmail.trim()
-    supplierValue.supplierPhone = supplierValue.supplierPhone.trim()
-    console.log(supplierValue);
+    supplierValue.supplierName = supplierValue.supplierName.trim();
+    supplierValue.supplierAddress = supplierValue.supplierAddress.trim();
+    supplierValue.supplierEmail = supplierValue.supplierEmail.trim();
+    supplierValue.supplierPhone = supplierValue.supplierPhone.trim();
     this.supplierService.updateSupplier(this.idSupplier, supplierValue).subscribe(next => {
-      this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp " + this.supplierName.value, "Thông Báo Hệ Thống ", {
+      this.toastr.success('Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp ' + this.supplierName.value, 'Thông Báo Hệ Thống ', {
         timeOut: 3000,
         progressBar: true
-      })
+      });
       this.router.navigate(['supplier/']);
     }, e => {
-      console.log(e);
     }, () => {
     });
+
 
   }
 

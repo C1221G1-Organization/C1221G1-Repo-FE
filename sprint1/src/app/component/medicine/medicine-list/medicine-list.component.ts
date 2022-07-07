@@ -47,6 +47,9 @@ export class MedicineListComponent implements OnInit {
    */
 
   deleteModal(name: string, id: string) {
+    if (id == null) {
+      this.isChosen = !this.isChosen;
+    }
     this.nameToDelete = name;
     this.idToDelete = id;
   }
@@ -59,7 +62,6 @@ export class MedicineListComponent implements OnInit {
    */
   deleteMedicineById() {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
-        this.isChosen = false;
         this.toastr.success('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
           timeOut: 2000,
           progressBar: true
@@ -124,7 +126,7 @@ export class MedicineListComponent implements OnInit {
     if (this.isChosen) {
       this.getMedicine = medicine;
       this.toastr.success('Xác Nhận Đã Chọn ' + this.getMedicine.medicineName, 'Thông Báo Xác Nhận', {
-        timeOut: 3000,
+        timeOut: 1500,
         progressBar: true,
       });
     }
@@ -152,6 +154,17 @@ export class MedicineListComponent implements OnInit {
       this.isCondition = false;
     } else {
       this.isCondition = true;
+    }
+  }
+
+  confirmSelect() {
+    if (!this.isChosen) {
+      this.toastr.warning('Bạn chưa chọn thuốc', 'Cảnh Báo', {
+        timeOut: 1500,
+        progressBar: true,
+      });
+    } else {
+      this.router.navigate(['/medicine/edit', this.chooseId]);
     }
   }
 }
