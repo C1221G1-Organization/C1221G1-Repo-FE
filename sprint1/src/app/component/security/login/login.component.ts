@@ -5,7 +5,7 @@ import {SecurityService} from "../../../service/security/security.service";
 import {SignInRequest} from "../../../dto/request/SignInRequest";
 import {TokenStorageService} from "../../../service/security/token-storage.service";
 import {ToastrService} from "ngx-toastr";
-import {FacebookAuthService} from "../../../service/security/facebook-auth.service";
+// import {FacebookAuthService} from "../../../service/security/facebook-auth.service";
 import firebase from "firebase";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {FacebookRequest} from "../../../dto/request/facebook-request";
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
               private route: Router,
               private tokenStorageService: TokenStorageService,
               private toast: ToastrService,
-              public facebookAuth: FacebookAuthService,
+              // public facebookAuth: FacebookAuthService,
               public angularFireAuth: AngularFireAuth
   ) {
 
