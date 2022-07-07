@@ -28,11 +28,11 @@ const routes: Routes = [
   },
   {
     path: 'admin-chat',
-    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule)
+    loadChildren: () => import('./component/admin-chat/admin-chat.module').then(module => module.AdminChatModule),
   },
   {
     path: 'log',
-    loadChildren: () => import('./component/log/log.module').then(module => module.LogModule)
+    loadChildren: () => import('./component/security/log.module').then(module => module.LogModule)
   },
   {
     path: 'medicine',
@@ -72,7 +72,8 @@ const routes: Routes = [
   },
   {
     path: 'import-invoice-medicine',
-    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module').then(module => module.ImportInvoiceMedicineModule)
+    loadChildren: () => import('./component/import-invoice-medicine/import-invoice-medicine.module')
+      .then(module => module.ImportInvoiceMedicineModule)
   },
   {
     path: 'import-invoice',

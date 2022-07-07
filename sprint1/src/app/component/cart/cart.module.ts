@@ -10,7 +10,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgxSpinnerModule} from "ngx-spinner";
 
 
-
 @NgModule({
   declarations: [
     CartModalComponent,

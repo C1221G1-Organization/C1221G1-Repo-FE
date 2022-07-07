@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {InvoiceWholesaleAndRefundService} from "../../../../service/invoiceWholesaleAndRefund.service";
-import {InvoiceMedicine} from "../../../../model/invoice-medicine";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MedicineStorageDto} from "../../../../dto/medicine-storage-dto";
+import {InvoiceMedicine} from "../../../../model/invoice-medicine";
 import {ListMedicineDto} from "../../../../dto/list-medicine-dto";
+import {InvoiceWholesaleAndRefundService} from "../../../../service/invoiceWholesaleAndRefund.service";
 import {ToastrService} from "ngx-toastr";
-import {Customer} from "../../../../model/customer";
-
+import {Customer} from "../../../../model/customer/customer";
 
 @Component({
   selector: 'app-wholesale',
@@ -19,14 +17,14 @@ export class WholesaleComponent implements OnInit {
   medicines: MedicineStorageDto[] = [];
   quantity: number;
   invoiceMedicine: InvoiceMedicine;
-  invoiceMedicineList: InvoiceMedicine[] =[];
+  invoiceMedicineList: InvoiceMedicine[] = [];
   listMedicine: ListMedicineDto[] = [];
   invoiceMedicineForm: FormGroup;
   totalMoney: number;
   note: string;
   customer: string;
   activeProjectIndex: number;
- flagHover: boolean;
+  flagHover: boolean;
   idDelete: string;
   nameDelete: string;
   deleteMedicineChoiceArr: any[];
@@ -34,6 +32,7 @@ export class WholesaleComponent implements OnInit {
   createDate = new Date()
   customerList: Customer[] = []
   price: number
+
   constructor(private invoiceService: InvoiceWholesaleAndRefundService, private toastr: ToastrService) {
   }
 
@@ -43,8 +42,8 @@ export class WholesaleComponent implements OnInit {
       this.medicines = medicines;
     });
     this.invoiceForm = new FormGroup({
-      customer: new  FormControl(''),
-      employee: new FormControl('',[Validators.required]),
+      customer: new FormControl(''),
+      employee: new FormControl('', [Validators.required]),
       createDate: new FormControl(Date.now()),
       invoiceNote: new FormControl(''),
       typeOfInvoice: new FormControl('Bán sỉ')
@@ -56,18 +55,18 @@ export class WholesaleComponent implements OnInit {
   }
 
   addMedicine() {
-      console.log(this.invoiceMedicineForm.value)
-      let quantityMedicine = this.invoiceMedicineForm.value.quantity;
-      let money = 50 * quantityMedicine * (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
-      let idChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineId;
-      let nameChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineName;
-      let medicine: any = {
-        medicineId: idChoice,
-        medicineName: nameChoice,
-        quantity: quantityMedicine,
-        newMoney: money,
-        checkFlag: false,
-      };
+    console.log(this.invoiceMedicineForm.value)
+    let quantityMedicine = this.invoiceMedicineForm.value.quantity;
+    let money = quantityMedicine * ((this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit)/100 * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
+    let idChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineId;
+    let nameChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineName;
+    let medicine: any = {
+      medicineId: idChoice,
+      medicineName: nameChoice,
+      quantity: quantityMedicine,
+      newMoney: money,
+      checkFlag: false,
+    };
     const myArray = this.listMedicine;
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
     if (idChoice == '' || nameChoice == '' || quantityMedicine == ''
@@ -80,10 +79,10 @@ export class WholesaleComponent implements OnInit {
       this.listMedicine.push(medicine);
     } else {
     }
-      console.log(this.listMedicine);
-      this.getTotalMoney();
-      this.resetForm();
-    }
+    console.log(this.listMedicine);
+    this.getTotalMoney();
+    this.resetForm();
+  }
 
   getTotalMoney() {
     this.totalMoney = 0;
@@ -94,47 +93,49 @@ export class WholesaleComponent implements OnInit {
 
   private resetForm() {
     this.invoiceMedicineForm = new FormGroup({
-      invoiceMedicine: new FormControl('',[Validators.required]),
-      quantity: new FormControl('',[Validators.required])
+      invoiceMedicine: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.required])
     })
     this.getTotalMoney()
   }
 
   createInvoice() {
-  for(let medicine of this.listMedicine){
-   let invoiceMedicine: any ={
-      medicineId: medicine.medicineId,
-      quantity: medicine.quantity * 50
+    for (let medicine of this.listMedicine) {
+      let invoiceMedicine: any = {
+        medicineId: medicine.medicineId,
+        quantity: medicine.quantity * 50
+      }
+      this.invoiceMedicineList.push(invoiceMedicine);
+      console.log(this.invoiceMedicineList)
     }
-    this.invoiceMedicineList.push(invoiceMedicine);
-   console.log(this.invoiceMedicineList)
-  }
-  let invoice: any = {
-    employeeId: 'NV-0001',
-    customerId: this.customer,
-    invoiceNote: this.note,
-    invoiceMedicineList: this.invoiceMedicineList
-  }
-    if (invoice.invoiceMedicineList.length < 1){
+    let invoice: any = {
+      employeeId: 'NV-0001',
+      customerId: this.customer,
+      invoiceNote: this.note,
+      invoiceMedicineList: this.invoiceMedicineList
+    }
+    if (invoice.invoiceMedicineList.length < 1) {
       this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa Đơn Bán Lẻ", {
         timeOut: 3000,
         progressBar: true
       });
-    }else {this.invoiceService.createInvoice(invoice).subscribe(
-      () => {
-        this.toastr.success("Thêm mới thành công !", "Hóa đơn bán sỉ",{
-          timeOut:3000,
-          progressBar: true
-        })
-        this.listMedicine = [];
-      }, error => {
-        this.toastr.warning("Thêm Mới Thất Bại, Nhập đầy đủ thông tin", "Hóa đơn bán sỉ", {
-          timeOut:3000,
-          progressBar: true
-        });
-        console.log(error)
-      }
-    )}
+    } else {
+      this.invoiceService.createInvoice(invoice).subscribe(
+        () => {
+          this.toastr.success("Thêm mới thành công !", "Hóa đơn bán sỉ", {
+            timeOut: 3000,
+            progressBar: true
+          })
+          this.listMedicine = [];
+        }, error => {
+          this.toastr.warning("Thêm Mới Thất Bại, Nhập đầy đủ thông tin", "Hóa đơn bán sỉ", {
+            timeOut: 3000,
+            progressBar: true
+          });
+          console.log(error)
+        }
+      )
+    }
 
   }
 
@@ -154,6 +155,7 @@ export class WholesaleComponent implements OnInit {
       console.log(this.idDelete);
     }
   }
+
   deleteMedicine(closeModal: HTMLButtonElement) {
     this.listMedicine = this.listMedicine.filter(
       (item) => {
@@ -171,10 +173,9 @@ export class WholesaleComponent implements OnInit {
     this.nameDelete = '';
   }
 
-  getAllCustomer(){
-    this.invoiceService.getCustomer().subscribe(customer =>{
-        this.customerList = customer;
+  getAllCustomer() {
+    this.invoiceService.getCustomer().subscribe(customer => {
+      this.customerList = customer;
     })
   }
-
 }

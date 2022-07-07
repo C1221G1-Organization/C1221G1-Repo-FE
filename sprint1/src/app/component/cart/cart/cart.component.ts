@@ -5,6 +5,10 @@ import {CartDetailDto} from '../../../dto/cart/CartDetailDto';
 import {MedicineDtoForCart} from '../../../dto/cart/MedicineDtoForCart';
 import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
+import {TokenStorageService} from "../../../service/security/token-storage.service";
+import {Title} from "@angular/platform-browser";
+import {CustomerDtoForCart} from "../../../dto/cart/CustomerDtoForCart";
+
 
 @Component({
   selector: 'app-cart',
@@ -17,17 +21,24 @@ export class CartComponent implements OnInit {
   medicineDelete = {} as MedicineDtoForCart;
   medicineErrorArray: string[] = [];
   display = 'none';
+  username: string;
 
   constructor(private cartService: CartService,
+              private title: Title,
               private route: Router,
-              private paymentOnlineService: PaymentOnlineService) {
+              private paymentOnlineService: PaymentOnlineService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
-    this.cartService.setCart();
+    this.title.setTitle('Giỏ hàng - Pharmacycode');
+    if (this.tokenStorageService.getUser() != null) {
+      this.username = this.tokenStorageService.getUser().username;
+      console.log(this.username);
+    }
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
-    window.scrollBy(0,0);
+    window.scrollBy(0, 0);
   }
 
   reload() {
@@ -37,24 +48,29 @@ export class CartComponent implements OnInit {
   confirmCart() {
     let cartAndDetailDto = {} as CartAndDetailDto;
     cartAndDetailDto.cartDetail = this.cartDetails;
+    if (this.username != null) {
+      let customer = {} as CustomerDtoForCart;
+      customer.customerUserName = this.username;
+      cartAndDetailDto.customer = customer;
+    }
     console.log(cartAndDetailDto);
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
-      this.route.navigate(['cart/payment-online'])
+      this.route.navigate(['cart/payment-online']);
     }, error => {
       this.medicineErrorArray = [];
       console.log(error.error);
       for (let i = 0; i < cartAndDetailDto.cartDetail.length; i++) {
-        console.log("cartDetail[" + i + "].medicine");
-        console.log(error.error["cartDetail[" + i + "].medicine"]);
-        if (error.error["cartDetail[" + i + "].medicine"] != undefined ||
-          error.error["cartDetail[" + i + "].medicine"] != null) {
-          this.medicineErrorArray.push(error.error["cartDetail[" + i + "].medicine"]);
+        console.log('cartDetail[' + i + '].medicine');
+        console.log(error.error['cartDetail[' + i + '].medicine']);
+        if (error.error['cartDetail[' + i + '].medicine'] != undefined ||
+          error.error['cartDetail[' + i + '].medicine'] != null) {
+          this.medicineErrorArray.push(error.error['cartDetail[' + i + '].medicine']);
         }
         this.openModal();
       }
-    })
+    });
   }
 
   removeItem(medicine: MedicineDtoForCart) {
@@ -81,7 +97,7 @@ export class CartComponent implements OnInit {
     if (this.cartDetails != null) {
       this.cartDetails.forEach(item => {
         total += (item.quantity * item.medicine.medicinePrice);
-      })
+      });
     }
     return total;
   }
@@ -92,7 +108,7 @@ export class CartComponent implements OnInit {
 
   openModal() {
     // this.display = 'block';
-    document.getElementById("openModalButton").click();
+    document.getElementById('openModalButton').click();
   }
 
   closeModal() {

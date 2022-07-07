@@ -1,1 +1,200 @@
-<p>customer-list works!</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer list</title>
+  <link rel="stylesheet" href="customer-list.component.css">
+  <style>
+    td {
+      cursor: pointer;
+      transition: all .25s ease-in-out
+    }
+  </style>
+</head>
+<body>
+<h1 style="text-align: center">Quản Lý Khách Hàng</h1>
+<div class="container">
+  <div>
+    <fieldset class="border p-2">
+      <legend class="w-auto">Bộ Lọc</legend>
+      <div class="row">
+        <div class="col-2"><p>Lọc theo:</p></div>
+        <div class="col-2">
+          <select name="find" class="form-control" id="findCustomer" (change)="changeValueFind($event.target.value)"
+                  #keySearch1>
+            <option value="">--chọn--</option>
+            <option value="customerId">Mã khách hàng</option>
+            <option value="customerType">Nhóm khách hàng</option>
+            <option value="customerName">Tên khách hàng</option>
+            <option value="customerAddress">Địa chỉ</option>
+            <option value="customerPhone">Điện thoại</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <input class="form-control" type="text" [hidden]="!isInputHidden" #keySearch2>
+          <select name="valueDropDownSearch" class="form-control mr-sm-2" [hidden]="!isSelectHidden"
+                  #valueSearchDropDown>
+            <option *ngFor="let items of customerType"
+                    [value]="items.customerTypeId">{{items.customerTypeName}}</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary" type="button" (click)="search()"><i class="fa fa-search"
+                                                                              aria-hidden="true"></i> Lọc kết quả
+          </button>
+        </div>
+        <div class="col-2"><p class="float-right">Sắp xếp:</p></div>
+        <div class="col-2">
+          <select class="form-control" name="sort" id="sortCustomer" value="sort" (change)="sortBy()" #sort>
+            <option value="">--chọn--</option>
+            <option value="customer_id">Mã khách hàng</option>
+            <option value="customer_type_id">Nhóm khách hàng</option>
+            <option value="customer_name">Tên khách hàng</option>
+            <option value="customer_address">Địa chỉ</option>
+            <option value="customer_phone">Điện thoại</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <br>
+  <div  *ngIf="customer.length ===  0">
+    <fieldset class="border p-2">
+      <legend class="w-auto">Hệ thống thông báo</legend>
+      <div class="d-flex justify-content-center my-5">
+        <h4 style="font-weight: bold"> CHƯA CÓ KHÁCH HÀNG NÀO </h4>
+      </div>
+    </fieldset>
+  </div>
+  <div *ngIf="customer.length !== 0">
+    <fieldset class="border p-2">
+      <legend class="w-auto" style="text-align: center">Danh Sách khách hàng</legend>
+      <table class="table table-responsive" border="1" style="text-align: center">
+        <thead class="table-success">
+        <tr>
+          <th class="col-1">STT</th>
+          <th class="col-2">Mã khách</th>
+          <th class="col-2">Tên khách</th>
+          <th class="col-2">Năm sinh</th>
+          <th class="col-2">Địa chỉ</th>
+          <th class="col-1">Điện thoại</th>
+          <th class="col-2">Nhóm khách</th>
+          <th class="col-1">Giới tính</th>
+          <th class="col-1">Ghi chú</th>
+          <!--          <th class="col-1">Email</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of customer; index as i " (click)="getValueToDelete(i, item.customerId)"
+            [ngStyle]="{'background-color': choosenIndex === i && isChoosen && choosenId === item.customerId ? '#84c0ec' : ''}">
+          <td class="col-1">{{(5 * currentPage ) + (i + 1)}}</td>
+          <td class="col-2">{{item.customerId}}</td>
+          <td class="col-2">{{item.customerName}}</td>
+          <td class="col-2">{{item.customerBirthday}}</td>
+          <td class="col-2">{{item.customerAddress}}</td>
+          <td class="col-1">{{item.customerPhone}}</td>
+          <td class="col-2">{{item.customerType.customerTypeName}}</td>
+          <td class="col-1">
+              <span *ngIf="item.customerGender== 0">
+                Nam
+              </span>
+            <span *ngIf="item.customerGender== 1">
+                Nữ
+              </span>
+            <span *ngIf="item.customerGender== 2">
+                Giới tính khác
+              </span>
+          </td>
+          <td class="col-1">{{item.customerNote}}</td>
+          <!--          <td class="col-1">{{item.customerUsername.username}}</td>-->
+        </tr>
+        </tbody>
+      </table>
+    </fieldset>
+  </div>
+  <br>
+  <div>
+    <div class="mx-auto text-center" style="clear: both" *ngIf="customer.length !== 0">
+      <nav class="blog-pagination d-flex justify-content-center py-3">
+        <ul class="pagination">
+          <li class="page-item px-1">
+            <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link" *ngIf="currentPage !== 0">Trước</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link">
+              <span>{{currentPage + 1}}</span>
+              <span>/</span>
+              <span>{{totalPages}}</span>
+            </a>
+          </li>
+          <li class="page-item px-1">
+            <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages"
+               *ngIf="totalPages !== currentPage + 1">Sau</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <br>
+  <div>
+    <div class="d-flex justify-content-between">
+      <div>
+      </div>
+      <div id="btn" class="col-6">
+        <button routerLink="/customer/create" type="button" class="btn btn-success mx-2"><i
+          class="fa-solid fa-circle-plus"></i> Thêm
+        </button>
+        <button [routerLink]="['/customer/edit',idDelete]" type="button" class="btn btn-warning mx-2"><i
+          class="fa fa-pencil"
+          aria-hidden="true"></i>
+          Sửa
+        </button>
+        <button type="button" class="btn btn-danger mx2" data-toggle="modal" data-target="#exampleModal"><i
+          class="fa-solid fa-circle-xmark"></i> Xóa
+        </button>
+        <button type="button" class="btn btn-secondary mx-2"><i class="fa fa-undo" aria-hidden="true"></i>
+          Trở về
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa thông tin khách hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="idDelete != undefined && idDelete!= null">
+          <div style="text-align: center">
+            <p>Bạn có muốn xóa khách hàng
+              <b style="color: red ">{{idDelete}}</b>
+            </p>
+          </div>
+        </div>
+        <div *ngIf="idDelete == undefined && idDelete== null">
+          <div style="text-align: center">
+            <h4 style="color:red;">Chưa có khách hàng nào để xóa</h4>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
+        <button *ngIf="idDelete != undefined && idDelete != null" type="button" class="btn btn-danger"
+                data-dismiss="modal"
+                (click)="deleteCustomer(idDelete)">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--table-->
+</body>
+</html>

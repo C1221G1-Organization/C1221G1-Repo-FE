@@ -3,7 +3,6 @@ import {Invoice} from "../../../model/invoice";
 import {InvoiceService} from "../../../service/invoice.service";
 import {FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
-import firebase from "firebase";
 
 @Component({
   selector: 'app-invoice-list',
@@ -16,6 +15,7 @@ export class InvoiceListComponent implements OnInit {
   currentPage: number;
   idDel: string;
   startDate: string = "";
+  // startDate: string = new Date().toLocaleDateString('ez-ZA');
   endDate: string = new Date().toLocaleDateString('ez-ZA');
   startTime: string = "";
   endTime: string = "23:59";
@@ -174,13 +174,13 @@ export class InvoiceListComponent implements OnInit {
 
   dateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
     const start = control.get('startDate');
-    // if (start.value !== null) {
-    //   this.startDate = start.value.slice(0, 10) + start.value.slice(11);
-    // }
+    if (start.value !== null) {
+      this.startDate = start.value.slice(0, 10) + start.value.slice(11);
+    }
     const end = control.get('endDate');
-    // if (end.value !== null) {
-    //   this.endDate = end.value.slice(0, 10) + end.value.slice(11);
-    // }
+    if (end.value !== null) {
+      this.endDate = end.value.slice(0, 10) + end.value.slice(11);
+    }
     return start.value > end.value ? {dateError: true} : null;
   }
 
@@ -204,4 +204,21 @@ export class InvoiceListComponent implements OnInit {
       return null;
     }
   }
+
+  // startDateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+  //   const start = control.get('startDate');
+  //   if (start.value !== null) {
+  //     this.startDate = start.value.slice(0, 10) + start.value.slice(11);
+  //   }
+  //   console.log(start.value)
+  //   const now = new Date().toLocaleString('en-ZA', {hour12: false});
+  //   console.log(now)
+  //   const nowVal = now.slice(0, 4) + "-" + now.slice(5, 2) + "-" + now.slice(8, 2) + now.slice(12);
+  //   console.log(nowVal)
+  //   if (start.value > nowVal) {
+  //     return {startDateError: true}
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

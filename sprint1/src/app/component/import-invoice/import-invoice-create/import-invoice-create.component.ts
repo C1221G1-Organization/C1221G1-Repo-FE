@@ -58,7 +58,7 @@ export class ImportInvoiceCreateComponent implements OnInit {
             total: '',
             importInvoiceDate: (this.now.getFullYear().toString() + '/' + '0' + (this.now.getMonth() + 1).toString().slice(-2)
               + '/' + '0' + this.now.getDate().toString().slice(-2)),
-            importInvoiceHour: (this.now.toTimeString().slice(0, 8)),
+            importInvoiceHour: (this.now.toTimeString().slice(0, 5)),
             supplier: (this.suppliers[0]),
             employee: this.defaultEmployee,
             flag: true,
@@ -72,7 +72,6 @@ export class ImportInvoiceCreateComponent implements OnInit {
 
   updateTotal() {
     const ctrl = this.createImportInvoiceForm.controls.importInvoiceMedicineList as FormArray;
-    console.log(ctrl.controls);
     this.totalMoney = 0;
     ctrl.controls.forEach(x => {
       const parsed = parseFloat((x.get('intoMoney').value));
@@ -80,6 +79,7 @@ export class ImportInvoiceCreateComponent implements OnInit {
       this.ref.detectChanges();
     });
     this.updateRemain();
+    this.updateQuantityCart();
   }
 
   get importInvoiceMedicineListSelected(): FormArray {
@@ -89,10 +89,6 @@ export class ImportInvoiceCreateComponent implements OnInit {
 
   updateQuantityCart() {
     this.quantityCart = this.importInvoiceMedicineSelectedArray.length;
-  }
-
-  checkExistMedicine(medicine: Medicine) {
-    // this.importInvoiceMedicineSelectedArray.
   }
 
   checkNoMedicine() {
@@ -123,13 +119,13 @@ export class ImportInvoiceCreateComponent implements OnInit {
           count++;
         }
       );
+      this.updateQuantityCart();
       this.checkNoMedicine();
     }
   }
 
   // create by TrungTVH 2/7/2022: -> listen change from supplier selected
   onChange($event) {
-    console.log($event);
     this.selectedSupplier = $event;
   }
 

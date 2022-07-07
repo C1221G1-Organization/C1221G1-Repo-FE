@@ -51,9 +51,12 @@ export class AccountEditComponent implements OnInit {
             employeeName: new FormControl(account.employeeName),
             position: new FormControl(this.position, [Validators.required]),
             username: new FormControl(account.username),
-            password: new FormControl("", [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
+            password: new FormControl("", Validators.compose([Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])),
           })
-        });
+        },() => this.toastr.warning("Không tìm thấy đối tượng chỉnh sửa !", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        }));
       })
     });
 
@@ -67,13 +70,15 @@ export class AccountEditComponent implements OnInit {
   //  * update account
   //  *
   update(id: string) {
-    const account = this.updateForm.value;
-    this.accountEmployeeService.update(id, account).subscribe(() => {
-      this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
-        timeOut: 2000,
-        progressBar: true
+      const account = this.updateForm.value;
+      this.accountEmployeeService.update(id, account).subscribe(() => {
+        this.toastr.success("Chỉnh sửa thành công !", "Thông báo", {
+          timeOut: 2000,
+          progressBar: true
+        });
+        this.router.navigateByUrl('/account/list');
+      }, error => {
+
       });
-      this.router.navigateByUrl('/account/list');
-    });
-  }
+    }
 }

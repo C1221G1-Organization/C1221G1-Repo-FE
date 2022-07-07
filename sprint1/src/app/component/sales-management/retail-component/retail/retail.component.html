@@ -1,5 +1,5 @@
-<div class="mb-3 pt-1">
-  <div class="container shadow pt-3">
+<div class="mb-3 pt-1 container-fluid">
+  <div class="container-fluid shadow pt-3">
     <div class="d-flex justify-content-center"><h3>Hóa Đơn Bán Lẻ</h3></div>
     <hr>
     <!--khung tìm kiếm toa thuốc-->
@@ -129,7 +129,7 @@
         </button>
       </div>
       <div class="pl-1">
-        <button class="btn btn-secondary " [routerLink]="['/home-page']">
+        <button class="btn btn-secondary " [routerLink]="['/sales-management/invoices']">
           <i class="fa fa-undo" aria-hidden="true"></i>
           Trở về
         </button>
@@ -179,9 +179,9 @@
         </p>
       </div>
       <div class="modal-body" *ngIf="idDelete == null || idDelete == undefined || idDelete == ''">
-          Bạn chưa chọn thuốc!
+        Bạn chưa chọn thuốc!
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
         <div class="mx-auto row">
           <input type="hidden" name="id" id="idDelete">
           <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>
@@ -192,8 +192,3 @@
   </div>
 </div>
 <!--modal delete-->
-
-
-
-=======
->>>>>>> 6546df071595ce4fea3382143452b5ecb4fba55a

@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import firebase from "firebase/app";
+import "firebase/database";
 import {snapshotToArray} from '../../admin-chat/admin-chat.component';
 import {UserChat} from '../../../dto/user-chat.model';
 import {ToastrService} from 'ngx-toastr';
@@ -107,7 +107,7 @@ export class UserChatComponent implements OnInit {
    * */
   onChatSubmit() {
     const chat = this.chatForm.value;
-    if (chat.message.trim().length != 0) {
+    if (chat.message.trim().length != 0 && chat.message.trim().length < 255) {
       chat.name = this.userChat.name;
       chat.uuid = this.uuid;
       chat.message = chat.message.trim();
@@ -117,6 +117,9 @@ export class UserChatComponent implements OnInit {
         const room = res.val();
         firebase.database().ref('rooms/' + this.uuid).update({...room, lastMessagePost: getTimeStamp(), isSeen: false});
       });
+      this.chatForm.reset();
+    } else {
+      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {timeOut: 3000, progressBar: false});
       this.chatForm.reset();
     }
   }
@@ -154,5 +157,4 @@ export class UserChatComponent implements OnInit {
       this.toastr.info('Vui lòng nhập chính xác thông tin', '', {timeOut: 3000, progressBar: false});
     }
   }
-
 }

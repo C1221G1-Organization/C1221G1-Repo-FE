@@ -18,9 +18,9 @@ export class InvoiceWholesaleAndRefundService {
 
   constructor(private http: HttpClient) { }
 
-    createInvoice(invoice: Invoice):Observable<Invoice>{
+  createInvoice(invoice: Invoice):Observable<Invoice>{
     return this.http.post<Invoice>(API_URL + '/api/manager-sale/invoiceMedicines/createWholesale', invoice)
-    }
+  }
   createRefundInvoice(invoice: Invoice):Observable<Invoice>{
     return this.http.post<Invoice>(API_URL + '/api/manager-sale/invoiceMedicines/createRefund', invoice)
   }

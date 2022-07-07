@@ -1,9 +1,12 @@
+import {Employee} from "./employee";
+import {Customer} from "./customer";
+
 export interface Invoice {
   invoiceId?: string;
-  customerName?: string;
-  employeeName?: string;
+  customer?: Customer;
+  employee?: Employee;
   invoiceNote?: string;
   invoiceCreatedDate?: string;
   invoiceCreateTime?: string;
-  invoiceTotalMoney?: number;
+  flag?: boolean;
 }

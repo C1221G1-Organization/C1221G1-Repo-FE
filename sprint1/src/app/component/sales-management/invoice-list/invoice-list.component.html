@@ -14,10 +14,17 @@
                   <label for="startDate">Từ ngày</label>
                   <input class="form-control form-control-sm" id="startDate" type="datetime-local"
                          formControlName="startDate">
+<<<<<<< HEAD
                   <p *ngIf="searchForm.controls.dateForm.hasError('startDateError') && startDate !== ''"
                      class="text-danger mt-2">
                     Ngày bắt đầu phải bé hơn ngày hiện tại.
                   </p>
+=======
+<!--                  <p *ngIf="searchForm.controls.dateForm.hasError('startDateError') && startDate !== ''"-->
+<!--                     class="text-danger mt-2">-->
+<!--                    Ngày bắt đầu phải lớn hơn ngày hiện tại.-->
+<!--                  </p>-->
+>>>>>>> edfa05dfe9fd671bf4fe341459d24ee9a79767f5
                 </div>
                 <div>
                   <label for="endDate">Đến ngày</label>
@@ -114,6 +121,7 @@
         </tr>
         </tbody>
       </table>
+<<<<<<< HEAD
       <div *ngIf="invoiceList.length !== 0">
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
@@ -134,6 +142,27 @@
           </ul>
         </nav>
       </div>
+=======
+      <!--      <div *ngIf="invoiceList.length == !0" >-->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Sau</a>
+          </li>
+          <li class="page-item ">
+            <a class="page-link btn-sm">
+              <span>{{currentPage + 1}}</span>
+              <span>/</span>
+              <span>{{totalPages}}</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link btn btn-sm" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trước</a>
+          </li>
+        </ul>
+      </nav>
+      <!--      </div>-->
+>>>>>>> edfa05dfe9fd671bf4fe341459d24ee9a79767f5
       <!--Button start-->
       <div id="bottom-btn" class="d-flex justify-content-end">
         <button [routerLink]="['/sales-management/retail']" class="btn btn-success"><i
