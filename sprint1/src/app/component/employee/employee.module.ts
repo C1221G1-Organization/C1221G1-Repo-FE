@@ -9,7 +9,7 @@ import {EmployeeModalComponent} from './employee-modal/employee-modal.component'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../../../environments/environment.prod';
-
+import {config} from '../../../environments/environment';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import {environment} from '../../../environments/environment.prod';
     EmployeeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(config)
   ]
 })
 export class EmployeeModule {

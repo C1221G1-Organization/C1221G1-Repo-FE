@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
   <!----------------PROMOTION-------------------->
   <div class="col-sm-12 col-md-12 d-flex float-flex">
@@ -59,7 +58,7 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="cards-wrapper ">
-            <div class="card col-lg-2 col-md-4 col-sm-4 col-12"  *ngFor="let medicine of medicineBestSellerList1">
+            <div class="card col-lg-2 col-md-4 col-sm-4 col-12" *ngFor="let medicine of medicineBestSellerList1">
               <img alt="Card image cap"
                    class="" [routerLink]="['/medicine-detail',medicine.medicineId]"
                    [src]="medicine.medicineImage">
@@ -123,15 +122,15 @@
           </div>
           <div class="select-input mr-5" (change)="sortMedicine(sort)">
             <select class="form-control" #sort>
-              <option value="idDesc" >Mới nhất</option>
-              <option value="priceAsc" >Giá tăng dần</option>
-              <option value="priceDesc" >Giá giảm dần</option>
+              <option value="idDesc">Mới nhất</option>
+              <option value="priceAsc">Giá tăng dần</option>
+              <option value="priceDesc">Giá giảm dần</option>
             </select>
           </div>
           <nav class="d-flex align-item-center">
             <ul class="pagination">
               <li class="page-item">
-                <a (click)="previousPage()" [class.disabled]="currentPage<=0" class="page-link">Trước</a>
+                <a [class.disabled]="currentPage<=0" class="page-link">Trước</a>
               </li>
               <li class="page-item">
                 <a class="page-link">
@@ -141,7 +140,7 @@
                 </a>
               </li>
               <li class="page-item">
-                <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Sau</a>
+                <a class="page-link" [class.disabled]="currentPage+1>=totalPages">Sau</a>
               </li>
             </ul>
           </nav>
@@ -152,7 +151,7 @@
         <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
         <h4>Tiếc quá! Pharmacode không tìm thấy nội dung nào phù hợp với từ khóa <strong>"{{name}}"</strong>
         </h4>
-       </div>
+      </div>
 
       <div class="carousel-inner" *ngIf="medicineList.length!=0">
         <div class="carousel-item active">
@@ -173,8 +172,6 @@
                 </div>
               </div>
             </div>
-  </div>
-
-</div>
-
-
+          </div>
+        </div>
+      </div>

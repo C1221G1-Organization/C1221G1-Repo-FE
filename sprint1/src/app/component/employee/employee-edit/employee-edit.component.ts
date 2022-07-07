@@ -49,7 +49,7 @@ export class EmployeeEditComponent implements OnInit {
     this.employeeFormEdit = new FormGroup({
       employeeId: new FormControl(''),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+)((\\s{1}[a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+){1,})$')]),
       employeeImage: new FormControl(''),
       employeeAddress: new FormControl('', [Validators.required]),
       // tslint:disable-next-line:max-line-length
@@ -73,8 +73,7 @@ export class EmployeeEditComponent implements OnInit {
     Function:  Show position
 */
   ngOnInit(): void {
-    this.positionService.getAllPosition().subscribe(position => {
-      this.position = position;
+    this.positionService.getAllPosition().subscribe(position => {     this.position = position;
     });
     this.getEmployeeById(this.id);
   }
@@ -124,11 +123,15 @@ export class EmployeeEditComponent implements OnInit {
   Function:  Edit Employee
 */
   onSubmit(id: string) {
+    if (!this.employeeFormEdit.valid) {
+      this.employeeFormEdit.markAllAsTouched();
+    }
     const employee = this.employeeFormEdit.value;
     console.log(this.valueEmployee);
     console.log(employee);
     console.log(Object.is(employee.toString(), this.valueEmployee.toString()));
     if (this.employeeFormEdit.valid) {
+      // tslint:disable-next-line:triple-equals
       if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
         this.employeeService.updateEmployee(id, employee).subscribe(() => {
           this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
@@ -143,8 +146,6 @@ export class EmployeeEditComponent implements OnInit {
         const fileRef = this.storage.ref(nameImg);
         this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
-            this.employeeFormEdit.patchValue(employee.employeeImage = url);
-            console.log(url);
 // Call API to update
             this.employeeFormEdit.patchValue(employee.employeeImage = url);
             this.employeeService.updateEmployee(id, employee).subscribe(() => {
@@ -154,9 +155,11 @@ export class EmployeeEditComponent implements OnInit {
               });
               this.router.navigateByUrl('/employee/list');
             }, error => {
-              this.errorUser = error.error.errorMap.usersName;
-              console.log(this.errorUser);
-              this.errorImage = error.error.errorMap.employeeImage;
+              this.toastr.error('Chỉnh Sửa Thất Bại!', 'Chỉnh sửa nhân viên', {
+                timeOut: 3000,
+                progressBar: true
+              });
+              this.errorImage = error.error?.errorMap?.employeeImage;
               console.log(this.errorImage);
             });
           });
