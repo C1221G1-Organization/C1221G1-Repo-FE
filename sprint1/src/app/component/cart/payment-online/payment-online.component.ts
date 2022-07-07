@@ -61,8 +61,11 @@ export class PaymentOnlineComponent implements OnInit {
         customerPhone: new FormControl('',
           [Validators.required, Validators.pattern('^(09|08|03)\\d{8}$')]),
         customerAddress: new FormControl('',
-          [Validators.required, Validators.minLength(10), Validators.maxLength(150)])
+          [Validators.required, Validators.maxLength(150)])
       });
+      if (this.cartAndDetailDto.customer != null) {
+        this.customerForm.patchValue(this.cartAndDetailDto.customer);
+      }
       this.changeRate();
       this.initConfig();
     });

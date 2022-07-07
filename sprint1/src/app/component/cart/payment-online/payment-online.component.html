@@ -78,75 +78,77 @@
                   &ensp; Thông tin giao hàng </h5>
                 <span class="text-danger pl-3"> (Vui lòng điền đầy đủ thông tin để thực hiện thanh toán)</span>
               </div>
-              <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="pl-3">
-                <div class="form-group">
-                  <label for="name">Tên Người nhận <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="name"
-                         formControlName='customerName'
-                         [class.is-invalid]='(customerName.touched || customerName.dirty||submitted) && customerName.invalid'
-                         [class.is-valid]='customerName.valid'>
-                  <div *ngIf='!customerName.valid && (customerName.dirty ||customerName.touched||submitted)'>
-                    <small [hidden]='!customerName.errors.required' class="text-danger">
-                      Vui lòng nhập tên.
-                    </small>
-                    <small [hidden]='!customerName.errors.pattern' class="text-danger">
-                      Tên vượt quá số ký tự cho phép.
-                    </small>
+              <div [hidden]="cartAndDetailDto.customer !=null">
+                <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="pl-3">
+                  <div class="form-group">
+                    <label for="name">Tên Người nhận <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="name"
+                           formControlName='customerName'
+                           [class.is-invalid]='(customerName.touched || customerName.dirty||submitted) && customerName.invalid'
+                           [class.is-valid]='customerName.valid'>
+                    <div *ngIf='!customerName.valid && (customerName.dirty ||customerName.touched||submitted)'>
+                      <small [hidden]='!customerName.errors.required' class="text-danger">
+                        Vui lòng nhập tên.
+                      </small>
+                      <small [hidden]='!customerName.errors.pattern' class="text-danger">
+                        Tên vượt quá số ký tự cho phép.
+                      </small>
 
+                    </div>
                   </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="inputEmail4"
-                           formControlName='customerUserName'
-                           [class.is-invalid]='(customerUserName.touched || customerUserName.dirty||submitted) && customerUserName.invalid'
-                           [class.is-valid]='customerUserName.valid'>
-                    <div
-                      *ngIf='!customerUserName.valid && (customerUserName.dirty ||customerUserName.touched||submitted)'>
-                      <small [hidden]='!customerUserName.errors.required' class="text-danger">
-                        Vui lòng nhập địa chỉ email.
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Email <span class="text-danger">*</span></label>
+                      <input type="email" class="form-control" id="inputEmail4"
+                             formControlName='customerUserName'
+                             [class.is-invalid]='(customerUserName.touched || customerUserName.dirty||submitted) && customerUserName.invalid'
+                             [class.is-valid]='customerUserName.valid'>
+                      <div
+                        *ngIf='!customerUserName.valid && (customerUserName.dirty ||customerUserName.touched||submitted)'>
+                        <small [hidden]='!customerUserName.errors.required' class="text-danger">
+                          Vui lòng nhập địa chỉ email.
+                        </small>
+                        <small [hidden]='!customerUserName.errors.pattern' class="text-danger">
+                          Địa chỉ email không đúng định dạng.
+                        </small>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="phone"
+                             formControlName='customerPhone'
+                             [class.is-invalid]="(customerPhone.touched||submitted || customerPhone.dirty) && customerPhone.invalid"
+                             [class.is-valid]="customerPhone.valid">
+                      <div *ngIf="!customerPhone.valid && (customerPhone.dirty ||customerPhone.touched||submitted)">
+                        <small class="text-danger" [hidden]="!customerPhone.errors.required">
+                          Vui lòng nhập số điện thoại.
+                        </small>
+                        <small class="text-danger" [hidden]="!customerPhone.errors.pattern">
+                          Số điện thoại bắt đầu bằng 09 hoặc 08 hoặc 03 ...
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Địa chỉ <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="inputAddress"
+                           formControlName='customerAddress'
+                           [class.is-invalid]="(customerAddress.touched||submitted || customerAddress.dirty) && customerAddress.invalid"
+                           [class.is-valid]="customerAddress.valid">
+                    <div *ngIf="!customerAddress.valid && (customerAddress.dirty ||customerAddress.touched||submitted)">
+                      <small class="text-danger" [hidden]="!customerAddress.errors.required">
+                        Vui lòng nhập địa chỉ.
                       </small>
-                      <small [hidden]='!customerUserName.errors.pattern' class="text-danger">
-                        Địa chỉ email không đúng định dạng.
+                      <small class="text-danger" [hidden]="!customerAddress.errors.minlength">
+                        Vui lòng nhập địa chỉ đầy đủ.
+                      </small>
+                      <small class="text-danger" [hidden]="!customerAddress.errors.maxlength">
+                        Địa chỉ vượt quá số ký tự cho phép.
                       </small>
                     </div>
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="phone"
-                           formControlName='customerPhone'
-                           [class.is-invalid]="(customerPhone.touched||submitted || customerPhone.dirty) && customerPhone.invalid"
-                           [class.is-valid]="customerPhone.valid">
-                    <div *ngIf="!customerPhone.valid && (customerPhone.dirty ||customerPhone.touched||submitted)">
-                      <small class="text-danger" [hidden]="!customerPhone.errors.required">
-                        Vui lòng nhập số điện thoại.
-                      </small>
-                      <small class="text-danger" [hidden]="!customerPhone.errors.pattern">
-                        Số điện thoại bắt đầu bằng 09 hoặc 08 hoặc 03 ...
-                      </small>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputAddress">Địa chỉ <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="inputAddress"
-                         formControlName='customerAddress'
-                         [class.is-invalid]="(customerAddress.touched||submitted || customerAddress.dirty) && customerAddress.invalid"
-                         [class.is-valid]="customerAddress.valid">
-                  <div *ngIf="!customerAddress.valid && (customerAddress.dirty ||customerAddress.touched||submitted)">
-                    <small class="text-danger" [hidden]="!customerAddress.errors.required">
-                      Vui lòng nhập địa chỉ.
-                    </small>
-                    <small class="text-danger" [hidden]="!customerAddress.errors.minlength">
-                      Vui lòng nhập địa chỉ đầy đủ.
-                    </small>
-                    <small class="text-danger" [hidden]="!customerAddress.errors.maxlength">
-                      Địa chỉ vượt quá số ký tự cho phép.
-                    </small>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>

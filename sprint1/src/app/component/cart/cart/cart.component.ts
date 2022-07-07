@@ -5,6 +5,8 @@ import {CartDetailDto} from '../../../dto/cart/CartDetailDto';
 import {MedicineDtoForCart} from '../../../dto/cart/MedicineDtoForCart';
 import {CartAndDetailDto} from '../../../dto/cart/CartAndDetailDto';
 import {PaymentOnlineService} from '../../../service/cart/payment-online.service';
+import {TokenStorageService} from "../../../service/security/token-storage.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cart',
@@ -18,17 +20,23 @@ export class CartComponent implements OnInit {
   medicineDelete = {} as MedicineDtoForCart;
   medicineErrorArray: string[] = [];
   display = 'none';
+  username: string;
 
   constructor(private cartService: CartService,
+              private title: Title,
               private route: Router,
-              private paymentOnlineService: PaymentOnlineService) {
+              private paymentOnlineService: PaymentOnlineService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
-    // this.cartService.setCart();
+    this.title.setTitle('Giỏ hàng - Pharmacycode');
+    if (this.tokenStorageService.getUser() != null) {
+      this.username = this.tokenStorageService.getUser().username;
+    }
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
-    window.scrollBy(0,0);
+    window.scrollBy(0, 0);
   }
 
   reload() {
@@ -38,6 +46,9 @@ export class CartComponent implements OnInit {
   confirmCart() {
     let cartAndDetailDto = {} as CartAndDetailDto;
     cartAndDetailDto.cartDetail = this.cartDetails;
+    if (this.username != null) {
+      cartAndDetailDto.customer.customerUserName = this.username;
+    }
     console.log(cartAndDetailDto);
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
