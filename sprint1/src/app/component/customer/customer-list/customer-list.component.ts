@@ -42,7 +42,6 @@ export class CustomerListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCustomers({page: 0, size: 5});
     this.getAllCustomerType();
-    console.log(this.customerType);
   }
 
   /**
@@ -81,7 +80,6 @@ export class CustomerListComponent implements OnInit {
   getAllCustomerType() {
     this.customerTypeService.getAllCustomerType().subscribe(customerTypes => {
       this.customerType = customerTypes;
-      console.log(this.customerType);
     });
   }
 
@@ -256,7 +254,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_type_id':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -266,9 +263,8 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_name':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerName: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -276,9 +272,8 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_address':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerAddress: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -286,9 +281,8 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_phone':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerPhone: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -301,12 +295,11 @@ export class CustomerListComponent implements OnInit {
   /**
    * create by TinBQ
    * time: 04/07/2022
-   * This method to delet customer in database
+   * This method to delete customer in database
    */
   deleteCustomer(customerId: string) {
-    console.log(customerId);
     this.customerService.delete(customerId).subscribe(() => {
-      this.toastr.warning('Xóa Thành Công !', 'Thông báo', {
+      this.toastr.success('Xóa Thành Công !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });
