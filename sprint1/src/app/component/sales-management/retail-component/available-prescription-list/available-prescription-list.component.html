@@ -52,7 +52,7 @@
       </table>
       <!--        list       -->
       <!--      panation    -->
-      <nav class="blog-pagination d-flex justify-content-center py-3">
+      <nav class="blog-pagination d-flex justify-content-center py-3" *ngIf="totalPages > 1 ">
         <ul class="pagination">
           <li class="page-item px-1" >
             <a class="page-link" (click)="previous()">Trang trước</a>
