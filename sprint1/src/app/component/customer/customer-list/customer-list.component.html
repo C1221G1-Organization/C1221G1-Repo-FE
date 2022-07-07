@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,7 @@
   </style>
 </head>
 <body>
+<h1 style="text-align: center">Quản Lý Khách Hàng</h1>
 <div class="container">
   <div>
     <fieldset class="border p-2">
@@ -85,13 +87,12 @@
           <th class="col-2">Nhóm khách</th>
           <th class="col-1">Giới tính</th>
           <th class="col-1">Ghi chú</th>
-<!--          <th class="col-1">Email</th>-->
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of customer; index as i " (click)="getValueToDelete(i, item.customerId)"
             [ngStyle]="{'background-color': choosenIndex === i && isChoosen && choosenId === item.customerId ? '#84c0ec' : ''}">
-          <td class="col-1">{{i + 1}}</td>
+          <td class="col-1">{{(5 * currentPage)+( i  + 1)}}</td>
           <td class="col-2">{{item.customerId}}</td>
           <td class="col-2">{{item.customerName}}</td>
           <td class="col-2">{{item.customerBirthday}}</td>
@@ -110,7 +111,7 @@
               </span>
           </td>
           <td class="col-1">{{item.customerNote}}</td>
-<!--          <td class="col-1">{{item.customerUsername.username}}</td>-->
+          <!--          <td class="col-1">{{item.customerUsername.username}}</td>-->
         </tr>
         </tbody>
       </table>
@@ -148,11 +149,12 @@
         <button routerLink="/customer/create" type="button" class="btn btn-success mx-2"><i
           class="fa-solid fa-circle-plus"></i> Thêm
         </button>
-        <button [routerLink]="['/customer/edit',idDelete]" type="button" class="btn btn-warning mx-2"><i class="fa fa-pencil"
-                                                                                                    aria-hidden="true"></i>
+        <button [routerLink]="['/customer/edit',idDelete]" type="button" class="btn btn-warning mx-2"><i
+          class="fa fa-pencil"
+          aria-hidden="true"></i>
           Sửa
         </button>
-        <button type="button" class="btn btn-danger mx-2" data-toggle="modal" data-target="#exampleModal"><i
+        <button type="button" class="btn btn-danger mx2" data-toggle="modal" data-target="#exampleModal"><i
           class="fa-solid fa-circle-xmark"></i> Xóa
         </button>
         <button type="button" class="btn btn-secondary mx-2"><i class="fa fa-undo" aria-hidden="true"></i>
@@ -189,7 +191,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
-        <button *ngIf="idDelete != undefined && idDelete != null" type="button" class="btn btn-danger" data-dismiss="modal"
+        <button *ngIf="idDelete != undefined && idDelete != null" type="button" class="btn btn-danger"
+                data-dismiss="modal"
                 (click)="deleteCustomer(idDelete)">Xóa
         </button>
       </div>
@@ -199,4 +202,3 @@
 <!--table-->
 </body>
 </html>
-

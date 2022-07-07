@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AccountRoutingModule } from './account-routing.module';
-import {AccountListComponent} from "./account-list/account-list.component";
-import {AccountEditComponent} from "./account-edit/account-edit.component";
+import {AccountRoutingModule} from './account-routing.module';
+import {AccountListComponent} from './account-list/account-list.component';
+import {AccountEditComponent} from './account-edit/account-edit.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import {AccountEditComponent} from "./account-edit/account-edit.component";
   ],
   imports: [
     CommonModule,
-    AccountRoutingModule
+    AccountRoutingModule,
+    ReactiveFormsModule
   ]
 })
-export class AccountModule { }
+export class AccountModule {
+}

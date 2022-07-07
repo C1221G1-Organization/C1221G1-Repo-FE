@@ -15,6 +15,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./customer-create.component.css']
 })
 export class CustomerCreateComponent implements OnInit {
+
   createForm: FormGroup;
   customerTypeList: CustomerType[];
   age: number;
@@ -32,7 +33,7 @@ export class CustomerCreateComponent implements OnInit {
     this.createForm = new FormGroup({
       customerId: new FormControl(''),
       customerName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),
-        Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+        Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
       customerBirthday: new FormControl('', [Validators.required]),
       customerGender: new FormControl('', [Validators.required]),
       customerAddress: new FormControl(''),
@@ -103,6 +104,4 @@ export class CustomerCreateComponent implements OnInit {
       this.createForm.get('customerBirthday').setErrors({checkAge: true});
     }
   }
-
-
 }
