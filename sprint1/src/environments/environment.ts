@@ -6,14 +6,35 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
   firebaseConfig: {
-    apiKey: 'AIzaSyAyMrBGwsFyKO3vaKNu_U9LtdJbGiFP2gA',
-    databaseURL: 'https://fir-chat-9b119-default-rtdb.asia-southeast1.firebasedatabase.app'
+    apiKey: 'AIzaSyAFIkb0qmJY43dAKphbQSZ778WT_aLNfuo',
+    authDomain: 'c1221g1-firebase.firebaseapp.com',
+    databaseURL: 'https://c1221g1-firebase-default-rtdb.firebaseio.com',
+    projectId: 'c1221g1-firebase',
+    storageBucket: 'c1221g1-firebase.appspot.com',
+    messagingSenderId: '535591875350',
+    appId: '1:535591875350:web:7c310ddb990697c0bbd637',
+    measurementId: 'G-CVJD51BD70'
   },
+  apiBaseUrl: 'http://localhost:3000',
+  url8080retail: 'http://localhost:8080/api/manager-sale/invoiceMedicines',
+  url8080prescription: 'http://localhost:8080/api/manager-prescription/prescriptions',
   adminChat: {
     name: 'ADMIN',
     uuid: 'ADMIN-C12'
   }
 };
+
+export const config = {
+  apiKey: 'AIzaSyAmka5eULManLz7IecrSgJy4LF85j8ptYA',
+  authDomain: 'c1221g1-pharmacy.firebaseapp.com',
+  projectId: 'c1221g1-pharmacy',
+  storageBucket: 'c1221g1-pharmacy.appspot.com',
+  messagingSenderId: '286698930676',
+  appId: '1:286698930676:web:64331d09dc09f2dc7939a1',
+  databaseURL: 'https://c1221g1-pharmacy-default-rtdb.asia-southeast1.firebasedatabase.app',
+  measurementId: 'G-904D7C7FF4'
+};
+
 
 /*
  * For easier debugging in development mode, you can import the following file
