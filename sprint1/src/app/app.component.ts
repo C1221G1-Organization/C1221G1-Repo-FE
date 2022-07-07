@@ -12,7 +12,6 @@ import {config} from '../environments/environment';
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'pharmacy-manager';
-
   isGuest: boolean;
   user;
 
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
         this.isGuest = false;
       }
     }
-    this.isGuest = false;
+    // this.isGuest = false;
     console.log(this.user);
   }
 

@@ -46,8 +46,13 @@
       <li class="nav-item mr-3">
         <a class="nav-link" routerLink="/admin-chat/rooms">Chat với khách</a>
       </li>
-      <li class="nav-item mr-3">
-        <a class="nav-link" routerLink="/log/log-out">Đăng xuất</a>
+      <li class="nav-item dropdown mr-3 d-flex justify-content-end">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-expanded="false">
+          {{username}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+          <a (click)="signOut($event)" class="dropdown-item">Đăng xuất</a>
+        </div>
       </li>
     </ul>
   </div>
@@ -95,7 +100,7 @@
           </a>
         </li>
         <li class="nav-item seperate">
-          <a class="nav-link text-light font-weight-bold bg-pharmacode" routerLink="/log/log-out">
+          <a class="nav-link text-light font-weight-bold bg-pharmacode" (click)="signOut($event)">
             <i class="fa-solid fa-arrow-right-from-bracket mr-3 text-light fa-fw"></i>
             <!--                <i class="fa fa-line-chart "></i>-->
             Đăng xuất

@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
-import {environment} from '../environments/environment';
+import {config, environment} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NotFoundComponent} from './component/not-found/not-found.component';
@@ -28,7 +28,7 @@ import {ReportModule} from './component/reports/report.module';
     AppRoutingModule,
     HttpClientModule,
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(config),
     ToastrModule.forRoot({
       positionClass: 'toast-top-right'
     }),
@@ -38,11 +38,7 @@ import {ReportModule} from './component/reports/report.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TemplatesModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-right'
-    }),
     NgxSpinnerModule,
-
   ],
 
   providers: [Title],
