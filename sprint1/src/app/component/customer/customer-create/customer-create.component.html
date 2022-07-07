@@ -50,7 +50,7 @@
         <div class="form-group">
           <b class="title" class="form-label">Điện thoại <span
             style="color: red"> (*) </span></b>
-          <input class="form-control" type="number" formControlName="customerPhone"
+          <input class="form-control" type="text" formControlName="customerPhone"
                  placeholder="Nhập số điện thoại">
           <p style="color: red"
              *ngIf="createForm.controls.customerPhone.hasError('required') && createForm.controls.customerPhone.touched">

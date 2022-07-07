@@ -4,7 +4,7 @@
     <div class="col-lg-6" style="float: left">
       <div class="input-group mb-3">
         <select class="form-control" #nameSearchingSelect>
-          <option value="supplierId"> Chưa Có Lựa Chọn</option>
+          <option value=""> Chưa Có Lựa Chọn</option>
           <option value="supplierId"> Mã Nhà Cung Cấp</option>
           <option value="supplierName"> Tên Nhà Cung Cấp</option>
           <option value="supplierAddress">Địa Chỉ Nhà Cung Cấp</option>
@@ -68,7 +68,7 @@
         <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i"
             (click)="chooseSupplier(i, item)"
             [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
-          <td>{{i + 1}}</td>
+          <td>{{(5 * currentPage) + (i + 1)}}</td>
           <td>{{item.supplierId}}</td>
           <td class="lf">{{item.supplierName}}</td>
           <td>{{item.supplierPhone}}</td>
@@ -109,7 +109,7 @@
 
   </div>
 
-  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1">
+  <div class="mx-auto text-center" style="clear: both" *ngIf="totalPages>1 ">
     <nav class="blog-pagination d-flex justify-content-center py-3">
       <ul class="pagination">
         <li class="page-item px-1">
@@ -173,4 +173,3 @@
     </div>
   </div>
 </div>
-

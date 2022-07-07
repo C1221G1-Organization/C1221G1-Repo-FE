@@ -19,7 +19,7 @@ export class PrescriptionListComponent implements OnInit {
   names = '';
   target = '';
   symptom = '';
-  page: any;
+  page: number;
   totalPages = 0;
   pageSize: 0;
   firsts: boolean;
@@ -173,8 +173,8 @@ export class PrescriptionListComponent implements OnInit {
 
   next() {
     if (this.page < this.totalPages - 1) {
-      this.prescriptionService.getAllPrescription(this.page + 1, this.id, this.names,
-        this.target, this.symptom).subscribe(
+      this.prescriptionService.getAllPrescription(this.page + 1, this.id = '', this.names = '',
+        this.target = '', this.symptom = '').subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;

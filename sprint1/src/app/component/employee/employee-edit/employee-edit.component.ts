@@ -136,7 +136,7 @@ export class EmployeeEditComponent implements OnInit {
     if (this.employeeFormEdit.valid) {
       if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
         this.employeeService.updateEmployee(id, employee).subscribe(() => {
-          this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+          this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
@@ -153,7 +153,7 @@ export class EmployeeEditComponent implements OnInit {
 // Call API to update
             this.employeeFormEdit.patchValue(employee.employeeImage = url);
             this.employeeService.updateEmployee(id, employee).subscribe(() => {
-              this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+              this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
                 timeOut: 3000,
                 progressBar: true
               });

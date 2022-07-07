@@ -27,11 +27,8 @@ export class PrescriptionEditComponent implements OnInit {
       this.prescriptionId = paramMap.get('id');
       this.getPrescription(this.prescriptionId);
     });
-    // this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-    //   this.medicinePrescriptionId = +paramMap.get('id');
-    //   this.getMedicinePrescription(this.medicinePrescriptionId);
-    // });
   }
+
   // prescriptionss: Prescription;
   // medicinePres: MedicinePrescription;
   // medicineType: Medicine[];
@@ -41,14 +38,11 @@ export class PrescriptionEditComponent implements OnInit {
   // medicinePrescriptionForm: FormGroup;
   // medicinePrescriptionId: number;
 
-
   ngOnInit() {
-    // this.medicineService.getAllMedicine1().subscribe(medicineType => {
-    //   this.medicineType = medicineType;
-    // });
-    // this.prescriptionService.getAllPrescription1().subscribe(prescriptionType => {
-    //   this.prescriptionType = prescriptionType;
-    // });
+    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+      this.prescriptionId = paramMap.get('id');
+      this.getPrescription(this.prescriptionId);
+    });
   }
 
   getPrescription(prescriptionId: string) {
@@ -118,4 +112,8 @@ export class PrescriptionEditComponent implements OnInit {
   //       return this.medicinePrescriptionForm;
   //   }
   // }
+
+  equals = (item1, item2) => {
+    return item1 && item2 && item1.id === item2.id;
+  }
 }

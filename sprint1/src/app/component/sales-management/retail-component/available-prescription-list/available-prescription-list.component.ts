@@ -58,8 +58,8 @@ export class AvailablePrescriptionListComponent implements OnInit {
 
   previous() {
     if (this.page > 0) {
-      this.retailService.getAllPrescription(this.page - 1, this.id = '',
-        this.names = '', this.target = '', this.symptom = '').subscribe(
+      this.retailService.getAllPrescription(this.page - 1, this.id ,
+        this.names , this.target , this.symptom ).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -74,8 +74,8 @@ export class AvailablePrescriptionListComponent implements OnInit {
 
   next() {
     if (this.page < this.totalPages - 1) {
-      this.retailService.getAllPrescription(this.page + 1, this.id = '', this.names = '',
-        this.target = '', this.symptom = '').subscribe(
+      this.retailService.getAllPrescription(this.page + 1, this.id, this.names,
+        this.target, this.symptom).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;

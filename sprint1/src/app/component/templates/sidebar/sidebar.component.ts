@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+
   signOut(e) {
     e.preventDefault();
     this.tokenStorageService.signOut();
