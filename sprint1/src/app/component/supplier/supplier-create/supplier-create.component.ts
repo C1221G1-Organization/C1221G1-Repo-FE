@@ -15,7 +15,7 @@ export class SupplierCreateComponent implements OnInit {
 
   constructor(private supplierService: SupplierService,
               private toastr: ToastrService,
-              private router : Router) {
+              private router: Router) {
   }
 
 
@@ -29,20 +29,20 @@ export class SupplierCreateComponent implements OnInit {
    * @LuatTN 365
    */
   supplierForm: FormGroup = new FormGroup({
-    supplierId: new FormControl(""),
-    supplierName: new FormControl("", [Validators.required,
-      Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
-    supplierAddress: new FormControl(""),
-    supplierPhone: new FormControl("",
+    supplierId: new FormControl(''),
+    supplierName: new FormControl('', [Validators.required,
+      Validators.pattern('^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$')]),
+    supplierAddress: new FormControl(''),
+    supplierPhone: new FormControl('',
       [Validators.required,
-        Validators.pattern("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$")],
+        Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')],
       [this.checkDuplicatePhone(this.supplierService)]
     ),
-    supplierEmail: new FormControl("", [Validators.required,
-      Validators.pattern("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")], [this.checkDuplicateEmail(this.supplierService)]),
-    note: new FormControl(""),
+    supplierEmail: new FormControl('', [Validators.required,
+      Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')], [this.checkDuplicateEmail(this.supplierService)]),
+    note: new FormControl(''),
     flag: new FormControl(true)
-  })
+  });
 
   get supplierName() {
     return this.supplierForm.get('supplierName');
@@ -131,6 +131,4 @@ export class SupplierCreateComponent implements OnInit {
         );
     };
   }
-
-
 }

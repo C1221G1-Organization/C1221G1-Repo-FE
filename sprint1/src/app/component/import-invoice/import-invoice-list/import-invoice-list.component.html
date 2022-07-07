@@ -15,7 +15,7 @@
             <label class="mt-2">Đến ngày</label>
             <input formControlName="endDate" class="form-control border-dark border-1 width1" type="datetime-local">
             <p *ngIf="searchForm.controls.dateForm.hasError('dateError') && startDate !== '' && endDate !== ''" class="text-danger mt-2">
-              Ngày kết thúc phải lớn hơn
+              Ngày kết thúc phải lớn hơn.
             </p>
             <p *ngIf="!searchForm.controls.dateForm.hasError('dateError') || startDate === '' || endDate === ''" class="text-light mt-2">
               No message!

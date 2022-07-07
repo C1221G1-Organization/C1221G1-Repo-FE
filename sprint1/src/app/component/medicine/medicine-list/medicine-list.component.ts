@@ -63,7 +63,7 @@ export class MedicineListComponent implements OnInit {
   deleteMedicineById() {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
         this.toastr.success('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
-          timeOut: 2000,
+          timeOut: 1500,
           progressBar: true
         });
         this.p = 1;
@@ -82,6 +82,12 @@ export class MedicineListComponent implements OnInit {
     const colNameSearch = this.columName.nativeElement.value;
     const conditionSearch = this.condition.nativeElement.value;
     const keyWordSearch = this.keyWord.nativeElement.value;
+    if (colNameSearch === '' && conditionSearch === '') {
+      this.toastr.warning('Bạn chưa chọn điều kiện tìm kiếm ', 'Tìm kiếm', {
+        timeOut: 1500,
+        progressBar: true,
+      });
+    }
     if (keyWordSearch.match(/[^a-z0-9 ]/) && keyWordSearch.length !== 0) {
       this.medicines = [];
     } else if (colNameSearch === 'medicineId' || colNameSearch === 'medicineTypeName' ||
@@ -120,8 +126,9 @@ export class MedicineListComponent implements OnInit {
       this.chosenIndex = index;
       this.chooseId = medicineId;
     } else {
-      this.isChosen = false;
-      this.chooseId = null;
+      this.isChosen = !this.isChosen;
+      this.chosenIndex = index;
+      this.chooseId = medicineId;
     }
     if (this.isChosen) {
       this.getMedicine = medicine;

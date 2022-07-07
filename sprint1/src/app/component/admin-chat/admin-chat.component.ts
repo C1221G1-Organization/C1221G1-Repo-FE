@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
 import {Title} from '@angular/platform-browser';
@@ -27,7 +27,7 @@ const YEAR_MILLIS = WEEK_MILLIS * 52;
   styleUrls  : ['./admin-chat.component.css']
 })
 export class AdminChatComponent implements OnInit {
-
+  @ViewChild("chatRoomList") private chatRoomList: ElementRef;
   rooms: any[];
   colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -49,6 +49,7 @@ export class AdminChatComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.chatRoomList.nativeElement.scrollIntoView({ behavior: "smooth", block:'nearest' });
     this.title.setTitle("Pharmacode | Hỗ trợ khách hàng");
   }
   /**
