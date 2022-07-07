@@ -14,16 +14,32 @@ import {map} from "rxjs/operators";
 export class SupplierEditComponent implements OnInit {
 
 
+  supplierForm: FormGroup;
+  idSupplier: string = '';
+  submitted = false;
+  currentPage: number = 0;
+
   constructor(private supplierService: SupplierService,
               private activatedRoute: ActivatedRoute,
               private toastr: ToastrService,
               private router: Router) {
   }
 
-  supplierForm: FormGroup;
-  idSupplier: string = '';
-  submitted = false;
-  currentPage: number = 0;
+  get supplierName() {
+    return this.supplierForm.get("supplierName")
+  }
+
+  get supplierAddress() {
+    return this.supplierForm.get("supplierAddress")
+  }
+
+  get supplierPhone() {
+    return this.supplierForm.get("supplierPhone")
+  }
+
+  get supplierEmail() {
+    return this.supplierForm.get("supplierEmail")
+  }
 
   /**
    * read the value of API
@@ -37,7 +53,6 @@ export class SupplierEditComponent implements OnInit {
       this.getSupplier(this.idSupplier);
     });
   }
-
 
   /**
    * read the value of API
@@ -72,6 +87,11 @@ export class SupplierEditComponent implements OnInit {
   updateSupplier() {
     this.submitted = true;
     const supplierValue = this.supplierForm.value;
+
+    supplierValue.supplierName = supplierValue.supplierName.trim()
+    supplierValue.supplierAddress = supplierValue.supplierAddress.trim()
+    supplierValue.supplierEmail = supplierValue.supplierEmail.trim()
+    supplierValue.supplierPhone = supplierValue.supplierPhone.trim()
     console.log(supplierValue);
     this.supplierService.updateSupplier(this.idSupplier, supplierValue).subscribe(next => {
       this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp " + this.supplierName.value, "Thông Báo Hệ Thống ", {
@@ -84,23 +104,6 @@ export class SupplierEditComponent implements OnInit {
     }, () => {
     });
 
-  }
-
-
-  get supplierName() {
-    return this.supplierForm.get("supplierName")
-  }
-
-  get supplierAddress() {
-    return this.supplierForm.get("supplierAddress")
-  }
-
-  get supplierPhone() {
-    return this.supplierForm.get("supplierPhone")
-  }
-
-  get supplierEmail() {
-    return this.supplierForm.get("supplierEmail")
   }
 
   /**

@@ -202,6 +202,13 @@ export class SupplierListComponent implements OnInit {
           sort: this.sort.nativeElement.value,
           owner: this.ownerSearch
         })
+        break;
+      }
+      default: {
+        this.toastr.warning("Chưa Có Lựa Chịn Khi Tìm Kiếm ", "Thông Báo Hệ Thống", {
+          timeOut: 3000,
+          progressBar: true
+        });
       }
     }
   }

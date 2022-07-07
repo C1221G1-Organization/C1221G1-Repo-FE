@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row">
+    <h1 *ngIf="supplierValue == null ">ssszzzzzzzzzss</h1>
     <div class="col-sm-12">
       <div>
         <fieldset style="border: 1px groove black">
@@ -73,6 +74,7 @@
       <div >
         <div style="float: right">
           <button class="btn btn-info " type="button">
+            <a routerLink="/import-invoice"></a>
             <i aria-hidden="true" class="fa fa-address-card"></i>Xem Hóa Đơn
           </button>
         </div>

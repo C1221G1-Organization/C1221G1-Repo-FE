@@ -13,15 +13,11 @@
           <p [hidden]='!supplierName.errors.required' class="text-danger">
             Tên Nhà Cung Cấp Bắt Buộc Phải Có
           </p>
-          <p [hidden]='!supplierName.errors.minlength' class="text-danger">
-            Tên Nhà Cung Cấp Quá Ngắn
-          </p>
-          <p *ngIf="!supplierName.errors.minlength"
-             [hidden]='!supplierName.errors.pattern' class="text-danger">
-            Tên Nhà Cung Cấp Không Hợp Lệ
+          <p [hidden]='!supplierName.errors.pattern' class="text-danger">
+            Tên Nhà Cung Cấp Không Có Số
           </p>
         </div>
-      </div>
+        </div>
 
       <div class="form-group">
         <b class="form-label">Địa Chỉ Nhà Cung Cấp</b>
@@ -43,6 +39,7 @@
               <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
                 Không Đúng Định Dạng Của Số Điện Thoại
               </p>
+
             </div>
             <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
               Số Điện Thoại Này Đã Tồn Tại

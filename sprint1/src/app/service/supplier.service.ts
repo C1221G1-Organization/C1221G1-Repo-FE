@@ -107,7 +107,7 @@ export class SupplierService {
    */
   checkPhoneNotTaken(supplierPhone: string): Observable<boolean> {
     console.log(supplierPhone + "!aemewdsjhgdkjghvsdkjyhg")
-    return this.http.get('http://localhost:8080/api/manager-medicine/medicines/supplier?size=10000').pipe(
+    return this.http.get('http://localhost:8080/api/manager-medicine/medicines/supplier?pageSize=10000').pipe(
       map((res => {
             const productList = res['content']
             return productList.filter(prd =>

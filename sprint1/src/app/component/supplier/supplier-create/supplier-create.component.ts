@@ -31,7 +31,6 @@ export class SupplierCreateComponent implements OnInit {
   supplierForm: FormGroup = new FormGroup({
     supplierId: new FormControl(""),
     supplierName: new FormControl("", [Validators.required,
-      Validators.minLength(4),
       Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
     supplierAddress: new FormControl(""),
     supplierPhone: new FormControl("",
@@ -72,13 +71,17 @@ export class SupplierCreateComponent implements OnInit {
     const supplierValue = this.supplierForm.value;
     console.log(supplierValue)
     if (this.supplierForm.valid) {
+      supplierValue.supplierName = supplierValue.supplierName.trim()
+      supplierValue.supplierAddress = supplierValue.supplierAddress.trim()
+      supplierValue.supplierEmail = supplierValue.supplierEmail.trim()
+      supplierValue.supplierPhone = supplierValue.supplierPhone.trim()
       console.log(supplierValue)
       this.supplierService.saveSupplier(supplierValue).subscribe(() => {
         this.supplierForm.reset();
         this.toastr.success("Thêm Mới Thành Công !", "Thông Báo Chúc Mừng", {
           timeOut: 3000,
           progressBar: true
-        } )
+        })
       });
     }
   }
