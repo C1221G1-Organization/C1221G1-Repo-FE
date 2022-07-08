@@ -248,6 +248,16 @@ export class MedicineCreateComponent implements OnInit {
     this.submit = true;
     if (this.medicineCreateForm.valid) {
       this.isLoading = true;
+      if (this.selectedImage == null) {
+        this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
+          this.isLoading = false;
+          this.toastrService.success('Bạn đã thêm mới thành công !', 'Thêm mới');
+          this.route.navigateByUrl('/medicine/list');
+        }, error => {
+          this.isLoading = false;
+          this.toastrService.error('Bạn đã cố gắng làm gì đó dẫn tới thêm mới thất bại !', 'Thêm mới');
+        });
+      }
       this.nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       this.fileRef = this.storage.ref(this.nameImg);
       this.storage.upload(this.nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {

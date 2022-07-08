@@ -1,4 +1,4 @@
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true"><p
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise" [fullScreen]="true"><p
   style="color: white"> Vui lòng đợi ...</p></ngx-spinner>
 <div class="wrapper mb-2">
   <div class="container-fluid mx-auto">
@@ -159,26 +159,36 @@
                 <h5 class="font-weight-bold"><i class="fa-solid fa-tag"></i> Mã ưu đãi</h5>
               </div>
               <div class="table-responsive">
-                <table class="table table-borderless ">
-                  <tr>
-                    <td colspan="2">
-                      <input class="form-control" type="text" placeholder="Mã ưu đãi">
-                    </td>
-                  </tr>
-                  <tr class="border-bottom">
-                    <td colspan="2">
-                      <button class="btn btn-success btn-block"> Áp dụng</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">Ghi chú đơn hàng</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">
-                      <textarea class="form-control" rows="2"></textarea>
-                    </td>
-                  </tr>
-                </table>
+                <form [formGroup]="discountForm" (ngSubmit)="onSubmitDiscount()">
+                  <table class="table table-borderless ">
+                    <tr>
+                      <td colspan="2">
+                        <input formControlName='discountId' class="form-control" type="text" placeholder="Mã ưu đãi">
+                        <div *ngIf="!discountId.valid">
+                          <small class="text-danger" [hidden]="!discountId.errors.pattern">
+                            Mã ưu đãi là chuỗi ký tự gồm chữ và số.
+                          </small>
+                          <small class="text-danger" [hidden]="!discountId.errors.maxlength">
+                            Mã ưu đãi tối đa 10 ký tự.
+                          </small>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="border-bottom">
+                      <td colspan="2">
+                        <button class="btn btn-success btn-block" type="submit"> Áp dụng</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Ghi chú đơn hàng</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <textarea class="form-control" rows="2"></textarea>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
               </div>
             </div>
           </div>
@@ -193,14 +203,13 @@
                     <td class="col-5">Tạm tính</td>
                     <td class="col-7 text-right">{{total|number}} VND</td>
                   </tr>
+                  <tr *ngIf="discount > 0" class="text-success">
+                    <td class="col-5">Giảm giá ({{discount|percent}})</td>
+                    <td class="col-7 text-right">{{total - totalAfterDiscount|number}} VND</td>
+                  </tr>
                   <tr class="border-bottom font-weight-bold">
                     <td class="col-5">Tổng tiền</td>
                     <td class="col-7 text-right ">{{totalAfterDiscount|number}} VND</td>
-                  </tr>
-                  <tr *ngIf="discount > 0">
-                    <td colspan="2" class="text-danger">(Đã áp dụng mã giảm
-                      giá {{discount|percent}})
-                    </td>
                   </tr>
                   <tr class="text-center">
                     <td colspan="2">

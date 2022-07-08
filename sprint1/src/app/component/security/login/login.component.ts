@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   roles: [];
   types: string;
   isSignIn: boolean = false;
-
+  errorMap:any;
   constructor(private securityService: SecurityService,
               private route: Router,
               private tokenStorageService: TokenStorageService,
@@ -90,7 +90,20 @@ export class LoginComponent implements OnInit {
           })
 
 
-        })
+        },
+        error => {
+          console.log(error);
+          if(error.status == 403){
+            this.toast.warning("Mật khẩu không chính xác","Lỗi Đăng Nhập");
+          }else{
+            if(error.error?.errorMap?.notExists){
+              this.toast.warning(error.error.errorMap['notExists'],"Lỗi Đăng Nhập");
+            }else{
+              this.errorMap = error.error.errorMap;
+            }
+          }
+        }
+      )
     }
   }
 

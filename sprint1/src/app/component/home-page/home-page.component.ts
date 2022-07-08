@@ -23,18 +23,19 @@ export class HomePageComponent implements OnInit {
   name: string = '';
   typeId: string = '';
   sort: string = 'idDesc';
-  cartList: Array<any> = [];
-  cartDetailDtos: CartDetailDto[] = [];
+  medicineList1: Array<MedicineBestSeller> = [];
+  medicineList2: Array<MedicineBestSeller> = [];
 
 
   constructor(private homePageService: HomePageService, private toastrService: ToastrService,
               private shareService: ShareService, private cartService: CartService,
               private title: Title) {
     this.shareService.changeEmitted$.subscribe(data => {
-      console.log(data)
       this.name = data.medicineName;
       this.typeId = data.medicineTypeId;
-      this.getAllMedicineByNameAndTypeId({page: 0, size: 5, name: this.name, typeId: this.typeId, sort: this.sort});
+      this.medicineList1=[];
+      this.medicineList2=[];
+      this.getAllMedicineByNameAndTypeId({page: 0, size: 10, name: this.name, typeId: this.typeId, sort: this.sort});
       let scrollEle = document.getElementById('carouselExampleControls2');
       scrollEle.scrollIntoView();
     })
@@ -43,7 +44,7 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllMedicineBestSeller();
-    this.getAllMedicineByNameAndTypeId({page: 0, size: 5});
+    this.getAllMedicineByNameAndTypeId({page: 0, size: 10});
     this.title.setTitle('Trang chủ - Pharmacode');
     window.scrollBy(0, 0);
   }
@@ -63,7 +64,6 @@ export class HomePageComponent implements OnInit {
         this.medicineBestSellerList2[i - 5] = this.medicineBestSellerList[i];
       }
     }, error => {
-      console.log(error);
     });
 
   }
@@ -75,20 +75,28 @@ export class HomePageComponent implements OnInit {
   */
   getAllMedicineByNameAndTypeId(request) {
     this.homePageService.getMedicineByNameAndTypeId(request).subscribe((data) => {
-      console.log(data)
-
       if (data != null) {
         this.medicineList = data.content;
+        if (this.medicineList.length >= 5){
+          for (let i: number = 0; i < 5; i++) {
+              this.medicineList1[i] = this.medicineList[i];
+          }
+          for (let i: number = 5; i < this.medicineList.length; i++) {
+            this.medicineList2[i - 5] = this.medicineList[i];
+          }
+        } else {
+          for (let i: number = 0; i < this.medicineList.length; i++) {
+            this.medicineList1[i] = this.medicineList[i];
+          }
+        }
         this.currentPage = data.number;
         this.totalPages = data.totalPages;
       } else {
-        console.log(this.medicineList.length)
         this.medicineList = []
         this.currentPage = -1;
         this.totalPages = 0;
       }
     }, error => {
-      console.log(error);
     }, () => {
     });
 
@@ -102,7 +110,9 @@ export class HomePageComponent implements OnInit {
   searchMedicine(name: HTMLInputElement, typeId: HTMLSelectElement) {
     this.name = name.value;
     this.typeId = typeId.value;
-    this.getAllMedicineByNameAndTypeId({page: 0, size: 5, name: this.name, typeId: this.typeId, sort: this.sort});
+    this.medicineList1=[];
+    this.medicineList2=[];
+    this.getAllMedicineByNameAndTypeId({page: 0, size: 10, name: this.name, typeId: this.typeId, sort: this.sort});
   }
 
 
@@ -113,8 +123,9 @@ export class HomePageComponent implements OnInit {
   */
   sortMedicine(sort: HTMLSelectElement) {
     this.sort = sort.value
-    console.log(sort.value)
-    this.getAllMedicineByNameAndTypeId({page: 0, size: 5, name: this.name, typeId: this.typeId, sort: this.sort});
+    this.medicineList1=[];
+    this.medicineList2=[];
+    this.getAllMedicineByNameAndTypeId({page: 0, size: 10, name: this.name, typeId: this.typeId, sort: this.sort});
   }
 
   /*
@@ -124,7 +135,11 @@ export class HomePageComponent implements OnInit {
   */
   addItemToCart(medicine: MedicineBestSeller) {
     this.cartService.addToCart(medicine, 1);
-    console.log()
+    if (medicine.medicineQuantity!=0){
+      this.showMessageSuccess(medicine.medicineName);
+    } else {
+      this.showMessageError(medicine.medicineName);
+    }
   }
 
   /*
@@ -135,7 +150,6 @@ export class HomePageComponent implements OnInit {
   previousPage() {
     const request = {};
     if ((this.currentPage) > 0) {
-      console.log(request);
       request['page'] = this.currentPage - 1;
       request['size'] = 5;
       request['name'] = this.name;
@@ -153,25 +167,26 @@ export class HomePageComponent implements OnInit {
   nextPage() {
     const request = {};
     if ((this.currentPage + 1) < this.totalPages) {
-      console.log(request);
       request['page'] = this.currentPage + 1;
-      request['size'] = 5;
+      request['size'] = 10;
       request['name'] = this.name;
       request['typeId'] = this.typeId;
       request['sort'] = this.sort;
+      this.medicineList1=[];
+      this.medicineList2=[];
       this.getAllMedicineByNameAndTypeId(request);
     }
   }
 
   showMessageSuccess(medicineName: string) {
-    this.toastrService.success('Đã thêm thành công ' + medicineName, 'Thông báo', {
+    this.toastrService.success('Đã thêm thành công ' + medicineName +' vào giỏ hàng', 'Thông báo', {
       timeOut: 2000,
       progressBar: true,
     });
   }
 
   showMessageError(medicineName: string) {
-    this.toastrService.error('Thuốc ' + medicineName + ' đã hết hàng', 'Thông báo', {
+    this.toastrService.warning('Thuốc ' + medicineName + ' đã hết hàng', 'Thông báo', {
       timeOut: 2000,
       progressBar: true,
     });

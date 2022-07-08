@@ -37,7 +37,7 @@ export class EmployeeEditComponent implements OnInit {
 
 
   compareWithId(item1, item2) {
-    return item1 && item2 && item1.id === item2.id;
+    return item1 && item2 && item1.positionId === item2.positionId;
   }
 
   constructor(private  employeeService: EmployeeService,
