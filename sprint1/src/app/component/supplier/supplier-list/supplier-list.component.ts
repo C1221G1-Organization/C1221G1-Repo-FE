@@ -55,7 +55,7 @@ export class SupplierListComponent implements OnInit {
   confirmDelete() {
     this.supplierService.deleteSupplier(this.idDelete).subscribe(() => {
       this.ngOnInit();
-      this.toastr.warning('Xóa  Thành Công ! ' + this.nameDelete, 'Thông Báo Xác Nhận', {
+      this.toastr.success('Xóa Thành Công ! ' + this.nameDelete, 'Thông Báo Xác Nhận', {
         timeOut: 3000,
         progressBar: true
       });
@@ -63,8 +63,8 @@ export class SupplierListComponent implements OnInit {
       this.chosenIndex = null;
       this.idDelete = null;
       this.nameDelete = null;
+      this.isChosen = false;
     }, e => {
-      console.log(e);
     });
   }
 
@@ -162,8 +162,6 @@ export class SupplierListComponent implements OnInit {
   search(ownerSearch: HTMLInputElement) {
     //   get value when searching
     this.ownerSearch = ownerSearch.value;
-    console.log('searching');
-    console.log(this.ownerSearch);
     switch (this.nameSearch.nativeElement.value) {
       case 'supplierId': {
         this.getListSupplier({
@@ -240,9 +238,6 @@ export class SupplierListComponent implements OnInit {
    *   @this  get all Supplier
    */
   private getListSupplier(request) {
-    console.log('request');
-    console.log(request);
-    console.log('request');
     this.supplierService.getAll(request).subscribe(data => {
         if (data !== null) {
           this.listSupplier = data.content;
@@ -284,7 +279,6 @@ export class SupplierListComponent implements OnInit {
       this.toastr.success('Xác Nhận Đã Chọn 1 Nhà Cung Cấp ' + supplier.supplierName, 'Thông Báo Xác Nhận', {
         timeOut: 1000,
         progressBar: true,
-        positionClass: 'toast-top-center',
       });
     }
 
@@ -292,7 +286,7 @@ export class SupplierListComponent implements OnInit {
 
   getInforE() {
     if (!this.isChosen) {
-      this.toastr.warning('Vui Lòng Chọn Nhà Cung Cấp  ', 'Thông Báo Hệ Thống', {
+      this.toastr.warning('Vui Lòng Chọn Nhà Cung Cấp', 'Thông Báo Hệ Thống', {
         timeOut: 2000,
         progressBar: true,
       });

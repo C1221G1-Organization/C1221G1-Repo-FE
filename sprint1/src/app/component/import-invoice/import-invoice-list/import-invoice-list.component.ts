@@ -201,7 +201,7 @@ export class ImportInvoiceListComponent implements OnInit {
   delete(idDelete: string) {
     this.importInvoiceService.delete(idDelete).subscribe(() => {
       this.ngOnInit();
-      this.toastr.warning('Đã Xóa Thành Công !', 'Hệ thống thông báo', {
+      this.toastr.success('Đã Xóa Thành Công !', 'Hệ thống thông báo', {
         timeOut: 3000,
         progressBar: true
       });

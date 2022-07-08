@@ -1,27 +1,27 @@
 <div class="container-fluid p-2">
-  <h3 style="text-align: center">Danh sách đơn thuốc</h3>
+  <h3 style="text-align: center">Danh Sách Đơn Thuốc</h3>
 </div>
 <div id="field" class="container-fluid">
   <fieldset class="border p-2  shadow">
     <legend class="w-auto">Bộ lọc</legend>
     <form [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="row">
-        <div class="col-lg-1 col-md-2"><p>Lọc theo</p></div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-1 col-md-1"><p>Lọc theo</p></div>
+        <div class="col-lg-4 col-md-4">
           <select name="" id="" class="form-control" formControlName="typeSearch">
-            <option value="">---- Chọn bộ lọc ----</option>
+            <option value="">------ Chọn bộ lọc ------</option>
             <option value="id">Mã đơn thuốc</option>
             <option value="names">Tên đơn</option>
             <option value="target">Đối tượng</option>
             <option value="symptom">Triệu chứng</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-4 col-md-4">
           <input class="form-control"
                  placeholder="Nhập từ khoá cần tìm kiếm"
                  type="text" formControlName="inputSearch">
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-3 col-md-3">
           <button class="btn btn-primary" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Lọc kết quả
           </button>
         </div>
@@ -47,7 +47,7 @@
     <table class="table table-striped">
       <thead class="table-success">
       <tr>
-        <th>#</th>
+        <th>STT</th>
         <th>Mã đơn thuốc</th>
         <th>Tên đơn thuốc</th>
         <th>Đối tượng</th>
@@ -63,7 +63,7 @@
       </tr>
       <tr *ngFor="let prescription of prescriptions; index as i"
           (click)="choosePrescription(i, prescription.prescriptionId, prescription)"
-          [ngStyle]="{'background-color': chooseIndex === i && isChoose && prescription.prescriptionId==chooseId ? '#00CCFF' : ''}">
+          [ngStyle]="{'background-color': chooseIndex === i && isChoose && prescription.prescriptionId==chooseId ? 'darkgrey' : ''}">
         <td>{{i + 1}}</td>
         <td>{{prescription.prescriptionId}}</td>
         <td>{{prescription.prescriptionName}}</td>
@@ -96,8 +96,8 @@
             <li class="page-item">
               <button style="width: 80px" class="page-link" (click)="previous()">Trước</button>
             </li>
-            <li class="page-item active" aria-current="page">
-              <button class="page-link" *ngIf="totalPages > 1">{{(page + 1) + '/' + totalPages}}</button>
+            <li class="page-item" aria-current="page">
+              <button class="page-link">{{(page + 1) + '/' + totalPages}}</button>
             </li>
             <li class="page-item">
               <button style="width: 80px" class="page-link" (click)="next()"> Sau</button>
@@ -123,30 +123,30 @@
   <!--  </div>-->
   <div>
     <div id="bt" class="row">
-      <div class="col-lg-2 col-md-2"></div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-6 col-md-6"></div>
+      <div class="col-lg-1 col-md-1 m-2">
         <button [routerLink]="['/prescription/create']" style="margin: 2px" class="btn btn-success shadow"><i
           class="fa-solid fa-circle-plus"></i> Thêm
         </button>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-1 col-md-1 m-2">
         <button [routerLink]="['/prescription/create-medicine-prescription']" style="margin: 2px"
                 class="btn btn-success shadow"><i
           class="fa-solid fa-circle-plus"></i>Chỉ định
         </button>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-1 col-md-1 m-2">
         <button style="margin: 2px" class="btn btn-warning shadow" [routerLink]="['/prescription/edit/',idDel]">
           <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
         </button>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-1 col-md-1 m-2">
         <button style="margin: 2px" type="button" class="btn btn-danger"
                 data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-circle-xmark"></i> Xoá
         </button>
       </div>
-      <div class="col-lg-2 col-md-2">
-        <button [routerLink]="['/prescription/list']" style="margin: 2px" class="btn btn-secondary shadow"><i
+      <div class="col-lg-1 col-md-1 m-2">
+        <button [routerLink]="['/home-page']" style="margin: 2px" class="btn btn-secondary shadow"><i
           class="fa fa-undo" aria-hidden="true"></i> Trở về
         </button>
       </div>
@@ -160,7 +160,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Xoá đơn thuốc</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Xoá Đơn Thuốc</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -8,6 +8,9 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {TokenStorageService} from "../../../../service/security/token-storage.service";
+import {EmployeeService} from "../../../../service/employee/employee.service";
+import {Employee} from "../../../../model/employee/employee";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -29,27 +32,31 @@ export class RetailComponent implements OnInit {
   index: number;
   flagHover = false;
   deleteMedicineChoiceArr: any = [];
-  // dùng cho thêm thuốc
   isDisabled = true;
-  // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
   deleteErr: string;
   printInvoice: string;
   arrPDF = [];
-
+  user: any;
+  employee: Employee;
+  isComplete = false;
+  listPrintPDF = [];
+  totalMoneyPrint = 0;
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
     this.invoiceForm = new FormGroup({
       medicineSale: new FormControl('', [Validators.required]),
-      quantity: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.pattern('[0-9]*')]),
       unit: new FormControl('', [Validators.required])
     })
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
+    this.getEmployee();
   }
 
   /*
@@ -113,6 +120,7 @@ export class RetailComponent implements OnInit {
     console.log(this.listMedicineChoice);
     this.getTotalMoney();
     this.resetForm();
+    this.ngOnInit();
   }
 
   /*
@@ -144,7 +152,7 @@ export class RetailComponent implements OnInit {
     }
     let invoiceDto: any = {
       customerId: 'KH-00001',
-      employeeId: 'NV-00001',
+      employeeId: this.employee.employeeId,
       invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
@@ -157,10 +165,15 @@ export class RetailComponent implements OnInit {
     } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+          this.toastr.success("Thanh toán thành công !", "Thông báo", {
             timeOut: 3000,
             progressBar: true
           });
+          for (let item of this.listMedicineChoice){
+            this.listPrintPDF.push(item);
+          }
+          this.isComplete = true;
+          this.totalMoneyPrint = this.totalMoney;
           this.totalMoney = 0;
           this.listMedicineChoice = [];
           this.invoiceMedicineDtos = [];
@@ -241,7 +254,7 @@ export class RetailComponent implements OnInit {
   /*
 * Created by DaLQA
 * Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
+* Function: function resetIdAndName;
 * */
   resetIdAndName() {
     this.idDelete = '';
@@ -251,31 +264,49 @@ export class RetailComponent implements OnInit {
   /*
 * Created by DaLQA
 * Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
+* Function: function changeIsDisabled
 * */
   changeIsDisabled() {
     this.isDisabled = false;
-    console.log(this.isDisabled);
   }
 
-  print(yes: string) {
-    this.arrPDF.push( ['Sản phẩm','Số lượng', 'Giá tiền(VND)' , 'Tổng tiền(VND)'],);
-    for (let item of this.listMedicineChoice){
-      this.arrPDF.push([item.medicineName,item.quantity,item.retailPrice,item.money]);
-    }
-    if(this.listMedicineChoice.length > 0){
-      this.printInvoice = yes;
-      this.generatePDF(this.printInvoice);
-    }else {
-      this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function print
+* */
+  print() {
+    if(this.isComplete == true) {
+      if (this.listPrintPDF.length > 0) {
+        this.arrPDF.push(['Sản phẩm', 'Số lượng', 'Giá tiền(VND)', 'Tổng tiền(VND)'],);
+        for (let item of this.listPrintPDF) {
+          this.arrPDF.push([item.medicineName, item.quantity, item.retailPrice, item.money]);
+        }
+        this.printInvoice = 'yes';
+        this.generatePDF(this.printInvoice);
+      } else {
+        this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }
+      this.arrPDF = [];
+      this.listPrintPDF = [];
+      this.totalMoneyPrint = 0;
+    } else {
+      this.toastr.warning("Vui lòng chọn thanh toán khi in hóa đơn !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     }
-    this.arrPDF = [];
   }
 
-  private generatePDF(action: string) {
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function generatePDF
+* */
+  generatePDF(action: string) {
     console.log(this.listMedicineChoice);
     const docDefinition = {
       content: [
@@ -313,7 +344,7 @@ export class RetailComponent implements OnInit {
             // headers are automatically repeated if the table spans over multiple pages
             // you can declare how many rows should be treated as headers
             headerRows: 1,
-            widths: [ '*', 'auto',100 , '*' ],
+            widths: ['*', 'auto', 100, '*'],
             body: this.arrPDF
           }
         },
@@ -323,7 +354,7 @@ export class RetailComponent implements OnInit {
         },
         {
           columns: [
-            [this.totalMoney + ' VND'] ,
+            [this.totalMoneyPrint + ' VND'],
           ]
         },
 
@@ -334,7 +365,7 @@ export class RetailComponent implements OnInit {
         },
         {
           columns: [
-            [{qr: `lqad1649engineer@gmail.com`, fit: '50'}],
+            [{qr: `c12pharmacy@gmail.com`, fit: '50'}],
           ]
         },
         {
@@ -360,7 +391,26 @@ export class RetailComponent implements OnInit {
       }
     };
     if (action === 'yes') {
-      pdfMake.createPdf(docDefinition).download();
+      pdfMake.createPdf(docDefinition).download('hoa_don.pdf');
     }
   }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function getEmployee
+* */
+  getEmployee() {
+    this.user = this.tokenStorageService.getUser();
+    this.retailService.getListEmployee().subscribe(employees => {
+      employees.forEach(e => {
+        if (e.employeeUsername.username == this.user.username) {
+          this.employee = e;
+        }
+      });
+    }, error => {
+      console.log(error)
+    });
+  }
+
 }

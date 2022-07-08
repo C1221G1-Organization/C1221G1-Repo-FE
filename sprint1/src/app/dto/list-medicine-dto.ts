@@ -3,5 +3,6 @@ export interface ListMedicineDto {
   medicineName: string,
   quantity: number,
   newMoney: number,
-  checkFlag: boolean
+  checkFlag: boolean,
+  quantityMedicineCov: number;
 }

@@ -11,46 +11,11 @@ const API_URL = 'http://localhost:8080/api/carts';
   providedIn: 'root'
 })
 export class CartService {
-  JSONDatas = [
-    {
-      "quantity": 1,
-      "medicine": {
-        "medicineId": "T-00006",
-        "medicineName": "Kem chống muỗi hương cam Remos (70g)",
-        "medicineImage": "https://data-service.pharmacity.io/pmc-upload-media/production/pmc-ecm-core/products/P13179_1_l.webp",
-        "medicinePrice": 90000,
-      }
-    },
-    {
-      "quantity": 2,
-      "medicine": {
-        "medicineId": "T-00007",
-        "medicineName": "Dầu xả ngăn rụng tóc Pharmacity Anti-hair Loss Conditioner (150ml)",
-        "medicineImage": "https://data-service.pharmacity.io/pmc-upload-media/production/pmc-ecm-core/products/P13044_1_l.webp",
-        "medicinePrice": 120000,
-      }
-    },
-    {
-      "quantity": 4,
-      "medicine": {
-        "medicineId": "T-00008",
-        "medicineName": "Xịt chống muỗi hương cam Soffell (80ml)",
-        "medicineImage": "https://data-service.pharmacity.io/pmc-upload-media/production/pmc-ecm-core/products/P05510_1_l.webp",
-        "medicinePrice": 84000,
-      }
-    },
-  ];
 
   constructor(private http: HttpClient) {
   }
 
-  setCart(): void {
-    localStorage.setItem('cart', JSON.stringify(this.JSONDatas));
-  }
-
   addToCart(medicine: MedicineDtoForCart, quantity: number) {
-    //Kiem tra xem dã đăng nhập hay chưa
-    // TH chưa đăng nhập
     let cartDetailDtos: CartDetailDto[] = [];
     if (localStorage.getItem('cart')) {
       cartDetailDtos = JSON.parse(localStorage.getItem('cart'));

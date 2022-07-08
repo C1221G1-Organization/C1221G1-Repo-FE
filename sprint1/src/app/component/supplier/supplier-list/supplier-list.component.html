@@ -60,14 +60,14 @@
       <table class="table table-hover table-triped " style="clear: both">
         <tr class="table-success bgr">
           <th>STT</th>
-          <th>Tên Nhà Cung Cấp</th>
           <th>Mã Nhà Cung Cấp</th>
+          <th>Tên Nhà Cung Cấp</th>
           <th> Số Điện Thoại</th>
           <th> Địa Chỉ</th>
         </tr>
         <tr class="bgr" *ngFor="let item  of listSupplier ; index  as i"
             (click)="chooseSupplier(i, item)"
-            [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? '#00CCFF' : ''}">
+            [ngStyle]="{'background-color': chosenIndex === i && isChosen && item.supplierId==chooseId ? 'darkgrey' : ''}">
           <td>{{(5 * currentPage) + (i + 1)}}</td>
           <td>{{item.supplierId}}</td>
           <td class="lf">{{item.supplierName}}</td>
@@ -77,7 +77,6 @@
       </table>
     </fieldset>
     <div>
-      <div style="float: right"><b>{{nameDelete}}</b></div>
       <div style="clear: both"></div>
       <div style="float: left ">
         <button class="btn btn-info  mx-2" type="button" (click)="getInforE()">
@@ -87,9 +86,9 @@
         </button>
       </div>
       <div id="btn" style="float: right">
-        <button class="btn btn-warning" (click)="getInforE()">
+        <button class="btn btn-warning mx-2" (click)="getInforE()">
           <a [ngStyle]="{'pointer-events': !isChosen? 'none':''}" [routerLink]="['/supplier/edit/',idDelete]"
-             style="color: white">
+             style="color: black">
             <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
         </button>
         <button class="btn btn-danger mx-2" data-target="#staticBackdrop" data-toggle="modal"
@@ -101,9 +100,11 @@
             <i class="fa-solid fa-circle-plus"></i> Thêm
           </a>
         </button>
-        <button class="btn btn-secondary  mx-2" style="color: white">
-          <i aria-hidden="true" class="fa fa-undo"></i> Trở về
-        </button>
+        <a [routerLink]="['/import-invoice/create']">
+          <button class="btn btn-secondary  mx-2" style="color: white">
+            <i aria-hidden="true" class="fa fa-undo"></i> Trở về
+          </button>
+        </a>
       </div>
     </div>
 
@@ -123,7 +124,8 @@
           </a>
         </li>
         <li class="page-item px-1">
-          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Sau </a>
+          <a class="page-link" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Sau
+          </a>
         </li>
       </ul>
     </nav>
