@@ -14,16 +14,32 @@ import {map} from 'rxjs/operators';
 export class SupplierEditComponent implements OnInit {
 
 
+  supplierForm: FormGroup;
+  idSupplier: string = '';
+  submitted = false;
+  currentPage: number = 0;
+
   constructor(private supplierService: SupplierService,
               private activatedRoute: ActivatedRoute,
               private toastr: ToastrService,
               private router: Router) {
   }
 
-  supplierForm: FormGroup;
-  idSupplier: string = '';
-  submitted = false;
-  currentPage: number = 0;
+  get supplierName() {
+    return this.supplierForm.get('supplierName');
+  }
+
+  get supplierAddress() {
+    return this.supplierForm.get('supplierAddress');
+  }
+
+  get supplierPhone() {
+    return this.supplierForm.get('supplierPhone');
+  }
+
+  get supplierEmail() {
+    return this.supplierForm.get('supplierEmail');
+  }
 
   /**
    * read the value of API
@@ -38,7 +54,6 @@ export class SupplierEditComponent implements OnInit {
     });
   }
 
-
   /**
    * read the value of API
    * method: get
@@ -49,7 +64,8 @@ export class SupplierEditComponent implements OnInit {
     return this.supplierService.findById(supplierId).subscribe(supplier => {
       this.supplierForm = new FormGroup({
         supplierId: new FormControl(supplier.supplierId),
-        supplierName: new FormControl(supplier.supplierName, [Validators.required, Validators.minLength(4)]),
+        supplierName: new FormControl(supplier.supplierName, [Validators.required,
+          Validators.pattern("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")]),
         supplierAddress: new FormControl(supplier.supplierAddress),
         supplierPhone: new FormControl(supplier.supplierPhone, [Validators.required,
           Validators.pattern("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$")]),
@@ -69,36 +85,24 @@ export class SupplierEditComponent implements OnInit {
    */
   updateSupplier() {
     this.submitted = true;
+
     const supplierValue = this.supplierForm.value;
-    console.log(supplierValue);
+
+    supplierValue.supplierName = supplierValue.supplierName.trim();
+    supplierValue.supplierAddress = supplierValue.supplierAddress.trim();
+    supplierValue.supplierEmail = supplierValue.supplierEmail.trim();
+    supplierValue.supplierPhone = supplierValue.supplierPhone.trim();
     this.supplierService.updateSupplier(this.idSupplier, supplierValue).subscribe(next => {
-      this.toastr.info("Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp " + this.supplierName.value, "Thông Báo Hệ Thống ", {
+      this.toastr.success('Cập Nhập Thông Tin Mới Cho Nhà Cung Cấp ' + this.supplierName.value, 'Thông Báo Hệ Thống ', {
         timeOut: 3000,
         progressBar: true
-      })
+      });
       this.router.navigate(['supplier/']);
     }, e => {
-      console.log(e);
     }, () => {
     });
 
-  }
 
-
-  get supplierName() {
-    return this.supplierForm.get("supplierName")
-  }
-
-  get supplierAddress() {
-    return this.supplierForm.get("supplierAddress")
-  }
-
-  get supplierPhone() {
-    return this.supplierForm.get("supplierPhone")
-  }
-
-  get supplierEmail() {
-    return this.supplierForm.get("supplierEmail")
   }
 
   /**

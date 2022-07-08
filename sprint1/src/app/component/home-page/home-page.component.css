@@ -5,7 +5,7 @@
 }
 
 .card {
-  margin: 1rem 0.5rem;
+  margin: 2rem 0.5rem;
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   /*border: 1px solid #a6f3b6;*/
   border-radius:10px;
@@ -40,7 +40,7 @@ div.card-body{
 
 .card-title {
   font-size: 1rem;
-  height: 6rem;
+  height: 5rem;
 }
 
 .carousel-control-prev,
@@ -51,6 +51,36 @@ div.card-body{
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
+}
+
+::placeholder {
+  font-size: calc(12px + 0.390625vw) !important;
+}
+
+h3 {
+  font-size: calc(20px + 0.390625vw) !important;
+}
+
+h4 {
+  font-size: calc(18px + 0.390625vw) !important;
+}
+
+h5 {
+  font-size: calc(16px + 0.390625vw) !important;
+}
+
+a {
+  font-size: calc(12px + 0.390625vw) !important;
+}
+
+select {
+  font-size: calc(10px + 0.390625vw) !important;
+}
+
+.disabled{
+  /*color: #2b2a2a;*/
+  background-color: whitesmoke;
+  color: #2b2a2a;
 }
 
 

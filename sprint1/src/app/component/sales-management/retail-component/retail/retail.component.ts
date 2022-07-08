@@ -1,12 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {RetailService} from '../../../../service/retail.service';
-import {MedicineSale} from '../../../../dto/invoice/medicineSale';
-import {InvoiceMedicineDto} from '../../../../dto/invoice/invoiceMedicineDto';
-import {ListMedicineChoice} from '../../../../dto/invoice/listMedicineChoice';
-import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
+import {FormControl, FormGroup, Validators} from '@angular/forms'
+import {RetailService} from "../../../../service/retail.service";
+import {MedicineSale} from "../../../../dto/invoice/medicineSale";
+import {InvoiceMedicineDto} from "../../../../dto/invoice/invoiceMedicineDto";
+import {ListMedicineChoice} from "../../../../dto/invoice/listMedicineChoice";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {TokenStorageService} from "../../../../service/security/token-storage.service";
+import {EmployeeService} from "../../../../service/employee/employee.service";
+import {Employee} from "../../../../model/employee/employee";
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-retail',
@@ -21,30 +27,36 @@ export class RetailComponent implements OnInit {
   note: string;
   localDateTime: any;
   totalMoney = 0;
-  idDelete: string;
+  idDelete = '';
   nameDelete: string;
   index: number;
   flagHover = false;
   deleteMedicineChoiceArr: any = [];
-  // dùng cho thêm thuốc
-  isDisabled = false;
-  // disable tất cả các trường ko cho đụng vào
+  isDisabled = true;
   disableFlag = true;
   deleteErr: string;
-
+  printInvoice: string;
+  arrPDF = [];
+  user: any;
+  employee: Employee;
+  isComplete = false;
+  listPrintPDF = [];
+  totalMoneyPrint = 0;
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr : ToastrService) {
+              private toastr: ToastrService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
     this.invoiceForm = new FormGroup({
       medicineSale: new FormControl('', [Validators.required]),
-      quantity: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.pattern('[0-9]*')]),
       unit: new FormControl('', [Validators.required])
-    });
+    })
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
+    this.getEmployee();
   }
 
   /*
@@ -54,11 +66,11 @@ export class RetailComponent implements OnInit {
 * */
   getMedicineDto() {
     this.retailService.getMedicineDto().subscribe(medicineSales => {
-      console.log(medicineSales);
+      console.log(medicineSales)
       this.medicineSales = medicineSales;
     }, error => {
-      console.log(error);
-    });
+      console.log(error)
+    })
   }
 
   /*
@@ -81,7 +93,7 @@ export class RetailComponent implements OnInit {
     } else if (unitChoice == 'hop') {
       priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
     }
-    let moneyChoice = quantityChoice * priceChoice;
+    let moneyChoice = quantityChoice * priceChoice
     let flag = false;
     let medicine: any = {
       medicineId: idChoice,
@@ -92,9 +104,8 @@ export class RetailComponent implements OnInit {
       money: moneyChoice,
     };
     const myArray = this.listMedicineChoice;
-    console.log('ádsad' + idChoice);
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == '' || nameChoice == '' || quantityChoice == ''
+    if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
       || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
       flag = true;
     } else {
@@ -103,14 +114,13 @@ export class RetailComponent implements OnInit {
     if (!flag) {
       this.isDisabled = false;
       this.listMedicineChoice.push(medicine);
-      console.log(this.isDisabled);
     } else {
       this.isDisabled = true;
-      console.log(this.isDisabled);
     }
     console.log(this.listMedicineChoice);
     this.getTotalMoney();
     this.resetForm();
+    this.ngOnInit();
   }
 
   /*
@@ -123,7 +133,7 @@ export class RetailComponent implements OnInit {
       medicineSale: new FormControl(''),
       quantity: new FormControl(''),
       unit: new FormControl('')
-    });
+    })
   }
 
   /*
@@ -132,61 +142,53 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
-    this.listMedicineChoice = [];
+    // this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
         quantity: medicine.quantity
-      };
+      }
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
-      customerId: 'KH-0001',
-      employeeId: 'NV-0001',
+      customerId: 'KH-00001',
+      employeeId: this.employee.employeeId,
       invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
     console.log(invoiceDto);
     if (invoiceDto.invoiceMedicineList.length < 1) {
-      this.toastr.warning('Danh sách thuốc trống !', 'Cảnh báo', {
+      this.toastr.warning("Danh sách thuốc trống !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
+          this.toastr.success("Thanh toán thành công !", "Thông báo", {
+            timeOut: 3000,
+            progressBar: true
+          });
+          for (let item of this.listMedicineChoice){
+            this.listPrintPDF.push(item);
+          }
+          this.isComplete = true;
+          this.totalMoneyPrint = this.totalMoney;
+          this.totalMoney = 0;
+          this.listMedicineChoice = [];
+          this.invoiceMedicineDtos = [];
+        }, error => {
+          console.log(error);
+          this.toastr.warning(error.error.errors, "Cảnh báo", {
             timeOut: 3000,
             progressBar: true
           });
           this.totalMoney = 0;
           this.listMedicineChoice = [];
-        }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', 'Cảnh báo', {
-            timeOut: 3000,
-            progressBar: true
-          });
-          this.listMedicineChoice = [];
-          console.log(error);
+          this.invoiceMedicineDtos = [];
         }
-      );
+      )
     }
-    this.retailService.createRetailInvoice(invoiceDto).subscribe(
-      () => {
-        this.toastr.success("Thêm Mới Thành Công !", "Hóa Đơn Bán Lẻ", {
-          timeOut:3000,
-          progressBar: true
-        });
-        this.listMedicineChoice = [];
-      }, error => {
-        this.toastr.warning("Thêm Mới Thất Bại !", "Hóa Đơn Bán Lẻ", {
-          timeOut:3000,
-          progressBar: true
-        });
-        this.listMedicineChoice = [];
-        console.log(error)
-      }
-    )
   }
 
   /*
@@ -200,7 +202,6 @@ export class RetailComponent implements OnInit {
       this.totalMoney += item.money;
     }
   }
-
 
   /*
  * Created by DaLQA
@@ -222,7 +223,7 @@ export class RetailComponent implements OnInit {
       console.log(this.idDelete);
     } else {
       this.idDelete = '';
-      this.deleteErr = 'Bạn chưa chọn thuốc để xóa!';
+      this.deleteErr = "Bạn chưa chọn thuốc để xóa!"
       console.log(this.idDelete);
     }
   }
@@ -237,31 +238,179 @@ export class RetailComponent implements OnInit {
       this.listMedicineChoice = this.listMedicineChoice.filter(
         (item) => {
           return item.medicineId != this.idDelete;
-          this.resetIdAndName();
         });
+      this.resetIdAndName();
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
       this.deleteMedicineChoiceArr = [];
       console.log(this.listMedicineChoice);
       this.getTotalMoney();
       closeModal.click();
     }
-    this.listMedicineChoice = this.listMedicineChoice.filter(
-      (item) => {
-        return item.medicineId != this.idDelete;
-        this.resetIdAndName();
-      })
-    this.deleteMedicineChoiceArr = [];
-    console.log(this.listMedicineChoice);
-    this.getTotalMoney();
-    closeModal.click();
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function resetIdAndName;
+* */
   resetIdAndName() {
     this.idDelete = '';
     this.nameDelete = '';
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function changeIsDisabled
+* */
   changeIsDisabled() {
     this.isDisabled = false;
-    console.log(this.isDisabled);
   }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function print
+* */
+  print() {
+    if(this.isComplete == true) {
+      if (this.listPrintPDF.length > 0) {
+        this.arrPDF.push(['Sản phẩm', 'Số lượng', 'Giá tiền(VND)', 'Tổng tiền(VND)'],);
+        for (let item of this.listPrintPDF) {
+          this.arrPDF.push([item.medicineName, item.quantity, item.retailPrice, item.money]);
+        }
+        this.printInvoice = 'yes';
+        this.generatePDF(this.printInvoice);
+      } else {
+        this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }
+      this.arrPDF = [];
+      this.listPrintPDF = [];
+      this.totalMoneyPrint = 0;
+    } else {
+      this.toastr.warning("Vui lòng chọn thanh toán khi in hóa đơn !", "Cảnh báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+    }
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function generatePDF
+* */
+  generatePDF(action: string) {
+    console.log(this.listMedicineChoice);
+    const docDefinition = {
+      content: [
+        {
+          text: 'C1221G1 PHARMACODE',
+          fontSize: 30,
+          alignment: 'center',
+          color: '#047886'
+        },
+        {
+          text: 'Hóa đơn mua thuốc',
+          fontSize: 20,
+          bold: true,
+          alignment: 'center',
+          decoration: 'underline',
+          color: 'skyblue'
+        },
+        {
+          columns: [
+            [
+              {
+                text: `Ngày: ${new Date().toLocaleString()}`,
+                alignment: 'right'
+              },
+            ]
+          ]
+        },
+        {
+          text: 'Chi tiết hóa đơn:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          table: {
+            // headers are automatically repeated if the table spans over multiple pages
+            // you can declare how many rows should be treated as headers
+            headerRows: 1,
+            widths: ['*', 'auto', 100, '*'],
+            body: this.arrPDF
+          }
+        },
+        {
+          text: 'Tổng tiền:',
+          style: 'sectionHeader'
+        },
+        {
+          columns: [
+            [this.totalMoneyPrint + ' VND'],
+          ]
+        },
+
+        {
+          text: 'Chi tiết bổ sung:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          columns: [
+            [{qr: `c12pharmacy@gmail.com`, fit: '50'}],
+          ]
+        },
+        {
+          text: 'Các điều khoản và điều kiện:',
+          style: 'sectionHeader',
+          color: '#865604'
+        },
+        {
+          ul: [
+            'Hóa đơn có thể được trả lại sau không quá 3 ngày.',
+            'Sẽ không chấp nhận hoàn trả nếu thuốc không được nguyên vẹn.',
+            'Đây là hóa đơn do hệ thống tạo.',
+          ],
+        }
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15]
+        }
+      }
+    };
+    if (action === 'yes') {
+      pdfMake.createPdf(docDefinition).download('hoa_don.pdf');
+    }
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function getEmployee
+* */
+  getEmployee() {
+    this.user = this.tokenStorageService.getUser();
+    this.retailService.getListEmployee().subscribe(employees => {
+      employees.forEach(e => {
+        if (e.employeeUsername.username == this.user.username) {
+          this.employee = e;
+        }
+      });
+    }, error => {
+      console.log(error)
+    });
+  }
+
 }

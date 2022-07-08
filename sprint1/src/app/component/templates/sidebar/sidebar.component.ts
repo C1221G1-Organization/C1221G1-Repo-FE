@@ -23,10 +23,13 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+
   signOut(e) {
-    e.preventDefault();
+
     this.tokenStorageService.signOut();
-    this.router.navigateByUrl('/home-page').then();
+    this.router.navigateByUrl('/log/sign-in').then();
+
     this.ngOnInit();
+    e.preventDefault();
   }
 }

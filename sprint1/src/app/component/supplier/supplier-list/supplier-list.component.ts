@@ -23,6 +23,7 @@ export class SupplierListComponent implements OnInit {
   chosenIndex: number;
   isChosen: Boolean;
   chooseId: string;
+  stt: number = 1;
   idDelete: string;
   nameDelete: String;
 
@@ -32,9 +33,8 @@ export class SupplierListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getListSupplier({
-      page: this.currentPage,
+      page: 0,
       size: 10000,
       searchId: '',
       searchName: '',
@@ -55,12 +55,16 @@ export class SupplierListComponent implements OnInit {
   confirmDelete() {
     this.supplierService.deleteSupplier(this.idDelete).subscribe(() => {
       this.ngOnInit();
-      this.toastr.warning('Xóa  Thành Công ! ' + this.nameDelete, 'Thông Báo Xác Nhận', {
+      this.toastr.success('Xóa Thành Công ! ' + this.nameDelete, 'Thông Báo Xác Nhận', {
         timeOut: 3000,
         progressBar: true
       });
+      this.chooseId = null;
+      this.chosenIndex = null;
+      this.idDelete = null;
+      this.nameDelete = null;
+      this.isChosen = false;
     }, e => {
-      console.log(e);
     });
   }
 
@@ -158,8 +162,6 @@ export class SupplierListComponent implements OnInit {
   search(ownerSearch: HTMLInputElement) {
     //   get value when searching
     this.ownerSearch = ownerSearch.value;
-    console.log('searching');
-    console.log(this.ownerSearch);
     switch (this.nameSearch.nativeElement.value) {
       case 'supplierId': {
         this.getListSupplier({
@@ -198,6 +200,20 @@ export class SupplierListComponent implements OnInit {
           sort: this.sort.nativeElement.value,
           owner: this.ownerSearch
         });
+        break;
+      }
+      default: {
+        this.toastr.warning('Chưa Có Lựa Chọn Khi Tìm Kiếm ', 'Thông Báo Hệ Thống', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        this.getListSupplier({
+          page: 0,
+          size: 10000,
+          searchId: '',
+          sort: '',
+          owner: this.ownerSearch
+        })
       }
     }
   }
@@ -222,9 +238,6 @@ export class SupplierListComponent implements OnInit {
    *   @this  get all Supplier
    */
   private getListSupplier(request) {
-    console.log('request');
-    console.log(request);
-    console.log('request');
     this.supplierService.getAll(request).subscribe(data => {
         if (data !== null) {
           this.listSupplier = data.content;
@@ -266,9 +279,17 @@ export class SupplierListComponent implements OnInit {
       this.toastr.success('Xác Nhận Đã Chọn 1 Nhà Cung Cấp ' + supplier.supplierName, 'Thông Báo Xác Nhận', {
         timeOut: 1000,
         progressBar: true,
-        positionClass: 'toast-top-center',
       });
     }
 
+  }
+
+  getInforE() {
+    if (!this.isChosen) {
+      this.toastr.warning('Vui Lòng Chọn Nhà Cung Cấp', 'Thông Báo Hệ Thống', {
+        timeOut: 2000,
+        progressBar: true,
+      });
+    }
   }
 }
