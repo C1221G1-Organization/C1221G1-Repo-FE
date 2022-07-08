@@ -14,6 +14,7 @@ export class InvoiceListComponent implements OnInit {
   totalPages: number;
   currentPage: number;
   idDel: string;
+  nameDel: string;
   startDate: string = "";
   endDate: string = new Date().toLocaleDateString('ez-ZA');
   startTime: string = "";
@@ -133,7 +134,7 @@ export class InvoiceListComponent implements OnInit {
     )
   }
 
-  chooseInvoice(index: number, invoiceId: string): void {
+  chooseInvoice(index: number, invoiceId: string, customerName: string): void {
     if (this.chosenIndex !== index) {
       this.isChosen = true;
       this.chosenIndex = index;
@@ -145,6 +146,7 @@ export class InvoiceListComponent implements OnInit {
     }
     if (this.isChosen) {
       this.idDel = invoiceId;
+      this.nameDel = customerName;
     }
   }
 
