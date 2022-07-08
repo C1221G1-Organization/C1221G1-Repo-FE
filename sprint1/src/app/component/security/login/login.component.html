@@ -11,7 +11,7 @@
         <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi</h4>
         <hr >
         <div class="row my-2">
-          <span class="text-success col-3 pl-4" style="font-size: 1.25rem">Tài khoản</span>
+          <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Tài khoản</span>
           <input type="text" class="w-100 border border-success rounded col-8 form-control-sm ml-4"
                  formControlName="username"
                  placeholder="pharmacy@email.com">
@@ -20,13 +20,13 @@
           <p class="col-12 text-right text-danger m-0 p-0"
              *ngIf="signInForm.controls.username.hasError('required') &&
              (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
-          >* Vui lòng không để trống</p>
-<!--          <p class="col-12 text-right text-danger m-0 p-0"-->
-<!--             *ngIf="errorMap && signUpForm.controls.name.touched"-->
-<!--          >{{errorMap['name']}}</p>-->
+          >Vui lòng không để trống.</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="errorMap && (signInForm.controls.username.touched ||signInForm.controls.username.dirty)"
+          >{{errorMap['username']}}</p>
         </div>
         <div class="row my-2">
-          <span class="text-success col-3 pl-4" style="font-size: 1.25rem">Mật khẩu</span>
+          <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Mật khẩu</span>
           <input type="password"
                  formControlName="password"
                  class="w-100 border border-success rounded form-control-sm col-8 ml-4">
@@ -36,15 +36,15 @@
              *ngIf="signInForm.controls.password.hasError('required')
              &&
              (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
-          >* Vui lòng không để trống</p>
+          >Vui lòng không để trống.</p>
           <p class="col-12 text-right text-danger m-0 p-0"
-             *ngIf="signInForm.controls.password.hasError('email')
+             *ngIf="signInForm.controls.password.hasError('pattern')
              &&
-             (signInForm.controls.email.touched || signInForm.controls.email.dirty)"
-          >* Vui lòng không để trống</p>
-<!--          <p class="col-12 text-right text-danger m-0 p-0"-->
-<!--             *ngIf="errorMap && signUpForm.controls.name.touched"-->
-<!--          >{{errorMap['name']}}</p>-->
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+          >Mật khẩu chứa ít nhất 1 số,chữ thường,chữ hoa,kí tự đặc biệt.</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="errorMap && (signInForm.controls.password.touched||signInForm.controls.password.dirty)"
+          >{{errorMap['password']}}</p>
         </div>
         <div class="row my-2">
           <div class="w-100 col-3">

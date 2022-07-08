@@ -17,20 +17,17 @@ export class AuthGuard implements CanActivate {
     const currentUser = this.tokenStorageService.getUser();
     if(currentUser!==null){
       let role = currentUser.roles[0];
-
+      console.log(role);
+      console.log(next);
+      console.log(next.data);
       if(next.data.roles.indexOf(role) === -1){
-        this.router.navigate(['log/sign-in'],{
+        this.router.navigate(['/log/403-forbidden'],{
           queryParams:{returnUrl : url}
         });
         return false;
       }
       return true;
     }
-    this.router.navigate(['log/sign-in'],{
-      queryParams: {
-        returnUrl : url
-      }
-    })
     return false;
   }
 

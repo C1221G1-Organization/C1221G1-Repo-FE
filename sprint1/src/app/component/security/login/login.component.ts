@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   roles: [];
   types: string;
   isSignIn: boolean = false;
-
+  errorMap:any;
   constructor(private securityService: SecurityService,
               private route: Router,
               private tokenStorageService: TokenStorageService,
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.pattern('((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,50})')]),
       remember: new FormControl(''),
     })
     if (this.tokenStorageService.getToken()) {
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       this.userName = user.username;
     }
     if (this.isSignIn) {
-      this.route.navigateByUrl('/').then();
+      this.route.navigateByUrl('/home-page').then();
     }
   }
 
@@ -91,7 +91,19 @@ export class LoginComponent implements OnInit {
 
           }, 1000)
 
-        })
+        },error => {
+          console.log(error);
+          if(error.error == null){
+            this.toast.warning("Mật khẩu không chính xác","Lỗi Đăng Nhập");
+          }else{
+            if(error.error?.errorMap?.notExists){
+              this.toast.warning(error.error.errorMap['notExists'],"Lỗi Đăng Nhập");
+            }else{
+              this.errorMap = error.error.errorMap;
+            }
+          }
+        }
+        )
     }
   }
 
@@ -119,26 +131,23 @@ export class LoginComponent implements OnInit {
     let facebook: string;
     let pass: string;
     let signInRequest: SignInRequest = {};
-
+    let password:string;
     this.angularFireAuth.signInWithPopup(provider).then(r => {
       // @ts-ignore
-      let accessToken = r.credential.accessToken.substring(0, 20);
+      let accessToken = r.credential.accessToken;
       let profile = r.additionalUserInfo.profile;
-
+      password = '123456789';
       email = profile['email'];
       let gender = profile['gender'];
       let location = profile['location'].name;
-      fbRequest = {email, gender, accessToken, location};
+      fbRequest = {"email":email, "gender":gender, "accessToken": password, "location":location};
       this.securityService.signInWithFacebook(fbRequest).subscribe(
         next => {
-          facebook = email;
-          pass = accessToken;
-
           console.log(facebook);
           console.log(pass);
           signInRequest = {
-            "username": facebook,
-            "password": pass
+            "username": email,
+            "password": "123456789"
           }
           console.log(signInRequest);
           this.securityService.signIn(signInRequest).subscribe(
@@ -153,6 +162,7 @@ export class LoginComponent implements OnInit {
               this.toast.success("Đăng nhập thành công", "Chúc mừng", {
                 timeOut: 1000, tapToDismiss: true,
               })
+              this.route.navigateByUrl('/home-page').then();
             }
           )
         },
