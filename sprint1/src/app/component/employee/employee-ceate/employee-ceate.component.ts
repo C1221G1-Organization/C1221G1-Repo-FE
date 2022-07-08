@@ -38,7 +38,7 @@ export class EmployeeCeateComponent implements OnInit {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^^([a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+)((\\s{1}[a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+){1,})$')]),
       employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
       employeeAddress: new FormControl('', [Validators.required]),
@@ -94,6 +94,11 @@ export class EmployeeCeateComponent implements OnInit {
 */
   onSubmit() {
     if (!this.employeeFormCreate.valid) {
+      this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+
       this.employeeFormCreate.markAllAsTouched();
     }
     const employee = this.employeeFormCreate.value;
@@ -104,13 +109,13 @@ export class EmployeeCeateComponent implements OnInit {
         this.employeeFormCreate.patchValue(employee.employeeImage = url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
-          this.toastr.success('Thêm Mới Thành Công !', '', {
+          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/employee/list');
         }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', '', {
+          this.toastr.error('Thêm Mới Thất Bại !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
