@@ -54,7 +54,7 @@ export class AdminChatDetailComponent implements OnInit {
     const chat = this.chatForm.value;
     if (chat.message.trim().length != 0 && chat.message.trim().length < 255) {
       chat.name = this.adminChat.name;
-      chat.uuid = this.uuid;
+      chat.uuid = this.adminChat.uuid;
       chat.message = chat.message.trim();
       chat.createdAt = getTimeStamp();
       firebase.database().ref('chats/' + this.uuid).push().set(chat);

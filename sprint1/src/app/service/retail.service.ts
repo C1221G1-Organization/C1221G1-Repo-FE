@@ -7,9 +7,11 @@ import {InvoiceDto} from "../dto/invoice/invoiceDto";
 import {Prescription} from "../model/prescription";
 import {PrescriptionDetail} from "../dto/prescription/prescriptionDetail";
 import {PrescriptionMedicineDetail} from "../dto/prescription/prescriptionMedicineDetail";
+import {Employee} from "../model/employee/employee";
 
 const API_URL8080_SALE = `${environment.url8080retail}`;
 const API_URL8080_PRESCRIPTION = `${environment.url8080prescription}`;
+const API_URL = `${environment.apiUrl}`;
 @Injectable({
   providedIn: 'root'
 })
@@ -61,4 +63,8 @@ export class RetailService {
     return this.httpClient.get<PrescriptionMedicineDetail[]>(`${API_URL8080_PRESCRIPTION}/detail/prescriptions-medicines/${id}`)
   }
 
+
+  public getListEmployee(): Observable<Employee[]> {
+    return this.httpClient.get<Employee[]>(API_URL + `/api/manager-employee/employees/list`);
+  }
 }

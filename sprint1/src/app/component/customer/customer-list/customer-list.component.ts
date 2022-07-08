@@ -247,7 +247,6 @@ export class CustomerListComponent implements OnInit {
   sortBy() {
     switch (this.sort.nativeElement.value) {
       case 'customer_id':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -257,7 +256,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_type_id':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -267,7 +265,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_name':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -277,7 +274,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_address':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -287,7 +283,6 @@ export class CustomerListComponent implements OnInit {
         });
         break;
       case 'customer_phone':
-        console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
@@ -307,7 +302,7 @@ export class CustomerListComponent implements OnInit {
   deleteCustomer(customerId: string) {
     console.log(customerId);
     this.customerService.delete(customerId).subscribe(() => {
-      this.toastr.warning('Xóa Thành Công !', 'Thông báo', {
+      this.toastr.success('Xóa Thành Công !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });
@@ -323,7 +318,7 @@ export class CustomerListComponent implements OnInit {
    * time: 04/07/2022
    * This method to get id delete customer
    */
-  getValueToDelete(i: number, customerId: string, custmerName: string) {
+  getValueToDelete(i: number, customerId: string, customerName: string) {
     if (this.choosenIndex !== i) {
       this.isChoosen = true;
       this.choosenIndex = i;
@@ -335,7 +330,7 @@ export class CustomerListComponent implements OnInit {
     }
     if (this.isChoosen) {
       this.idDelete = customerId;
-      this.nameDelete = custmerName;
+      this.nameDelete = customerName;
     }
   }
 

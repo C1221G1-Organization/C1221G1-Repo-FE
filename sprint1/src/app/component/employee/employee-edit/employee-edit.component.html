@@ -1,6 +1,6 @@
 <div style="font-size:16px">
 
-  <h1 style="text-align: center;font-size: 32px"> Chỉnh sửa nhân viên</h1>
+  <h2 style="text-align: center;font-size: 32px"> Chỉnh Sửa Nhân Viên</h2>
   <br>
   <div class="container shadow-lg">
     <form [formGroup]="employeeFormEdit" (ngSubmit)="onSubmit(id)">
@@ -88,7 +88,7 @@
             Tên không được để trống.</p>
           <p style="color: red"
              *ngIf="employeeFormEdit.controls.employeeName.hasError('pattern')  && employeeFormEdit.controls.employeeName.touched">
-            Tên không được chứa các kí tự đặt biệt, Vd: <b>Nguyễn Anh Tâm.</b></p>
+            Tên không được chứa các kí tự đặt biệt.</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@
           style="color:red">(*)</span></label>
         <textarea class="form-control" id="message-text" formControlName="employeeNote"></textarea>
       </div>
-      <b style="color: red;font-size: 12px    ">(*) : Thông tin bắt buộc.</b>
+      <b class="title" style="color: red">(*) Thông tin bắt buộc nhập.</b>
       <div class="row">
         <div class="col-lg-10"></div>
         <span> &nbsp;</span><span> &nbsp;</span>
