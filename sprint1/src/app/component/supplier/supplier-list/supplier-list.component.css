@@ -1,6 +1,13 @@
 .mgl {
   margin-left: 30px;
 }
+tr:hover{
+  background-color: lightgrey;
+}
+
+.mg-r {
+  margin-right: 10px;
+}
 
 .center-s {
   margin-top: 6px;
@@ -34,7 +41,14 @@ a {
   padding-left: 0px;
 }
 
+td {
+  height: 70px;
+}
 
-.bgr{
-text-align: center;
+.bgr {
+  text-align: center;
+}
+
+.lf {
+  text-align: left;
 }

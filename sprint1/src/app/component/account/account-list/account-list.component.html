@@ -1,6 +1,5 @@
-
 <div class="container">
-  <h2 style="text-align: center">Quản lý tài khoản</h2>
+  <h2 style="text-align: center">Quản Lý Tài Khoản</h2>
 
   <fieldset class="border p-1 d-flex justify-content-center">
     <legend class="w-auto">Bộ lọc</legend>
@@ -32,12 +31,11 @@
     </nav>
   </fieldset>
   <br>
-
+  <h2 *ngIf="accountEmployeeList.length == 0" style="text-align: center">Không tìm thấy dữ liệu</h2>
   <fieldset class="border p-2">
     <legend class="w-auto">Danh sách tài khoản</legend>
-    <h3 style="text-align: center" *ngIf="accountEmployeeList.length == 0"> Không tìm thấy dữ liệu</h3>
-    <div class="table-responsive-md" *ngIf="accountEmployeeList != null">
-      <table class="table" id="table" border="1">
+    <div class="table-responsive-md" *ngIf="accountEmployeeList.length != 0">
+      <table class="table table-hover" id="table">
         <thead class="table-success">
         <tr>
           <th scope="col">STT</th>
@@ -49,8 +47,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let account of accountEmployeeList, index as i , let k = index" (click)="activeProject(k,account)"
-            [ngStyle]="{'background-color': activeProjectIndex === k && flag ? '#9deba7' : 'white' }">
-          <th scope="row">{{i + 1}}</th>
+            [ngStyle]="{'background-color': activeProjectIndex === k && flag ? 'darkgrey' : 'white' }">
+          <th scope="row">{{(3 * page) + (i + 1)}}</th>
           <td>{{account.employeeId}}</td>
           <td>{{account.employeeName}}</td>
           <td>{{account.username}}</td>
@@ -63,13 +61,13 @@
   </fieldset>
 
   <nav aria-label="Page navigation example" style="margin-right: 10px; margin-top: 10px">
-    <ul style="margin-bottom: 0px" class="pagination justify-content-end">
+    <ul style="margin-bottom: 0px" class="pagination justify-content-center">
       <li *ngIf="!firsts" class="page-item">
-        <button class="page-link" (click)="previous()">Trước</button>
+        <button class="page-link" (click)="previous()">Trang trước</button>
       </li>
       <li class="page-item"><p class="page-link">{{(page + 1) + '/' + totalPages}}</p></li>
       <li *ngIf="!last" class="page-item">
-        <button class="page-link" (click)="next()">Sau</button>
+        <button class="page-link" (click)="next()">Trang sau</button>
       </li>
     </ul>
   </nav>
@@ -79,7 +77,7 @@
     <div>
       <a (click)="clickEdit(sucessButton)" class="btn  btn-warning" style="margin-right: 5px"><i class="fa fa-pencil" aria-hidden="true">
       </i> Sửa tài khoản</a>
-      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px">
+      <a class="btn btn-secondary" style="margin-right: 10px; margin-left: 5px" [routerLink]="['/sales-management/invoices']">
         <i class="fa fa-undo" aria-hidden="true"></i> Trở vể</a>
     </div>
   </div>
@@ -98,3 +96,4 @@
     </div>
   </div>
 </div>
+
