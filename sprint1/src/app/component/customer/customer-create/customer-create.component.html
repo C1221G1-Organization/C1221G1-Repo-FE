@@ -81,7 +81,7 @@
             Không được bỏ trống.</p>
           <p style="color: red"
              *ngIf="createForm.controls.customerPhone.hasError('pattern') && createForm.controls.customerPhone.touched">
-            Số điện thoại 10 chữ số (ví dụ : 09xxxxxxxx).</p>
+            Số điện thoại phải đúng định dạng gồm 10 số, bắt đầu từ 0.</p>
           <p style="color: red" *ngIf=" createForm.get('customerPhone').hasError('phoneAlreadyExists')">
             Số điện thoại này đã tồn tại.
           </p>
