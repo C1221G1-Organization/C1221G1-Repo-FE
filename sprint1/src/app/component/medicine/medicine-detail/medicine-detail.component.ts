@@ -4,6 +4,7 @@ import {MedicineDetailDto} from '../../../dto/medicine/medicine-detail.model';
 import {MedicineService} from '../medicine.service';
 import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
+import {Title} from '@angular/platform-browser';
 
 const MAXIMUM_QUANTITY_ALLOWED = 20;
 
@@ -26,6 +27,7 @@ export class MedicineDetailComponent implements OnInit {
   constructor(private toastr: ToastrService,
               private cartService: CartService,
               private router: Router,
+              private title: Title,
               private medicineService: MedicineService,
               private activatedRoute: ActivatedRoute) {
 
@@ -44,6 +46,7 @@ export class MedicineDetailComponent implements OnInit {
       this.medicineService.getMedicineDetailForView(this.medicineId).subscribe(
         medicine => {
           this.medicine = medicine;
+          this.title.setTitle(`${this.medicine.medicineName}`)
           this.scrollToTopOfScrollable()
         }, err => {
           this.router.navigateByUrl("not-found");
@@ -123,7 +126,12 @@ export class MedicineDetailComponent implements OnInit {
   scrollToTopOfScrollable() {
     window.scrollBy(0, -window.innerHeight);
   }
-
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return add 1 item to cart and navigate to cart
+   */
   buyNow() {
     this.cartService.addToCart(
       {
