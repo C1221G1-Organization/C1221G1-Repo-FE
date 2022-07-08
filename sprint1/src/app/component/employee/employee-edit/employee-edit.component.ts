@@ -50,7 +50,7 @@ export class EmployeeEditComponent implements OnInit {
     this.employeeFormEdit = new FormGroup({
       employeeId: new FormControl(''),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+)((\\s{1}[a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+){1,})$')]),
       employeeImage: new FormControl(''),
       employeeAddress: new FormControl('', [Validators.required]),
       // tslint:disable-next-line:max-line-length
@@ -126,6 +126,11 @@ export class EmployeeEditComponent implements OnInit {
 */
   onSubmit(id: string) {
     if (!this.employeeFormEdit.valid) {
+      this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', 'Thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+
       this.employeeFormEdit.markAllAsTouched();
     }
     const employee = this.employeeFormEdit.value;

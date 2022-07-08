@@ -22,7 +22,7 @@ export class CustomerEditComponent implements OnInit {
   updateForm = new FormGroup({
     customerId: new FormControl(''),
     customerName: new FormControl('', [Validators.required, Validators.minLength(2),
-      Validators.maxLength(20), Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      Validators.maxLength(20), Validators.pattern('^([a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+)((\\s{1}[a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+){1,})$')]),
     customerBirthday: new FormControl('', [Validators.required]),
     customerGender: new FormControl([Validators.required]),
     customerAddress: new FormControl(''),
@@ -73,14 +73,14 @@ export class CustomerEditComponent implements OnInit {
     const value = this.updateForm.value;
     this.customerService.update(index, value).subscribe(() => {
       }, error => {
-        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', '', {
+        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });
 
       },
       () => {
-        this.toastr.success('Chỉnh sửa thành công !', '', {
+        this.toastr.success('Chỉnh sửa thành công !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });
