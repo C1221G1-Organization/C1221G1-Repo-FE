@@ -119,7 +119,7 @@
       <li class="page-item" >
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">{{currentPage+1}}/{{totalPages}}</a></li>
+      <li class="page-item"><a class="page-link">{{currentPage+1}}/{{totalPages}}</a></li>
       <li class="page-item">
         <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp theo</a>
       </li>

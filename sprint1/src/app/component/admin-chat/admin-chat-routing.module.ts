@@ -16,8 +16,10 @@ const routes: Routes = [
     path: '', component: AdminChatComponent, children: [
       {path: 'room/:roomId', component: AdminChatDetailComponent},
       {path: 'rooms', component: AdminChatDefaultComponent}
-    ]
-  },
+    ],canActivate : [AuthGuard],data :{
+      roles : ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }
+  }
 
 ];
 

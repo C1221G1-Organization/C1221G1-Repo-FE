@@ -86,7 +86,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of customer; index as i " (click)="getValueToDelete(i, item.customerId)"
+        <tr *ngFor="let item of customer; index as i " (click)="getValueToDelete(i, item.customerId, item.customerName)"
             [ngStyle]="{'background-color': choosenIndex === i && isChoosen && choosenId === item.customerId ? '#84c0ec' : ''}">
           <td class="col-1">{{(5 * currentPage ) + (i + 1)}}</td>
           <td class="col-2">{{item.customerId}}</td>
@@ -175,7 +175,7 @@
         <div *ngIf="idDelete != undefined && idDelete!= null">
           <div style="text-align: center">
             <p>Bạn có muốn xóa khách hàng
-              <b style="color: red ">{{idDelete}}</b>
+              <b style="color: red ">{{nameDelete}}</b>
             </p>
           </div>
         </div>

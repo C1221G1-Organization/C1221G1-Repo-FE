@@ -25,6 +25,7 @@ export class CustomerListComponent implements OnInit {
   choosenIndex: number;
   choosenId: string;
   idDelete: string;
+  nameDelete: string;
   public isInputHidden = true;
   public isSelectHidden = false;
   @ViewChild('keySearch1') keySearch1: ElementRef;
@@ -268,7 +269,7 @@ export class CustomerListComponent implements OnInit {
       case 'customer_name':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerName: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -278,7 +279,7 @@ export class CustomerListComponent implements OnInit {
       case 'customer_address':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerAddress: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -288,7 +289,7 @@ export class CustomerListComponent implements OnInit {
       case 'customer_phone':
         console.log(this.sort.nativeElement.value);
         this.getAllCustomers({
-          customerPhone: this.keySearch2.nativeElement.value,
+          customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
           , dir: 'desc'
           , page: 0
@@ -322,7 +323,7 @@ export class CustomerListComponent implements OnInit {
    * time: 04/07/2022
    * This method to get id delete customer
    */
-  getValueToDelete(i: number, customerId: string) {
+  getValueToDelete(i: number, customerId: string, custmerName: string) {
     if (this.choosenIndex !== i) {
       this.isChoosen = true;
       this.choosenIndex = i;
@@ -334,6 +335,7 @@ export class CustomerListComponent implements OnInit {
     }
     if (this.isChoosen) {
       this.idDelete = customerId;
+      this.nameDelete = custmerName;
     }
   }
 

@@ -100,7 +100,7 @@
         <tr (click)="chooseInvoice(i, invoice.invoiceId)" *ngFor="let invoice of invoiceList, index as i"
             [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === invoice.invoiceId ? '#84c0ec' : ''}">
           <td>{{invoice.invoiceId}}</td>
-          <td>{{invoice.customerName}}</td>
+          <td>{{invoice.c}}</td>
           <td>{{invoice.invoiceCreatedDate | date :'dd/MM/yyyy'}}</td>
           <td>{{invoice.invoiceCreateTime}}</td>
           <td>{{invoice.employeeName}}</td>
@@ -118,7 +118,7 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item">
-            <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Sau</a>
+            <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Trang trước</a>
           </li>
           <li class="page-item ">
             <a class="page-link btn-sm">
@@ -128,7 +128,7 @@
             </a>
           </li>
           <li class="page-item">
-            <a class="page-link btn btn-sm" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trước</a>
+            <a class="page-link btn btn-sm" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Trang sau</a>
           </li>
         </ul>
       </nav>
