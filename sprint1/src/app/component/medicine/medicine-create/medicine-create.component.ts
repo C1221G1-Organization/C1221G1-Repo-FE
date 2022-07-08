@@ -258,7 +258,7 @@ export class MedicineCreateComponent implements OnInit {
           this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
             this.isLoading = false;
             this.toastrService.success('Bạn đã thêm mới thành công !', 'Thêm mới');
-            // this.route.navigateByUrl('/list');
+            this.route.navigateByUrl('/medicine/list');
           }, error => {
             this.isLoading = false;
             this.toastrService.error('Bạn đã cố gắng làm gì đó dẫn tới thêm mới thất bại !', 'Thêm mới');

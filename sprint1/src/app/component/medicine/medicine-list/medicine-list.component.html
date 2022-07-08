@@ -54,7 +54,6 @@
             <table class="table">
               <thead class="table-success">
               <tr>
-                <th>STT</th>
                 <th>Mã thuốc</th>
                 <th>Nhóm thuốc</th>
                 <th>Tên thuốc</th>
@@ -64,15 +63,13 @@
                 <th>Giá nhập (VND)</th>
                 <th>Giá bán sỉ (VND)</th>
                 <th>Giá bán lẻ (VND)</th>
-                <th></th>
+                <th>Chi tiết</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let medicine of medicines|paginate : { itemsPerPage: 5, currentPage: p },  index as index"
                   (click)="getValueMedicine( index, medicine.medicineId, medicine)"
                   [ngStyle]="{'background-color': chosenIndex === index && isChosen && medicine.medicineId==chooseId ? 'darkgrey' : ''}">
-                <td *ngIf="p == 1">{{(index + 1) + (p - 1)}}</td>
-                <td *ngIf="p > 1">{{(index + 1) + ((p - 1) * 5)}}</td>
                 <td>{{medicine.medicineId}}</td>
                 <td>{{medicine.medicineTypeName}}</td>
                 <td><p class="name">{{medicine.medicineName}}</p></td>
@@ -85,7 +82,7 @@
                 <td>
                   <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)"
                           data-toggle="modal" data-target="#infoModal">
-                    <i aria-hidden="true" class="fa fa-address-card"></i> Chi tiết
+                    <i aria-hidden="true" class="fa fa-address-card"></i>
                   </button>
                 </td>
               </tr>
@@ -152,7 +149,7 @@
 </div>
 
 <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="infoModalLabel">Thông tin chi tiết của thuốc !</h5>
@@ -161,25 +158,88 @@
         </button>
       </div>
       <div class="modal-body" *ngIf="infoMedicine">
-        <p>Mã thuốc : {{infoMedicine.medicineId}}</p>
-        <p>Nhóm thuốc : {{infoMedicine.medicineTypeName}}</p>
-        <p>Tên thuốc : {{infoMedicine.medicineName}}</p>
-        <p>Hoạt chất : {{infoMedicine.medicineActiveIngredients}}</p>
-        <p>Xuất xứ : {{infoMedicine.medicineOriginName}}</p>
-        <p>Giá nhập : {{infoMedicine.medicineImportPrice|number}} VND </p>
-        <p>Giá sỉ : {{infoMedicine.wholesalePrice|number}} VND</p>
-        <p>Giá lẻ : {{infoMedicine.retailPrice|number}} VND</p>
-        <p>Lợi nhuận xuất chẵn : {{infoMedicine.medicineWholesaleProfit}}%</p>
-        <p>Lợi nhuận xuất lẻ : {{infoMedicine.medicineRetailSaleProfit}}%</p>
-        <p>Chiết khấu : {{infoMedicine.medicineDiscount}}%</p>
-        <p>Đơn vị tính : {{infoMedicine.medicineUnitName}}</p>
-        <p>Đợn vị quy đổi : {{infoMedicine.medicineConversionUnitName}} </p>
-        <p>Tỉ lệ chuyển đổi thuốc : {{infoMedicine.medicineConversionRate}}</p>
-        <p>Nhà sản xuất : {{infoMedicine.medicineManufacture}}</p>
-        <p>Cách sủ dụng : {{infoMedicine.medicineUsage}}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+        <div class="row">
+          <div class="col-6 my-2">
+            <div class="col-13 my-2">
+              <b> Mã thuốc : </b>{{infoMedicine.medicineId}}
+            </div>
+            <div class="col-13 my-2">
+              <b> Tên thuốc : </b>{{infoMedicine.medicineName}}
+            </div>
+          </div>
+          <div class="col-6 my-2">
+            <div class="col-13 my-2">
+              <b> Hoạt chất: </b>{{infoMedicine.medicineActiveIngredients}}
+            </div>
+            <div class="col-13 my-2">
+
+              <b>  Nhóm thuốc : </b>{{infoMedicine.medicineTypeName}}
+            </div>
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-4 my-2">
+
+            <b> Đơn vị : </b>{{infoMedicine.medicineUnitName}}
+          </div>
+          <div class="col-4 my-2">
+
+            <b>  Đơn vị quy đổi : </b>{{infoMedicine.medicineConversionUnitName}}
+          </div>
+          <div class="col-4 my-2">
+
+            <b>  Tỉ lệ quy đổi : </b>{{infoMedicine.medicineConversionRate}}
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-6 my-2">
+            <b> % Lợi nhuận xuất chẵn : </b>{{infoMedicine.medicineWholesaleProfit}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% Lợi nhuận xuất lẻ : </b>{{infoMedicine.medicineRetailSaleProfit}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% Tỉ lệ chiết khấu : </b>{{infoMedicine.medicineDiscount}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% VAT: </b>{{infoMedicine.medicineTax}}
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Giá nhập : </b>{{infoMedicine.medicineImportPrice | number}} <b>VND</b>
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Độ tuổi : </b>{{infoMedicine.medicineAgeApproved}}
+
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Nhà sản xuất : </b>{{infoMedicine.medicineManufacture}}
+          </div>
+          <div class="col-6 my-2">
+            <b>Xuất xứ : </b>{{infoMedicine.medicineOriginName}}
+          </div>
+          <div class="col-6 my-2">
+            <b>Cách sử dụng : </b>{{infoMedicine.medicineInstruction}}
+          </div>
+          <div class="col-6 my-2">
+            <div class="col-13 my-2">
+              <b>Công dụng : </b>{{infoMedicine.medicineUsage}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+        </div>
       </div>
     </div>
   </div>

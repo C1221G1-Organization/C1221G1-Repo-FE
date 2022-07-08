@@ -57,7 +57,7 @@ export class ImportInvoiceCreateComponent implements OnInit {
         this.selectedSupplier = this.suppliers[0];
         importInvoiceService.getEmployee().subscribe(employees => {
           this.employees = employees;
-          this.defaultEmployee = employees[0];
+          this.defaultEmployee = employees[10];
           this.createImportInvoiceForm = this.fb.group({
             importInvoiceId: this.fb.control(''),
             importSystemCode: this.fb.control('', [Validators.required, Validators.pattern('^[0]?[1-9]+[0-9]*$')]),
