@@ -9,48 +9,48 @@
         <div class="col-lg-2 col-md-2"><label><p>Tên đơn thuốc<span> (*)</span></p></label></div>
         <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionName" name="prescriptionName">
           <span *ngIf="prescriptionForm.get('prescriptionName').errors?.required &&
-          prescriptionForm.get('prescriptionName').dirty">
+          prescriptionForm.get('prescriptionName').touched">
             Tên đơn thuốc không được để trống!</span>
           <span *ngIf="prescriptionForm.get('prescriptionName').errors?.pattern &&
-          prescriptionForm.get('prescriptionName').dirty">
+          prescriptionForm.get('prescriptionName').touched">
             Tên đơn thuốc không chứa các kí tự đặc biệt!</span>
           <span *ngIf="prescriptionForm.get('prescriptionName').errors?.minlength &&
-          prescriptionForm.get('prescriptionName').dirty">
+          prescriptionForm.get('prescriptionName').touched">
             Tên đơn thuốc không được nhỏ hơn 5 kí tự!</span>
           <span *ngIf="prescriptionForm.get('prescriptionName').errors?.maxlength &&
-          prescriptionForm.get('prescriptionName').dirty">
+          prescriptionForm.get('prescriptionName').touched">
             Tên đơn thuốc không được dài hơn 50 kí tự!</span></div>
       </div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Triệu chứng<span> (*)</span></p></label></div>
         <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionSymptom" name="prescriptionSymptom">
           <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.required &&
-          prescriptionForm.get('prescriptionSymptom').dirty">
+          prescriptionForm.get('prescriptionSymptom').touched">
             Triệu chứng không được để trống!</span>
           <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.pattern &&
-          prescriptionForm.get('prescriptionSymptom').dirty">
+          prescriptionForm.get('prescriptionSymptom').touched">
             Triệu chứng không chứa các kí tự đặc biệt!</span>
           <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.minlength &&
-          prescriptionForm.get('prescriptionSymptom').dirty">
+          prescriptionForm.get('prescriptionSymptom').touched">
             Triệu chứng không được nhỏ hơn 5 kí tự!</span>
           <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.maxlength &&
-          prescriptionForm.get('prescriptionSymptom').dirty">
+          prescriptionForm.get('prescriptionSymptom').touched">
             Triệu chứng không được dài hơn 100 kí tự!</span></div>
       </div>
       <div class="row">
         <div class="col-lg-2 col-md-2"><label><p>Ghi chú<span> (*)</span></p></label></div>
         <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionNote" name="prescriptionNote">
           <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.required &&
-          prescriptionForm.get('prescriptionNote').dirty">
+          prescriptionForm.get('prescriptionNote').touched">
             Ghi chú không được để trống!</span>
           <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.pattern &&
-          prescriptionForm.get('prescriptionNote').dirty">
+          prescriptionForm.get('prescriptionNote').touched">
             Ghi chú không chứa các kí tự đặc biệt!</span>
           <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.minlength &&
-          prescriptionForm.get('prescriptionNote').dirty">
+          prescriptionForm.get('prescriptionNote').touched">
             Ghi chú không được nhỏ hơn 5 kí tự!</span>
           <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.maxlength &&
-          prescriptionForm.get('prescriptionNote').dirty">
+          prescriptionForm.get('prescriptionNote').touched">
             Ghi chú không được dài hơn 100 kí tự!</span></div>
       </div>
       <div class="row">
@@ -63,20 +63,20 @@
             <option value="Phụ nữ mang thai">Phụ nữ mang thai</option>
           </select>
           <span *ngIf="prescriptionForm.get('prescriptionTargetUser').errors?.required &&
-          prescriptionForm.get('prescriptionTargetUser').pristine">
+          prescriptionForm.get('prescriptionTargetUser').touched">
             Đối tượng không được để trống!</span>
         </div>
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2"><label for=""><p>Số ngày uống<span> (*)</span></p></label></div>
         <div class="col-lg-3 col-md-3"><input class="form-control" formControlName="prescriptionNumberOfDays" name="prescriptionNumberOfDays" type="number">
           <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.required &&
-          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+          prescriptionForm.get('prescriptionNumberOfDays').touched">
             Số ngày uống không được để trống!</span>
           <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.min &&
-          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+          prescriptionForm.get('prescriptionNumberOfDays').touched">
             Số ngày uống không được nhỏ hơn 1!</span>
           <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.max &&
-          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+          prescriptionForm.get('prescriptionNumberOfDays').touched">
             Số ngày uống không được lớn hơn 365!</span></div>
       </div>
 
