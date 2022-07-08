@@ -1,6 +1,6 @@
 <div class="mb-3 pt-1">
   <div class="container shadow pt-3">
-    <div class="d-flex justify-content-center" ><h3>Danh Sách Đơn Thuốc Có Sẵn</h3></div>
+    <div class="d-flex justify-content-center"><h3>Danh Sách Đơn Thuốc Có Sẵn</h3></div>
     <hr>
     <form [formGroup]="searchForm" (ngSubmit)="search()">
       <div class="form-group row d-flex justify-content-center mx-auto">
@@ -27,6 +27,9 @@
     </form>
     <fieldset class="border p-2 shadow">
       <legend class="w-auto"></legend>
+      <div *ngIf="prescriptions">
+
+      </div>
       <table class="table table-striped">
         <thead class="table-success ">
         <tr>
@@ -38,7 +41,7 @@
           <th class="col-2 text-center px-0">Ghi chú</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="prescriptions">
         <tr *ngFor="let item of prescriptions; index as i; let k = index" (click)="activeProject(k,item)"
             [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
           <!--          <th class="col-1 text-center">{{i + 1}}</th>-->
@@ -49,13 +52,18 @@
           <td class="col-2 text-center px-0">{{item.prescriptionNote}}</td>
         </tr>
         </tbody>
+        <tbody *ngIf="prescriptions.length == 0">
+        <tr>
+          <td class="text-center" colspan="7">Không tìm thấy kết quả</td>
+        </tr>
+        </tbody>
       </table>
       <!--        list       -->
       <!--      panation    -->
       <nav class="blog-pagination d-flex justify-content-center py-3" *ngIf="totalPages > 1 ">
         <ul class="pagination">
-          <li class="page-item px-1" >
-            <a class="page-link" (click)="previous()">Trang trước</a>
+          <li class="page-item px-1" [class.disabled]="page<=0">
+            <a class="page-link btn" (click)="previous()" >Trang trước</a>
           </li>
           <li class="page-item">
             <a class="page-link">
@@ -64,8 +72,8 @@
               <span>{{totalPages}}</span>
             </a>
           </li>
-          <li class="page-item px-1" >
-            <a class="page-link" (click)="next()">trang sau</a>
+          <li class="page-item px-1" [class.disabled]="page+1>=totalPages">
+            <a class="page-link btn" (click)="next()" >trang sau</a>
           </li>
         </ul>
       </nav>

@@ -54,9 +54,9 @@ export class LoginComponent implements OnInit {
       this.roles = user.roles;
       this.userName = user.username;
     }
-    if (this.isSignIn) {
-      this.route.navigateByUrl('/').then();
-    }
+    // if (this.isSignIn) {
+    //   this.route.navigateByUrl('/').then();
+    // }
   }
 
   submitSignIn() {
@@ -80,16 +80,15 @@ export class LoginComponent implements OnInit {
             timeOut: 1000, tapToDismiss: true,
           })
           this.signInForm.reset();
-          setTimeout(() => {
-            this.roles.forEach(role => {
-              if (role === 'ROLE_USER') {
-                this.route.navigateByUrl('/home-page').then();
-              } else {
-                this.route.navigateByUrl('/').then();
-              }
-            })
 
-          }, 1000)
+          this.roles.forEach(role => {
+            if (role === 'ROLE_USER') {
+              this.route.navigateByUrl('/home-page').then();
+            } else {
+              this.route.navigateByUrl('/sales-management/retail').then();
+            }
+          })
+
 
         })
     }
