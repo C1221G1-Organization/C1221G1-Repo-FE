@@ -498,9 +498,9 @@ html {
   padding: 1px 7px;
   line-height: 1rem;
   border-radius: 10px;
-  border: 2px solid #0a55ff;
-  background-color: var(--white-color);
-  color: var(--primary-color);
+  border: 2px solid var(--white-color);
+  background-color: red;
+  color: var(--white-color);
   font-size: 0.8rem;
 }
 
