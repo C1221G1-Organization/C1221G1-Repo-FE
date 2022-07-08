@@ -8,6 +8,9 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {TokenStorageService} from "../../../../service/security/token-storage.service";
+import {EmployeeService} from "../../../../service/employee/employee.service";
+import {Employee} from "../../../../model/employee/employee";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -34,10 +37,15 @@ export class RetailComponent implements OnInit {
   deleteErr: string;
   printInvoice: string;
   arrPDF = [];
-
+  user: any;
+  employee: Employee;
+  isComplete = false;
+  listPrintPDF = [];
+  totalMoneyPrint = 0;
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -48,6 +56,7 @@ export class RetailComponent implements OnInit {
     })
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
+    this.getEmployee();
   }
 
   /*
@@ -70,54 +79,48 @@ export class RetailComponent implements OnInit {
 * Function: function addListMedicine
 * */
   addListMedicine() {
-    if (!this.invoiceForm.valid || this.invoiceForm.value.unit != 'vien'
-      || this.invoiceForm.value.unit != 'vi' || this.invoiceForm.value.unit != 'hop') {
-      this.invoiceForm.markAllAsTouched();
-    } else {
-      let idChoice = this.invoiceForm.value.medicineSale.medicineId;
-      let nameChoice = this.invoiceForm.value.medicineSale.medicineName;
-      let quantityChoice = this.invoiceForm.value.quantity;
-      console.log(quantityChoice);
-      let unitChoice = this.invoiceForm.value.unit;
-      console.log(unitChoice);
-      let priceChoice: number;
-      if (unitChoice == 'vien') {
-        priceChoice = Math.floor(1 * this.invoiceForm.value.medicineSale.retailPrice);
-      } else if (unitChoice == 'vi') {
-        priceChoice = Math.floor(10 * this.invoiceForm.value.medicineSale.retailPrice);
-      } else if (unitChoice == 'hop') {
-        priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
-      }
-      let moneyChoice = quantityChoice * priceChoice
-      let flag = false;
-      let medicine: any = {
-        medicineId: idChoice,
-        medicineName: nameChoice,
-        retailPrice: priceChoice,
-        quantity: quantityChoice,
-        unit: unitChoice,
-        money: moneyChoice,
-      };
-      const myArray = this.listMedicineChoice;
-      const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-      if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
-        || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
-        flag = true;
-      } else {
-        flag = false;
-      }
-      if (!flag) {
-        this.isDisabled = false;
-        this.listMedicineChoice.push(medicine);
-      } else {
-        this.isDisabled = true;
-      }
-      console.log(this.listMedicineChoice);
-      this.getTotalMoney();
-      this.resetForm();
-      this.ngOnInit();
+    let idChoice = this.invoiceForm.value.medicineSale.medicineId;
+    let nameChoice = this.invoiceForm.value.medicineSale.medicineName;
+    let quantityChoice = this.invoiceForm.value.quantity;
+    console.log(quantityChoice);
+    let unitChoice = this.invoiceForm.value.unit;
+    console.log(unitChoice);
+    let priceChoice: number;
+    if (unitChoice == 'vien') {
+      priceChoice = Math.floor(1 * this.invoiceForm.value.medicineSale.retailPrice);
+    } else if (unitChoice == 'vi') {
+      priceChoice = Math.floor(10 * this.invoiceForm.value.medicineSale.retailPrice);
+    } else if (unitChoice == 'hop') {
+      priceChoice = Math.floor(100 * this.invoiceForm.value.medicineSale.retailPrice);
     }
-
+    let moneyChoice = quantityChoice * priceChoice
+    let flag = false;
+    let medicine: any = {
+      medicineId: idChoice,
+      medicineName: nameChoice,
+      retailPrice: priceChoice,
+      quantity: quantityChoice,
+      unit: unitChoice,
+      money: moneyChoice,
+    };
+    const myArray = this.listMedicineChoice;
+    const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
+    if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
+      || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+    if (!flag) {
+      this.isDisabled = false;
+      this.listMedicineChoice.push(medicine);
+    } else {
+      this.isDisabled = true;
+    }
+    console.log(this.listMedicineChoice);
+    this.getTotalMoney();
+    this.resetForm();
+    this.ngOnInit();
   }
 
   /*
@@ -148,8 +151,8 @@ export class RetailComponent implements OnInit {
       this.invoiceMedicineDtos.push(invoiceMedicineDto);
     }
     let invoiceDto: any = {
-      customerId: 'KH-0001',
-      employeeId: 'NV-0001',
+      customerId: 'KH-00001',
+      employeeId: this.employee.employeeId,
       invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
@@ -166,6 +169,11 @@ export class RetailComponent implements OnInit {
             timeOut: 3000,
             progressBar: true
           });
+          for (let item of this.listMedicineChoice){
+            this.listPrintPDF.push(item);
+          }
+          this.isComplete = true;
+          this.totalMoneyPrint = this.totalMoney;
           this.totalMoney = 0;
           this.listMedicineChoice = [];
           this.invoiceMedicineDtos = [];
@@ -256,30 +264,48 @@ export class RetailComponent implements OnInit {
   /*
 * Created by DaLQA
 * Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
+* Function: function changeIsDisabled
 * */
   changeIsDisabled() {
     this.isDisabled = false;
-    console.log(this.isDisabled);
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function print
+* */
   print() {
-    this.arrPDF.push( ['Sản phẩm','Số lượng', 'Giá tiền(VND)' , 'Tổng tiền(VND)'],);
-    for (let item of this.listMedicineChoice){
-      this.arrPDF.push([item.medicineName,item.quantity,item.retailPrice,item.money]);
-    }
-    if(this.listMedicineChoice.length > 0){
-      this.printInvoice = 'yes';
-      this.generatePDF(this.printInvoice);
-    }else {
-      this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+    if(this.isComplete == true) {
+      if (this.listPrintPDF.length > 0) {
+        this.arrPDF.push(['Sản phẩm', 'Số lượng', 'Giá tiền(VND)', 'Tổng tiền(VND)'],);
+        for (let item of this.listPrintPDF) {
+          this.arrPDF.push([item.medicineName, item.quantity, item.retailPrice, item.money]);
+        }
+        this.printInvoice = 'yes';
+        this.generatePDF(this.printInvoice);
+      } else {
+        this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }
+      this.arrPDF = [];
+      this.listPrintPDF = [];
+      this.totalMoneyPrint = 0;
+    } else {
+      this.toastr.warning("Vui lòng chọn thanh toán khi in hóa đơn !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     }
-    this.arrPDF = [];
   }
 
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function generatePDF
+* */
   generatePDF(action: string) {
     console.log(this.listMedicineChoice);
     const docDefinition = {
@@ -328,7 +354,7 @@ export class RetailComponent implements OnInit {
         },
         {
           columns: [
-            [this.totalMoney + ' VND'],
+            [this.totalMoneyPrint + ' VND'],
           ]
         },
 
@@ -365,7 +391,26 @@ export class RetailComponent implements OnInit {
       }
     };
     if (action === 'yes') {
-      pdfMake.createPdf(docDefinition).download('invoice.pdf');
+      pdfMake.createPdf(docDefinition).download('hoa_don.pdf');
     }
   }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function getEmployee
+* */
+  getEmployee() {
+    this.user = this.tokenStorageService.getUser();
+    this.retailService.getListEmployee().subscribe(employees => {
+      employees.forEach(e => {
+        if (e.employeeUsername.username == this.user.username) {
+          this.employee = e;
+        }
+      });
+    }, error => {
+      console.log(error)
+    });
+  }
+
 }

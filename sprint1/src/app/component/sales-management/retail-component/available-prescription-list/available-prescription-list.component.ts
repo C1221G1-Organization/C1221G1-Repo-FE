@@ -41,6 +41,11 @@ export class AvailablePrescriptionListComponent implements OnInit {
     });
   }
 
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function getAllPrescription
+ * */
   getAllPrescription() {
     this.retailService.getAllPrescription(this.page, '', '', '', '').subscribe((data: any) => {
       this.prescriptions = data.content;
@@ -55,10 +60,15 @@ export class AvailablePrescriptionListComponent implements OnInit {
     });
   }
 
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function previous
+ * */
   previous() {
     if (this.page > 0) {
-      this.retailService.getAllPrescription(this.page - 1, this.id ,
-        this.names , this.target , this.symptom ).subscribe(
+      this.retailService.getAllPrescription(this.page - 1, this.id,
+        this.names, this.target, this.symptom).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -71,6 +81,11 @@ export class AvailablePrescriptionListComponent implements OnInit {
     }
   }
 
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function next
+ * */
   next() {
     if (this.page < this.totalPages - 1) {
       this.retailService.getAllPrescription(this.page + 1, this.id, this.names,
@@ -87,6 +102,11 @@ export class AvailablePrescriptionListComponent implements OnInit {
     }
   }
 
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function activeProject
+ * */
   activeProject(k: number, item: any) {
     if (this.activeProjectIndex != k) {
       this.flagHover = true;
@@ -102,6 +122,11 @@ export class AvailablePrescriptionListComponent implements OnInit {
     }
   }
 
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function search
+ * */
   search() {
     const input = this.searchForm.get('inputSearch').value;
     const type = this.searchForm.get('typeSearch').value;
@@ -195,7 +220,12 @@ export class AvailablePrescriptionListComponent implements OnInit {
     }
   }
 
-  // [routerLink]="['/sales-management/prescription-detail/', idChoice]"
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function getEmitChange
+ * */
   getEmitChange() {
     if (this.idChoice == '') {
       this.toastr.warning('Vui lòng chọn đơn thuốc !', 'Cảnh báo', {
