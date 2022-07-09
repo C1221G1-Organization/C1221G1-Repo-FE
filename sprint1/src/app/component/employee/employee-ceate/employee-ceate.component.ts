@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {ToastrService} from 'ngx-toastr';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {Employee} from '../../../model/employee/employee';
 import {PositionService} from '../../../service/employee/position.service';
 import {Position} from '../../../model/employee/position';
-
 
 @Component({
   selector: 'app-employee-ceate',
@@ -16,6 +16,7 @@ import {Position} from '../../../model/employee/position';
   styleUrls: ['./employee-ceate.component.css']
 })
 export class EmployeeCeateComponent implements OnInit {
+
   employeeFormCreate: FormGroup;
   employee: Employee[] = [];
   position: Position[] = [];
@@ -32,16 +33,17 @@ export class EmployeeCeateComponent implements OnInit {
   constructor(private  employeeService: EmployeeService,
               private positionService: PositionService,
               private router: Router,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
+              @Inject(AngularFireStorage) private storage: AngularFireStorage,
+              private toastr: ToastrService) {
     this.employeeFormCreate = new FormGroup({
       employeeId: new FormControl('Auto save'),
       // tslint:disable-next-line:max-line-length
       employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       employeeImage: new FormControl('', [Validators.required, Validators.pattern('(\\S.*\\.(?:png$|jpg$))')]),
       // tslint:disable-next-line:max-line-length
-      employeeAddress: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      employeeAddress: new FormControl('', [Validators.required]),
       // tslint:disable-next-line:max-line-length
-      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+      employeePhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|9]|7[0|6-9]|8[0-6|9]|9[0-4|6-9])[0-9]{7}$')]),
       employeeDateStart: new FormControl('', [Validators.required]),
       employeeNote: new FormControl(''),
       flag: new FormControl(''),
@@ -91,22 +93,28 @@ export class EmployeeCeateComponent implements OnInit {
   Function:  Save Employee
 */
   onSubmit() {
+    if (!this.employeeFormCreate.valid) {
+      this.employeeFormCreate.markAllAsTouched();
+    }
     const employee = this.employeeFormCreate.value;
-    console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
       fileRef.getDownloadURL().subscribe(url => {
         this.employeeFormCreate.patchValue(employee.employeeImage = url);
-        console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
-          alert('thành công');
+          this.toastr.success('Thêm Mới Thành Công !', '', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.router.navigateByUrl('/employee/list');
         }, error => {
-          this.errorUser = error.error.errorMap.usersName;
-          console.log(this.errorUser);
-          this.errorImage = error.error.errorMap.employeeImage;
-          console.log(this.errorImage);
+          this.toastr.warning('Thêm Mới Thất Bại !', '', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.errorUser = error.error?.errorMap?.usersName;
         });
       });
     })).subscribe();
@@ -123,7 +131,6 @@ export class EmployeeCeateComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('11');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
   }
@@ -152,11 +159,9 @@ Function:  Show image on firebase
         this.giveURLtoCreate.emit(this.downloadURL);
         this.checkUploadAvatar = false;
         this.listIMG.push(url);
-        console.log('LIST ==> ', this.listIMG);
         for (let i = 0; i < this.listIMG.length; i++) {
           this.myMap.set(i, this.listIMG[i]);
         }
-        console.log('map ---> ', this.myMap);
       });
     })).subscribe();
   }

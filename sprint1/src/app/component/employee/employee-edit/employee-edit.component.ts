@@ -50,7 +50,7 @@ export class EmployeeEditComponent implements OnInit {
     this.employeeFormEdit = new FormGroup({
       employeeId: new FormControl(''),
       // tslint:disable-next-line:max-line-length
-      employeeName: new FormControl('', [Validators.required, Validators.pattern('^([(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+)((\\s{1}[(A-Z{1}+)][a-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ]+){1,})$')]),
+      employeeName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
       employeeImage: new FormControl(''),
       employeeAddress: new FormControl('', [Validators.required]),
       // tslint:disable-next-line:max-line-length
@@ -130,39 +130,34 @@ export class EmployeeEditComponent implements OnInit {
     }
     const employee = this.employeeFormEdit.value;
     console.log(this.valueEmployee);
-    console.log(employee);
     console.log(Object.is(employee.toString(), this.valueEmployee.toString()));
 
     if (this.employeeFormEdit.valid) {
       if ((this.selectedImage == null && employee.employeeImage.length > 0)) {
         this.employeeService.updateEmployee(id, employee).subscribe(() => {
-          this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+          this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/employee/list');
         });
       } else {
-        console.log(employee);
         const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
         const fileRef = this.storage.ref(nameImg);
         this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             this.employeeFormEdit.patchValue(employee.employeeImage = url);
-            console.log(url);
 // Call API to update
             this.employeeFormEdit.patchValue(employee.employeeImage = url);
             this.employeeService.updateEmployee(id, employee).subscribe(() => {
-              this.toastr.success('Chỉnh Sửa Thành Công !', 'Chỉnh sửa nhân viên', {
+              this.toastr.success('Chỉnh Sửa Thành Công !', 'Thông báo', {
                 timeOut: 3000,
                 progressBar: true
               });
               this.router.navigateByUrl('/employee/list');
             }, error => {
               this.errorUser = error.error.errorMap.usersName;
-              console.log(this.errorUser);
               this.errorImage = error.error.errorMap.employeeImage;
-              console.log(this.errorImage);
             });
           });
         })).subscribe();
@@ -180,7 +175,6 @@ export class EmployeeEditComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('lớn hơn  ');
       this.employeeFormEdit.get('employeeDateStart').setErrors({check: true});
     }
   }
@@ -210,11 +204,9 @@ Function:  Show image on firebase
           this.giveURLtoCreate.emit(this.downloadURL);
           this.checkUploadAvatar = false;
           this.listIMG.push(url);
-          console.log('LIST ==> ', this.listIMG);
           for (let i = 0; i < this.listIMG.length; i++) {
             this.myMap.set(i, this.listIMG[i]);
           }
-          console.log('map ---> ', this.myMap);
         });
       })).subscribe();
   }

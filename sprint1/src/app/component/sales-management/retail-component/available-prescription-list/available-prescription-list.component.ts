@@ -51,15 +51,14 @@ export class AvailablePrescriptionListComponent implements OnInit {
       this.last = (data.pageable.offset + data.pageable.pageSize) >= data.totalElements;
     }, error => {
       this.prescriptions = [];
-      console.log(error);
       this.message = true;
     });
   }
 
   previous() {
     if (this.page > 0) {
-      this.retailService.getAllPrescription(this.page - 1, this.id = '',
-        this.names = '', this.target = '', this.symptom = '').subscribe(
+      this.retailService.getAllPrescription(this.page - 1, this.id ,
+        this.names , this.target , this.symptom ).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -74,8 +73,8 @@ export class AvailablePrescriptionListComponent implements OnInit {
 
   next() {
     if (this.page < this.totalPages - 1) {
-      this.retailService.getAllPrescription(this.page + 1, this.id = '', this.names = '',
-        this.target = '', this.symptom = '').subscribe(
+      this.retailService.getAllPrescription(this.page + 1, this.id, this.names,
+        this.target, this.symptom).subscribe(
         (data: any) => {
           this.prescriptions = data.content;
           this.page = data.number;
@@ -100,7 +99,6 @@ export class AvailablePrescriptionListComponent implements OnInit {
       console.log(this.idChoice);
     } else {
       this.idChoice = '';
-      console.log(this.idChoice);
     }
   }
 

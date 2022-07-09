@@ -1,7 +1,7 @@
+import {ReportService} from "../../../service/report.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 import {Component, OnInit} from '@angular/core';
-import {ReportService} from '../../../service/report.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-report-list',
@@ -10,10 +10,8 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class ReportListComponent implements OnInit {
   reportForm: FormGroup;
-
   constructor(private reportService: ReportService,
-              private toastr: ToastrService) {
-  }
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reportForm = new FormGroup({
@@ -36,7 +34,7 @@ export class ReportListComponent implements OnInit {
       // */
       if (this.reportForm.valid && this.reportForm.value.startTime <= this.reportForm.value.endTime) {
         this.reportService.getRevenue(this.reportForm.value.startTime, this.reportForm.value.endTime)
-          .subscribe(revenues => {
+          .subscribe( revenues => {
             console.log(revenues);
             if (revenues == null) {
               revenues = [];
@@ -61,7 +59,7 @@ export class ReportListComponent implements OnInit {
       // * @Time 15:30 04/07/2022
       // */
       this.reportService.getSupplierHaveReceivable()
-        .subscribe(supplierHaveReceivable => {
+        .subscribe( supplierHaveReceivable => {
           this.reportService.exportExcel(supplierHaveReceivable, 'Công nợ nhà cung cấp');
           this.toastr.success('Tải thành công!', 'Thông báo', {
             timeOut: 3000,
@@ -76,7 +74,7 @@ export class ReportListComponent implements OnInit {
       // */
       if (this.reportForm.valid && this.reportForm.value.startTime <= this.reportForm.value.endTime) {
         this.reportService.getRevenueByEmployee(this.reportForm.value.startTime, this.reportForm.value.endTime)
-          .subscribe(revenueByEmployee => {
+          .subscribe( revenueByEmployee => {
             if (revenueByEmployee == null) {
               revenueByEmployee = [];
             }
@@ -100,7 +98,7 @@ export class ReportListComponent implements OnInit {
       // * @Time 15:30 04/07/2022
       // */
       this.reportService.getMedicineNeedToImport()
-        .subscribe(medicineNeedToImport => {
+        .subscribe( medicineNeedToImport => {
           this.reportService.exportExcel(medicineNeedToImport, 'Danh sách thuốc cần nhập thêm');
           this.toastr.success('Tải thành công!', 'Thông báo', {
             timeOut: 3000,
@@ -114,7 +112,7 @@ export class ReportListComponent implements OnInit {
       // * @Time 15:30 04/07/2022
       // */
       this.reportService.getMedicineBeAboutExpired()
-        .subscribe(medicineBeAboutExpired => {
+        .subscribe( medicineBeAboutExpired => {
           // console.log(medicineBeAboutExpired);
           this.reportService.exportExcel(medicineBeAboutExpired, 'Danh sách thuốc sắp hết hạn');
           this.toastr.success('Tải thành công!', 'Thông báo', {
@@ -129,7 +127,7 @@ export class ReportListComponent implements OnInit {
       // * @Time 15:30 04/07/2022
       // */
       this.reportService.getTopMedicine()
-        .subscribe(topMedicine => {
+        .subscribe( topMedicine => {
           this.reportService.exportExcel(topMedicine, 'Top 100 thuốc bán chạy');
           this.toastr.success('Tải thành công!', 'Thông báo', {
             timeOut: 3000,

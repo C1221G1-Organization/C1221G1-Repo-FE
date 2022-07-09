@@ -11,5 +11,5 @@ export interface MedicineBestSeller {
   soldQuantity: number;
   medicineImage: string;
   medicineTypeName: string;
-
+  medicineQuantity:number;
 }

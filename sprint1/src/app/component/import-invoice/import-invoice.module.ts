@@ -10,10 +10,10 @@ import {ImportInvoiceCreateComponent} from './import-invoice-create/import-invoi
   declarations: [ImportInvoiceListComponent,
     ImportInvoiceCreateComponent
   ],
-  exports: [
+  exports     : [
     ImportInvoiceListComponent,
   ],
-  imports: [
+  imports     : [
     CommonModule,
     ImportInvoiceRoutingModule,
     ReactiveFormsModule,
