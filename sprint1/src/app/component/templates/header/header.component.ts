@@ -41,9 +41,11 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     if (localStorage.getItem('cart')) {
       this.cartDetailDtos = JSON.parse(localStorage.getItem('cart'));
+      this.productQuantityInCart += this.cartDetailDtos.length;
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.productQuantityInCart = 0;
     }
-    this.productQuantityInCart += this.cartDetailDtos.length;
-    this.changeDetectorRef.detectChanges();
     this.ngOnInit()
   }
 

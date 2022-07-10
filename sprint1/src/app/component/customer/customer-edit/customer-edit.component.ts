@@ -49,7 +49,6 @@ export class CustomerEditComponent implements OnInit {
     return this.customerService.findById(index).subscribe(item => {
       this.customer = item;
       this.updateForm.patchValue(item);
-      console.log(this.updateForm.value);
     }, error => {
       this.toastr.warning('Không tìm thấy mã khách hàng ! ', '', {
         timeOut: 3000,
@@ -58,6 +57,7 @@ export class CustomerEditComponent implements OnInit {
       this.router.navigateByUrl('customer/list');
     });
   }
+
   compareWithId(item1, item2) {
     return item1 && item2 && item1.customerId === item2.customerId;
   }
@@ -73,15 +73,14 @@ export class CustomerEditComponent implements OnInit {
     const value = this.updateForm.value;
     this.customerService.update(index, value).subscribe(() => {
       }, error => {
-        // alert("Bắt buộc phải nhập đúng thông tin")
-        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', '', {
+        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });
 
       },
       () => {
-        this.toastr.success('Chỉnh sửa thành công !', '', {
+        this.toastr.success('Chỉnh sửa thành công !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });
@@ -92,7 +91,6 @@ export class CustomerEditComponent implements OnInit {
   getList() {
     this.customerTypeService.getAllCustomerType().subscribe(list => {
       this.customerTypeList = list;
-      console.log(this.customerTypeList);
     });
     this.getCustomer(this.customerId);
   }

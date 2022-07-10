@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {TokenStorageService} from "../../../../service/security/token-storage.service";
+import {Employee} from "../../../../model/employee/employee";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -24,32 +26,34 @@ export class RetailComponent implements OnInit {
   note: string;
   localDateTime: any;
   totalMoney = 0;
-  idDelete = '';
   nameDelete: string;
-  index: number;
-  flagHover = false;
-  deleteMedicineChoiceArr: any = [];
-  // dùng cho thêm thuốc
   isDisabled = true;
-  // disable tất cả các trường ko cho đụng vào
   disableFlag = true;
-  deleteErr: string;
   printInvoice: string;
   arrPDF = [];
+  user: any;
+  employee: Employee;
+  isComplete = false;
+  listPrintPDF = [];
+  totalMoneyPrint = 0;
+  selectedRowIds: Set<String> = new Set<String>();
+  listDeletedName: Set<String> = new Set<String>();
 
   constructor(private retailService: RetailService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
     this.invoiceForm = new FormGroup({
       medicineSale: new FormControl('', [Validators.required]),
-      quantity: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.pattern('[0-9]*')]),
       unit: new FormControl('', [Validators.required])
     })
     this.getMedicineDto();
     this.localDateTime = new Date().toLocaleDateString();
+    this.getEmployee();
   }
 
   /*
@@ -59,7 +63,6 @@ export class RetailComponent implements OnInit {
 * */
   getMedicineDto() {
     this.retailService.getMedicineDto().subscribe(medicineSales => {
-      console.log(medicineSales)
       this.medicineSales = medicineSales;
     }, error => {
       console.log(error)
@@ -72,12 +75,11 @@ export class RetailComponent implements OnInit {
 * Function: function addListMedicine
 * */
   addListMedicine() {
+    this.listPrintPDF = [];
     let idChoice = this.invoiceForm.value.medicineSale.medicineId;
     let nameChoice = this.invoiceForm.value.medicineSale.medicineName;
     let quantityChoice = this.invoiceForm.value.quantity;
-    console.log(quantityChoice);
     let unitChoice = this.invoiceForm.value.unit;
-    console.log(unitChoice);
     let priceChoice: number;
     if (unitChoice == 'vien') {
       priceChoice = Math.floor(1 * this.invoiceForm.value.medicineSale.retailPrice);
@@ -98,8 +100,9 @@ export class RetailComponent implements OnInit {
     };
     const myArray = this.listMedicineChoice;
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == undefined || idChoice == '' || idChoice == null || nameChoice == '' || quantityChoice == ''
-      || unitChoice == '' || test.length > 0 || quantityChoice < 1) {
+    if (idChoice == undefined || idChoice == '' || idChoice == null ||
+      nameChoice == '' || quantityChoice == '' || unitChoice == '' || test.length > 0
+      || quantityChoice < 1 || unitChoice != 'vien' && unitChoice != 'vi' && unitChoice != 'hop') {
       flag = true;
     } else {
       flag = false;
@@ -110,9 +113,9 @@ export class RetailComponent implements OnInit {
     } else {
       this.isDisabled = true;
     }
-    console.log(this.listMedicineChoice);
     this.getTotalMoney();
     this.resetForm();
+    this.ngOnInit();
   }
 
   /*
@@ -134,7 +137,6 @@ export class RetailComponent implements OnInit {
 * Function: function createRetailInvoice
 * */
   createRetailInvoice() {
-    // this.listMedicineChoice = [];
     for (let medicine of this.listMedicineChoice) {
       let invoiceMedicineDto: any = {
         medicineId: medicine.medicineId,
@@ -144,11 +146,10 @@ export class RetailComponent implements OnInit {
     }
     let invoiceDto: any = {
       customerId: 'KH-00001',
-      employeeId: 'NV-00001',
+      employeeId: this.employee.employeeId,
       invoiceNote: this.note,
       invoiceMedicineList: this.invoiceMedicineDtos
     };
-    console.log(invoiceDto);
     if (invoiceDto.invoiceMedicineList.length < 1) {
       this.toastr.warning("Danh sách thuốc trống !", "Cảnh báo", {
         timeOut: 3000,
@@ -157,22 +158,23 @@ export class RetailComponent implements OnInit {
     } else {
       this.retailService.createRetailInvoice(invoiceDto).subscribe(
         () => {
-          this.toastr.success("Thêm Mới Thành Công !", "Thông báo", {
+          this.toastr.success("Thanh toán thành công !", "Thông báo", {
             timeOut: 3000,
             progressBar: true
           });
-          this.totalMoney = 0;
-          this.listMedicineChoice = [];
-          this.invoiceMedicineDtos = [];
+          for (let item of this.listMedicineChoice) {
+            this.listPrintPDF.push(item);
+          }
+          this.isComplete = true;
+          this.totalMoneyPrint = this.totalMoney;
+          this.resetCreateForm();
         }, error => {
           console.log(error);
           this.toastr.warning(error.error.errors, "Cảnh báo", {
             timeOut: 3000,
             progressBar: true
           });
-          this.totalMoney = 0;
-          this.listMedicineChoice = [];
-          this.invoiceMedicineDtos = [];
+          this.resetCreateForm();
         }
       )
     }
@@ -191,91 +193,55 @@ export class RetailComponent implements OnInit {
   }
 
   /*
- * Created by DaLQA
- * Time: 10:30 AM 3/07/2022
- * Function: function multipleExist
- * */
-  activeProjectIndex: number;
-
-  activeProject(k: number, item: any) {
-    if (this.activeProjectIndex != k) {
-      this.flagHover = true;
-    } else {
-      this.flagHover = !this.flagHover;
-    }
-    this.activeProjectIndex = k;
-    if (this.flagHover == true) {
-      this.idDelete = item.medicineId;
-      this.nameDelete = item.medicineName;
-      console.log(this.idDelete);
-    } else {
-      this.idDelete = '';
-      this.deleteErr = "Bạn chưa chọn thuốc để xóa!"
-      console.log(this.idDelete);
-    }
-  }
-
-  /*
 * Created by DaLQA
 * Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
-* */
-  deleteMedicine(closeModal: HTMLButtonElement) {
-    if (this.idDelete != '') {
-      this.listMedicineChoice = this.listMedicineChoice.filter(
-        (item) => {
-          return item.medicineId != this.idDelete;
-        });
-      this.resetIdAndName();
-      this.toastr.success("Xóa thành công !", "Thông báo", {
-        timeOut: 3000,
-        progressBar: true
-      });
-      this.deleteMedicineChoiceArr = [];
-      console.log(this.listMedicineChoice);
-      this.getTotalMoney();
-      closeModal.click();
-    }
-  }
-
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
-* */
-  resetIdAndName() {
-    this.idDelete = '';
-    this.nameDelete = '';
-  }
-
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
+* Function: function changeIsDisabled
 * */
   changeIsDisabled() {
     this.isDisabled = false;
-    console.log(this.isDisabled);
   }
 
-  print(yes: string) {
-    this.arrPDF.push( ['Sản phẩm','Số lượng', 'Giá tiền(VND)' , 'Tổng tiền(VND)'],);
-    for (let item of this.listMedicineChoice){
-      this.arrPDF.push([item.medicineName,item.quantity,item.retailPrice,item.money]);
-    }
-    if(this.listMedicineChoice.length > 0){
-      this.printInvoice = yes;
-      this.generatePDF(this.printInvoice);
-    }else {
-      this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function print
+* */
+  print() {
+    if (this.isComplete == true) {
+      if (this.listPrintPDF.length > 0) {
+        this.arrPDF.push(['Sản phẩm', 'Số lượng', 'Giá tiền(VND)', 'Thành tiền(VND)'],);
+        for (let item of this.listPrintPDF) {
+          this.arrPDF.push(
+            [item.medicineName,
+              item.quantity,
+              item.retailPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}),
+              item.money.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})]
+          );
+        }
+        this.printInvoice = 'yes';
+        this.generatePDF(this.printInvoice);
+      } else {
+        this.toastr.warning("Vui lòng chọn thuốc trước khi in hóa đơn !", "Cảnh báo", {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }
+      this.arrPDF = [];
+      this.totalMoneyPrint = 0;
+    } else {
+      this.toastr.warning("Vui lòng chọn thanh toán khi in hóa đơn !", "Cảnh báo", {
         timeOut: 3000,
         progressBar: true
       });
     }
-    this.arrPDF = [];
   }
 
-  private generatePDF(action: string) {
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function generatePDF
+* */
+  generatePDF(action: string) {
     console.log(this.listMedicineChoice);
     const docDefinition = {
       content: [
@@ -313,7 +279,7 @@ export class RetailComponent implements OnInit {
             // headers are automatically repeated if the table spans over multiple pages
             // you can declare how many rows should be treated as headers
             headerRows: 1,
-            widths: [ '*', 'auto',100 , '*' ],
+            widths: ['*', 'auto', 100, '*'],
             body: this.arrPDF
           }
         },
@@ -323,20 +289,20 @@ export class RetailComponent implements OnInit {
         },
         {
           columns: [
-            [this.totalMoney + ' VND'] ,
+            [this.totalMoneyPrint.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})],
           ]
         },
-
         {
-          text: 'Chi tiết bổ sung:',
+          text: 'Người lập hóa đơn:',
           style: 'sectionHeader',
           color: '#865604'
         },
         {
           columns: [
-            [{qr: `lqad1649engineer@gmail.com`, fit: '50'}],
+            [this.employee.employeeName],
           ]
         },
+
         {
           text: 'Các điều khoản và điều kiện:',
           style: 'sectionHeader',
@@ -356,11 +322,99 @@ export class RetailComponent implements OnInit {
           decoration: 'underline',
           fontSize: 14,
           margin: [0, 15, 0, 15]
-        }
+        },
       }
     };
     if (action === 'yes') {
-      pdfMake.createPdf(docDefinition).download();
+      pdfMake.createPdf(docDefinition).download('hoa_don.pdf');
+    }
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function getEmployee
+* */
+  getEmployee() {
+    this.user = this.tokenStorageService.getUser();
+    this.retailService.getListEmployee().subscribe(employees => {
+      employees.forEach(e => {
+        if (e.employeeUsername.username == this.user.username) {
+          this.employee = e;
+        }
+      });
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function onRowClick get medicineId when click a random row
+* */
+  onRowClick(medicineId: string) {
+    if (this.selectedRowIds.has(medicineId)) {
+      this.selectedRowIds.delete(medicineId);
+    } else {
+      this.selectedRowIds.add(medicineId);
+    }
+    console.log(this.selectedRowIds);
+    this.getNameDelete();
+  }
+
+  rowIsSelected(id: string) {
+    return this.selectedRowIds.has(id);
+  }
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function deleteLotsOfMedicine
+ * */
+  deleteLotsOfMedicine(closeModal: HTMLButtonElement) {
+    if (this.selectedRowIds.size > 0) {
+      for (let id of this.selectedRowIds) {
+        this.listMedicineChoice = this.listMedicineChoice.filter(
+          (item) => {
+            return item.medicineId != id;
+          });
+        this.selectedRowIds.delete(id);
+      }
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.listDeletedName.clear();
+      this.getTotalMoney();
+      closeModal.click();
+    }
+  }
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function resetCreateForm
+ * */
+  resetCreateForm() {
+    this.listMedicineChoice = [];
+    this.invoiceMedicineDtos = [];
+    this.totalMoney = 0;
+  }
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: function getNameDelete
+ * */
+  getNameDelete() {
+    for (let id of this.selectedRowIds) {
+      for (let item of this.listMedicineChoice) {
+        if (item.medicineId == id && !this.listDeletedName.has(item.medicineName)) {
+          this.listDeletedName.add(item.medicineName);
+        }
+      }
     }
   }
 }
+

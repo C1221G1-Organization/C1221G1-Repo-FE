@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   roles: [];
   types: string;
   isSignIn: boolean = false;
-
+  errorMap:any;
   constructor(private securityService: SecurityService,
               private route: Router,
               private tokenStorageService: TokenStorageService,
@@ -54,9 +54,9 @@ export class LoginComponent implements OnInit {
       this.roles = user.roles;
       this.userName = user.username;
     }
-    if (this.isSignIn) {
-      this.route.navigateByUrl('/').then();
-    }
+    // if (this.isSignIn) {
+    //   this.route.navigateByUrl('/').then();
+    // }
   }
 
   submitSignIn() {
@@ -80,18 +80,30 @@ export class LoginComponent implements OnInit {
             timeOut: 1000, tapToDismiss: true,
           })
           this.signInForm.reset();
-          setTimeout(() => {
-            this.roles.forEach(role => {
-              if (role === 'ROLE_USER') {
-                this.route.navigateByUrl('/home-page').then();
-              } else {
-                this.route.navigateByUrl('/').then();
-              }
-            })
 
-          }, 1000)
+          this.roles.forEach(role => {
+            if (role === 'ROLE_USER') {
+              this.route.navigateByUrl('/home-page').then();
+            } else {
+              this.route.navigateByUrl('/sales-management/retail').then();
+            }
+          })
 
-        })
+
+        },
+        error => {
+          console.log(error);
+          if(error.status == 403){
+            this.toast.warning("Mật khẩu không chính xác","Lỗi Đăng Nhập");
+          }else{
+            if(error.error?.errorMap?.notExists){
+              this.toast.warning(error.error.errorMap['notExists'],"Lỗi Đăng Nhập");
+            }else{
+              this.errorMap = error.error.errorMap;
+            }
+          }
+        }
+      )
     }
   }
 

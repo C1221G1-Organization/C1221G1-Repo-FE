@@ -32,11 +32,11 @@ export class MedicineCreateComponent implements OnInit {
   validationMessages = {
     medicineName: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt'},
     ],
     medicineActiveIngredients: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineImportPrice: [
       {type: 'required', message: 'Không được để trống.'},
@@ -64,19 +64,19 @@ export class MedicineCreateComponent implements OnInit {
     ],
     medicineManufacture: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineUsage: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineInstruction: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineAgeApproved: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineImage: [
       {type: 'pattern', message: 'phải là định dạng ảnh jpg, png, gif, bmp.'},
@@ -125,9 +125,7 @@ export class MedicineCreateComponent implements OnInit {
           (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineActiveIngredients: new FormControl('',
         [Validators.compose([
-          Validators.required,
-          Validators.pattern
-          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineImportPrice: new FormControl('',
         [Validators.compose([
           Validators.required,
@@ -155,20 +153,16 @@ export class MedicineCreateComponent implements OnInit {
           Validators.pattern(/^[1-9][0-9]?$/)])]),
       medicineManufacture: new FormControl('',
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineUsage: new FormControl('',
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineInstruction: new FormControl('',
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineAgeApproved: new FormControl('',
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineImage: new FormControl(''),
       medicineDescription: new FormControl(''),
       medicineOrigin: new FormControl('',
@@ -254,6 +248,16 @@ export class MedicineCreateComponent implements OnInit {
     this.submit = true;
     if (this.medicineCreateForm.valid) {
       this.isLoading = true;
+      if (this.selectedImage == null) {
+        this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
+          this.isLoading = false;
+          this.toastrService.success('Bạn đã thêm mới thành công !', 'Thêm mới');
+          this.route.navigateByUrl('/medicine/list');
+        }, error => {
+          this.isLoading = false;
+          this.toastrService.error('Bạn đã cố gắng làm gì đó dẫn tới thêm mới thất bại !', 'Thêm mới');
+        });
+      }
       this.nameImg = this.getCurrentDateTime() + this.selectedImage.name;
       this.fileRef = this.storage.ref(this.nameImg);
       this.storage.upload(this.nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
@@ -264,7 +268,7 @@ export class MedicineCreateComponent implements OnInit {
           this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
             this.isLoading = false;
             this.toastrService.success('Bạn đã thêm mới thành công !', 'Thêm mới');
-            // this.route.navigateByUrl('/list');
+            this.route.navigateByUrl('/medicine/list');
           }, error => {
             this.isLoading = false;
             this.toastrService.error('Bạn đã cố gắng làm gì đó dẫn tới thêm mới thất bại !', 'Thêm mới');

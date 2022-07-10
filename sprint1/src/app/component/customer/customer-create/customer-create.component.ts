@@ -40,7 +40,6 @@ export class CustomerCreateComponent implements OnInit {
         , this.checkDuplicatePhone(this.customerService),
       ),
       customerNote: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-      // customerUsername: new FormControl(),
       customerType: new FormControl('', [Validators.required]),
     });
   }
@@ -61,14 +60,14 @@ export class CustomerCreateComponent implements OnInit {
 
     this.customerService.create(customer).subscribe(() => {
       }, error => {
-        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', '', {
+        this.toastr.warning('Bắt buộc phải nhập đúng thông tin !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });
 
       },
       () => {
-        this.toastr.success('Thêm mới thành công !', '', {
+        this.toastr.success('Thêm mới thành công !', 'Thông báo', {
           timeOut: 3000,
           progressBar: true
         });

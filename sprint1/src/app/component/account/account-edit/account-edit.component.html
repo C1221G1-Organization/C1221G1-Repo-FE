@@ -54,9 +54,10 @@
                 <input class="form-control" type="password" formControlName="password">
                 <small *ngIf="updateForm.controls.password.hasError('required')
                && updateForm.controls.password.dirty" style="color: red"> Không được để trống.</small>
+
                 <small *ngIf="updateForm.controls.password.hasError('pattern')
                && updateForm.controls.password.touched" style="color: red">
-                  Ít nhất 8 ký tự, ít nhất 1 chữ viết hoa, 1 chữ viết thường và 1 số. </small>
+                  Ít nhất 6 ký tự, ít nhất 1 chữ viết hoa, 1 chữ viết thường và 1 số. </small>
               </div>
             </div>
             <hr>

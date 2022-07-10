@@ -34,7 +34,6 @@ export const config = {
   databaseURL: 'https://c1221g1-pharmacy-default-rtdb.asia-southeast1.firebasedatabase.app',
   measurementId: 'G-904D7C7FF4'
 };
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

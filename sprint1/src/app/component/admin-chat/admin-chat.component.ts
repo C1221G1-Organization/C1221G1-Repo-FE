@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import firebase from "firebase/app";
 import "firebase/database";
 import {Title} from '@angular/platform-browser';
@@ -33,25 +33,39 @@ export class AdminChatComponent implements OnInit {
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
   ];
+  latestMessagePostTime: number;
+
+  constructor(private title: Title) {
+    if (localStorage.getItem('latestMessagePostTime')) {
+      this.latestMessagePostTime = Number(localStorage.getItem('latestMessagePostTime'));
+    } else {
+      this.latestMessagePostTime = 0;
+      localStorage.setItem('latestMessagePostTime', this.latestMessagePostTime + "");
+    }
+  }
 
   /**
    * @Author NghiaNTT
    * @Time: 03/07/2022
    * @return retrieve rooms from Rooms FRD and sort by lastMessagePost time
    */
-  constructor(private title: Title) {
+  ngOnInit(): void {
+    // this.chatRoomList.nativeElement.scrollIntoView({ behavior: "smooth", block:'nearest' });
+    this.title.setTitle("Pharmacode | Hỗ trợ khách hàng");
     firebase.database().ref('rooms/').on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
       this.rooms.sort((a, b) => b.lastMessagePost - a.lastMessagePost);
+      if (this.rooms[0].lastMessagePost > this.latestMessagePostTime
+        && this.rooms[0].isSeen == false) {
+        console.log('sound admin' + this.latestMessagePostTime);
+        this.playAudio();
+        this.latestMessagePostTime = this.rooms[0].lastMessagePost;
+        localStorage.setItem('latestMessagePostTime', this.latestMessagePostTime + "");
+      }
     });
   }
 
-
-  ngOnInit(): void {
-    this.chatRoomList.nativeElement.scrollIntoView({ behavior: "smooth", block:'nearest' });
-    this.title.setTitle("Pharmacode | Hỗ trợ khách hàng");
-  }
   /**
    * @Author NghiaNTT
    * @Time: 06/07/2022
@@ -64,6 +78,7 @@ export class AdminChatComponent implements OnInit {
       firebase.database().ref('rooms/' + uuid).update({...room, isSeen: true});
     });
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 06/07/2022
@@ -78,6 +93,7 @@ export class AdminChatComponent implements OnInit {
     const index = Math.abs(hash % this.colors.length);
     return this.colors[index];
   }
+
   /**
    * @Author NghiaNTT
    * @Time: 06/07/2022
@@ -89,43 +105,55 @@ export class AdminChatComponent implements OnInit {
     let last: number;
     let roundup: number;
     if (diff < MINUTE_MILLIS) {
-      return "just now";
+      return "gần đây";
     } else if (diff < 2 * MINUTE_MILLIS) {
-      return "a minute ago";
+      return "1 phút trước";
     } else if (diff < 50 * MINUTE_MILLIS) {
       roundup = diff / MINUTE_MILLIS;
       last = Math.floor(roundup);
-      return last + " minutes ago";
+      return last + " phút trước";
     } else if (diff < 90 * MINUTE_MILLIS) {
-      return "an hour ago";
+      return "1 giờ trước";
     } else if (diff < 24 * HOUR_MILLIS) {
       roundup = diff / HOUR_MILLIS;
       last = Math.floor(roundup);
-      return last + " hours ago";
+      return last + " giờ trước";
     } else if (diff < 48 * HOUR_MILLIS) {
-      return "yesterday";
+      return "hôm qua";
     } else if (diff < 7 * DAY_MILLIS) {
       roundup = diff / DAY_MILLIS;
       last = Math.floor(roundup);
-      return last + " days ago";
+      return last + "ngày trước";
     } else if (diff < 2 * WEEK_MILLIS) {
-      return "a week ago";
+      return "1 tuần trước";
     } else if (diff < DAY_MILLIS * 30.43675) {
       roundup = diff / (DAY_MILLIS * 30.43675);
       last = Math.floor(roundup);
-      return last + " weeks ago";
+      return last + "tuần";
     } else if (diff < 2 * MONTH_MILLIS) {
-      return "a month ago";
+      return "1 tháng trước";
     } else if (diff < WEEK_MILLIS * 52.2) {
       roundup = diff / (WEEK_MILLIS * 52.2);
       last = Math.floor(roundup);
-      return last + " months ago";
+      return last + " tháng trước";
     } else if (diff < 2 * YEAR_MILLIS) {
-      return "a year ago";
+      return "1 năm trước";
     } else {
       roundup = diff / (YEAR_MILLIS * 2);
       last = Math.floor(roundup);
-      return last + " years ago";
+      return last + " năm trước";
     }
   }
+  /**
+   * @Author NghiaNTT
+   * @Time: 07/07/2022
+   * @return play sound
+   */
+  playAudio() {
+    let audio = new Audio();
+    audio.src = "../../../assets/audio/noti.wav";
+    audio.load();
+    audio.play();
+  }
+
 }
