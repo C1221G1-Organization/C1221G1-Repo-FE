@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.signInForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.pattern('((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,50})')]),
+      username: new FormControl('', [Validators.required,Validators.maxLength(50),Validators.minLength(16),Validators.email]),
+      password: new FormControl('', [Validators.required,Validators.maxLength(50),Validators.minLength(6)]),
       remember: new FormControl(''),
     })
     if (this.tokenStorageService.getToken()) {

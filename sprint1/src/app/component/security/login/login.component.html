@@ -21,6 +21,19 @@
              *ngIf="signInForm.controls.username.hasError('required') &&
              (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
           >Vui lòng không để trống.</p>
+
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="signInForm.controls.username.hasError('minlength') &&
+             (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
+          >Tài khoản quá ngắn vui lòng thử lại</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="signInForm.controls.username.hasError('maxlength') &&
+             (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
+          >Tài khoản quá dài vui lòng thử lại</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="signInForm.controls.username.hasError('email') &&
+             (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
+          >Không đúng định dạng email</p>
           <p class="col-12 text-right text-danger m-0 p-0"
              *ngIf="errorMap && (signInForm.controls.username.touched ||signInForm.controls.username.dirty)"
           >{{errorMap['username']}}</p>
@@ -37,6 +50,14 @@
              &&
              (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
           >Vui lòng không để trống.</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="signInForm.controls.password.hasError('minlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+          >Mật khẩu quá ngắn vui lòng thử lại</p>
+          <p class="col-12 text-right text-danger m-0 p-0"
+             *ngIf="signInForm.controls.password.hasError('maxlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+          >Mật khẩu quá dài vui lòng thử lại</p>
           <p class="col-12 text-right text-danger m-0 p-0"
              *ngIf="signInForm.controls.password.hasError('pattern')
              &&

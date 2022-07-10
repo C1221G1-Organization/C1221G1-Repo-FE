@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
   token:any;
   user:any;
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.user = this.tokenStorageService.getUser();
+    // this.user = this.tokenStorageService.getUser();
     let authReq = request;
     this.token = this.tokenStorageService.getToken();
     if(this.token!==null){
@@ -30,19 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       })
     }
-    // if (this.token.getUser() != null) {
-    //   this.token = this.tokenStorageService.getUser().token;
-    // } else {
-    //   this.token = '';
-    // }
-    // if (this.token != null) {
-    //   authReq = request.clone({
-    //     setHeaders: {
-    //       Authorization: `Bearer ${this.token}`,
-    //       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-    //     },
-    //   });
-    // }
     return next.handle(authReq);
   }
 
