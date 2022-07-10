@@ -7,6 +7,8 @@ import {AvailablePrescriptionListComponent} from "./retail-component/available-p
 import {PrescriptionDetailComponent} from "./retail-component/prescription-detail/prescription-detail.component";
 import {WholesaleComponent} from "./wholesale-component/wholesale/wholesale.component";
 import { RefundCustomerComponent } from './refund-customer/refund-customer.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
 
 @NgModule({
@@ -17,10 +19,13 @@ import { RefundCustomerComponent } from './refund-customer/refund-customer.compo
     PrescriptionDetailComponent,
     WholesaleComponent,
     RefundCustomerComponent,
+    InvoiceListComponent
   ],
-  imports: [
-    CommonModule,
-    SalesManagementRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        SalesManagementRoutingModule,
+        ReactiveFormsModule,
+        FormsModule
+    ]
 })
 export class SalesManagementModule { }

@@ -1,11 +1,15 @@
-<div class="chatbox-holder" [hidden]="isClosed">
-  <div class="chatbox" [class.chatbox-min]="!isExpanded">
+<div class="chatbox-holder"  [hidden]="isClosed">
+  <div class="chatbox"  [class.chatbox-min]="!isExpanded">
     <div class="chatbox-top">
-      <div class="chat-partner-name">
+      <div class="chat-partner-name" (click)="toggleExpanded()">
         <span class="status online"></span>
-        <a target="_blank" href="#">Chat với Hỗ trợ</a>
+        <a>Chat với Pharmacode</a>
       </div>
       <div class="chatbox-icons">
+        <a  (click)="toggleSound()">
+          <i class="fa-solid fa-volume-high" [hidden]="isMute"></i>
+          <i class="fa-solid fa-volume-xmark" [hidden]="!isMute" ></i>
+        </a>
         <a (click)="toggleExpanded()">
           <i class="fa-regular fa-window-maximize" [hidden]="isExpanded"></i>
           <i class="fa fa-minus" [hidden]="!isExpanded"></i>
@@ -18,36 +22,41 @@
       <div class="get-user-info w-100 d-flex flex-column">
         <form *ngIf="customerForm" [formGroup]="customerForm" (ngSubmit)="onCustomerFormSubmit()">
           <label><strong>Nhập thông tin của bạn *</strong></label>
-          <input formControlName="name" class="form-control mb-2" type="text" placeholder="Nhập tên của bạn">
+          <input formControlName="name" class="form-control mb-1" type="text" placeholder="Nhập tên của bạn">
           <div *ngIf="
               !customerForm.controls.name?.valid
               && (customerForm.controls.name?.dirty ||customerForm.controls.name?.touched)"
                class="text-small text-danger">
             <div [hidden]="!customerForm.controls.name.errors.required">
+              Vui lòng không để trống
             </div>
             <div [hidden]="!customerForm.controls.name.errors.pattern">
+              Vui lòng nhập tên hợp lệ
             </div>
           </div>
-          <input formControlName="phone" class="form-control" type="text" placeholder="Nhập số điện thoại của bạn">
+          <input formControlName="phone" class="form-control mb-1" type="text" placeholder="Nhập số điện thoại của bạn">
           <div *ngIf="
               !customerForm.controls.phone?.valid
               && (customerForm.controls.phone?.dirty ||customerForm.controls.phone?.touched)"
                class="text-small text-danger">
             <div [hidden]="!customerForm.controls.phone.errors.required">
+              Vui lòng không để trống
             </div>
             <div [hidden]="!customerForm.controls.phone.errors.pattern">
+              Vui lòng nhập số điện thoại hợp lệ
             </div>
           </div>
           <label><strong>Tin nhắn *</strong></label>
-          <textarea formControlName="message" class="form-control h-25 mb-5" rows="5"></textarea>
+          <textarea (keyup.enter)="onCustomerFormSubmit()" formControlName="message" class="form-control h-25 mb-1" rows="5"></textarea>
           <div *ngIf="
               !customerForm.controls.message?.valid
               && (customerForm.controls.message?.dirty ||customerForm.controls.message?.touched)"
                class="text-small text-danger">
             <div [hidden]="!customerForm.controls.message.errors.required">
+              Vui lòng không để trống
             </div>
           </div>
-          <button type="submit" [disabled]="!customerForm.valid" class="btn btn-success w-100">
+          <button type="submit" [disabled]="!customerForm.valid" class="btn btn-success submit-button">
             Bắt đầu chat
           </button>
         </form>
@@ -58,7 +67,7 @@
         <div class="message-box-holder"
              *ngFor="let chat of chats"
         >
-          <div class="d-flex flex-column align-self-end" *ngIf="chat.name === userChat.name; else clientChat">
+          <div class="d-flex flex-column align-items-end" *ngIf="chat.name === userChat.name; else clientChat">
             <div class="message-you">
               <small>{{chat.createdAt | date: 'short'}} - <strong>You</strong></small>
             </div>
@@ -88,8 +97,5 @@
 
       </div>
     </ng-template>
-
-
   </div>
 </div>
-

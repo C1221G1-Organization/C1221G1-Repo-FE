@@ -1,6 +1,6 @@
 <div style="font-size:16px">
 
-  <h1 style="text-align: center;font-size: 32px"> Thêm mới nhân viên</h1>
+  <h2 style="text-align: center;font-size: 32px"> Thêm Mới Nhân Viên</h2>
   <br>
   <div class="container shadow-lg">
     <form [formGroup]="employeeFormCreate" (ngSubmit)="onSubmit()">
@@ -15,6 +15,7 @@
           <p style="color: red"
              *ngIf="employeeFormCreate.controls.employeeName.hasError('pattern')  && employeeFormCreate.controls.employeeName.touched">
             Tên không được chứa các kí tự đặt biệt.</p>
+
         </div>
       </div>
       <div class="row">
@@ -133,7 +134,10 @@
       <div class="row">
         <div class="col-xl-10"></div>
         <div>
-          <button class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true" [routerLink]="['/employee/list']"></i> Trở về</button>
+          <button class="btn btn-secondary" type="button" [routerLink]="['/employee/list']"><i class="fa fa-undo"
+                                                                                               aria-hidden="true"></i>
+            Trở về
+          </button>
         </div>
         <span> &nbsp;</span>
         <div>
@@ -148,5 +152,3 @@
   </div>
 
 </div>
-
-

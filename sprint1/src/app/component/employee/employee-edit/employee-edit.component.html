@@ -1,6 +1,6 @@
 <div style="font-size:16px">
 
-  <h1 style="text-align: center;font-size: 32px"> Chỉnh sửa nhân viên</h1>
+  <h2 style="text-align: center;font-size: 32px"> Chỉnh Sửa Nhân Viên</h2>
   <br>
   <div class="container shadow-lg">
     <form [formGroup]="employeeFormEdit" (ngSubmit)="onSubmit(id)">
@@ -20,7 +20,7 @@
 
             <p style="color: red"
                *ngIf="employeeFormEdit.get('employeeUsername.username').hasError('pattern')  && employeeFormEdit.get('employeeUsername.username').touched">
-              Tên tài khoản phải đúng định dạng. Vd <b> abcd1234@gmail.com</b></p>
+              Tên tài khoản phải đúng định dạng. Vd <b> abcd1234@gmail.com.</b></p>
 
             <p style="color: red"
                *ngIf=" errorUser!= ''  && employeeFormEdit.get('employeeUsername.username').touched">{{errorUser}} </p>
@@ -75,6 +75,7 @@
               </div>
             </div>
           </div>
+
           <p style="color: red"
              *ngIf="employeeFormEdit.controls.employeeImage.hasError('required')  && employeeFormEdit.controls.employeeImage.touched">
             Ảnh không được để trống.</p>
@@ -93,7 +94,7 @@
             Tên không được để trống.</p>
           <p style="color: red"
              *ngIf="employeeFormEdit.controls.employeeName.hasError('pattern')  && employeeFormEdit.controls.employeeName.touched">
-            Tên không được chứa các kí tự đặt biệt, Vd: <b>Nguyễn Anh Tâm.</b></p>
+            Tên không được chứa các kí tự đặt biệt.</p>
         </div>
       </div>
 
@@ -140,8 +141,9 @@
         <div class="col-lg-10"></div>
         <span> &nbsp;</span><span> &nbsp;</span>
         <div>
-          <button class="btn btn-secondary" type="button"><i class="fa fa-undo" aria-hidden="true"
-                                                             [routerLink]="['/employee/list']"></i> Trở về
+          <button class="btn btn-secondary" type="button" [routerLink]="['/employee/list']"><i class="fa fa-undo"
+                                                                                               aria-hidden="true"></i>
+            Trở về
           </button>
         </div>
         <span> &nbsp;</span>
@@ -157,4 +159,3 @@
   </div>
 
 </div>
-

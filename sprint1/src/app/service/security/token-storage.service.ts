@@ -13,6 +13,7 @@ export class TokenStorageService {
   signOut(){
     window.localStorage.clear();
     window.sessionStorage.clear();
+    window.location.reload();
   }
 
   saveTokenLocal(token:string){

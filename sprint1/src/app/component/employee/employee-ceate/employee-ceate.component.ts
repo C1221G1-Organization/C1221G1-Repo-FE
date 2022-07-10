@@ -97,26 +97,23 @@ export class EmployeeCeateComponent implements OnInit {
       this.employeeFormCreate.markAllAsTouched();
     }
     const employee = this.employeeFormCreate.value;
-    console.log(employee);
     const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
     const fileRef = this.storage.ref(nameImg);
     this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(finalize(() => {
       fileRef.getDownloadURL().subscribe(url => {
         this.employeeFormCreate.patchValue(employee.employeeImage = url);
-        console.log(url);
 // Call API to create
         this.employeeService.saveEmployee(employee).subscribe(() => {
-          this.toastr.success('Thêm Mới Thành Công !', '', {
+          this.toastr.success('Thêm Mới Thành Công !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
           this.router.navigateByUrl('/employee/list');
         }, error => {
-          this.toastr.warning('Thêm Mới Thất Bại !', '', {
+          this.toastr.error('Thêm Mới Thất Bại !', 'Thông báo', {
             timeOut: 3000,
             progressBar: true
           });
-          console.log(error.error);
           this.errorUser = error.error?.errorMap?.usersName;
           console.log(this.errorUser);
         });
@@ -135,7 +132,6 @@ export class EmployeeCeateComponent implements OnInit {
     const today = Date.now();
     // @ts-ignore
     if (dayWork - today >= 1) {
-      console.log('lớn hơn');
       this.employeeFormCreate.get('employeeDateStart').setErrors({check: true});
     }
   }
@@ -164,13 +160,10 @@ Function:  Show image on firebase
         this.giveURLtoCreate.emit(this.downloadURL);
         this.checkUploadAvatar = false;
         this.listIMG.push(url);
-        console.log('LIST ==> ', this.listIMG);
         for (let i = 0; i < this.listIMG.length; i++) {
           this.myMap.set(i, this.listIMG[i]);
         }
-        console.log('map ---> ', this.myMap);
       });
     })).subscribe();
   }
-
 }

@@ -1,16 +1,22 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {config, environment} from '../environments/environment';
 import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NotFoundComponent} from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
-import {UserChatComponent} from './component/templates/user-chat/user-chat.component';
 import {TemplatesModule} from './component/templates/templates.module';
-import {NotFoundComponent} from './component/not-found/not-found.component';
-
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import 'firebase/database';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import {ReportModule} from './component/reports/report.module';
+import {authInterceptorProviders} from './service/security/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,15 +28,20 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    TemplatesModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(config),
     ToastrModule.forRoot({
       positionClass: 'toast-top-right'
-    })
+    }),
+    BrowserAnimationsModule,
+    ReportModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TemplatesModule,
+    NgxSpinnerModule,
   ],
-  providers: [],
+
+  providers: [Title, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {
