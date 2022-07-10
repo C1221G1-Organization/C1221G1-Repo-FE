@@ -8,7 +8,7 @@
         <div class="form-group row">
           <label for="c" class="col-8 col-form-label px-0 ml-2">Nhân viên<span class="text-danger">(*)</span>:</label>
           <div class="col-12 px-0">
-            <input type="text" class="form-control" id="c"  value="{{employee.employeeName}}" [readOnly]="disableFlag">
+            <input type="text" class="form-control" id="c" value="{{employee.employeeName}}" [readOnly]="disableFlag">
           </div>
         </div>
       </div>
@@ -87,21 +87,21 @@
           <th class="col-2 text-center">Tên thuốc</th>
           <th class="col-2 text-center">Số lượng</th>
           <th class="col-2 text-center">Đơn vị</th>
-          <th class="col-2 text-center">Giá</th>
-          <th class="col-3 text-center">Thành tiền</th>
+          <th class="col-2 text-center">Giá(VND)</th>
+          <th class="col-3 text-center">Thành tiền(VND)</th>
         </tr>
         <tr *ngFor="let item of listMedicineChoice; index as i;  let k = index"
-            (click)="activeProject(k,item)"
-            [ngStyle]="{'background-color': activeProjectIndex == k && flagHover ? '#9deba7' : 'white' }">
+            [class.selectedRow]="rowIsSelected(item.medicineId)" (click)="onRowClick(item.medicineId)"
+            style="cursor: pointer;">
           <td class="col-1 text-center">{{i + 1}}</td>
           <td class="col-2 text-center">{{item.medicineName}}</td>
           <td class="col-2 text-center">{{item.quantity}}</td>
           <td class="col-2 text-center">{{item.unit}}</td>
           <td class="col-2 text-center">
-            {{item.retailPrice | number }} VND
+            {{item.retailPrice | number }}
           </td>
           <td class="col-3 text-center">
-            {{item.money | number }} VND
+            {{item.money | number }}
           </td>
         </tr>
         </tbody>
@@ -142,56 +142,47 @@
 </div>
 
 <!--list medicine-->
-<!--success modal-->
-<div id="modal-success" class="modal fade">
-  <div class="modal-dialog modal-confirm modal-confirm-success">
-    <div class="modal-content">
-      <div class="modal-header modal-header-success justify-content-center">
-        <div class="icon-box">
-          <i class="material-icons">&#xE876;</i>
-        </div>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <h4>Thông Báo!</h4>
-        <p>Tạo đơn bán hàng thành công.</p>
-        <button #closeModalBtn type="button" class="btn-modal btn-grad-blue" data-dismiss="modal">Đồng ý</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--modal success-->
+
 <!--modal delete-->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )" >
+        <div *ngIf="(selectedRowIds.size > 0)">
           <h3>Xác nhận xóa</h3>
         </div>
-        <div *ngIf="(idDelete == null || idDelete == undefined || idDelete == '' )">
+        <div *ngIf="(selectedRowIds.size == 0)">
           <h3>Lỗi chọn thuốc</h3>
         </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
-        <p>Bạn có muốn xóa thuốc
-          <span class="text-danger font-weight-bold" id="nameDelete">{{nameDelete}}</span>
-        </p>
+      <div class="modal-body" *ngIf="(selectedRowIds.size > 0)">
+
+        <div *ngIf="listDeletedName.size > 1">
+          <p>Bạn có muốn xóa các loại thuốc: </p>
+          <div  *ngFor="let name of listDeletedName">
+            <p style="color:#e33a3a;"><strong>{{name}}</strong></p>
+          </div>
+        </div>
+        <div *ngIf="listDeletedName.size == 1">
+          <p>Bạn có muốn xóa thuốc: </p>
+          <div  *ngFor="let name of listDeletedName">
+            <p style="color:#e33a3a;"><strong>{{name}}</strong></p>
+          </div>
+        </div>
       </div>
-      <div class="modal-body" *ngIf="idDelete == null || idDelete == undefined || idDelete == ''">
+      <div class="modal-body" *ngIf="(selectedRowIds.size == 0)">
         Bạn chưa chọn thuốc!
       </div>
-      <div class="modal-footer" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
+      <div class="modal-footer" *ngIf="(selectedRowIds.size > 0)">
         <div class="mx-auto row">
           <input type="hidden" name="id" id="idDelete">
           <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>
-          <button type="submit" class="btn btn-danger mx-1" (click)="deleteMedicine(closeModal)">Xóa</button>
+          <button type="submit" class="btn btn-danger mx-1" (click)="deleteLotsOfMedicine(closeModal)">Xóa</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!--modal delete-->
