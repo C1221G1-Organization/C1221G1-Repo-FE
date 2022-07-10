@@ -4,6 +4,7 @@ import {LoginComponent} from "./login/login.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import {LogoutComponent} from "./logout/logout.component";
 import {AuthGuard} from "../../service/security/auth.guard";
+import {ForbiddenPageComponent} from "./forbidden-page/forbidden-page.component";
 
 
 const routes: Routes = [{
@@ -14,7 +15,10 @@ const routes: Routes = [{
   component: SignUpComponent
 },{
   path: 'sign-out',
-  component: LogoutComponent,canActivate:[AuthGuard]
+  component: LogoutComponent
+},{
+  path:'403-forbidden',
+  component: ForbiddenPageComponent
 }];
 
 

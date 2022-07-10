@@ -6,6 +6,7 @@ import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {ForbiddenPageComponent} from "./forbidden-page/forbidden-page.component";
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     LoginComponent,
     LogoutComponent,
     SignUpComponent,
+    ForbiddenPageComponent
   ],
     imports: [
         CommonModule,

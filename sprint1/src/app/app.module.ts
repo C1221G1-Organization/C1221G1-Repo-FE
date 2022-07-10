@@ -2,7 +2,7 @@ import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {config, environment} from '../environments/environment';
@@ -16,6 +16,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import "firebase/database";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ReportModule} from './component/reports/report.module';
+import {authInterceptorProviders} from "./service/security/auth.interceptor";
+import { ForbiddenPageComponent } from './component/security/forbidden-page/forbidden-page.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import {ReportModule} from './component/reports/report.module';
     NgxSpinnerModule,
   ],
 
-  providers: [Title],
+  providers: [Title,authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

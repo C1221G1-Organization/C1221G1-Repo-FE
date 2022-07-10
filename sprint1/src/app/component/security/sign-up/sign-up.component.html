@@ -16,7 +16,7 @@
               <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi !</h4>
               <hr class="m-0 p-0">
               <div class="row mt-2">
-                <label class="text-success col-4"><span  style="font-size: 1.25rem">Họ và tên <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4"><span  style="font-size: 1.1rem">Họ và tên <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="text" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="name"
@@ -26,13 +26,13 @@
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
                 *ngIf="signUpForm.controls.name.hasError('required') && signUpForm.controls.name.touched"
-                >* Vui lòng không để trống</p>
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="errorMap && signUpForm.controls.name.touched"
+                   *ngIf="errorMap && (signUpForm.controls.name.touched || signUpForm.controls.name.dirty)"
                 >{{errorMap['name']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Mail <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Mail <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="text" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="email"
@@ -41,13 +41,13 @@
               </div>
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="signUpForm.controls.email.hasError('required') && signUpForm.controls.email.touched">* Vui lòng không để trống</p>
+                   *ngIf="signUpForm.controls.email.hasError('required') && signUpForm.controls.email.touched">Vui lòng không để trống</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="errorMap && signUpForm.controls.email.touched"
                 >{{errorMap['email']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4"><span  style="font-size: 1.25rem">Mật khẩu <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4"><span  style="font-size: 1.1rem">Mật khẩu <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="password" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="password">
@@ -56,13 +56,13 @@
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="signUpForm.controls.password.hasError('required') && signUpForm.controls.password.touched"
-                >* Vui lòng không để trống</p>
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="errorMap && signUpForm.controls.password.touched"
                 >{{errorMap['password']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4 pr-0"><span  style="font-size: 1.25rem">Xác nhận mật khẩu <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4 pr-0"><span  style="font-size: 1.1rem">Xác nhận mật khẩu <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="password" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="confirmPassword"
@@ -71,14 +71,17 @@
               </div>
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="signUpForm.controls.confirmPassword.hasError('required') && signUpForm.controls.confirmPassword.touched"
-                >* Vui lòng không để trống</p>
+                   *ngIf="signUpForm.controls.confirmPassword.hasError('required') && (signUpForm.controls.confirmPassword.touched || signUpForm.controls.confirmPassword.dirty)"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.errors.confirmPassword.get()"
+                >Xác nhận mật khẩu chưa chính xác. {{signUpForm.errors.confirmPassword}}</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="errorMap && signUpForm.controls.confirmPassword.touched"
                 >{{errorMap['confirmPassword']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Địa chỉ <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Địa chỉ <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="text" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="address"
@@ -87,14 +90,14 @@
               </div>
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="signUpForm.controls.address.hasError('required') && signUpForm.controls.address.touched"
-                >* Vui lòng không để trống</p>
+                   *ngIf="signUpForm.controls.address.hasError('required') && (signUpForm.controls.address.touched || signUpForm.controls.address.dirty)"
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="errorMap && signUpForm.controls.address.touched"
+                   *ngIf="errorMap && (signUpForm.controls.address.touched || signUpForm.controls.address.dirty)"
                 >{{errorMap['address']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Số điện thoại <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Số điện thoại <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="text" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="phone" placeholder="0901234567">
@@ -102,14 +105,14 @@
               </div>
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="signUpForm.controls.phone.hasError('required') && signUpForm.controls.phone.touched"
-                >* Vui lòng không để trống</p>
+                   *ngIf="signUpForm.controls.phone.hasError('required') && (signUpForm.controls.phone.touched|| signUpForm.controls.phone.dirty)"
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="errorMap && signUpForm.controls.email.touched"
+                   *ngIf="errorMap && signUpForm.controls.phone.touched"
                 >{{errorMap['phone']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Ngày sinh <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Ngày sinh <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="date" class="w-100 border border-success rounded inline form-control-sm"
                          formControlName="dayOfBirth"
@@ -119,13 +122,13 @@
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="signUpForm.controls.dayOfBirth.hasError('required') && signUpForm.controls.dayOfBirth.touched"
-                >* Vui lòng không để trống</p>
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="errorMap && signUpForm.controls.phone.touched"
+                   *ngIf="errorMap && signUpForm.controls.dayOfBirth.touched"
                 >{{errorMap['dayOfBirth']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Giới tính <span class="text-danger">*</span></span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Giới tính <span class="text-danger">*</span></span></label>
                 <div class="col-8">
                   <input type="radio" value="0" formControlName="gender" class="mx-3">Nữ
                   <input type="radio" value="1" formControlName="gender" class="mx-3">Nam
@@ -141,16 +144,16 @@
               <div class="row p-0 m-0">
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="signUpForm.controls.gender.hasError('required') && signUpForm.controls.gender.touched"
-                >* Vui lòng không để trống</p>
+                >Vui lòng không để trống.</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
                    *ngIf="errorMap && signUpForm.controls.gender.touched"
                 >{{errorMap['gender']}}</p>
                 <p class="col-12 text-right text-danger m-0 p-0"
-                   *ngIf="errorMap"
-                >* {{errorMap['gender']}}</p>
+                   *ngIf="errorMap && signUpForm.controls.gender.touched"
+                >{{errorMap['gender']}}</p>
               </div>
               <div class="row mt-2">
-                <label class="text-success col-4" ><span  style="font-size: 1.25rem">Chi tiết bản thân</span></label>
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Lịch sử bệnh án</span></label>
                 <div class="col-8">
                   <textarea class="w-100 border border-success rounded inline form-control-sm"
                             formControlName="note"
@@ -168,7 +171,7 @@
               <div class="row">
                 <a href="#" class="btn btn-secondary col-3 mx-auto">Thoát</a>
                 <button type="reset" class="btn btn-info col-3 mx-auto">Làm mới</button>
-                <button [disabled]="!signUpForm.valid" type="submit" class="btn btn-success col-3 mx-auto">Đăng Ký</button>
+                <button type="submit" class="btn btn-success col-3 mx-auto">Đăng Ký</button>
               </div>
             </div>
           </form>
