@@ -9,6 +9,7 @@ export interface MedicineBestSeller {
   medicineName: string;
   medicinePrice: number;
   soldQuantity: number;
+  medicineQuantity: number;
   medicineImage: string;
   medicineTypeName: string;
 

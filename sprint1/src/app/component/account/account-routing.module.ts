@@ -7,10 +7,10 @@ import {AuthGuard} from "../../service/security/auth.guard";
 
 const routes: Routes = [
   {path: 'list', component: AccountListComponent,canActivate:[AuthGuard],data:{
-    roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    roles: ["ROLE_MANAGER"]
     }},
   {path: 'update/:id', component: AccountEditComponent,canActivate:[AuthGuard],data:{
-      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+      roles: ["ROLE_MANAGER"]
     }}
 ];
 

@@ -51,7 +51,7 @@ export class AccountEditComponent implements OnInit {
             employeeName: new FormControl(account.employeeName),
             position: new FormControl(this.position, [Validators.required]),
             username: new FormControl(account.username),
-            password: new FormControl("", Validators.compose([Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])),
+            password: new FormControl("", Validators.compose([Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$')])),
           })
         },() => this.toastr.warning("Không tìm thấy đối tượng chỉnh sửa !", "Thông báo", {
           timeOut: 2000,

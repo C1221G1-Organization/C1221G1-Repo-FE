@@ -302,7 +302,7 @@ export class CustomerListComponent implements OnInit {
   deleteCustomer(customerId: string) {
     console.log(customerId);
     this.customerService.delete(customerId).subscribe(() => {
-      this.toastr.warning('Xóa Thành Công !', 'Thông báo', {
+      this.toastr.success('Xóa Thành Công !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });

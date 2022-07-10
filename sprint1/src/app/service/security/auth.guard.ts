@@ -19,18 +19,13 @@ export class AuthGuard implements CanActivate {
       let role = currentUser.roles[0];
 
       if(next.data.roles.indexOf(role) === -1){
-        this.router.navigate(['log/sign-in'],{
+        this.router.navigate(['log/forbidden-page'],{
           queryParams:{returnUrl : url}
         });
         return false;
       }
       return true;
     }
-    this.router.navigate(['log/sign-in'],{
-      queryParams: {
-        returnUrl : url
-      }
-    })
     return false;
   }
 

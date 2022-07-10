@@ -14,6 +14,7 @@ export class InvoiceListComponent implements OnInit {
   totalPages: number;
   currentPage: number;
   idDel: string;
+  nameDel: string;
   startDate: string = "";
   endDate: string = new Date().toLocaleDateString('ez-ZA');
   startTime: string = "";
@@ -87,25 +88,27 @@ export class InvoiceListComponent implements OnInit {
   }
 
   deleteInvoice(idDel: string) {
-    if (idDel == null) {
-      alert("Chưa chọn hóa đơn")
-    } else {
+    if (idDel !== null) {
       this.invoiceService.deleteInvoiceById(idDel).subscribe(() => {
         this.ngOnInit();
         this.toastr.success("Xóa thành công hóa đơn!", "Thông báo", {
           timeOut: 3000,
           progressBar: true
         })
-      }, e => console.log(e));
+      })
     }
   }
 
   search() {
     if (this.searchForm.value.startDate == null) {
       this.searchForm.value.startDate = this.startDate
+    } else {
+      this.startDate = this.searchForm.value.startDate
     }
     if (this.searchForm.value.endDate == null) {
       this.searchForm.value.endDate = this.endDate
+    } else {
+      this.endDate = this.searchForm.value.endDate
     }
     if (this.searchForm.value.startTime == null) {
       this.searchForm.value.startTime = this.startTime
@@ -113,8 +116,16 @@ export class InvoiceListComponent implements OnInit {
     if (this.searchForm.value.endTime == null) {
       this.searchForm.value.endTime = this.endTime
     }
-    this.fieldSort = this.searchForm.value.fieldSort
-    this.typeOfInvoiceId = this.searchForm.value.typeOfInvoiceId
+    if (this.searchForm.value.fieldSort == null) {
+      this.searchForm.value.fieldSort = this.fieldSort;
+    } else {
+      this.fieldSort = this.searchForm.value.fieldSort;
+    }
+    if (this.searchForm.value.typeOfInvoiceId == null) {
+      this.searchForm.value.typeOfInvoiceId = this.typeOfInvoiceId;
+    } else {
+      this.typeOfInvoiceId = this.searchForm.value.typeOfInvoiceId;
+    }
     this.invoiceService.getAll({
       page: 0, size: 5, startDate: this.searchForm.value.startDate, endDate: this.searchForm.value.endDate,
       startTime: this.searchForm.value.startTime, endTime: this.searchForm.value.endTime,
@@ -133,7 +144,7 @@ export class InvoiceListComponent implements OnInit {
     )
   }
 
-  chooseInvoice(index: number, invoiceId: string): void {
+  chooseInvoice(index: number, invoiceId: string, customerName: string): void {
     if (this.chosenIndex !== index) {
       this.isChosen = true;
       this.chosenIndex = index;
@@ -145,6 +156,7 @@ export class InvoiceListComponent implements OnInit {
     }
     if (this.isChosen) {
       this.idDel = invoiceId;
+      this.nameDel = customerName;
     }
   }
 
@@ -155,6 +167,7 @@ export class InvoiceListComponent implements OnInit {
     this.endTime = "23:59";
     this.typeOfInvoiceId = '1';
     this.fieldSort = 'invoiceId';
+    this.ngOnInit();
   }
 
   dateErrorValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {

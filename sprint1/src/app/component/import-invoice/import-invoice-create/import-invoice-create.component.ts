@@ -7,6 +7,8 @@ import {Supplier} from '../../../model/supplier';
 import {ImportInvoiceService} from '../../../service/import-invoice/import-invoice.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
+import {Users} from '../../../model/users/users';
 
 @Component({
   selector: 'app-import-invoice-create',
@@ -40,24 +42,37 @@ export class ImportInvoiceCreateComponent implements OnInit {
   medicineDelete: Medicine;
   checkInvalidRemainMoney = false;
   checkInvalidRemainMoney2 = false;
+  private user: Users;
 
-  equal(item1, item2) {
-    return item1 && item2 && item1.supplierId === item2.supplierId;
+  getEmployee() {
+    this.user = this.tokenStorageService.getUser();
+    this.importInvoiceService.getEmployee().subscribe(employees => {
+      employees.forEach(e => {
+        if (e.employeeUsername.username === this.user.username) {
+          this.defaultEmployee = e;
+        }
+      });
+    }, error => {
+      console.log(error);
+    });
   }
 
   constructor(private fb: FormBuilder,
               private ref: ChangeDetectorRef,
               private importInvoiceService: ImportInvoiceService,
               private toastr: ToastrService,
-              private route: Router) {
+              private route: Router,
+              private tokenStorageService: TokenStorageService) {
     importInvoiceService.getSupplierList().subscribe(suppliers => {
       this.importInvoiceService.getMedicineList().subscribe(medicines => {
         this.medicines = medicines;
         this.suppliers = suppliers;
         this.selectedSupplier = this.suppliers[0];
         importInvoiceService.getEmployee().subscribe(employees => {
-          this.employees = employees;
-          this.defaultEmployee = employees[10];
+          // this.employees = employees;
+          // this.defaultEmployee = employees[10];
+          this.getEmployee();
+          console.log(this.defaultEmployee);
           this.createImportInvoiceForm = this.fb.group({
             importInvoiceId: this.fb.control(''),
             importSystemCode: this.fb.control('', [Validators.required, Validators.pattern('^[0]?[1-9]+[0-9]*$')]),
@@ -77,25 +92,22 @@ export class ImportInvoiceCreateComponent implements OnInit {
     });
   }
 
-  updateTotal() {
-    const ctrl = this.createImportInvoiceForm.controls.importInvoiceMedicineList as FormArray;
-    this.totalMoney = 0;
-    ctrl.controls.forEach(x => {
-      const parsed = parseFloat((x.get('intoMoney').value));
-      this.totalMoney += parsed;
-      this.ref.detectChanges();
-    });
-    this.updateRemain();
-    this.updateQuantityCart();
+  ngOnInit() {
+    this.checkNoMedicine();
+  }
+
+  equal(item1, item2) {
+    return item1 && item2 && item1.supplierId === item2.supplierId;
+  }
+
+  // create by TrungTVH 2/7/2022: -> listen change from supplier selected
+  onChange($event) {
+    this.selectedSupplier = $event;
   }
 
   get importInvoiceMedicineListSelected(): FormArray {
     this.importInvoiceMedicineSelectedArray = this.createImportInvoiceForm.get('importInvoiceMedicineList') as FormArray;
     return this.importInvoiceMedicineSelectedArray;
-  }
-
-  updateQuantityCart() {
-    this.quantityCart = this.importInvoiceMedicineSelectedArray.length;
   }
 
   checkNoMedicine() {
@@ -118,48 +130,6 @@ export class ImportInvoiceCreateComponent implements OnInit {
         this.flagExistMedicine = false;
       }
     }
-  }
-
-  ngOnInit() {
-    this.checkNoMedicine();
-  }
-
-  createNewImportInvoice() {
-    if (this.checkNoMedicine()) {
-      this.toastr.warning('Vui lòng chọn thuốc!', 'Hệ thống thông báo', {
-        timeOut: 3000,
-        progressBar: true
-      });
-    } else {
-      if (this.createImportInvoiceForm.valid) {
-        this.importInvoiceService.save(this.createImportInvoiceForm.value).subscribe(() =>
-          console.log('saved'));
-        this.toastr.success('Tạo Hoá Đơn Nhập Kho Thành Công !', 'Hệ thống thông báo', {
-          timeOut: 3000,
-          progressBar: true
-        });
-        this.createImportInvoiceForm.reset();
-        this.importInvoiceMedicineSelectedArray.controls.forEach(x => {
-            let count = 0;
-            this.importInvoiceMedicineSelectedArray.removeAt(count);
-            count++;
-          }
-        );
-        this.updateQuantityCart();
-        this.checkNoMedicine();
-        this.route.navigateByUrl('/import-invoice');
-      } else {
-        this.toastr.warning('Thông tin hoá đơn không hợp lệ!', 'Hệ thống thông báo', {
-          timeOut: 3000,
-          progressBar: true
-        });
-      }
-    }
-  }
-
-  // create by TrungTVH 2/7/2022: -> listen change from supplier selected
-  onChange($event) {
-    this.selectedSupplier = $event;
   }
 
   chooseMedicine() {
@@ -196,7 +166,7 @@ export class ImportInvoiceCreateComponent implements OnInit {
       importInvoiceMedicineImportPrice: [this.medicineCurrent.medicineImportPrice],
       importInvoiceMedicineImportAmount: [1, [Validators.required, Validators.min(0), Validators.pattern('^[0]?[1-9]+[0-9]*$')]],
       importInvoiceMedicineDiscountRate: [this.medicineSelected.medicineDiscount],
-      importInvoiceMedicineExpiry: '',
+      importInvoiceMedicineExpiry: ['', [Validators.required]],
       importInvoiceMedicineVat: [this.medicineSelected.medicineTax],
       importInvoiceMedicineLotNumber: ['', [Validators.required]],
       flag: true
@@ -221,6 +191,11 @@ export class ImportInvoiceCreateComponent implements OnInit {
     this.medicineSelected = medicine;
   }
 
+  showMedicineImportList() {
+    this.isShowMedicineList = false;
+    this.cartMedicine = true;
+  }
+
   sendMedicineToDelete(i: number) {
     this.importInvoiceMedicineSelectedArray.removeAt(i);
     const index = this.medicineSelectedArray.indexOf(this.medicineDelete);
@@ -232,12 +207,61 @@ export class ImportInvoiceCreateComponent implements OnInit {
     this.checkNoMedicine();
   }
 
-  showMedicineImportList() {
-    this.isShowMedicineList = false;
-    this.cartMedicine = true;
-  }
-
   sendMedicineDelete(medicine: Medicine) {
     this.medicineDelete = medicine;
+  }
+
+  updateQuantityCart() {
+    this.quantityCart = this.importInvoiceMedicineSelectedArray.length;
+  }
+
+  updateTotal() {
+    const ctrl = this.createImportInvoiceForm.controls.importInvoiceMedicineList as FormArray;
+    this.totalMoney = 0;
+    ctrl.controls.forEach(x => {
+      const parsed = parseFloat((x.get('intoMoney').value));
+      this.totalMoney += parsed;
+      this.ref.detectChanges();
+    });
+    this.updateRemain();
+    this.updateQuantityCart();
+  }
+
+  createNewImportInvoice() {
+    if (this.checkNoMedicine()) {
+      this.toastr.warning('Vui lòng chọn thuốc!', 'Hệ thống thông báo', {
+        timeOut: 3000,
+        progressBar: true
+      });
+    } else {
+      if (this.createImportInvoiceForm.valid) {
+        this.importInvoiceService.save(this.createImportInvoiceForm.value).subscribe(() =>
+          console.log('saved'));
+        this.toastr.success('Tạo Hoá Đơn Nhập Kho Thành Công !', 'Hệ thống thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
+        this.createImportInvoiceForm.reset();
+        this.importInvoiceMedicineSelectedArray.controls.forEach(x => {
+            let count = 0;
+            this.importInvoiceMedicineSelectedArray.removeAt(count);
+            count++;
+          }
+        );
+        this.updateQuantityCart();
+        this.checkNoMedicine();
+        this.route.navigateByUrl('/import-invoice');
+      } else {
+        this.toastr.warning('Thông tin hoá đơn không hợp lệ!', 'Hệ thống thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }
+    }
+  }
+
+  payOff() {
+    this.prePayment = this.totalMoney;
+    this.updateRemain();
   }
 }
