@@ -25,6 +25,7 @@ export class CustomerListComponent implements OnInit {
   choosenIndex: number;
   choosenId: string;
   idDelete: string;
+  nameDelete: string;
   public isInputHidden = true;
   public isSelectHidden = false;
   @ViewChild('keySearch1') keySearch1: ElementRef;
@@ -187,6 +188,7 @@ export class CustomerListComponent implements OnInit {
           size: 5
           ,
           sort: this.sort.nativeElement.value
+          ,dir : 'desc'
         });
         break;
       case 'customerId':
@@ -195,6 +197,7 @@ export class CustomerListComponent implements OnInit {
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
+          , dir: 'desc'
         });
         break;
       case
@@ -204,6 +207,7 @@ export class CustomerListComponent implements OnInit {
           , page: 0
           , size: 5
           , sort: this.sort.nativeElement.value
+          , dir: 'desc'
         });
         break;
       case
@@ -257,6 +261,8 @@ export class CustomerListComponent implements OnInit {
         this.getAllCustomers({
           customerId: this.keySearch2.nativeElement.value,
           sort: this.sort.nativeElement.value
+
+          
           , dir: 'desc'
           , page: 0
           , size: 5
@@ -315,7 +321,7 @@ export class CustomerListComponent implements OnInit {
    * time: 04/07/2022
    * This method to get id delete customer
    */
-  getValueToDelete(i: number, customerId: string) {
+  getValueToDelete(i: number, customerId: string, customerName : string) {
     if (this.choosenIndex !== i) {
       this.isChoosen = true;
       this.choosenIndex = i;
@@ -324,9 +330,11 @@ export class CustomerListComponent implements OnInit {
       this.isChoosen = !this.choosenId;
       this.choosenIndex = null;
       this.idDelete = null;
+      this.nameDelete = null;
     }
     if (this.isChoosen) {
       this.idDelete = customerId;
+      this.nameDelete = customerName;
     }
   }
 
