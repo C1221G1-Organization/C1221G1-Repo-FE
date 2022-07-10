@@ -22,7 +22,7 @@ export class CustomerEditComponent implements OnInit {
   updateForm = new FormGroup({
     customerId: new FormControl(''),
     customerName: new FormControl('', [Validators.required, Validators.minLength(2),
-      Validators.maxLength(20), Validators.pattern('^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ][\\s\\S]*$')]),
+      Validators.maxLength(20), Validators.pattern('^([a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+)((\\s{1}[a-zA-ZxzÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠyỳọầảấờễạằệếộậốứữịỗềểẩớặồợụủỹắẫựỉỏừỷởửỵẳẹẽổẵẻỡ]+){1,})$')]),
     customerBirthday: new FormControl('', [Validators.required]),
     customerGender: new FormControl([Validators.required]),
     customerAddress: new FormControl(''),
@@ -59,7 +59,7 @@ export class CustomerEditComponent implements OnInit {
     });
   }
   compareWithId(item1, item2) {
-    return item1 && item2 && item1.id === item2.id;
+    return item1 && item2 && item1.customerId === item2.customerId;
   }
 
   ngOnInit(): void {
