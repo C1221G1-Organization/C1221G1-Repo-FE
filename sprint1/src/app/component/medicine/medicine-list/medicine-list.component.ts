@@ -79,6 +79,7 @@ export class MedicineListComponent implements OnInit {
    * @Time 10:00 04/07/2022
    */
   searchMedicine() {
+    this.p = 1;
     const colNameSearch = this.columName.nativeElement.value;
     const conditionSearch = this.condition.nativeElement.value;
     const keyWordSearch = this.keyWord.nativeElement.value;

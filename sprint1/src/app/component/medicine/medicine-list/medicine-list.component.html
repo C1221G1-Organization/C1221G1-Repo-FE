@@ -134,7 +134,7 @@
       <div class="modal-body" [hidden]="!isChosen">
         <p>Bạn có chắc chắn muốn xóa loại thuốc này !</p>
         <p class="text-danger">{{idToDelete}} : {{nameToDelete}}</p>
-        <p class>Lưu ý hành động không thể hoàn tác !</p>
+        <p class="text-danger">Lưu ý hành động không thể hoàn tác !</p>
       </div>
       <div class="modal-body" [hidden]="isChosen">
         <h3 class="text-danger">Bạn chưa chọn loại thuốc nào !</h3>
@@ -232,9 +232,7 @@
             <b>Cách sử dụng : </b>{{infoMedicine.medicineInstruction}}
           </div>
           <div class="col-6 my-2">
-            <div class="col-13 my-2">
               <b>Công dụng : </b>{{infoMedicine.medicineUsage}}
-            </div>
           </div>
         </div>
         <div class="modal-footer">

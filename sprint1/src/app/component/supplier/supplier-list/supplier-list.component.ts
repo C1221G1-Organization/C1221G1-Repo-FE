@@ -19,7 +19,7 @@ export class SupplierListComponent implements OnInit {
   currentPage: number = 0;
   ownerSearch = '';
 
-  valueSupplier: Supplier = new Supplier();
+  valueSupplier: Supplier;
   chosenIndex: number;
   isChosen: Boolean;
   chooseId: string;
@@ -213,7 +213,7 @@ export class SupplierListComponent implements OnInit {
           searchId: '',
           sort: '',
           owner: this.ownerSearch
-        })
+        });
       }
     }
   }
