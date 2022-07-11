@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "demo1": "ng serve --host=0.0.0.0 --disable-host-check"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "ngx-paypal": "^8.0.0",
     "ngx-spinner": "^9.0.1",
     "ngx-toastr": "^12.1.0",
+    "pdfmake": "^0.2.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "uuid": "^8.3.2",

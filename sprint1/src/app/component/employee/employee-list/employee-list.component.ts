@@ -24,10 +24,11 @@ export class EmployeeListComponent implements OnInit {
   public employees: Employee[];
   public totalPages: number;
   public currentPage: number;
-  public isHasContent: boolean;
+  public isHasContent = false;
   public employeeIdValue: string;
   public employeeNameValue: string;
-
+  public drowDownValue: any = '';
+  public str: string;
   constructor(private positionService: PositionService,
               private employeeService: EmployeeService,
               private toastr: ToastrService) {
@@ -62,7 +63,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   changeValueFind(value: any) {
-    console.log(value);
     switch (value) {
       case 'code':
         this.isInputHidden = true;
@@ -88,26 +88,19 @@ export class EmployeeListComponent implements OnInit {
   }
 
   search() {
-    let str:string = this.valueSearchInput.nativeElement.value;
-    console.log(str);
-    if(!str.match("^[a-zA-Z0-9 vxyỳọáầảấờễàạằệếýộậốũứĩõúữịỗìềểẩớặòùồợãụủíỹắẫựỉỏừỷởóéửỵẳẹèẽổẵẻỡơôưăêâđ-]+$")){
-      if(str == ""){
-        return this.ngOnInit()
-      }
-      this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
-        timeOut: 3000,
-        progressBar: true
-      });
-      this.isHasContent = true;
-      return this.employees = null;
-    }
-    console.log(this.criteria.nativeElement.value);
-    console.log(this.valueSearchInput.nativeElement.value);
-    console.log(this.valueSearchDropDown.nativeElement.value);
+    this.str = this.valueSearchInput.nativeElement.value;
     switch (this.criteria.nativeElement.value) {
       case 'code':
+        if(this.str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
-          page: 0, size: 8, employeeId: this.valueSearchInput.nativeElement.value, employeeName: '',
+          page: 0, size: 8, employeeId: this.str.trim(), employeeName: '',
           position: '', employeeAddress: '', employeePhone: '', sort: ''
         }).subscribe(employees => {
           this.employees = employees['content'];
@@ -124,8 +117,16 @@ export class EmployeeListComponent implements OnInit {
         });
         break;
       case 'name':
+        if(this.str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
-          page: 0, size: 8, employeeId: '', employeeName: this.valueSearchInput.nativeElement.value,
+          page: 0, size: 8, employeeId: '', employeeName: this.str.trim(),
           position: '', employeeAddress: '', employeePhone: '', sort: ''
         }).subscribe(employees => {
           this.employees = employees['content'];
@@ -158,11 +159,20 @@ export class EmployeeListComponent implements OnInit {
             progressBar: true
           });
         });
+        this.drowDownValue = this.valueSearchDropDown.nativeElement.value;
         break;
       case 'address':
+        if(this.str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: '', employeeName: '',
-          position: '', employeeAddress: this.valueSearchInput.nativeElement.value, employeePhone: '', sort: ''
+          position: '', employeeAddress: this.str.trim(), employeePhone: '', sort: ''
         }).subscribe(employees => {
           this.employees = employees['content'];
           this.currentPage = employees['number'];
@@ -178,9 +188,17 @@ export class EmployeeListComponent implements OnInit {
         });
         break;
       case 'phone':
+        if(this.str == '%'){
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !','Thông báo',{
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.employees = null;
+        }
         this.employeeService.getAllEmployee({
           page: 0, size: 8, employeeId: '', employeeName: '',
-          position: '', employeeAddress: '', employeePhone: this.valueSearchInput.nativeElement.value, sort: ''
+          position: '', employeeAddress: '', employeePhone: this.str.trim(), sort: ''
         }).subscribe(employees => {
           this.employees = employees['content'];
           this.currentPage = employees['number'];
@@ -200,7 +218,6 @@ export class EmployeeListComponent implements OnInit {
 
 
   sortBy(value: any) {
-    console.log(value);
     switch (this.criteria.nativeElement.value) {
       case 'code':
         this.employeeService.getAllEmployee({
@@ -397,6 +414,7 @@ export class EmployeeListComponent implements OnInit {
 
   deleteEmployeeByid(employeeIdValue: string) {
     this.employeeService.deleteEmployeeById(employeeIdValue).subscribe(() => {
+      this.str = '';
       this.ngOnInit(),
         this.toastr.success('Xoá thành công!', 'Thông báo', {
           timeOut: 3000,

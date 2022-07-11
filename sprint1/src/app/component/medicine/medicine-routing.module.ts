@@ -17,9 +17,7 @@ const routes: Routes = [
   {path: 'edit/:id', component: MedicineEditComponent,canActivate:[AuthGuard],data:{
       roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
     }},
-  {path: 'detail/:medicineId', component: MedicineDetailComponent,canActivate:[AuthGuard],data:{
-      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
-    }}
+  {path: 'detail/:medicineId', component: MedicineDetailComponent}
 ];
 
 

@@ -23,10 +23,13 @@ export class AuthInterceptor implements HttpInterceptor {
     if(this.token!==null){
       authReq = request.clone({
         setHeaders:{
-          'content-type': 'application/json',
+          'content-type': ['application/json','application/text'],
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
           'Access-Control-Allow-Origin':'*',
-          'Authorization':'Bearer '+this.token
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': ['Content-Type','Origin',' Content-Type', 'X-Auth-Token'],
+          'Authorization':'Bearer '+this.token,
+
         }
       })
     }

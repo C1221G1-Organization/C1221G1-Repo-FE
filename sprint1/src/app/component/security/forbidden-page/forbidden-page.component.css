@@ -18,7 +18,7 @@ h1 {
   font-family: 'Ubuntu', sans-serif;
   text-transform: uppercase;
   text-align: center;
-  font-size: 24vw;
+  font-size: 15vw;
   display: block;
   margin: 0;
   color: #9ae1e2;
@@ -28,23 +28,23 @@ h1 {
   animation-delay: 1.7s;
 }
 h1:before{
-   content:"U";
-   position:absolute;
-   top:-9%;
-   right:40%;
-   transform:rotate(180deg);
-   font-size:11.5vw;
-   color:#f6c667;
-   z-index:-1;
-   text-align:center;
-   animation:lock .2s ease-in-out forwards;
-   animation-delay: 1.5s;
- }
+  content:"U";
+  position:absolute;
+  top:-9%;
+  right:40%;
+  transform:rotate(180deg);
+  font-size:7vw;
+  color:#f6c667;
+  z-index:-1;
+  text-align:center;
+  animation:lock .2s ease-in-out forwards;
+  animation-delay: 1.5s;
+}
 
 h4{
   font-family: 'Cabin', sans-serif;
   color:#9ae1e2;
-  font-size:3vw;
+  font-size:2vw;
   margin:0;
   text-transform:uppercase;
   text-align:center;
@@ -54,7 +54,7 @@ h4{
 }
 h5{
   font-family: 'Cabin', sans-serif;
-  font-size:2vw;
+  font-size:1vw;
   margin:0;
   text-align:center;
   opacity:0;

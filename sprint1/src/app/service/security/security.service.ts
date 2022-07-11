@@ -28,7 +28,11 @@ export class SecurityService {
     return this.http.post<any>(`${API}/manager-security/users/sign-in`,obj);
   }
 
-    signInWithFacebook(obj: FacebookRequest): Observable<any>{
+  signInWithFacebook(obj: FacebookRequest): Observable<any>{
     return this.http.post<any>(`${API}/manager-security/users/sign-in-facebook`,obj);
+  }
+
+  verifyUser(token : string,username: string): Observable<any>{
+    return this.http.get(`${API}/manager-security/users/verify/${token}/${username}`);
   }
 }

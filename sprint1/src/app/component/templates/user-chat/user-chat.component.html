@@ -1,12 +1,16 @@
 <div class="chatbox-holder"  [hidden]="isClosed">
   <div class="chatbox"  [class.chatbox-min]="!isExpanded">
-    <div class="chatbox-top" (click)="toggleExpanded()">
-      <div class="chat-partner-name">
+    <div class="chatbox-top">
+      <div class="chat-partner-name" (click)="toggleExpanded()">
         <span class="status online"></span>
-        <a>Chat với Phặc Ma Cốt</a>
+        <a>Chat với Pharmacode</a>
       </div>
       <div class="chatbox-icons">
-        <a>
+        <a  (click)="toggleSound()">
+          <i class="fa-solid fa-volume-high" [hidden]="isMute"></i>
+          <i class="fa-solid fa-volume-xmark" [hidden]="!isMute" ></i>
+        </a>
+        <a (click)="toggleExpanded()">
           <i class="fa-regular fa-window-maximize" [hidden]="isExpanded"></i>
           <i class="fa fa-minus" [hidden]="!isExpanded"></i>
         </a>

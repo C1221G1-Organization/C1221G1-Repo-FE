@@ -34,11 +34,11 @@ export class MedicineEditComponent implements OnInit {
   validationMessages = {
     medicineName: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineActiveIngredients: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt'},
     ],
     medicineImportPrice: [
       {type: 'required', message: 'Không được để trống.'},
@@ -66,19 +66,19 @@ export class MedicineEditComponent implements OnInit {
     ],
     medicineManufacture: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineUsage: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineInstruction: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineAgeApproved: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
+      {type: 'pattern', message: '2 đến 50 kí tự'},
     ],
     medicineImage: [
       {type: 'pattern', message: 'phải là định dạng ảnh jpg, png, gif, bmp.'},
@@ -277,9 +277,7 @@ export class MedicineEditComponent implements OnInit {
           (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineActiveIngredients: new FormControl(this.confirmMedicine.medicineActiveIngredients,
         [Validators.compose([
-          Validators.required,
-          Validators.pattern
-          (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineImportPrice: new FormControl(this.confirmMedicine.medicineImportPrice,
         [Validators.compose([
           Validators.required,
@@ -308,20 +306,16 @@ export class MedicineEditComponent implements OnInit {
           Validators.pattern(/^[1-9][0-9]?$/)])]),
       medicineManufacture: new FormControl(this.confirmMedicine.medicineManufacture,
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineUsage: new FormControl(this.confirmMedicine.medicineUsage,
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineInstruction: new FormControl(this.confirmMedicine.medicineInstruction,
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineAgeApproved: new FormControl(this.confirmMedicine.medicineAgeApproved,
         [Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
+          Validators.required])]),
       medicineImage: new FormControl(this.confirmMedicine.medicineImage),
       medicineDescription: new FormControl(this.confirmMedicine.medicineDescription),
       flag: new FormControl(this.confirmMedicine.flag),

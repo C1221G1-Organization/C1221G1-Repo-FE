@@ -8,13 +8,13 @@ import {AuthGuard} from "../../service/security/auth.guard";
 
 const routes: Routes = [
   {path: 'list', component: CustomerListComponent,canActivate:[AuthGuard],data:{
-    roles: ["ROLE_EMPLOYEE","ROLE_MANAGER"]
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
     }},
   {path: 'create', component: CustomerCreateComponent,canActivate:[AuthGuard],data:{
-      roles: ["ROLE_EMPLOYEE","ROLE_MANAGER"]
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
     }},
   {path: 'edit/:customerId', component: CustomerEditComponent,canActivate:[AuthGuard],data:{
-      roles: ["ROLE_EMPLOYEE","ROLE_MANAGER"]
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
     }}
 ];
 

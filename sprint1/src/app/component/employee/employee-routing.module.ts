@@ -3,13 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {EmployeeListComponent} from './employee-list/employee-list.component';
 import {EmployeeCeateComponent} from './employee-ceate/employee-ceate.component';
 import {EmployeeEditComponent} from './employee-edit/employee-edit.component';
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 
 const routes: Routes = [
   {path: 'list', component: EmployeeListComponent,canActivate:[AuthGuard],data:{
-      roles: ["ROLE_MANAGER"]
+
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
     }},
   {path: 'create', component: EmployeeCeateComponent,canActivate:[AuthGuard],data:{
       roles: ["ROLE_MANAGER"]
