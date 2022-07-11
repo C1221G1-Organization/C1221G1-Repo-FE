@@ -331,6 +331,16 @@ export class MedicineEditComponent implements OnInit {
   }
 
   /**
+   * this function use to reset form
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  resetForm() {
+    this.ngOnInit();
+  }
+
+  /**
    * this function use to compare Type medicine for display view
    *
    * @Author LongNH
