@@ -6,7 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
 import {Title} from '@angular/platform-browser';
 
-const MAXIMUM_QUANTITY_ALLOWED = 20;
+const MAXIMUM_QUANTITY_ALLOWED = 10;
 
 @Component({
   selector   : 'app-medicine-detail',
