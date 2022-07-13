@@ -15,6 +15,11 @@ export class CartService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: check and save item into cart, save it into local storage
+   */
   addToCart(medicine: MedicineDtoForCart, quantity: number) {
     let cartDetailDtos: CartDetailDto[] = [];
     if (localStorage.getItem('cart')) {
@@ -41,10 +46,20 @@ export class CartService {
     localStorage.setItem('cart', JSON.stringify(cartDetailDtos));
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: get cart from local storage
+   */
   getCart(): CartDetailDto[] {
     return JSON.parse(localStorage.getItem('cart'));
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: remove item from cart
+   */
   removeItemFromCart(medicine: MedicineDtoForCart) {
     let cartDetailDtos: CartDetailDto[] = [];
     if (localStorage.getItem('cart')) {
@@ -54,10 +69,20 @@ export class CartService {
     localStorage.setItem('cart', JSON.stringify(cartDetailDtos));
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: get cart and information of medicine, quantity and send it to webservice
+   */
   sendCartDetailToAPI(cartAndDetailDto: CartAndDetailDto): Observable<any> {
     return this.http.post<CartAndDetailDto>(`${API_URL}`, cartAndDetailDto);
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: clear cart from local storage
+   */
   clearCart() {
     localStorage.removeItem('cart');
   }

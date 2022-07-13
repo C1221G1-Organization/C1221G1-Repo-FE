@@ -11,7 +11,7 @@ export class TokenStorageService {
   constructor() { }
 
   signOut(){
-    window.localStorage.clear();
+    window.localStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.clear();
     window.location.reload();
   }

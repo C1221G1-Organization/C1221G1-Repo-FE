@@ -1,5 +1,6 @@
 <div class="wrapper mb-2">
   <div class="container-fluid my-2 mt-10">
+    <h3 class="text-center font-weight-bold">Tra Cứu Hóa Đơn Online</h3>
     <div class="bg-white py-2 shadow-lg rounded-lg">
       <h5 class="p-2">Thông tin tra cứu hóa đơn</h5>
       <div>
@@ -60,7 +61,7 @@
               <td>{{paymentOnline.paymentId}}</td>
               <td>{{paymentOnline.customerName}}</td>
               <td>{{paymentOnline.dateCreate|date:'dd/MM/yyyy'}}</td>
-              <td>{{paymentOnline.timeCreate}}</td>
+              <td>{{paymentOnline.timeCreate|slice:0:5}}</td>
               <td>{{paymentOnline.totalPrice|number}}</td>
               <td>{{paymentOnline.note}}</td>
             </tr>
@@ -68,25 +69,25 @@
           </table>
         </div>
       </div>
-      <!--          paging-->
-      <nav *ngIf="totalPages > 1" class="d-flex justify-content-center py-3">
-        <ul class="pagination">
-          <li class="page-item px-1">
-            <a (click)="previousPage()" [class.disabled]="currentPage == 0" class="page-link">Trang trước</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link">
-              <span>{{currentPage + 1}}</span>
-              <span>/</span>
-              <span>{{totalPages}}</span>
-            </a>
-          </li>
-          <li class="page-item px-1">
-            <a (click)="nextPage()" [class.disabled]="currentPage+1 == totalPages" class="page-link">Trang sau</a>
-          </li>
-        </ul>
-      </nav>
-      <!--          paging-->
+        <!--          paging-->
+        <nav *ngIf="totalPages > 1" class="d-flex justify-content-center py-3">
+          <ul class="pagination">
+            <li class="page-item px-1">
+              <a (click)="previousPage()" [class.disabled]="currentPage == 0" class="page-link">Trang trước</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link">
+                <span>{{currentPage + 1}}</span>
+                <span>/</span>
+                <span>{{totalPages}}</span>
+              </a>
+            </li>
+            <li class="page-item px-1">
+              <a (click)="nextPage()" [class.disabled]="currentPage+1 == totalPages" class="page-link">Trang sau</a>
+            </li>
+          </ul>
+        </nav>
+        <!--          paging-->
     </div>
   </div>
 </div>

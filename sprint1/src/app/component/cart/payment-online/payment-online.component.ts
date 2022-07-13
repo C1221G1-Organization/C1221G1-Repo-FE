@@ -44,9 +44,13 @@ export class PaymentOnlineComponent implements OnInit {
               private toastr: ToastrService) {
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: ngOnInit. Get data (Detail of cart) from webservice. render pay with paypal button
+   */
   ngOnInit(): void {
     window.scrollBy(0, 0);
-    console.log('paymentonline');
     this.paymentOnlineService.getCartAndDetail().subscribe(value => {
       this.cartAndDetailDto = value;
       if (this.cartAndDetailDto.customer != null) {
@@ -103,6 +107,11 @@ export class PaymentOnlineComponent implements OnInit {
     return this.customerForm.get('customerAddress');
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: config payWithPaypal, setting currency, total of cart
+   */
   private initConfig(): void {
 
     this.payPalConfig = {
@@ -184,14 +193,20 @@ export class PaymentOnlineComponent implements OnInit {
     };
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: change total to USD
+   */
   changeRate() {
-    console.log('change');
-    console.log(this.rate);
-    console.log(this.totalAfterDiscount);
     this.totalUSD = (this.totalAfterDiscount / this.rate).toFixed(2);
-    console.log(this.totalUSD);
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: calculate total of cart
+   */
   getTotal(): number {
     let total = 0;
     this.cartAndDetailDto.cartDetail.forEach(item => {
@@ -216,6 +231,11 @@ export class PaymentOnlineComponent implements OnInit {
     this.route.navigate(['home-page']);
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: Get and check discount from user input, send it to webservice if it valid
+   */
   onSubmitDiscount() {
     if (this.discountForm.invalid) {
       this.toastr.warning('Xin vui lòng nhập đúng định dạng!', '', {
@@ -248,7 +268,6 @@ export class PaymentOnlineComponent implements OnInit {
           });
         })
       }
-
     }
   }
 }

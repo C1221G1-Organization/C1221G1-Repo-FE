@@ -12,7 +12,11 @@ export class LookupPaymentOnlineService {
 
   constructor(private http: HttpClient) {
   }
-
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: send request to webservice and get payment online.
+   */
   public getAll(request): Observable<any> {
     const params = request;
     return this.http.get<Page>(`${API_URL}`, {params});
