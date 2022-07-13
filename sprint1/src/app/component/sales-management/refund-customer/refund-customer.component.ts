@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InvoiceWholesaleAndRefundService} from "../../../service/invoiceWholesaleAndRefund.service";
 import {InvoiceDto} from "../../../dto/invoice-dto";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MedicineOfInvoiceDto} from "../../../dto/medicine-of-invoice-dto";
 import {ListMedicineDto} from "../../../dto/list-medicine-dto";
 import {InvoiceMedicine} from "../../../model/invoice-medicine";
@@ -146,7 +146,7 @@ export class RefundCustomerComponent implements OnInit {
     return this.fb.group({
       medicineName: [this.medicineSelect.medicineName],
       medicine: [this.medicineSelect],
-      quantityRefund: 1,
+      quantityRefund:[1, [Validators.required, Validators.min(0), Validators.pattern('^[0]?[1-9]+[0-9]*$')]],
       medicineUnit: [this.medicineSelect.medicineUnit.medicineUnitName],
       invoiceMedicineQuantity: [invoiceMedicine.invoiceMedicineQuantity],
       price: [this.medicineSelect.medicineImportPrice + ((this.medicineSelect.medicineWholesaleProfit) / 100 * this.medicineSelect.medicineImportPrice)],
