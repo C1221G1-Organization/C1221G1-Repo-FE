@@ -6,7 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CartService} from '../../../service/cart/cart.service';
 import {Title} from '@angular/platform-browser';
 
-const MAXIMUM_QUANTITY_ALLOWED = 20;
+const MAXIMUM_QUANTITY_ALLOWED = 10;
 
 @Component({
   selector   : 'app-medicine-detail',
@@ -126,7 +126,12 @@ export class MedicineDetailComponent implements OnInit {
   scrollToTopOfScrollable() {
     window.scrollBy(0, -window.innerHeight);
   }
-
+  /**
+   * @Author NghiaNTT
+   * @Time: 03/07/2022
+   * @param
+   * @return add 1 item to cart and navigate to cart
+   */
   buyNow() {
     this.cartService.addToCart(
       {

@@ -24,7 +24,6 @@ export class PrescriptionDetailComponent implements OnInit {
   prescriptionDetail: PrescriptionDetail;
   listPrescriptionMedicine: PrescriptionMedicineDetail[] = [];
   invoiceMedicineDtos: InvoiceMedicineDto[] = [];
-  listMedicineChoice: ListMedicineChoice[] = [];
   totalMoney = 0;
   activeProjectIndex: number;
   flagHover: Boolean;
@@ -36,6 +35,8 @@ export class PrescriptionDetailComponent implements OnInit {
   user: any;
   employee: Employee;
   isComplete = false;
+  selectedRowIds: Set<String> = new Set<String>();
+  listDeletedName: Set<String> = new Set<String>();
 
   constructor(private retailService: RetailService,
               private route: ActivatedRoute,
@@ -134,57 +135,6 @@ export class PrescriptionDetailComponent implements OnInit {
   /*
  * Created by DaLQA
  * Time: 10:30 AM 3/07/2022
- * Function: function activeProject
- * */
-  activeProject(k: number, item: any) {
-    if (this.activeProjectIndex != k) {
-      this.flagHover = true;
-    } else {
-      this.flagHover = !this.flagHover;
-    }
-    this.activeProjectIndex = k;
-    if (this.flagHover == true) {
-      this.idDelete = item.medicineId;
-      this.nameDelete = item.medicineName;
-      this.deleteErr = '';
-      console.log(this.idDelete);
-    } else {
-      this.idDelete = '';
-      this.deleteErr = 'Bạn chưa chọn thuốc';
-      console.log(this.idDelete);
-    }
-  }
-
-  /*
-* Created by DaLQA
-* Time: 10:30 AM 3/07/2022
-* Function: function deleteMedicine
-* */
-  deleteMedicine(closeModal: HTMLButtonElement) {
-    console.log(this.idDelete);
-    if (this.idDelete != '') {
-      this.listPrescriptionMedicine = this.listPrescriptionMedicine.filter(
-        (item) => {
-          return item.medicineId != this.idDelete;
-        });
-      this.resetIdAndName();
-      this.toastr.success("Xóa thành công !", "Thông báo", {
-        timeOut: 3000,
-        progressBar: true
-      });
-      this.getTotalMoney();
-      closeModal.click();
-    } else {
-      this.toastr.warning("Bạn chưa chọn thuốc !", "Cảnh báo", {
-        timeOut: 3000,
-        progressBar: true
-      });
-    }
-  }
-
-  /*
- * Created by DaLQA
- * Time: 10:30 AM 3/07/2022
  * Function: function resetIdAndName
  * */
   resetIdAndName() {
@@ -239,7 +189,6 @@ export class PrescriptionDetailComponent implements OnInit {
  * Function: function generatePDF
  * */
   private generatePDF(action: string) {
-    console.log(this.listMedicineChoice);
     const docDefinition = {
       content: [
         {
@@ -344,5 +293,67 @@ export class PrescriptionDetailComponent implements OnInit {
     }, error => {
       console.log(error)
     });
+  }
+
+  /*
+* Created by DaLQA
+* Time: 10:30 AM 3/07/2022
+* Function: function onRowClick get medicineId when click a random row
+* */
+  onRowClick(medicineId: string) {
+    if (this.selectedRowIds.has(medicineId)) {
+      this.selectedRowIds.delete(medicineId);
+    } else {
+      this.selectedRowIds.add(medicineId);
+    }
+    console.log(this.selectedRowIds);
+    this.getNameDelete();
+  }
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: rowIsSelected returns the record you selected
+ * */
+  rowIsSelected(id: string) {
+    return this.selectedRowIds.has(id);
+  }
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: get the list medicine name you have delete
+ * */
+  getNameDelete() {
+    for (let id of this.selectedRowIds) {
+      for (let item of this.listPrescriptionMedicine) {
+        if (item.medicineId == id && !this.listDeletedName.has(item.medicineName)) {
+          this.listDeletedName.add(item.medicineName);
+        }
+      }
+    }
+  }
+
+  /*
+ * Created by DaLQA
+ * Time: 10:30 AM 3/07/2022
+ * Function: delete records you have selected
+ * */
+  deleteLotsOfMedicine(closeModal: HTMLButtonElement) {
+    if (this.selectedRowIds.size > 0) {
+      for (let id of this.selectedRowIds) {
+        this.listPrescriptionMedicine = this.listPrescriptionMedicine.filter(
+          (item) => {
+            return item.medicineId != id;
+          });
+        this.selectedRowIds.delete(id);
+      }
+      this.toastr.success("Xóa thành công !", "Thông báo", {
+        timeOut: 3000,
+        progressBar: true
+      });
+      this.listDeletedName.clear();
+      this.getTotalMoney();
+      closeModal.click();
+    }
   }
 }

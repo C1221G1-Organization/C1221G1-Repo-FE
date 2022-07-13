@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.signInForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.minLength(6)]),
-      remember: new FormControl(''),
+      remember: new FormControl(),
     })
     if (this.tokenStorageService.getToken()) {
       this.isSignIn = true;
@@ -79,8 +79,9 @@ export class LoginComponent implements OnInit {
 
           this.roles.forEach(role => {
             if (role === 'ROLE_USER') {
-              this.route.navigateByUrl('/home-page').then();
-              this.ngOnInit();
+              this.route.navigateByUrl('/home-page').then(() => {
+                window.location.reload()
+              });
             } else {
               this.route.navigateByUrl('/home-page').then();
               this.ngOnInit();

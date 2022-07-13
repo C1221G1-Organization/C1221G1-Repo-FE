@@ -27,11 +27,8 @@
               !customerForm.controls.name?.valid
               && (customerForm.controls.name?.dirty ||customerForm.controls.name?.touched)"
                class="text-small text-danger">
-            <div [hidden]="!customerForm.controls.name.errors.required">
-              Vui lòng không để trống
-            </div>
-            <div [hidden]="!customerForm.controls.name.errors.pattern">
-              Vui lòng nhập tên hợp lệ
+            <div [hidden]="!customerForm.controls.name.hasError('forbiddenName')">
+              {{customerForm.controls.name.getError('forbiddenName').message}}
             </div>
           </div>
           <input formControlName="phone" class="form-control mb-1" type="text" placeholder="Nhập số điện thoại của bạn">

@@ -11,7 +11,7 @@ export class TokenStorageService {
   constructor() { }
 
   signOut(){
-    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.removeItem(TOKEN_KEY)
     window.sessionStorage.clear();
     window.location.reload();
   }
@@ -27,10 +27,10 @@ export class TokenStorageService {
   }
 
   getToken():string{
-    if(localStorage.getItem(TOKEN_KEY) !== null){
-      return localStorage.getItem(TOKEN_KEY);
-    }else {
+    if(sessionStorage.getItem(TOKEN_KEY) !== null){
       return sessionStorage.getItem(TOKEN_KEY);
+    }else {
+      return localStorage.getItem(TOKEN_KEY);
     }
   }
 
