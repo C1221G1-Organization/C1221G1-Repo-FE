@@ -7,7 +7,7 @@
           <div class="form-group row">
             <label for="employee" class="col-4 col-form-label" style="max-width: 25%">Nhân viên</label>
             <div class="col-7">
-              <input id="employee" class="form-control form-control-sm" formControlName="employee" readonly>
+              <input id="employee" class="form-control form-control-sm"  value="{{employee.employeeName}}" readonly>
             </div>
           </div>
           <div class="form-group row">
@@ -70,13 +70,21 @@
               <select id="encodings" class="form-control" formControlName="invoiceMedicine">
                 <option *ngFor="let medicine of medicines" [ngValue]="medicine">{{medicine.medicine.medicineName}}</option>
               </select>
+              <p style="color: red"
+                 *ngIf="invoiceMedicineForm.controls.invoiceMedicine.hasError('required') && invoiceMedicineForm.controls.invoiceMedicine.touched" >
+                Xin hãy chọn thuốc.</p>
             </td>
             <td class="col-2 text-center">
               <input type="number" class="form-control text-center"
                      formControlName="quantity">
+              <p style="color: red"
+                 *ngIf="invoiceMedicineForm.controls.quantity.hasError('pattern')">
+                Là số > 0.</p>
+              <p style="color: red"
+                 *ngIf="invoiceMedicineForm.controls.quantity.hasError('required') && invoiceMedicineForm.controls.quantity.touched" >
+                Xin nhập số lượng.</p>
             </td>
             <td class="col-3 ">
-              <input class="form-control w-50" placeholder="Hộp"  readonly>
             </td>
             <td class="col ">
               <button class="btn btn-success" type="button" (click)="addMedicine()">
@@ -92,7 +100,7 @@
             <td>{{i+1}}</td>
             <td>{{item.medicineName}}</td>
             <td>{{item.quantity}}</td>
-            <td>Hộp</td>
+            <td>{{item.medicineUnit}}</td>
             <td>{{item.newMoney|number}} VND</td>
           </tr>
           </tbody>
@@ -123,7 +131,7 @@
             </button>
           </div>
           <div class="pl-1">
-            <button class="btn btn-secondary ">
+            <button class="btn btn-secondary " routerLink="/sales-management/invoices">
               <i class="fa fa-undo" aria-hidden="true"></i>
               Trở về
             </button>
@@ -135,27 +143,35 @@
   </div>
 
   <!--modal delete-->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )" >
+          <h3>Xác nhận xóa</h3>
         </div>
-        <div class="modal-body">
-          <p>Do you really want to delete this medicine
-            <span class="text-danger font-weight-bold" id="nameDelete">{{nameDelete}}</span>
-          </p>
+        <div *ngIf="(idDelete == null || idDelete == undefined || idDelete == '' )">
+          <h3>Lỗi chọn thuốc</h3>
         </div>
-        <div class="modal-footer">
-          <div class="mx-auto row">
-            <input type="hidden" name="id" id="idDelete">
-            <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-danger mx-1 "(click)="deleteMedicine(closeModal)">Xóa</button>
-          </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
+        <p>Bạn có muốn xóa thuốc
+          <span class="text-danger font-weight-bold" id="nameDelete">{{nameDelete}}</span>
+        </p>
+      </div>
+      <div class="modal-body" *ngIf="idDelete == null || idDelete == undefined || idDelete == ''">
+        Bạn chưa chọn thuốc!
+      </div>
+      <div class="modal-footer" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">
+        <div class="mx-auto row">
+          <input type="hidden" name="id" id="idDelete">
+          <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger mx-1" (click)="deleteMedicine(closeModal)">Xóa</button>
         </div>
       </div>
     </div>
   </div>
+</div>
