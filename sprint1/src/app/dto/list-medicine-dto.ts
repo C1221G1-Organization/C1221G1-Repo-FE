@@ -5,4 +5,5 @@ export interface ListMedicineDto {
   newMoney: number,
   checkFlag: boolean,
   quantityMedicineCov: number;
+  medicineUnit: string;
 }

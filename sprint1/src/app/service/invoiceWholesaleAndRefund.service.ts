@@ -8,6 +8,7 @@ import {InvoiceDto} from "../dto/invoice-dto";
 import {ListMedicineDto} from "../dto/list-medicine-dto";
 import {MedicineOfInvoiceDto} from "../dto/medicine-of-invoice-dto";
 import {Customer} from "../model/customer";
+import {Employee} from "../model/employee/employee";
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -36,5 +37,8 @@ export class InvoiceWholesaleAndRefundService {
   }
   getCustomer(): Observable<Customer[]> {
     return this.http.get<Customer[]>(API_URL + '/api/manager-customer/customers/getCustomerType');
+  }
+  public getListEmployee(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(API_URL + `/api/manager-employee/employees/list`);
   }
 }
