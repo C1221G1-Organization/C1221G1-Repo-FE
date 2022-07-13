@@ -58,10 +58,12 @@ export class WholesaleComponent implements OnInit {
   addMedicine() {
       console.log(this.invoiceMedicineForm.value)
       let quantityMedicine = this.invoiceMedicineForm.value.quantity;
-      let money = 50 * quantityMedicine * (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
+      let quantityMedicineCov =  this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineConversionRate;
+      let money = quantityMedicine * (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice + (this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineWholesaleProfit)/100 * this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineImportPrice);
       let idChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineId;
       let nameChoice = this.invoiceMedicineForm.value.invoiceMedicine.medicine.medicineName;
       let medicine: any = {
+        quantityMedicineCov: quantityMedicineCov,
         medicineId: idChoice,
         medicineName: nameChoice,
         quantity: quantityMedicine,
@@ -70,7 +72,7 @@ export class WholesaleComponent implements OnInit {
       };
     const myArray = this.listMedicine;
     const test = myArray.filter(data => data.medicineId == medicine.medicineId && medicine.medicineId != '')
-    if (idChoice == '' || nameChoice == '' || quantityMedicine == ''
+    if (idChoice == '' || nameChoice == '' || quantityMedicine == null
       || test.length > 0 || quantityMedicine < 1) {
       this.flag = true;
     } else {
@@ -104,19 +106,18 @@ export class WholesaleComponent implements OnInit {
   for(let medicine of this.listMedicine){
    let invoiceMedicine: any ={
       medicineId: medicine.medicineId,
-      quantity: medicine.quantity * 50
+      quantity: medicine.quantity * medicine.quantityMedicineCov
     }
     this.invoiceMedicineList.push(invoiceMedicine);
-   console.log(this.invoiceMedicineList)
   }
   let invoice: any = {
-    employeeId: 'NV-0001',
+    employeeId: 'NV-00001',
     customerId: this.customer,
     invoiceNote: this.note,
     invoiceMedicineList: this.invoiceMedicineList
   }
     if (invoice.invoiceMedicineList.length < 1){
-      this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa Đơn Bán Lẻ", {
+      this.toastr.warning("Bạn chưa chọn thuốc !", "Hóa đơn bán sỉ", {
         timeOut: 3000,
         progressBar: true
       });
@@ -128,14 +129,14 @@ export class WholesaleComponent implements OnInit {
         })
         this.listMedicine = [];
       }, error => {
-        this.toastr.warning("Thêm Mới Thất Bại, Nhập đầy đủ thông tin", "Hóa đơn bán sỉ", {
-          timeOut:3000,
+        this.toastr.warning("Thêm mới thất bại", "Hóa đơn bán sỉ", {
+          timeOut: 3000,
           progressBar: true
         });
         console.log(error)
       }
-    )}
-
+    )
+    }
   }
 
   activeProject(k: number, item: any) {

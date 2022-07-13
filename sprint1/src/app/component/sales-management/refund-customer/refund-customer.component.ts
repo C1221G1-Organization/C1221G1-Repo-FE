@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MedicineOfInvoiceDto} from "../../../dto/medicine-of-invoice-dto";
 import {ListMedicineDto} from "../../../dto/list-medicine-dto";
 import {InvoiceMedicine} from "../../../model/invoice-medicine";
+import {Medicine} from "../../../model/medicine/medicine";
 
 
 @Component({
@@ -27,7 +28,8 @@ export class RefundCustomerComponent implements OnInit {
   medicineList: MedicineOfInvoiceDto[] = [];
   medicineCurrent: MedicineOfInvoiceDto;
   invoiceMedicineSelectedArray: FormArray;
-  flagNoMedicine = true
+  flagNoMedicine = true;
+  medicineSelect: Medicine;
   constructor(private invoiceService: InvoiceWholesaleAndRefundService,private fb: FormBuilder,) {
     this.invoiceForm = this.fb.group({
       medicineRefundList: this.fb.array(this.medicineList
@@ -44,16 +46,13 @@ export class RefundCustomerComponent implements OnInit {
   search() {
     this.invoiceService.search(this.searchInvoice).subscribe(data =>{
       this.invoice = data;
-      if (data == null){
-        this.total = 0;
-      }
     })
-    console.log(this.invoice)
-    console.log(this.searchInvoice)
   }
-  get medicineRefundListSelected(): FormArray {
-    this.invoiceMedicineSelectedArray = this.invoiceForm.get('importInvoiceMedicineList') as FormArray;
+
+  get invoiceMedicineSelected(): FormArray {
+    this.invoiceMedicineSelectedArray = this.invoiceForm.get('medicineRefundList') as FormArray;
     return this.invoiceMedicineSelectedArray;
+    console.log(this.invoiceMedicineSelectedArray)
   }
 
 
@@ -88,19 +87,29 @@ export class RefundCustomerComponent implements OnInit {
   }
 
   importMedicine(medicine: any) {
-    this.isShowMedicineList = !this.isShowMedicineList;
+    this.isShowMedicineList = !this.isShowMedicineList
     this.medicineCurrent = medicine;
     const invoiceRefund = this.addNewMedicineRefund(this.medicineCurrent);
-    this.medicineRefundListSelected.push(invoiceRefund);
+    this.invoiceMedicineSelected.push(invoiceRefund);
+    console.log(this.invoiceMedicineSelected)
   }
 
   private addNewMedicineRefund(invoiceMedicine: MedicineOfInvoiceDto) {
     return this.fb.group({
-      medicineName: [invoiceMedicine.medicine.medicineName],
+      medicineName: [this.medicineSelect.medicineName],
+      medicine: [this.medicineSelect],
       quantityRefund: '',
       medicineUnit: 'Hộp',
       intoMoney: 0,
-      price: [invoiceMedicine.medicine.medicineWholesaleProfit * invoiceMedicine.medicine.medicineImportPrice]
+      price: [this.medicineSelect.medicineWholesaleProfit * this.medicineSelect.medicineImportPrice]
     })
   }
+
+  sendMedicine(medicine: Medicine) {
+    this.medicineSelect = medicine;
+  }
+  // get invoiceMedicineSelectedArray(): FormArray {
+  //   this.invoiceMedicineSelectedArray = this.invoiceForm.get('medicineRefundList') as FormArray;
+  //   return this.invoiceMedicineSelectedArray;
+  // }
 }

@@ -14,7 +14,7 @@ import {CustomerEditComponent} from "./customer-edit/customer-edit.component";
     CustomerModalComponent,
     CustomerCreateComponent,
     CustomerListComponent,
-    CustomerEditComponent,],
+    CustomerEditComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule
