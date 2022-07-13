@@ -45,6 +45,11 @@ export class CartComponent implements OnInit {
     this.ngOnInit();
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: Get all item in cart and call service, send it to webService to confirm cart.
+   */
   confirmCart() {
     let cartAndDetailDto = {} as CartAndDetailDto;
     cartAndDetailDto.cartDetail = this.cartDetails;
@@ -53,14 +58,12 @@ export class CartComponent implements OnInit {
       customer.customerUserName = this.username;
       cartAndDetailDto.customer = customer;
     }
-    console.log(cartAndDetailDto);
     this.cartService.sendCartDetailToAPI(cartAndDetailDto).subscribe(data => {
       // this.paymentOnlineService.setCartAndDetailDto(data);
       this.paymentOnlineService.setCartAndDetail(data);
       this.route.navigate(['cart/payment-online']);
     }, error => {
       this.medicineErrorArray = [];
-      console.log(error.error);
       for (let i = 0; i < cartAndDetailDto.cartDetail.length; i++) {
         console.log('cartDetail[' + i + '].medicine');
         console.log(error.error['cartDetail[' + i + '].medicine']);
@@ -73,12 +76,22 @@ export class CartComponent implements OnInit {
     });
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: Remove item in cart, recalculate total of cart.
+   */
   removeItem(medicine: MedicineDtoForCart) {
     this.cartService.removeItemFromCart(medicine);
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: reduce quantity item in cart, recalculate total of cart.
+   */
   reduceItem(medicine: MedicineDtoForCart) {
     this.cartService.addToCart(medicine, -1);
     this.cartDetails = this.cartService.getCart();
@@ -86,12 +99,22 @@ export class CartComponent implements OnInit {
 
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: increase quantity item in cart, recalculate total of cart.
+   */
   increaseItem(medicine: MedicineDtoForCart) {
     this.cartService.addToCart(medicine, 1);
     this.cartDetails = this.cartService.getCart();
     this.total = this.getTotal();
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: calculate total money of cart.
+   */
   getTotal(): number {
     let total = 0;
     if (this.cartDetails != null) {
@@ -102,16 +125,23 @@ export class CartComponent implements OnInit {
     return total;
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: Get information of medicine when user click remove button.
+   */
   getMedicineDelete(medicine: MedicineDtoForCart) {
     this.medicineDelete = medicine;
   }
 
+  /**
+   * Created by: KhoaPV
+   * Date created: 01/7/2022
+   * function: show modal on screen.
+   */
   openModal() {
     // this.display = 'block';
     document.getElementById('openModalButton').click();
   }
 
-  closeModal() {
-    this.display = 'none';
-  }
 }
