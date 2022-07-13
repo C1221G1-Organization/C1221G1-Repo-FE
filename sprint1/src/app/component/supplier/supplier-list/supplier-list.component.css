@@ -1,6 +1,9 @@
 .mgl {
   margin-left: 30px;
 }
+tr:hover{
+  background-color: lightgrey;
+}
 
 .mg-r {
   margin-right: 10px;

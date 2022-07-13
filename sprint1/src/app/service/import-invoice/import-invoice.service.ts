@@ -6,7 +6,7 @@ import {Medicine} from '../../model/medicine/medicine';
 import {FormGroup} from '@angular/forms';
 import {Employee} from '../../model/employee/employee';
 import {ImportInvoice} from '../../model/import-invoice/import-invoice';
-import {Supplier} from '../../model/supplier';
+import {Supplier} from '../../model/Supplier';
 
 const httpOptions = {
   headers: new HttpHeaders({

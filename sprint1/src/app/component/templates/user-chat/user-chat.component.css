@@ -45,7 +45,7 @@
   display: flex;
   padding: 10px 0;
   border-radius: 10px 10px 0 0;
-  background: rgba(2,139,179, 1);
+  background: var(--primary-color);
 }
 .chat-partner-name {
   flex: 1;
@@ -65,18 +65,18 @@
   position: relative;
 }
 .chatbox-icons .fa {
-  background: rgba(2,139,179, .6);
+  background: var(--primary-color);
   padding: 3px 5px;
-  margin: 0 0 0 3px;
   color: white;
   border-radius: 0 5px 0 5px;
   transition: 0.3s;
 }
 .chatbox-icons .fa:hover {
   border-radius: 5px 0 5px 0;
-  background: rgba(2,139,179, 1);
+  background: var(--primary-color);
 }
 .chatbox-icons a, .chatbox-icons a:link, .chatbox-icons a:visited {
+  padding-left: 5px;
   color: white;
 }
 .chatbox-min {
@@ -95,7 +95,7 @@
   flex: 1;
 }
 .message-sender a, .message-sender a:link, .message-sender a:visited {
-  color: #30649c;
+  color: var(--primary-color);
   text-decoration: none;
 }
 .chat-input-holder {
@@ -111,20 +111,20 @@
 }
 .message-you {
   font-size: 16px;
-  color: #30649c;
+  color: var(--primary-color);
   align-self: flex-end;
 }
 .message-sender {
   font-size: 16px;
   margin: 0 0 15px;
-  color: #30649c;
+  color: var(--primary-color);
   align-self: flex-start;
 }
 .message-box {
   padding: 6px 10px;
   border-radius: 6px;
   position: relative;
-  background: rgba(2,139,179, 1);
+  background: var(--primary-color);
   border: 2px solid rgba(100, 170, 0, .1);
   color: white;
   font-size: 16px;
@@ -133,7 +133,7 @@
   content: "";
   position: absolute;
   border: 10px solid transparent;
-  border-top: 10px solid rgba(2,139,179, 1);
+  border-top: 10px solid var(--primary-color);
   border-right: none;
   bottom: -22px;
   right: 10px;
@@ -171,7 +171,7 @@
   padding: 0;
 }
 .message-send {
-  color: rgba(2,139,179, 1);
+  color: var(--primary-color);
   font-size: 16px;
   padding: 0 15px;
   border: none;

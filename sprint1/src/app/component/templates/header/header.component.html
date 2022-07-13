@@ -33,9 +33,6 @@
             <li class="header__navbar-user-item">
               <a routerLink="/cart/details">Giỏ hàng</a>
             </li>
-            <li class="header__navbar-user-item">
-              <a href="">Quản lý cửa hàng</a>
-            </li>
             <li class="header__navbar-user-item header__navbar-user-item--separate">
               <a (click)="logout($event)">Đăng xuất</a>
             </li>
@@ -60,12 +57,15 @@
         <div class=" mr-3 select-box">
           <select class="form-control " style="border: none;" #typeId>
             <option value="">Danh mục</option>
-            <option [value]="1">Bổ</option>
-            <option [value]="2">Cảm</option>
+            <option [value]="1">Vitamin</option>
+            <option [value]="2">Bổ</option>
+            <option [value]="3">An thần</option>
+            <option [value]="4">Kháng sinh</option>
+            <option [value]="5">Ho</option>
           </select>
         </div>
         <button class="header__search-btn">
-          <i aria-hidden="true" class="header__search-btn-icon fa fa-search"></i>
+          <i aria-hidden="true" (click)="searchMedicine(name,typeId)" class="header__search-btn-icon fa fa-search"></i>
         </button>
       </div>
 

@@ -1,12 +1,16 @@
 <div class="chatbox-holder"  [hidden]="isClosed">
   <div class="chatbox"  [class.chatbox-min]="!isExpanded">
-    <div class="chatbox-top" (click)="toggleExpanded()">
-      <div class="chat-partner-name">
+    <div class="chatbox-top">
+      <div class="chat-partner-name" (click)="toggleExpanded()">
         <span class="status online"></span>
-        <a>Chat với Phặc Ma Cốt</a>
+        <a>Chat với Pharmacode</a>
       </div>
       <div class="chatbox-icons">
-        <a>
+        <a  (click)="toggleSound()">
+          <i class="fa-solid fa-volume-high" [hidden]="isMute"></i>
+          <i class="fa-solid fa-volume-xmark" [hidden]="!isMute" ></i>
+        </a>
+        <a (click)="toggleExpanded()">
           <i class="fa-regular fa-window-maximize" [hidden]="isExpanded"></i>
           <i class="fa fa-minus" [hidden]="!isExpanded"></i>
         </a>
@@ -23,11 +27,8 @@
               !customerForm.controls.name?.valid
               && (customerForm.controls.name?.dirty ||customerForm.controls.name?.touched)"
                class="text-small text-danger">
-            <div [hidden]="!customerForm.controls.name.errors.required">
-              Vui lòng không để trống
-            </div>
-            <div [hidden]="!customerForm.controls.name.errors.pattern">
-              Vui lòng nhập tên hợp lệ
+            <div [hidden]="!customerForm.controls.name.hasError('forbiddenName')">
+              {{customerForm.controls.name.getError('forbiddenName').message}}
             </div>
           </div>
           <input formControlName="phone" class="form-control mb-1" type="text" placeholder="Nhập số điện thoại của bạn">

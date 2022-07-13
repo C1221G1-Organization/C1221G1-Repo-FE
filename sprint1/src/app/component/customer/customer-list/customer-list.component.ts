@@ -15,21 +15,24 @@ import {CustomerService} from '../../../service/customer/customer.service';
 
 
 export class CustomerListComponent implements OnInit {
-  customers: Customer;
-  customer: Customer[] = [];
-  customerType: CustomerType[];
-  totalPages: number;
-  currentPage: number;
-  data: any;
-  isChoosen: boolean;
-  choosenIndex: number;
-  choosenId: string;
-  idDelete: string;
+  // public customers: Customer;
+  public customer: Customer[];
+  public customerType: CustomerType[];
+  public totalPages: number;
+  public currentPage: number;
+  public data: any;
+  public isChoosen: boolean;
+  public choosenIndex: number;
+  public choosenId: string;
+  public idDelete: string;
+  public nameDelete: string;
   public isInputHidden = true;
   public isSelectHidden = false;
+  public check: string;
+  public isHasContent = false;
   @ViewChild('keySearch1') keySearch1: ElementRef;
   @ViewChild('keySearch2') keySearch2: ElementRef;
-  @ViewChild('sort') sort: ElementRef;
+  @ViewChild('sort') valueSort: ElementRef;
   @ViewChild('type') type: ElementRef;
   @ViewChild('valueSearchDropDown') typeSort: ElementRef;
 
@@ -40,7 +43,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllCustomers({page: 0, size: 5});
+    this.getAllCustomerToDisplay();
     this.getAllCustomerType();
     console.log(this.customerType);
   }
@@ -51,28 +54,22 @@ export class CustomerListComponent implements OnInit {
    * This method to get data from table customer in database
    */
 
-  getAllCustomers(request) {
-    console.log(request);
-    this.customerService.getAllCustomer(request).subscribe(customers => {
-      if (customers !== null) {
+  getAllCustomerToDisplay() {
+    this.customerService.getAllCustomer({
+      page: 0, size: 5, customerId: ''
+      , customerType: '', customerName: '', customerAddress: '', customerPhone: '', sort: ''
+    })
+      .subscribe(customers => {
         this.customer = customers['content'];
         this.currentPage = customers['number'];
         this.totalPages = customers['totalPages'];
-      } else {
-        this.customer = [];
-        this.currentPage = -1;
-        this.totalPages = 0;
-      }
-      // @ts-ignore
-      this.customer = customers.content;
-      // @ts-ignore
-      this.totalPages = customers.totalPages;
-      // @ts-ignore
-      this.currentPage = customers.number;
-      console.log(customers);
-    });
-  }
-
+      }, () => {
+        this.customer = null;
+        this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+          timeOut: 3000,
+          progressBar: true
+        });
+      }); }
   /**
    * create by TinBQ
    * time: 01/07/2022
@@ -91,40 +88,66 @@ export class CustomerListComponent implements OnInit {
    * This method to transfer previous page
    */
   previousPage() {
+    console.log(this.currentPage);
     const request = {};
     if ((this.currentPage) > 0) {
       // @ts-ignore
-      request.page = this.currentPage - 1;
+      request['page'] = this.currentPage - 1;
       // @ts-ignore
-      request.size = 5;
+      request['size'] = 5;
+      request['sort'] = this.valueSort.nativeElement.value;
       // @ts-ignore
-      request.owner = this.ownerSearch;
+      request['owner'] = this.ownerSearch;
       // @ts-ignore
       switch (this.keySearch1.nativeElement.value) {
         case 'noChoice':
           break;
         case 'customerId':
           request['customerId'] = this.keySearch2.nativeElement.value;
+          request['customerType'] = '';
+          request['customerName'] = '';
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerType':
-          request['customerType'] = this.typeSort.nativeElement.value;
+          request['customerId'] = '';
+          request['customerType']= this.typeSort.nativeElement.value;
+          request['customerName'] = '';
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerName':
-          request['customerName'] = this.keySearch2.nativeElement.value;
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName']  = this.keySearch2.nativeElement.value;
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerAddress':
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName'] = '';
           request['customerAddress'] = this.keySearch2.nativeElement.value;
+          request['customerPhone'] = '';
           break;
         case
         'customerPhone':
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName'] = '';
+          request['customerAddress'] = '';
           request['customerPhone'] = this.keySearch2.nativeElement.value;
           break;
       }
-      request['sort'] = this.sort.nativeElement.value;
-      this.getAllCustomers(request);
+      this.customerService.getAllCustomer(request)
+        .subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+        }, () => {});
     }
   }
 
@@ -134,39 +157,64 @@ export class CustomerListComponent implements OnInit {
    * This method to transfer next page
    */
   nextPage() {
+    console.log(this.currentPage);
     const request = {};
     if ((this.currentPage + 1) < this.totalPages) {
       // @ts-ignore
-      request.page = this.currentPage + 1;
+      request['page'] = this.currentPage + 1;
       // @ts-ignore
-      request.size = 5;
+      request['size'] = 5;
+      request['sort'] = this.valueSort.nativeElement.value;
+      // @ts-ignore
+      request['owner'] = this.ownerSearch;
+      // @ts-ignore
       switch (this.keySearch1.nativeElement.value) {
-        case 'noChoice':
-          break;
         case 'customerId':
           request['customerId'] = this.keySearch2.nativeElement.value;
+          request['customerType'] = '';
+          request['customerName'] = '';
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerType':
-          request['customerType'] = this.typeSort.nativeElement.value;
+          request['customerId'] = '';
+          request['customerType']= this.typeSort.nativeElement.value;
+          request['customerName'] = '';
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerName':
-          request['customerName'] = this.keySearch2.nativeElement.value;
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName']  = this.keySearch2.nativeElement.value;
+          request['customerAddress'] = '';
+          request['customerPhone'] = '';
           break;
         case
         'customerAddress':
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName'] = '';
           request['customerAddress'] = this.keySearch2.nativeElement.value;
+          request['customerPhone'] = '';
           break;
         case
         'customerPhone':
+          request['customerId'] = '';
+          request['customerType'] = '';
+          request['customerName'] = '';
+          request['customerAddress'] = '';
           request['customerPhone'] = this.keySearch2.nativeElement.value;
           break;
       }
-      request['sort'] = this.sort.nativeElement.value;
-      // @ts-ignore
-      request.owner = this.ownerSearch;
-      this.getAllCustomers(request);
+      this.customerService.getAllCustomer(request)
+        .subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+        }, () => {});
     }
   }
 
@@ -176,63 +224,233 @@ export class CustomerListComponent implements OnInit {
    * This method to search customer base on condition
    */
   search() {
+    this.check = this.keySearch2.nativeElement.value;
     switch (this.keySearch1.nativeElement.value) {
-      case '':
-        this.getAllCustomers({
-          customerType: this.keySearch2.nativeElement.value,
-          customerName: this.keySearch2.nativeElement.value,
-          customerAddress: this.keySearch2.nativeElement.value,
-          customerPhone: this.keySearch2.nativeElement.value
-          ,
+      case 'noChoice':
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
           page: 0
-          ,
-          size: 5
-          ,
-          sort: this.sort.nativeElement.value
-        });
+          , size: 5
+          , customerId: this.keySearch2.nativeElement.value
+          , customerType : this.keySearch2.nativeElement.value
+          , customerPhone : this.keySearch2.nativeElement.value
+          , customerAddress : this.keySearch2.nativeElement.value
+          , customerName : this.keySearch2.nativeElement.value
+          , sort: ''
+        }).subscribe(customers => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+        }, () => {});
         break;
       case 'customerId':
-        this.getAllCustomers({
-          customerId: this.keySearch2.nativeElement.value
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
+          customerId: this.check.trim()
           , page: 0
           , size: 5
-          , sort: this.sort.nativeElement.value
+          , customerType : ''
+          , customerPhone : ''
+          , customerAddress : ''
+          , customerName : ''
+          , sort: ''
+        }).subscribe(customers =>  {
+          if (customers !== null) {
+            this.customer = customers['content'];
+            this.currentPage = customers['number'];
+            this.totalPages = customers['totalPages'];
+          } else {
+            this.customer = null;
+            this.isHasContent = true;
+            this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
+          }
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
         break;
-      case
-      'customerType':
-        this.getAllCustomers({
+      case 'customerName':
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
+          customerName: this.check.trim()
+          , page: 0
+          , size: 5
+          , customerType : ''
+          , customerPhone : ''
+          , customerAddress : ''
+          , customerId : ''
+          , sort: ''
+        }).subscribe(customers =>  {
+          if (customers !== null) {
+            this.customer = customers['content'];
+            this.currentPage = customers['number'];
+            this.totalPages = customers['totalPages'];
+          } else {
+            this.customer = null;
+            this.isHasContent = true;
+            this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
+          }
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+        });
+        break;
+      case 'customerType':
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
           customerType: this.typeSort.nativeElement.value
           , page: 0
           , size: 5
-          , sort: this.sort.nativeElement.value
+          , customerId : ''
+          , customerPhone : ''
+          , customerAddress : ''
+          , customerName : ''
+          , sort: ''
+        }).subscribe(customers =>  {
+          if (customers !== null) {
+            this.customer = customers['content'];
+            this.currentPage = customers['number'];
+            this.totalPages = customers['totalPages'];
+          } else {
+            this.customer = null;
+            this.isHasContent = true;
+            this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
+          }
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
         break;
-      case
-      'customerName':
-        this.getAllCustomers({
-          customerName: this.keySearch2.nativeElement.value
+      case 'customerAddress':
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
+          customerAddress: this.check.trim()
           , page: 0
           , size: 5
-          , sort: this.sort.nativeElement.value
+          , customerType : ''
+          , customerPhone : ''
+          , customerId : ''
+          , customerName : ''
+          , sort: ''
+        }).subscribe(customers =>  {
+          if (customers !== null) {
+            this.customer = customers['content'];
+            this.currentPage = customers['number'];
+            this.totalPages = customers['totalPages'];
+          } else {
+            this.customer = null;
+            this.isHasContent = true;
+            this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
+          }
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
         break;
-      case
-      'customerAddress':
-        this.getAllCustomers({
-          customerAddress: this.keySearch2.nativeElement.value
-          , page: 0
+      case 'customerPhone':
+        if (this.check === '%') {
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          this.isHasContent = true;
+          return this.customer = null;
+        }
+        this.customerService.getAllCustomer({
+          page: 0
           , size: 5
-          , sort: this.sort.nativeElement.value
-        });
-        break;
-      case
-      'customerPhone':
-        this.getAllCustomers({
-          customerPhone: this.keySearch2.nativeElement.value
-          , page: 0
-          , size: 5
-          , sort: this.sort.nativeElement.value
+          ,  customerPhone: this.check.trim()
+          , customerType : ''
+          , customerId : ''
+          , customerAddress : ''
+          , customerName : ''
+          , sort: ''
+        }).subscribe(customers =>  {
+          if (customers !== null) {
+            this.customer = customers['content'];
+            this.currentPage = customers['number'];
+            this.totalPages = customers['totalPages'];
+          } else {
+            this.customer = null;
+            this.isHasContent = true;
+            this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+              timeOut: 3000,
+              progressBar: true
+            });
+          }
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+          this.toastr.warning('Không tìm thấy dữ liệu tương ứng !', 'Thông báo', {
+            timeOut: 3000,
+            progressBar: true
+          });
         });
         break;
     }
@@ -243,56 +461,76 @@ export class CustomerListComponent implements OnInit {
    * time: 04/07/2022
    * This method to soft customer base on condition
    */
-  sortBy() {
-    switch (this.sort.nativeElement.value) {
+  sortBy(value: any) {
+    switch (this.valueSort.nativeElement.value) {
       case 'customer_id':
-        console.log(this.sort.nativeElement.value);
-        this.getAllCustomers({
-          customerId: this.keySearch2.nativeElement.value,
-          sort: this.sort.nativeElement.value
-          , dir: 'desc'
-          , page: 0
-          , size: 5
-        });
-        break;
-      case 'customer_type_id':
-        console.log(this.sort.nativeElement.value);
-        this.getAllCustomers({
-          customerId: this.keySearch2.nativeElement.value,
-          sort: this.sort.nativeElement.value
-          , dir: 'desc'
-          , page: 0
-          , size: 5
+        this.customerService.getAllCustomer({
+          page: 0, size: 5, customerId: this.keySearch2.nativeElement.value, customerType: '', customerName: '',
+          customerPhone: '', customerAddress: '', sort: value
+        }).subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+          this.isHasContent = false;
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
         });
         break;
       case 'customer_name':
-        console.log(this.sort.nativeElement.value);
-        this.getAllCustomers({
-          customerName: this.keySearch2.nativeElement.value,
-          sort: this.sort.nativeElement.value
-          , dir: 'desc'
-          , page: 0
-          , size: 5
+        this.customerService.getAllCustomer({
+          page: 0, size: 5, customerId: '', customerType: '', customerName: this.keySearch2.nativeElement.value,
+          customerPhone: '', customerAddress: '', sort: value
+        }).subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+          this.isHasContent = false;
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
         });
         break;
       case 'customer_address':
-        console.log(this.sort.nativeElement.value);
-        this.getAllCustomers({
-          customerAddress: this.keySearch2.nativeElement.value,
-          sort: this.sort.nativeElement.value
-          , dir: 'desc'
-          , page: 0
-          , size: 5
+        this.customerService.getAllCustomer({
+          page: 0, size: 5, customerId: '', customerType: '', customerName: '',
+          customerPhone: '', customerAddress: this.keySearch2.nativeElement.value, sort: value
+        }).subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+          this.isHasContent = false;
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
         });
         break;
       case 'customer_phone':
-        console.log(this.sort.nativeElement.value);
-        this.getAllCustomers({
-          customerPhone: this.keySearch2.nativeElement.value,
-          sort: this.sort.nativeElement.value
-          , dir: 'desc'
-          , page: 0
-          , size: 5
+        this.customerService.getAllCustomer({
+          page: 0, size: 5, customerId: '', customerType: '', customerName: '',
+          customerPhone: this.keySearch2.nativeElement.value, customerAddress: '', sort: value
+        }).subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+          this.isHasContent = false;
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
+        });
+        break;
+      case 'customer_type_id':
+        this.customerService.getAllCustomer({
+          page: 0, size: 5, customerId: '', customerType: this.typeSort.nativeElement.value, customerName: '',
+          customerPhone: '', customerAddress: '', sort: value
+        }).subscribe(customers => {
+          this.customer = customers['content'];
+          this.currentPage = customers['number'];
+          this.totalPages = customers['totalPages'];
+          this.isHasContent = false;
+        }, () => {
+          this.customer = null;
+          this.isHasContent = true;
         });
         break;
     }
@@ -304,16 +542,13 @@ export class CustomerListComponent implements OnInit {
    * This method to delet customer in database
    */
   deleteCustomer(customerId: string) {
-    console.log(customerId);
     this.customerService.delete(customerId).subscribe(() => {
-      this.toastr.warning('Xóa Thành Công !', 'Thông báo', {
+      this.toastr.success('Xóa Thành Công !', 'Thông báo', {
         timeOut: 3000,
         progressBar: true
       });
       this.router.navigateByUrl('/customer/list');
       this.ngOnInit();
-      this.getAllCustomers({page: 0, size: 5});
-      console.log(customerId);
     });
   }
 
@@ -322,7 +557,7 @@ export class CustomerListComponent implements OnInit {
    * time: 04/07/2022
    * This method to get id delete customer
    */
-  getValueToDelete(i: number, customerId: string) {
+  getValueToDelete(i: number, customerId: string, customerName: string) {
     if (this.choosenIndex !== i) {
       this.isChoosen = true;
       this.choosenIndex = i;
@@ -334,6 +569,7 @@ export class CustomerListComponent implements OnInit {
     }
     if (this.isChoosen) {
       this.idDelete = customerId;
+      this.nameDelete = customerName;
     }
   }
 
@@ -368,5 +604,5 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
-}
 
+}

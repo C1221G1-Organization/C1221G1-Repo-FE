@@ -1,4 +1,5 @@
-import {Employee} from "./employee";
+import {Employee} from "./employee/employee";
+
 import {Customer} from "./customer";
 
 export interface Invoice {

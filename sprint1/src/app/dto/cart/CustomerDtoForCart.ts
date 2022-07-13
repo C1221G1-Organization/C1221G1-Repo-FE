@@ -4,4 +4,5 @@ export interface CustomerDtoForCart {
   customerAddress?: string;
   customerPhone?: string;
   customerUserName?: string;
+  uuidChat?: string
 }

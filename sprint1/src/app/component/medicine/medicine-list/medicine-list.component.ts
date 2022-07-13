@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MedicineService} from '../../../service/medicine/medicine.service';
 import {MedicineDto} from '../../../model/medicine/medicine-dto';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-medicine-list',
@@ -9,29 +10,29 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./medicine-list.component.css']
 })
 export class MedicineListComponent implements OnInit {
+
   public medicines: MedicineDto[];
   nameToDelete: string;
   idToDelete: string;
   getMedicine: MedicineDto;
   infoMedicine: MedicineDto;
-  p = 0;
+  p = 1;
   chosenIndex: number;
   isChosen: boolean;
   chooseId: string;
-
+  isCondition: boolean;
   @ViewChild('columName') columName: ElementRef;
   @ViewChild('condition') condition: ElementRef;
   @ViewChild('keyWord') keyWord: ElementRef;
 
 
-  constructor(private medicineService: MedicineService, private toastr: ToastrService) {
+  constructor(private medicineService: MedicineService, private toastr: ToastrService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.medicineService.searchListMedicine('medicineId', 'like', '%%').subscribe(medicines => {
       if (medicines != null) {
         this.medicines = medicines;
-        console.log(this.medicines);
       } else {
         this.medicines = [];
       }
@@ -46,6 +47,9 @@ export class MedicineListComponent implements OnInit {
    */
 
   deleteModal(name: string, id: string) {
+    if (id == null) {
+      this.isChosen = !this.isChosen;
+    }
     this.nameToDelete = name;
     this.idToDelete = id;
   }
@@ -58,10 +62,11 @@ export class MedicineListComponent implements OnInit {
    */
   deleteMedicineById() {
     this.medicineService.deleteMedicineById(this.idToDelete).subscribe(() => {
-        this.toastr.warning('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
-          timeOut: 2000,
+        this.toastr.success('Đã xóa Thành Công !', 'Thông Báo Xác Nhận', {
+          timeOut: 1500,
           progressBar: true
         });
+        this.p = 1;
         this.ngOnInit();
       }
     );
@@ -74,16 +79,23 @@ export class MedicineListComponent implements OnInit {
    * @Time 10:00 04/07/2022
    */
   searchMedicine() {
+    this.p = 1;
     const colNameSearch = this.columName.nativeElement.value;
     const conditionSearch = this.condition.nativeElement.value;
     const keyWordSearch = this.keyWord.nativeElement.value;
-
-    if (colNameSearch === 'medicineId' || colNameSearch === 'medicineTypeName' ||
+    if (colNameSearch === '' && conditionSearch === '') {
+      this.toastr.warning('Bạn chưa chọn điều kiện tìm kiếm ', 'Tìm kiếm', {
+        timeOut: 1500,
+        progressBar: true,
+      });
+    }
+    if (keyWordSearch.match(/[^a-z0-9 ]/) && keyWordSearch.length !== 0) {
+      this.medicines = [];
+    } else if (colNameSearch === 'medicineId' || colNameSearch === 'medicineTypeName' ||
       colNameSearch === 'medicineName' || colNameSearch === 'medicineActiveIngredients') {
       this.medicineService.searchListMedicine(colNameSearch,
         'like', '%27%25' + keyWordSearch + '%25%27').subscribe(medicines => {
         if (medicines != null) {
-          console.log(medicines);
           this.medicines = medicines;
         } else {
           this.medicines = [];
@@ -94,7 +106,6 @@ export class MedicineListComponent implements OnInit {
       this.medicineService.searchListMedicine(colNameSearch,
         conditionSearch, keyWordSearch).subscribe(medicines => {
         if (medicines != null) {
-          console.log(medicines);
           this.medicines = medicines;
         } else {
           this.medicines = [];
@@ -116,13 +127,14 @@ export class MedicineListComponent implements OnInit {
       this.chosenIndex = index;
       this.chooseId = medicineId;
     } else {
-      this.isChosen = false;
-      this.chooseId = null;
+      this.isChosen = !this.isChosen;
+      this.chosenIndex = index;
+      this.chooseId = medicineId;
     }
     if (this.isChosen) {
       this.getMedicine = medicine;
       this.toastr.success('Xác Nhận Đã Chọn ' + this.getMedicine.medicineName, 'Thông Báo Xác Nhận', {
-        timeOut: 3000,
+        timeOut: 1500,
         progressBar: true,
       });
     }
@@ -141,6 +153,26 @@ export class MedicineListComponent implements OnInit {
         this.infoMedicine = this.medicines[i];
         break;
       }
+    }
+  }
+
+  changeCondition($event: string) {
+    if ($event === '' || $event === 'medicineId' || $event === 'medicineTypeName' || $event === 'medicineName' ||
+      $event === 'medicineActiveIngredients') {
+      this.isCondition = false;
+    } else {
+      this.isCondition = true;
+    }
+  }
+
+  confirmSelect() {
+    if (!this.isChosen) {
+      this.toastr.warning('Bạn chưa chọn thuốc', 'Cảnh Báo', {
+        timeOut: 1500,
+        progressBar: true,
+      });
+    } else {
+      this.router.navigate(['/medicine/edit', this.chooseId]);
     }
   }
 }

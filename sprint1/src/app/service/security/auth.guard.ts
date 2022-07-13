@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
       console.log(next);
       console.log(next.data);
       if(next.data.roles.indexOf(role) === -1){
-        this.router.navigate(['/log/403-forbidden'],{
+        this.router.navigate(['log/forbidden-page'],{
           queryParams:{returnUrl : url}
         });
         return false;

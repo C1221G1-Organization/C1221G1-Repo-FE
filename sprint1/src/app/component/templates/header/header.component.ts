@@ -41,19 +41,18 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     }
     if (localStorage.getItem('cart')) {
       this.cartDetailDtos = JSON.parse(localStorage.getItem('cart'));
+      this.productQuantityInCart += this.cartDetailDtos.length;
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.productQuantityInCart = 0;
     }
-    this.productQuantityInCart += this.cartDetailDtos.length;
-    this.changeDetectorRef.detectChanges();
     this.ngOnInit()
   }
 
   logout(e) {
     this.tokenStorageService.signOut();
-    this.tokenStorageService.getUser();
+    this.router.navigateByUrl("/log/sign-in").then();
     this.ngOnInit();
-    this.router.navigateByUrl("/").then()
-    window.location.reload();
-
   }
 
 

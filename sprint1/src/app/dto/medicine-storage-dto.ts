@@ -1,4 +1,5 @@
-import {Medicine} from "../model/medicine";
+import {Medicine} from "../model/medicine/medicine";
+
 
 export interface MedicineStorageDto {
   readonly medicineStorageDtoId: number,
