@@ -4,26 +4,19 @@ import {MedicineCreateComponent} from './medicine-create/medicine-create.compone
 import {MedicineEditComponent} from './medicine-edit/medicine-edit.component';
 import {MedicineDetailComponent} from './medicine-detail/medicine-detail.component';
 import {MedicineListComponent} from './medicine-list/medicine-list.component';
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 
 const routes: Routes = [
-  {
-    path: 'create', component: MedicineCreateComponent, canActivate: [AuthGuard], data: {
-      roles: ["ROLE_MANAGER", "ROLE_EMPLOYEE"]
-    }
-  },
-  {
-    path: 'list', component: MedicineListComponent, canActivate: [AuthGuard], data: {
-      roles: ["ROLE_MANAGER", "ROLE_EMPLOYEE"]
-    }
-  },
-  {
-    path: 'edit/:id', component: MedicineEditComponent, canActivate: [AuthGuard], data: {
-      roles: ["ROLE_MANAGER", "ROLE_EMPLOYEE"]
-    }
-  },
+  {path: 'create', component: MedicineCreateComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }},
+  {path: 'list', component: MedicineListComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }},
+  {path: 'edit/:id', component: MedicineEditComponent,canActivate:[AuthGuard],data:{
+      roles: ["ROLE_MANAGER","ROLE_EMPLOYEE"]
+    }},
   {path: 'detail/:medicineId', component: MedicineDetailComponent}
 ];
 

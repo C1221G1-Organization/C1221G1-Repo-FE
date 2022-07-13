@@ -51,11 +51,8 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
 
   logout(e) {
     this.tokenStorageService.signOut();
-    this.tokenStorageService.getUser();
+    this.router.navigateByUrl("/log/sign-in").then();
     this.ngOnInit();
-    e.preventDefault();
-    this.router.navigateByUrl("/").then()
-    window.location.reload();
   }
 
 

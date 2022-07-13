@@ -28,8 +28,7 @@ export class SidebarComponent implements OnInit {
 
     this.tokenStorageService.signOut();
     this.router.navigateByUrl('/log/sign-in').then();
-
     this.ngOnInit();
-    e.preventDefault();
+
   }
 }

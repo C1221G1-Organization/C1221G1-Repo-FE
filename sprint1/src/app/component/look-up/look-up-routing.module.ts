@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LookUpPaymentOnlineComponent} from './look-up-payment-online/look-up-payment-online.component';
 import {AuthGuard} from "../../service/security/auth.guard";
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 
 
 const routes: Routes = [

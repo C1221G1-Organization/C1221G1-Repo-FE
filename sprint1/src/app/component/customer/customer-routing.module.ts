@@ -1,10 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-
 import {CustomerListComponent} from './customer-list/customer-list.component';
 import {CustomerCreateComponent} from './customer-create/customer-create.component';
 import {CustomerEditComponent} from './customer-edit/customer-edit.component';
-import {AccountListComponent} from "../account/account-list/account-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 

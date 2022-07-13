@@ -47,7 +47,6 @@ export class RefundCustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentEmployee()
-
   }
 
 
@@ -56,6 +55,7 @@ export class RefundCustomerComponent implements OnInit {
       this.invoice = data;
     })
   }
+
 
   get invoiceMedicineSelected(): FormArray {
     this.invoiceMedicineSelectedArray = this.invoiceForm.get('medicineRefundList') as FormArray;

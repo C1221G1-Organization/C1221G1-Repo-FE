@@ -2,7 +2,7 @@ import {BrowserModule, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {config, environment} from '../environments/environment';
@@ -12,11 +12,12 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomePageComponent} from './component/templates/home-page/home-page.component';
 import {TemplatesModule} from './component/templates/templates.module';
-import {AngularFireAuthModule} from '@angular/fire/auth';
 import 'firebase/database';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ReportModule} from './component/reports/report.module';
 import {authInterceptorProviders} from "./service/security/auth.interceptor";
+
+
 
 @NgModule({
   declarations: [

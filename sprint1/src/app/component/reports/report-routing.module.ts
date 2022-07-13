@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ReportListComponent} from './report-list/report-list.component';
 import {StatistitalChartComponent} from './statistital-chart/statistital-chart.component';
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 

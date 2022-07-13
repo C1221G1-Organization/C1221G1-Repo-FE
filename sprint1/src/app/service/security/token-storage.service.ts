@@ -11,7 +11,7 @@ export class TokenStorageService {
   constructor() { }
 
   signOut(){
-    localStorage.removeItem(TOKEN_KEY)
+    window.localStorage.removeItem(TOKEN_KEY)
     window.sessionStorage.clear();
     window.location.reload();
   }
@@ -27,10 +27,10 @@ export class TokenStorageService {
   }
 
   getToken():string{
-    if(localStorage.getItem(TOKEN_KEY) !== null){
-      return localStorage.getItem(TOKEN_KEY);
-    }else {
+    if(sessionStorage.getItem(TOKEN_KEY) !== null){
       return sessionStorage.getItem(TOKEN_KEY);
+    }else {
+      return localStorage.getItem(TOKEN_KEY);
     }
   }
 
@@ -62,26 +62,5 @@ export class TokenStorageService {
 
   getRememberFlag() {
     return window.localStorage.getItem('Remember');
-  }
-  public setCookie(params: any) {
-    let d: Date = new Date();
-    d.setTime(
-      d.getTime() +
-      (params.expireDays ? params.expireDays : 1) * 24 * 60 * 60 * 1000
-    );
-    document.cookie =
-      (params.name ? params.name : '') +
-      '=' +
-      (params.value ? params.value : '') +
-      ';' +
-      (params.session && params.session == true
-        ? ''
-        : 'expires=' + d.toUTCString() + ';') +
-      'path=' +
-      (params.path && params.path.length > 0 ? params.path : '/') +
-      ';' +
-      (location.protocol === 'https:' && params.secure && params.secure == true
-        ? 'secure'
-        : '');
   }
 }

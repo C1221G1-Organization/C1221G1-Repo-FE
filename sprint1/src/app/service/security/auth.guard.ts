@@ -17,7 +17,9 @@ export class AuthGuard implements CanActivate {
     const currentUser = this.tokenStorageService.getUser();
     if(currentUser!==null){
       let role = currentUser.roles[0];
-
+      console.log(role);
+      console.log(next);
+      console.log(next.data);
       if(next.data.roles.indexOf(role) === -1){
         this.router.navigate(['log/forbidden-page'],{
           queryParams:{returnUrl : url}

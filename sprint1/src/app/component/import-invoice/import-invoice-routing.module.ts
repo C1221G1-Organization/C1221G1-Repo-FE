@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ImportInvoiceListComponent} from './import-invoice-list/import-invoice-list.component';
 import {ImportInvoiceCreateComponent} from "./import-invoice-create/import-invoice-create.component";
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 
