@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {MedicineDtoForCart} from "../../dto/cart/MedicineDtoForCart";
 import {CartDetailDto} from "../../dto/cart/CartDetailDto";
 import {CartAndDetailDto} from "../../dto/cart/CartAndDetailDto";
+import {CustomerDtoForCart} from '../../dto/cart/CustomerDtoForCart';
 
 const API_URL = 'http://localhost:8080/api/carts';
 
@@ -85,5 +86,14 @@ export class CartService {
    */
   clearCart() {
     localStorage.removeItem('cart');
+  }
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 10/07/2022
+   * * @param
+   * * @return get customer info by username for chat
+   * */
+  getCustomerByUsername(username: string): Observable<CustomerDtoForCart> {
+    return this.http.get<CustomerDtoForCart>(`${API_URL}/customer/${username}`);
   }
 }

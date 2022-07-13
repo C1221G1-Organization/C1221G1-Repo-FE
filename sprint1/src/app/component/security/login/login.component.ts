@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
   roles: [];
   types: string;
   isSignIn: boolean = false;
-  errorMap:any;
+  errorMap: any;
+
   constructor(private securityService: SecurityService,
               private route: Router,
               private tokenStorageService: TokenStorageService,
@@ -45,8 +46,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      remember: new FormControl(''),
+      password: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.minLength(6)]),
+      remember: new FormControl(),
     })
     if (this.tokenStorageService.getToken()) {
       this.isSignIn = true;
@@ -54,9 +55,6 @@ export class LoginComponent implements OnInit {
       this.roles = user.roles;
       this.userName = user.username;
     }
-    // if (this.isSignIn) {
-    //   this.route.navigateByUrl('/').then();
-    // }
   }
 
   submitSignIn() {
@@ -76,34 +74,37 @@ export class LoginComponent implements OnInit {
           this.userName = this.tokenStorageService.getUser().username;
           this.roles = this.tokenStorageService.getUser().roles;
           this.isSignIn = true;
-          this.toast.success("Đăng nhập thành công", "Chúc mừng", {
-            timeOut: 1000, tapToDismiss: true,
-          })
+          this.toast.success("Đăng nhập thành công", "Chúc mừng")
           this.signInForm.reset();
 
           this.roles.forEach(role => {
             if (role === 'ROLE_USER') {
-              this.route.navigateByUrl('/home-page').then();
+              this.route.navigateByUrl('/home-page').then(() => {
+                window.location.reload()
+              });
             } else {
-              this.route.navigateByUrl('/sales-management/retail').then();
+              this.route.navigateByUrl('/home-page').then();
+              this.ngOnInit();
             }
           })
-
-
         },
         error => {
           console.log(error);
-          if(error.status == 403){
-            this.toast.warning("Mật khẩu không chính xác","Lỗi Đăng Nhập");
-          }else{
+          if (error.error?.errorMap) {
             if(error.error?.errorMap?.notExists){
-              this.toast.warning(error.error.errorMap['notExists'],"Lỗi Đăng Nhập");
-            }else{
+              this.toast.warning(error.error.errorMap['notExists'], "Lỗi Đăng Nhập");
+            }else if(error.error?.errorMap?.isVerification){
+              this.toast.warning(error.error.errorMap['isVerification'],"Lỗi Đăng nhập");
+            }
+            else{
               this.errorMap = error.error.errorMap;
             }
+          } else{
+            this.toast.warning("Sai mật khẩu, vui lòng thử lại!", "Lỗi Đăng Nhập");
           }
         }
       )
+
     }
   }
 
@@ -131,26 +132,23 @@ export class LoginComponent implements OnInit {
     let facebook: string;
     let pass: string;
     let signInRequest: SignInRequest = {};
-
+    let password: string;
     this.angularFireAuth.signInWithPopup(provider).then(r => {
       // @ts-ignore
-      let accessToken = r.credential.accessToken.substring(0, 20);
+      let accessToken = r.credential.accessToken;
       let profile = r.additionalUserInfo.profile;
-
+      password = 'Abcd1234$';
       email = profile['email'];
       let gender = profile['gender'];
       let location = profile['location'].name;
-      fbRequest = {email, gender, accessToken, location};
+      fbRequest = {"email": email, "gender": gender, "accessToken": password, "location": location};
       this.securityService.signInWithFacebook(fbRequest).subscribe(
         next => {
-          facebook = email;
-          pass = accessToken;
-
           console.log(facebook);
           console.log(pass);
           signInRequest = {
-            "username": facebook,
-            "password": pass
+            "username": email,
+            "password": "Pharmacode@2022"
           }
           console.log(signInRequest);
           this.securityService.signIn(signInRequest).subscribe(
@@ -165,6 +163,7 @@ export class LoginComponent implements OnInit {
               this.toast.success("Đăng nhập thành công", "Chúc mừng", {
                 timeOut: 1000, tapToDismiss: true,
               })
+              this.route.navigateByUrl('/home-page').then();
             }
           )
         },

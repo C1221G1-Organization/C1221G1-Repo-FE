@@ -9,7 +9,7 @@
             <h3 class="text-success">Đăng nhập</h3>
           </div>
           <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi</h4>
-          <hr >
+          <hr>
           <div class="row my-2">
             <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Tài khoản</span>
             <input type="text" class="w-100 border border-success rounded col-8 form-control-sm ml-4"
@@ -24,7 +24,7 @@
             <p class="col-12 text-right text-danger m-0 p-0"
                *ngIf="signInForm.controls.username.hasError('email') &&
              (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
-            >Không đúng định dạng email.</p>
+            >Email phải đúng định dạng, và có độ dài từ 11 - 100 kí tự</p>
             <p class="col-12 text-right text-danger m-0 p-0"
                *ngIf="errorMap && (signInForm.controls.username.touched ||signInForm.controls.username.dirty)"
             >{{errorMap['username']}}</p>
@@ -42,29 +42,30 @@
              (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
             >Vui lòng không để trống.</p>
             <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('minlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu quá ngắn vui lòng thử lại.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('maxlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu quá dài vui lòng thử lại.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('pattern')
+             &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu chứa ít nhất 1 số,chữ thường,chữ hoa,kí tự đặc biệt.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
                *ngIf="errorMap && (signInForm.controls.password.touched||signInForm.controls.password.dirty)"
             >{{errorMap['password']}}</p>
           </div>
-          <div class="row my-2">
-            <div class="w-100 col-3">
-
-            </div>
-            <input type="checkbox"
-                   formControlName="remember"
-                   class="rounded col-1 ml-4">
-            <span class="text-success col-7" style="font-size: 1.25rem">Ghi nhớ đăng nhập</span>
-
-          </div>
           <hr>
-
-          <div class=" d-flex justify-content-center">
-            <a (click)="signInWithFaceBook()" class="btn btn-primary col-3 text-center mx-2"><i class="fa-brands fa-facebook"></i></a>
-            <button class="btn btn-danger col-3 text-center mx-2"><i class="fa-brands fa-instagram"></i></button>
-            <button class="btn btn-info col-3 text-center mx-2"><i class="fa-brands fa-twitter"></i></button>
+          <div class="d-flex justify-content-center">
+            <a (click)="signInWithFaceBook()" class="btn btn-primary col-6 text-center"><i
+              class="fa-brands fa-facebook"></i> Đăng nhập bằng Facebook</a>
           </div>
-          <p class="text-center text-success my-2">Quý khách có thể đăng nhập bằng tài khoản mạng xã hội</p>
+          <p class="text-center text-success my-2">Chúc quý khách có những trải nghiệm tốt ở cửa hàng chúng tôi.</p>
           <div class="row my-2">
-            <a href="#" class="btn btn-secondary col-4 mx-auto">Thoát</a>
+            <a routerLink="/home-page" class="btn btn-secondary col-4 mx-auto">Thoát</a>
             <button type="submit" class="btn btn-success col-4 mx-auto">Đăng nhập</button>
           </div>
         </div>

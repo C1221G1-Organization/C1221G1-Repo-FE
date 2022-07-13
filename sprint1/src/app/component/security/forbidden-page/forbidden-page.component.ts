@@ -7,7 +7,6 @@ import {Location} from "@angular/common";
   styleUrls: ['./forbidden-page.component.css']
 })
 export class ForbiddenPageComponent implements OnInit {
-
   constructor(private location : Location) { }
 
   ngOnInit(): void {
@@ -15,5 +14,6 @@ export class ForbiddenPageComponent implements OnInit {
 
   back() {
     this.location.back()
+
   }
 }

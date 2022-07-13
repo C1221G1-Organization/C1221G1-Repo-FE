@@ -13,15 +13,24 @@ const TOKEN_HEADER_KEY = 'Authorization' //Spring boot Authorization method
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private token: TokenStorageService) {}
-
+  constructor(private tokenStorageService: TokenStorageService) {}
+  token:any;
+  user:any;
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // this.user = this.tokenStorageService.getUser();
     let authReq = request;
-    const token = this.token.getToken();
-    if(token!==null){
+    this.token = this.tokenStorageService.getToken();
+    if(this.token!==null){
       authReq = request.clone({
-        headers : request.headers.set(TOKEN_HEADER_KEY,'Bearer '+token),
-        withCredentials:true,
+        setHeaders:{
+          'content-type': ['application/json','application/text'],
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': ['Content-Type','Origin',' Content-Type', 'X-Auth-Token'],
+          'Authorization':'Bearer '+this.token,
+
+        }
       })
     }
     return next.handle(authReq);

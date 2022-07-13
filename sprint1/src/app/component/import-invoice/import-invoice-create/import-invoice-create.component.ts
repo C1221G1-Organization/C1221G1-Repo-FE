@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Medicine} from '../../../model/medicine/medicine';
 import {ImportInvoiceMedicine} from '../../../model/import-invoice/import-invoice-medicine';
 import {Employee} from '../../../model/employee/employee';
-import {Supplier} from '../../../model/supplier';
+import {Supplier} from '../../../model/Supplier';
 import {ImportInvoiceService} from '../../../service/import-invoice/import-invoice.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';

@@ -6,7 +6,6 @@ import {PrescriptionDetailComponent} from "./retail-component/prescription-detai
 import {WholesaleComponent} from "./wholesale-component/wholesale/wholesale.component";
 import {RefundCustomerComponent} from "./refund-customer/refund-customer.component";
 import {InvoiceListComponent} from "./invoice-list/invoice-list.component";
-import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {AuthGuard} from "../../service/security/auth.guard";
 
 
