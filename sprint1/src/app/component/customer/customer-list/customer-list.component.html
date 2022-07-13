@@ -24,7 +24,7 @@
         <div class="col-2" style="float: left">
           <select name="find" class="form-control" id="findCustomer" (change)="changeValueFind($event.target.value)"
                   #keySearch1>
-            <option value="" style="text-align: center">--- Chọn ---</option>
+            <option value="noChoice" style="text-align: center">--- Chọn ---</option>
             <option value="customerId">Mã KH</option>
             <option value="customerType">Nhóm KH</option>
             <option value="customerName">Tên KH</option>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-2"><p style="float: right">Sắp xếp:</p></div>
         <div class="col-2" style="float: right">
-          <select class="form-control" name="sort" id="sortCustomer" value="sort" (change)="sortBy()" #sort>
+          <select class="form-control" name="sort" id="sortCustomer" value="sort" (change)="sortBy($event.target.value)" #sort>
             <option value="" style="text-align: center">--- Chọn ---</option>
             <option value="customer_id">Mã KH</option>
             <option value="customer_type_id">Nhóm KH</option>
@@ -60,11 +60,11 @@
     </fieldset>
   </div>
   <br>
-  <div class="text-center" *ngIf="customer.length ===  0">
+  <div class="text-center" *ngIf="isHasContent">
     <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
     <h4>Không có dữ liệu phù hợp</h4>
   </div>
-  <div *ngIf="customer.length !== 0">
+  <div *ngIf="!isHasContent">
     <fieldset class="border p-2">
       <legend class="w-auto" style="text-align: center">Danh Sách Khách Hàng</legend>
       <table class="table table-hover" style="text-align: center">
@@ -107,7 +107,7 @@
     </fieldset>
   </div>
   <br>
-  <nav aria-label="Page navigation example" *ngIf="customer.length !== 0">
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
     <ul class="pagination justify-content-center">
       <li class="page-item">
         <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
@@ -168,7 +168,7 @@
         </div>
         <div *ngIf="idDelete == undefined && idDelete== null">
           <div style="text-align: center">
-            <h4 style="color:red;">Chưa có khách hàng nào để xóa</h4>
+            <h4 style="color:red;">Vui lòng chọn khách hàng để xóa!</h4>
           </div>
         </div>
       </div>

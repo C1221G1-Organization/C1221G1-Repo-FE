@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import firebase from "firebase/app";
 import "firebase/database";
@@ -9,7 +9,8 @@ import {ToastrService} from 'ngx-toastr';
 import {Chat} from '../../../dto/chat.model';
 import {getTimeStamp} from '../../../utils/time-stamp.utils';
 import {v4 as uuidv4} from 'uuid';
-import {environment} from '../../../../environments/environment';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
+import {CartService} from '../../../service/cart/cart.service';
 
 @Component({
   selector   : 'app-user-chat',
@@ -32,7 +33,12 @@ export class UserChatComponent implements OnInit {
   isFirstLoad = true;
   isMute = false;
 
-  constructor(private toastr: ToastrService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private toastr: ToastrService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private tokenStorageService: TokenStorageService,
+              private cartService: CartService) {
     // firebase.initializeApp(environment.firebaseConfig);
   }
 
@@ -47,15 +53,14 @@ export class UserChatComponent implements OnInit {
     firebase.database().ref('chats/' + this.uuid).on('value', resp => {
       this.chats = [];
       this.chats = snapshotToArray(resp);
-      if (!this.isMute && this.chats[this.chats.length - 1].name !== this.userChat.name && !this.isFirstLoad) {
-        // console.log('sound user');
+      if (this.chats.length != 0 && !this.isMute && this.chats[this.chats.length - 1].name !== this.userChat.name && !this.isFirstLoad) {
         this.playAudio();
       } else {
         this.isFirstLoad = false;
       }
       setTimeout(() => {
         if (this.chatContent) {
-          this.scrollTop = this.chatContent.nativeElement.scrollHeight
+          this.scrollTop = this.chatContent.nativeElement.scrollHeight;
         }
       }, 200);
     });
@@ -65,15 +70,52 @@ export class UserChatComponent implements OnInit {
    * * @Author NghiaNTT
    * * @Time: 03/07/2022
    * * @param
-   * * @return check localStorage exists. if yes -> login
+   * * @return check user are registered or not
    * */
   ngOnInit(): void {
-    this.customerForm = this.formBuilder.group({
-      'name': [null, [Validators.required, Validators.pattern(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)]],
-      'phone': [null, [Validators.required, Validators.pattern('^0\\d{9}$')]],
-      'message': [null, Validators.required]
+    if (this.tokenStorageService.getUser()) {
+      this.handleRegisteredCustomer();
+    } else {
+      this.handleUnregisteredCustomer();
+    }
+  }
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 10/07/2022
+   * * @param
+   * * @return handle registered customer.
+   * */
+  private handleRegisteredCustomer() {
+    const username = this.tokenStorageService.getUser();
+    this.cartService.getCustomerByUsername(username.username).subscribe(data => {
+      this.userChat = {};
+      this.userChat.name = data.customerName;
+      this.userChat.phone = data.customerPhone;
+      this.userChat.uuid = data.uuidChat;
+      this.uuid = data.uuidChat;
+      firebase.database().ref('users/').push().set(this.userChat);
+      firebase.database().ref('rooms/' + this.uuid).set({
+        ...this.userChat,
+        isSeen         : false,
+        lastMessagePost: getTimeStamp()
+      });
+      this.isLogin = true;
+      this.loginToChatRoom();
     });
-    this.chatForm = this.formBuilder.group({'message': [null, Validators.required]});
+
+  }
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 10/07/2022
+   * * @param
+   * * @return handle unregistered customer.
+   * */
+  private handleUnregisteredCustomer() {
+    this.customerForm = this.formBuilder.group({
+      'name'   : ['', [this.validateCustomerName()]],
+      'phone'  : ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
+      'message': ['', Validators.required]
+    });
     this.userChat = JSON.parse(localStorage.getItem('user-chat-info'));
     if (this.userChat && this.userChat.name && this.userChat.phone && this.userChat.uuid) {
       this.uuid = this.userChat.uuid;
@@ -86,6 +128,26 @@ export class UserChatComponent implements OnInit {
         }
       });
     }
+  }
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 09/07/2022
+   * * @param
+   * * @return validate customer name
+   * */
+  validateCustomerName(): ValidationErrors {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const name = control.value.trim();
+      if (name.length === 0) {
+        return {forbiddenName: {message: 'Vui lòng không để trống'}};
+      } else if (name.length < 5) {
+        return {forbiddenName: {message: 'Vui lòng nhập nhiều hơn 5 kí tự'}};
+      } else if (name.length > 25) {
+        return {forbiddenName: {message: 'Vui lòng nhập ít hơn 25 kí tự'}};
+      } else if (!name.match(/^((?!admin|\d|[\\_.\/*)\-+^$<>,"':\]\[{}&=%#@!`]).)+$/i)) {
+        return {forbiddenName: {message: 'Tên không hợp lệ'}};
+      }
+    };
   }
 
   /**
@@ -128,10 +190,14 @@ export class UserChatComponent implements OnInit {
       });
       this.chatForm.reset();
     } else {
-      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {timeOut: 3000, progressBar: false});
+      this.toastr.info('Vui lòng không để trống hoặc không nhập quá 255 kí tự', '', {
+        timeOut    : 3000,
+        progressBar: false
+      });
       this.chatForm.reset();
     }
   }
+
   /**
    * * @Author NghiaNTT
    * * @Time: 03/07/2022
@@ -153,7 +219,7 @@ export class UserChatComponent implements OnInit {
       firebase.database().ref('users/').push().set(this.userChat);
       firebase.database().ref('rooms/' + this.uuid).set({
         ...this.userChat,
-        isSeen: false,
+        isSeen         : false,
         lastMessagePost: getTimeStamp()
       });
       this.chat = {};
@@ -166,7 +232,13 @@ export class UserChatComponent implements OnInit {
       this.toastr.info('Vui lòng nhập chính xác thông tin', '', {timeOut: 3000, progressBar: false});
     }
   }
-  playAudio(){
+  /**
+   * * @Author NghiaNTT
+   * * @Time: 10/07/2022
+   * * @param
+   * * @return play audio setting
+   * */
+  playAudio() {
     let audio = new Audio();
     audio.src = "../../../../assets/audio/noti.wav";
     audio.load();
@@ -176,4 +248,6 @@ export class UserChatComponent implements OnInit {
   toggleSound() {
     this.isMute = !this.isMute;
   }
+
+
 }

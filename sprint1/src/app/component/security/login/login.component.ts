@@ -83,7 +83,9 @@ export class LoginComponent implements OnInit {
 
           this.roles.forEach(role => {
             if (role === 'ROLE_USER') {
-              this.route.navigateByUrl('/home-page').then();
+              this.route.navigateByUrl('/home-page').then(() => {
+                window.location.reload()
+              });
             } else {
               this.route.navigateByUrl('/sales-management/retail').then();
             }
