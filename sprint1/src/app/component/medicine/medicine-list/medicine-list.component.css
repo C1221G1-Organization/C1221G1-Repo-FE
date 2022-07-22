@@ -11,7 +11,7 @@ p.name {
 
 p.ingredients {
   white-space: nowrap;
-  width: 80px;
+  width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

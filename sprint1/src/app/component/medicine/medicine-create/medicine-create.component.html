@@ -138,6 +138,7 @@
         Giá nhập
         <span class="text-info"> Đ/Hộp</span>
         <span class="text-danger"> (*)</span>
+        <span class="text-danger" *ngIf="!checkValidImportPrice">{{validPrice}}</span>
         <span *ngFor="let validation of validationMessages.medicineImportPrice">
           <span class="text-danger"
                 *ngIf="medicineCreateForm.get('medicineImportPrice').hasError(validation.type) &&
@@ -196,7 +197,7 @@
             medicineCreateForm.get('medicineUsage').touched || submit))">
             {{validation.message}}</span>
         </span>
-          <input class="form-control" type="text" placeholder="Công dụng" formControlName="medicineUsage">
+          <textarea class="form-control" placeholder="Công dụng" formControlName="medicineUsage"></textarea>
         </div>
         <div class="col-13 my-2">
           Cách sử dụng
@@ -208,37 +209,39 @@
             medicineCreateForm.get('medicineInstruction').touched || submit))">
             {{validation.message}}</span>
         </span>
-          <input class="form-control" type="text" placeholder="Cách sử dụng" formControlName="medicineInstruction">
+          <textarea class="form-control" placeholder="Cách sử dụng"
+                    formControlName="medicineInstruction"></textarea>
         </div>
       </div>
       <div class="col-6 my-2 d-flex justify-content-between">
         <div class="col-4 my-2">
           <label for="image">Hình Ảnh <span class="text-danger">(*) </span></label>
-          <span *ngFor="let validation of validationMessages.medicineImage">
-          <span class="text-danger"
-                *ngIf="medicineCreateForm.get('medicineImage').hasError(validation.type) &&
-            ((medicineCreateForm.get('medicineImage').dirty ||
-            medicineCreateForm.get('medicineImage').touched || submit))">
-            {{validation.message}}</span>
-        </span>
           <input name="image" id="image" type="file" class="file__input" (change)="showPreview($event)">
           <label for="image" class="file__label">
             <i class="fa fa-upload"></i>
           </label>
         </div>
         <div class="col-8 my-2">
+          <span class="text-danger" *ngIf="!checkValidImage">{{validImage}}</span>
           <img [src]="previewImage" height="200">
         </div>
       </div>
       <div class="col-12 my-2">
         Mô tả
+        <span *ngFor="let validation of validationMessages.medicineDescription">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineDescription').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineDescription').dirty ||
+            medicineCreateForm.get('medicineDescription').touched || submit))">
+            {{validation.message}}</span>
+        </span>
         <textarea class="form-control" placeholder="Mô tả" formControlName="medicineDescription"></textarea>
       </div>
       <div class="col-12 my-2">
         <h5 class="text-danger">(*) Thông tin bắt buộc</h5>
       </div>
       <div class="col-12 my-2 d-flex justify-content-center">
-        <button class="btn btn-primary mx-4" type="reset" [disabled]="isLoading">
+        <button class="btn btn-primary mx-4" type="button" [disabled]="isLoading" (click)="resetForm()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                class="bi bi-x-octagon" viewBox="0 0 16 16">
             <path

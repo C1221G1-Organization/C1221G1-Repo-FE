@@ -31,14 +31,17 @@ export class MedicineEditComponent implements OnInit {
   nameImg: string;
   fireBaseURL: string;
   id?: string;
+  validImage = 'Ảnh phải có đuôi dạng png, jpg, gif, bmp';
+  checkValidImage = true;
   validationMessages = {
     medicineName: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
     ],
     medicineActiveIngredients: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineImportPrice: [
       {type: 'required', message: 'Không được để trống.'},
@@ -66,19 +69,23 @@ export class MedicineEditComponent implements OnInit {
     ],
     medicineManufacture: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineUsage: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineInstruction: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineAgeApproved: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineImage: [
       {type: 'pattern', message: 'phải là định dạng ảnh jpg, png, gif, bmp.'},
@@ -94,8 +101,12 @@ export class MedicineEditComponent implements OnInit {
     ],
     medicineConversionUnit: [
       {type: 'required', message: 'Không được để trống.'},
+    ],
+    medicineDescription: [
+      {type: 'maxlength', message: 'Nhiều nhất 150 kí tự.'},
     ]
   };
+
 
   submit = false;
   isLoading = false;
@@ -185,7 +196,7 @@ export class MedicineEditComponent implements OnInit {
    */
   updateMedicine() {
     this.submit = true;
-    if (this.medicineEditForm.valid) {
+    if (this.medicineEditForm.valid && this.checkValidImage) {
       this.isLoading = true;
       if (this.selectedImage == null && this.confirmMedicine.medicineImage.length > 0) {
         this.medicineService.updateMedicine(this.confirmMedicine.medicineId, this.medicineEditForm.value).subscribe(() => {
@@ -237,13 +248,20 @@ export class MedicineEditComponent implements OnInit {
    * @Time 19:00 03/07/2022
    */
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event) => { // called once readAsDataURL is completed
-        this.previewImage = event.target.result;
-      };
+      this.selectedImage = event.target.files[0];
+      console.log(this.selectedImage.name);
+      if (this.selectedImage.name.match(/\.(jpe?g|png|gif|bmp)$/)) {
+        this.checkValidImage = true;
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          this.previewImage = event.target.result;
+        };
+      } else {
+        this.checkValidImage = false;
+        this.previewImage = '';
+      }
     }
   }
 
@@ -337,6 +355,7 @@ export class MedicineEditComponent implements OnInit {
    * @Time 19:00 03/07/2022
    */
   resetForm() {
+    this.previewImage = '';
     this.ngOnInit();
   }
 

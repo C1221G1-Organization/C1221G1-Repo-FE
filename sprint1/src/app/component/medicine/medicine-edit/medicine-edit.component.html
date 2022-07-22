@@ -207,7 +207,7 @@
             ((medicineEditForm.get('medicineUsage').dirty || medicineEditForm.get('medicineUsage').touched || submit))">
             {{validation.message}}</span>
         </span>
-          <input class="form-control" type="text" placeholder="Công dụng" formControlName="medicineUsage">
+          <textarea class="form-control" placeholder="Công dụng" formControlName="medicineUsage"></textarea>
         </div>
         <div class="col-13 my-2">
           Cách sử dụng
@@ -219,7 +219,8 @@
             medicineEditForm.get('medicineInstruction').touched || submit))">
             {{validation.message}}</span>
         </span>
-          <input class="form-control" type="text" placeholder="Cách sử dụng" formControlName="medicineInstruction">
+          <textarea class="form-control" placeholder="Cách sử dụng"
+                    formControlName="medicineInstruction"></textarea>
         </div>
       </div>
       <div class="col-6 my-2 d-flex justify-content-between">
@@ -232,6 +233,7 @@
           </label>
         </div>
         <div class="col-8 my-2">
+          <span class="text-danger" *ngIf="!checkValidImage">{{validImage}}</span>
           <img [src]="previewImage" height="200">
         </div>
       </div>

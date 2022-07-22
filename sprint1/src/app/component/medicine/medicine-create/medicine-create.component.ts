@@ -28,19 +28,23 @@ export class MedicineCreateComponent implements OnInit {
   fileRef: AngularFireStorageReference;
   nameImg: string;
   fireBaseURL: string;
-  errorList: any = '';
+  validImage = 'Ảnh phải có đuôi dạng png, jpg, gif, bmp';
+  validPrice = '';
+  checkValidImage = true;
+  checkValidImportPrice = true;
   validationMessages = {
     medicineName: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt'},
+      {type: 'pattern', message: '2 đến 50 kí tự và không có kí tự đặc biệt.'},
     ],
     medicineActiveIngredients: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineImportPrice: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: 'Lớn hơn 0 giới hạn 2 số thập phân.'},
+      {type: 'pattern', message: 'Lớn hơn 0 bé hơn 100 giới hạn 2 số thập phân.'},
     ],
     medicineDiscount: [
       {type: 'required', message: 'Không được để trống.'},
@@ -64,19 +68,23 @@ export class MedicineCreateComponent implements OnInit {
     ],
     medicineManufacture: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineUsage: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineInstruction: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineAgeApproved: [
       {type: 'required', message: 'Không được để trống.'},
-      {type: 'pattern', message: '2 đến 50 kí tự'},
+      {type: 'minlength', message: 'Ít nhất 2 kí tự.'},
+      {type: 'maxlength', message: 'Nhiều nhất 50 kí tự.'},
     ],
     medicineImage: [
       {type: 'pattern', message: 'phải là định dạng ảnh jpg, png, gif, bmp.'},
@@ -92,6 +100,9 @@ export class MedicineCreateComponent implements OnInit {
     ],
     medicineConversionUnit: [
       {type: 'required', message: 'Không được để trống.'},
+    ],
+    medicineDescription: [
+      {type: 'maxlength', message: 'Nhiều nhất 150 kí tự.'},
     ]
   };
   submit = false;
@@ -125,7 +136,9 @@ export class MedicineCreateComponent implements OnInit {
           (/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\w|_]{2,50}$/)])]),
       medicineActiveIngredients: new FormControl('',
         [Validators.compose([
-          Validators.required])]),
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50)])]),
       medicineImportPrice: new FormControl('',
         [Validators.compose([
           Validators.required,
@@ -153,18 +166,27 @@ export class MedicineCreateComponent implements OnInit {
           Validators.pattern(/^[1-9][0-9]?$/)])]),
       medicineManufacture: new FormControl('',
         [Validators.compose([
-          Validators.required])]),
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50)])]),
       medicineUsage: new FormControl('',
         [Validators.compose([
-          Validators.required])]),
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50)])]),
       medicineInstruction: new FormControl('',
         [Validators.compose([
-          Validators.required])]),
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50)])]),
       medicineAgeApproved: new FormControl('',
         [Validators.compose([
-          Validators.required])]),
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50)])]),
       medicineImage: new FormControl(''),
-      medicineDescription: new FormControl(''),
+      medicineDescription: new FormControl('',
+        [Validators.compose([Validators.maxLength(150)])]),
       medicineOrigin: new FormControl('',
         [Validators.compose([Validators.required])]),
       medicineType: new FormControl('',
@@ -246,7 +268,7 @@ export class MedicineCreateComponent implements OnInit {
 
   createMedicine() {
     this.submit = true;
-    if (this.medicineCreateForm.valid) {
+    if (this.medicineCreateForm.valid && this.checkValidImage) {
       this.isLoading = true;
       if (this.selectedImage == null) {
         this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
@@ -266,12 +288,15 @@ export class MedicineCreateComponent implements OnInit {
           this.medicineCreateForm.patchValue({medicineImage: this.fireBaseURL});
           console.log(this.medicineCreateForm.value);
           this.medicineService.createMedicine(this.medicineCreateForm.value).subscribe(() => {
+            this.checkValidImportPrice = true;
             this.isLoading = false;
             this.toastrService.success('Bạn đã thêm mới thành công !', 'Thêm mới');
             this.route.navigateByUrl('/medicine/list');
           }, error => {
             this.isLoading = false;
-            this.toastrService.error('Bạn đã cố gắng làm gì đó dẫn tới thêm mới thất bại !', 'Thêm mới');
+            this.checkValidImportPrice = false;
+            this.validPrice = error.error.medicineImportPrice;
+            this.toastrService.error('Bạn đã thêm mới thất bại !', 'Thêm mới');
           });
         });
       })).subscribe();
@@ -298,13 +323,31 @@ export class MedicineCreateComponent implements OnInit {
    * @Time 19:00 03/07/2022
    */
   showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
     if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event) => { // called once readAsDataURL is completed
-        this.previewImage = event.target.result;
-      };
+      this.selectedImage = event.target.files[0];
+      console.log(this.selectedImage.name);
+      if (this.selectedImage.name.match(/\.(jpe?g|png|gif|bmp)$/)) {
+        this.checkValidImage = true;
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          this.previewImage = event.target.result;
+        };
+      } else {
+        this.checkValidImage = false;
+        this.previewImage = '';
+      }
     }
+  }
+
+  /**
+   * this function use to reset form
+   *
+   * @Author LongNH
+   * @Time 19:00 03/07/2022
+   */
+  resetForm() {
+    this.previewImage = '';
+    this.ngOnInit();
   }
 }
