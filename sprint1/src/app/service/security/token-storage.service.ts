@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-const TOKEN_KEY = 'c1221g1-impossible';
-const USER_KEY = 'c1221g1-champion';
+const TOKEN_KEY = 'butking-tk-2022';
+const USER_KEY = 'butking-champion';
 
 @Injectable({
   providedIn: 'root'
